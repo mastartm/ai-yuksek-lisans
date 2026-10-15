@@ -43,7 +43,7 @@ scripts: vb.js
   <div class="panel">
     <div class="kicker">Veri toplama</div>
     <h2>Nitel veri toplama: deneyimi ve anlamı yakala</h2>
-    <p>Nitel yöntemler sayısal ölçümler yerine katılımcıların <b>deneyimlerini, algılarını, değerlerini ve bağlama özgü anlamlarını</b> ortaya çıkarmayı amaçlar. Değişkenler önceden sabitlenmez; çalışmanın seyri içinde yeni araştırma soruları doğabilir. Veri toplama aynı zamanda <b>anlam inşa etme</b> sürecidir; bu yüzden araştırmacı kendi konumunun etkisini fark edip kayıt altına almalıdır (refleksivite).</p>
+    <p>Nitel yöntemler sayı toplamaktan çok, insanların <b>yaşadıklarını, olayları nasıl gördüklerini, neye değer verdiklerini</b> ve bunlara kendi bağlamlarında hangi anlamı yüklediklerini anlamaya çalışır. Değişkenler önceden sabitlenmez; çalışmanın seyri içinde yeni araştırma soruları doğabilir. Veri toplama aynı zamanda <b>anlam inşa etme</b> sürecidir; bu yüzden araştırmacı kendi konumunun etkisini fark edip kayıt altına almalıdır (refleksivite).</p>
     <div class="cols">
       <div><h3>Başlıca araçlar</h3><ul><li><b>Katılımcı gözlem:</b> uzun süre sahada bulunup olguyu doğal ortamında kaydetmek.</li><li><b>Belgesel tarama:</b> tarihsel belgeler, resmi raporlar.</li><li><b>Dijital platformlar:</b> forum tartışmaları, sosyal medya gönderileri.</li><li>Toplanan içerik ham kullanılamaz: <b>kodlama ve tematik analiz</b> gerekir.</li></ul></div>
       <div><h3>Katılımcı eylem araştırması</h3><p>Amaç yalnızca durumu betimlemek değil, değişim yaratmaktır: araştırmacılar topluluk üyeleriyle birlikte sorunları tanımlar ve çözümleri dener. Bilgi üretimi çift yönlüdür; veri toplama etkinliği aynı zamanda <b>güçlendirme</b> işlevi görebilir.</p></div>
@@ -108,10 +108,10 @@ scripts: vb.js
   <div class="panel">
     <div class="kicker">Belirsizlik · dene</div>
     <h2>Bayes yaklaşımı: tek değer değil, inanç dağılımı</h2>
-    <p>Bayes yaklaşımında bir parametre sabit bir bilinmeyen değil, <b>bir olasılık dağılımına sahip rastgele değişken</b> sayılır. Önsel bilgi (<b>prior</b>) ile veri birleşerek <b>sonsal</b> dağılımı verir. Eksik ya da belirsiz verilerde tek bir “doğru” değeri tahmin etmek yerine ihtimalleri güncelleyerek belirsizliği modellemeyi sağlar; öğrenme artımlıdır.</p>
+    <p>Bayes yaklaşımında bir parametre sabit bir bilinmeyen değil, <b>bir olasılık dağılımına sahip rastgele değişken</b> sayılır. Önsel bilgi (<b>prior</b>) ile veri birleşerek <b>sonsal</b> dağılımı verir. Eksik ya da belirsiz verilerde tek bir “doğru” değeri tahmin etmek yerine eldeki ihtimalleri yeni veriyle sürekli düzelterek belirsizliği görünür kılar.</p>
     <div class="lab" id="bayes"></div>
     <div class="callout real"><b>Gerçek hayat: Yeni bir ürünün memnuniyet oranı</b>Piyasaya yeni çıkan ürün için önce iyimser bir ön inancın olabilir (benzer ürünler iyi gitti). İlk 10 yorumda 7 olumlu çıkarsa ön inanç güncellenir. 500 yorumdan sonra ise ön inancın etkisi neredeyse kalmaz.</div>
-    <div class="callout idea"><b>Zayıf yanlar</b>Hesaplama maliyeti yüksek olabilir: karmaşık çok boyutlu modellerde Markov Chain Monte Carlo (MCMC) gibi örnekleme teknikleri yoğun işlem gücü ister; parametreler güçlü korelasyonluysa yakınsama sorunları çıkabilir. Bu yüzden öncel seçimi ve algoritmanın kararlılığı kritiktir.</div>
+    <div class="callout idea"><b>Zayıf yanlar</b>Hesaplama pahalı olabilir: çok parametreli karmaşık modellerde sonsal dağılıma ulaşmak için kullanılan MCMC (Markov Chain Monte Carlo) gibi simülasyonlar bilgisayarı ciddi biçimde yorar; parametreler güçlü korelasyonluysa yakınsama sorunları çıkabilir. Bu yüzden öncel seçimi ve algoritmanın kararlılığı kritiktir.</div>
   </div>
 </section>
 
@@ -127,7 +127,7 @@ scripts: vb.js
         <tr><td><b>Bayes ile</b></td><td>—</td><td>Yalnızca belirli noktalarda değil tüm olası senaryolar altında model davranışı değerlendirilir</td></tr>
       </tbody>
     </table></div>
-    <p>Parametre değişiminin <b>bağlamsal anlamı</b> da önemlidir: sağlıkta bir katsayı doz ya da sıklığı, enerji politikasında aynı büyüklükteki değişim yatırım maliyetlerini dramatik biçimde değiştirebilir. Böylece duyarlılık analizi istatistiksel bir teknikten <b>karar destek aracına</b> dönüşür. Büyük veride MCMC benzeri simülasyonların yükü artar; varyans azaltma ve yaklaşık çıkarım stratejileri kullanılır.</p>
+    <p>Parametre değişiminin <b>bağlamsal anlamı</b> da önemlidir: sağlıkta bir katsayı doz ya da sıklığı, enerji politikasında aynı büyüklükteki değişim yatırım maliyetlerini çok daha büyük bir maliyet farkı yaratabilir. Duyarlılık analizi bu yüzden salt bir istatistik tekniği değil, <b>karar destek aracına</b> dönüşür. Büyük veride MCMC benzeri simülasyonların yükü artar; varyans azaltma ve yaklaşık çıkarım stratejileri kullanılır.</p>
     <div class="callout real"><b>Gerçek hayat: Bütçe tahmini</b>Bir belediyenin gelir tahmini enflasyon varsayımına dayanıyor. “Enflasyon %5 yerine %8 olursa gelir tahmini ne kadar değişir?” sorusu duyarlılık analizidir. Cevap küçük değişim ise karar güvenlidir; büyük değişim ise tahmine temkinle yaklaşmak gerekir.</div>
   </div>
 </section>
@@ -136,7 +136,7 @@ scripts: vb.js
   <div class="panel">
     <div class="kicker">Etik · kartlara tıkla</div>
     <h2>Katılımcı yöntemler ve epistemik adalet</h2>
-    <p>Katılımcı yöntemler, bilgi üretiminde <b>güç ilişkilerini yeniden düzenlemeyi</b> ve farklı grupların seslerinin duyulmasını amaçlar. Katılımcı yalnızca bir “veri kaynağı” değil, bilginin üretilmesinde söz sahibi bir <b>ortak</b>tır. <b>Epistemik adalet</b>: bireylerin ya da grupların bilgi üretim süreçlerinde haksız yere dezavantajlı konuma düşürülmemesi.</p>
+    <p>Katılımcı yöntemler, bilgi üretiminde <b>güç ilişkilerini yeniden düzenlemeyi</b> ve farklı grupların seslerinin duyulmasını amaçlar. Katılımcı yalnızca bir “veri kaynağı” değil, bilginin üretilmesinde söz sahibi bir <b>ortak</b>tır. <b>Epistemik adalet</b>: kimsenin ya da hiçbir grubun, bilginin üretildiği süreçlerde söz hakkından haksızca yoksun bırakılmaması.</p>
     <div class="flips">
       <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Risk</b>Kimler temsil edilmiyor?<span class="tip">tıkla</span></span><span class="back"><b class="k">Cevap</b>Marjinalize edilmiş grupların bilgisi yalnızca toplanmamalı, onların yararına olacak şekilde de paylaşılmalıdır. Çeşitliliği temsil eden örnekleme politikaları ve saha erişim planının denetimi önerilir.</span></button>
       <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Engel</b>Etik kurulların doğrusal beklentisi<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Kurumsal etik prosedürler çoğunlukla doğrusal bir veri toplama planı bekler; oysa katılımcı tasarımlar esnek ve yinelemelidir. Bürokrasi bu esnekliği sınırlayabilir.</span></button>
@@ -166,10 +166,10 @@ scripts: vb.js
   <div class="panel">
     <div class="kicker">Etik</div>
     <h2>Yerli veri egemenliği: veri kime aittir?</h2>
-    <p>Yerli veri egemenliği, verinin toplandığı, işlendiği ve saklandığı yerel bağlamlarda, özellikle yerli toplulukların <b>kendi verileri üzerindeki denetim hakkını ve karar yetkisini</b> ifade eder. Hukuki mülkiyetle sınırlı değildir: bilginin üretilme biçimini, kullanım amaçlarını, erişim koşullarını ve sonuçların dağıtılmasını kapsar. Veri, <b>kolektif kimliğin, hafızanın ve özerkliğin taşıyıcısıdır</b>.</p>
+    <p>Yerli veri egemenliği, bir topluluğa ait verinin nasıl toplanacağına, nerede saklanacağına ve kimlerin kullanabileceğine <b>o topluluğun kendisinin karar verebilmesidir</b>. Yalnızca “veri kimin malı” sorusu değildir: bilginin nasıl üretildiğini, ne amaçla kullanıldığını, kimlerin erişebileceğini ve sonuçların kime ulaşacağını da kapsar. Veri, <b>kolektif kimliğin, hafızanın ve özerkliğin taşıyıcısıdır</b>.</p>
     <div class="peas-grid">
       <div class="peas-c p"><b>Kolektif rıza</b>Bireysel onamdan farklıdır: bir projenin onaylanması için kabile konseyi ya da yaşlılar meclisinin kararı gerekebilir. Kolektif yapıların tanınmadığı projelerde bireysel onay alınsa bile topluluğa zarar verilebilir.</div>
-      <div class="peas-c e"><b>Üst veri (metadata)</b>Verinin neyi temsil ettiği, hangi koşullarda toplandığı ve hangi anlam çerçevesinde yorumlanacağı eksiksiz yazılmalı; standart şemalar kültürel ayrıntıları barındırmıyorsa yerel ontolojiler geliştirilmeli.</div>
+      <div class="peas-c e"><b>Üst veri (metadata)</b>Her veri setine; neyi anlattığı, nerede ve nasıl toplandığı, hangi kültürel çerçevede okunması gerektiği açıkça eşlik etmeli. Standart şemalar bu kültürel ayrıntıları taşımıyorsa yerel sınıflandırmalar geliştirilmeli.</div>
       <div class="peas-c a"><b>Mahremiyet</b>Küçük nüfuslu topluluklarda geleneksel anonimleştirme bile kimlik ifşasına yol açabilir; standardın ötesinde teknikler gerekir.</div>
       <div class="peas-c s"><b>Kapasite</b>Dış platformlara bağımlı kalan topluluk zamanla kendine yetme pratiğini kaybeder. Yerel gençlerin veri bilimi, programlama ve siber güvenlik eğitimi egemenliğin uzun vadeli şartıdır.</div>
     </div>

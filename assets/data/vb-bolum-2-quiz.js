@@ -55,8 +55,8 @@ window.QUIZ_VB_2 = {
       options: ['Yanlış filtreleme kuralları veya eksik değer doldurma stratejileri sinyali gürültüye dönüştürebilir', 'Hiç risk yoktur', 'Veri otomatik olarak silinir', 'Model çalışmaz'], correct: 0,
       explain: 'Otomasyon verimlidir ama bağlama özgü kararların algoritmik olarak genellenmesi kolay değildir.', ref: '2.4.2 Bilgisayar Bilimi ve Algoritmik Yaklaşımlar' },
     { topic: 'Alan uzmanlığı', q: 'Alan uzmanının sürece erken dahil edilmesi neden önemlidir?',
-      options: ['Yanlış problem tanımlarının yükünü algoritmalar çoğu zaman telafi edemez; uzman soruyu ve toplanacak veriyi şekillendirir', 'Uzmanların yalnızca raporu okumasını sağlamak için', 'Algoritmaları yavaşlatmak için', 'Önemi yoktur'], correct: 0,
-      explain: 'Sonuçları yalnızca inceleyen değil, soruların nasıl formüle edileceğine ve hangi verilerin toplanacağına karar veren süreçlere dahil edilen uzmanlar çalışmanın bütününe etki eder.', ref: '2.4.3 Alan Uzmanlığı ve Bağlamsal Bilgi' },
+      options: ['Baştan yanlış kurulmuş bir soruyu algoritma çoğu zaman düzeltemez; uzman soruyu ve toplanacak veriyi şekillendirir', 'Uzmanların yalnızca raporu okumasını sağlamak için', 'Algoritmaları yavaşlatmak için', 'Önemi yoktur'], correct: 0,
+      explain: 'Uzman yalnızca bitmiş sonucu yorumlamakla kalmayıp işin başında soruyu şekillendirir ve neyin toplanacağına karışırsa projenin her aşamasını etkiler.', ref: '2.4.3 Alan Uzmanlığı ve Bağlamsal Bilgi' },
     { topic: 'Alan uzmanlığı', q: 'Sağlık verilerinde ilaç isimlerinin farklı yazılması örneği neyi gösterir?',
       options: ['Verinin standart hâle getirilmesi için alan (klinik) bilgisi gerektiğini', 'İlaçların hiç kaydedilmemesi gerektiğini', 'Verinin silinmesi gerektiğini', 'Bilgisayarın her şeyi bildiğini'], correct: 0,
       explain: 'Ham verinin temizlenmesi, dönüştürülmesi ve doğru özelliklerin çıkarılması teknik becerinin ötesinde alan bilgisi ister.', ref: '2.4.3 Alan Uzmanlığı ve Bağlamsal Bilgi' }

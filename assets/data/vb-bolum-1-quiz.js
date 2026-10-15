@@ -20,10 +20,10 @@ window.QUIZ_VB_1 = {
       explain: 'LIME ve SHAP mevcut kara kutu modelleri sonradan açıklamaya çalışır. Karar ağaçları, lojistik regresyon ve kural tabanlı sistemler ise baştan şeffaftır.', ref: '1.4 Açıklanabilir Yapay Zeka ve Kara Kutu Problemi' },
     { topic: 'Kara kutu', q: 'Araştırmalar, anlamlı özelliklerle iyi temsil edilmiş yapılandırılmış verilerde ne göstermektedir?',
       options: ['Karmaşık ve basit sınıflandırıcılar arasında genelde büyük performans farkı olmadığını', 'Kara kutu modellerin her zaman çok daha iyi olduğunu', 'Basit modellerin hiç çalışmadığını', 'Veri kalitesinin önemsiz olduğunu'], correct: 0,
-      explain: 'Bu bulgu, kara kutu modellerin her zaman gerekli olmadığını ve yorumlanabilir modellerin çoğu durumda eşit ya da daha iyi olabileceğini gösterir.', ref: '1.4 Açıklanabilir Yapay Zeka ve Kara Kutu Problemi' },
+      explain: 'Yani her işte kara kutuya gerek yoktur; anlaşılır bir model çoğu zaman aynı ya da daha iyi sonucu verebilir.', ref: '1.4 Açıklanabilir Yapay Zeka ve Kara Kutu Problemi' },
     { topic: 'Çevik', q: 'Scrum ve Kanban arasındaki temel fark nedir?',
       options: ['Scrum 2–4 haftalık sprint döngüleriyle yapılandırılmıştır; Kanban sürekli akış ve WIP sınırlarıyla esnektir', 'Scrum sürekli akıştır, Kanban sprint kullanır', 'İkisi aynı şeydir', 'Biri yalnızca hastanelerde kullanılır'], correct: 0,
-      explain: 'Scrum iki ila dört haftalık sprintlerle yapılandırılmış bir yaklaşım sunar. Kanban ise sürekli akış ve devam eden iş (WIP) limitleri üzerinden daha esnek yönetim sağlar.', ref: '1.2 Metodolojik Yaklaşımlar ve Çevik Uygulamalar' },
+      explain: 'Scrum işi iki–dört haftalık sprintlere böler. Kanban ise işi kesintisiz akıtır ve aynı anda yürüyen iş sayısına (WIP) üst sınır koyar.', ref: '1.2 Metodolojik Yaklaşımlar ve Çevik Uygulamalar' },
     { topic: 'Çevik', q: 'Veri biliminde çevik yaklaşımın bir avantajı hangisidir?',
       options: ['Veri toplama, model eğitimi ve doğrulamanın yinelemeli döngülerle iyileştirilmesi; yeni içgörülere göre odak ayarlanabilmesi', 'Hiç doğrulama gerektirmemesi', 'Projeyi tek seferde bitirmek', 'Ekip iletişimini azaltmak'], correct: 0,
       explain: 'Veri bilimi keşifsel ve yinelemeli olduğundan çevik yaklaşım esneklik ve uyum sağlar; her sprintte yeni bulgulara göre odak değiştirilebilir.', ref: '1.2 Metodolojik Yaklaşımlar ve Çevik Uygulamalar' },
@@ -46,13 +46,13 @@ window.QUIZ_VB_1 = {
       options: ['Tutarlılık', 'Doğruluk', 'Eksiksizlik', 'Değer'], correct: 0,
       explain: 'Aynı bilgi farklı biçimlerde tutulduğunda sistemler arası uyum bozulur: tutarlılık sorunu. Boş alan eksiksizlik, imkânsız değer doğruluk sorunudur.', ref: '1.5 Veri Kalitesi, Güvenilirlik ve Güven' },
     { topic: 'Veri kalitesi', q: 'Veri soyağacı (data lineage) araçları ne sağlar?',
-      options: ['Verinin kaynağından son kullanımına kadar yolculuğunu görselleştirerek şeffaflık', 'Verinin sıkıştırılması', 'Verinin şifrelenmesi', 'Verinin otomatik doldurulması'], correct: 0,
+      options: ['Verinin nereden geldiğini ve hangi aşamalardan geçtiğini izlenebilir kılarak şeffaflık', 'Verinin sıkıştırılması', 'Verinin şifrelenmesi', 'Verinin otomatik doldurulması'], correct: 0,
       explain: 'Veri güveni; erişilebilirlik, şeffaflık ve güvenilirlik gibi unsurları içerir. Lineage araçları şeffaflığı artırır.', ref: '1.5 Veri Kalitesi, Güvenilirlik ve Güven' },
     { topic: 'Veri kalitesi', q: 'Gartner’ın araştırmasına göre zayıf veri kalitesi şirketlere yıllık ortalama ne kadara mal olmaktadır?',
       options: ['Yaklaşık 12,9 milyon dolar', 'Yaklaşık 1000 dolar', 'Hiçbir maliyet getirmez', 'Yaklaşık 12,9 dolar'], correct: 0,
       explain: 'Notta bu rakam yıllık ortalama 12,9 milyon dolar olarak verilir; finansal kayıplardan kaçırılan fırsatlara ve müşteri sorunlarına uzanır.', ref: '1.5 Veri Kalitesi, Güvenilirlik ve Güven' },
     { topic: 'Kapsam', q: 'Veri biliminin araştırma kapsamı neden yalnızca teknik süreçlere indirgenemez?',
       options: ['Çünkü epistemolojik, ontolojik, organizasyonel ve toplumsal boyutları da vardır', 'Çünkü teknik süreç yoktur', 'Çünkü bilgisayar gerekmez', 'Çünkü yalnızca felsefedir'], correct: 0,
-      explain: 'Araştırmanın kapsamı teknik eksenden başlayıp sosyal, organizasyonel ve felsefi düzeylere uzanan çok katmanlı bir yapıdır; her adımda etik sorgulama gerekir.', ref: 'Giriş / 1.6 Sonuç' }
+      explain: 'Alan, teknik süreçle başlar ama toplumsal, kurumsal ve felsefi katmanlara da uzanır; her adımda etik soruların da sorulması gerekir.', ref: 'Giriş / 1.6 Sonuç' }
   ]
 };

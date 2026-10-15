@@ -10,7 +10,7 @@ window.QUIZ_YZ_2 = {
       options: ['s durumunda yapılabilecek eylemler kümesini', 's durumunda a eylemi yapılınca ortaya çıkan yeni durumu', 'Hedefe olan tahmini maliyeti', 'Yolun toplam maliyetini'], correct: 1,
       explain: 'RESULT geçiş modelidir: durum ve eylemi alıp yeni durumu verir. Eylem kümesini ACTIONS(s) verir.', ref: '2.1.1 Geçiş Modeli' },
     { topic: 'Problem tanımı', q: 'Durum uzayı (state space) neyi ifade eder?',
-      options: ['Başlangıç durumundan herhangi bir aksiyon dizisiyle ulaşılabilecek tüm durumlar kümesini', 'Yalnızca hedef durumları', 'Ajanın bellek miktarını', 'Çözümün kaç adım sürdüğünü'], correct: 0,
+      options: ['Başlangıçtan atılabilecek her aksiyon zinciriyle varılabilecek bütün durumları', 'Yalnızca hedef durumları', 'Ajanın bellek miktarını', 'Çözümün kaç adım sürdüğünü'], correct: 0,
       explain: 'Başlangıç durumu, aksiyonlar ve geçiş modeli birlikte durum uzayını tanımlar. Düğümleri durumlar, bağlantıları aksiyonlar olan yönlü bir graf gibi düşünülebilir.', ref: '2.1.1 Problemin İyi Tanımlı Olması' },
     { topic: 'Problem tanımı', q: 'Satrançta yol maliyeti olarak ne seçilirse ajanın “iyi” saydığı çözüm DEĞİŞİR?',
       options: ['Hiçbir seçim fark yaratmaz', 'Hamle sayısı mı, süre mi, kazanılan taş değeri mi seçildiği', 'Sadece tahtanın rengi', 'Sadece rakibin adı'], correct: 1,
@@ -56,12 +56,12 @@ window.QUIZ_YZ_2 = {
       explain: 'Problem çözme hedefe giden eylem dizisini bulur; planlama bu diziyi zaman çizelgesine, kaynaklara ve kısıtlara yerleştirir.', ref: '2.5 Problem Çözme ve Planlama İlişkisi' },
     { topic: 'Planlama', q: 'Drone teslimatında hava durumuna bağlı alternatif rotalar hazırlamak hangi planlama türüdür?',
       options: ['Klasik planlama', 'Gerçek zamanlı planlama', 'Koşullu planlama', 'Kural tabanlı planlama'], correct: 2,
-      explain: 'Koşullu planlama, belirsizlik altında farklı olasılıklar için alternatif planlar hazırlar. Klasik planlama ise ortamın belirli, tam gözlemlenebilir ve durağan olduğunu varsayar.', ref: '2.5 Koşullu Planlama' },
+      explain: 'Koşullu planlama, sonucun belirsiz olduğu durumlarda her olasılık için ayrı bir yedek plan hazırlar. Klasik planlama ise ortamın belirli, tam gözlemlenebilir ve durağan olduğunu varsayar.', ref: '2.5 Koşullu Planlama' },
     { topic: 'Performans', q: 'Aynı durumun tekrar tekrar ziyaret edilmesini önlemek için hangi veri yapısı kullanılabilir?',
       options: ['Hash set (ziyaret edilmiş durumlar kümesi)', 'Bubble sort', 'Metin dosyası', 'Çizgi grafiği'], correct: 0,
       explain: 'Gezilen durumlar bir kümede saklanır; daha önce keşfedilen bir durumla karşılaşınca yeniden işlem yapılmaz.', ref: '2.6 Tekrar Eden Durumların Önlenmesi' },
     { topic: 'Performans', q: 'Yinelemeli derinleşme (iterative deepening) neyi birleştirir?',
       options: ['DFS’in düşük belleği ve BFS’in tamlığını', 'A*’ın hızı ve UCS’in belleğini', 'Greedy’nin hızı ve minimax’ın doğruluğunu', 'BFS’in belleği ve DFS’in hızsızlığını'], correct: 0,
-      explain: 'Bellek kısıtlı olduğunda yinelemeli derinleşme, derinlik öncelikli aramanın düşük bellek ihtiyacını genişlik öncelikli aramanın tamlık garantisiyle birleştirir.', ref: '2.6 Bellek Kullanımını Optimize Eden Teknikler' }
+      explain: 'Bellek dar olduğunda yinelemeli derinleşme, DFS kadar az bellek harcar ve BFS gibi çözümü kaçırmaz.', ref: '2.6 Bellek Kullanımını Optimize Eden Teknikler' }
   ]
 };

@@ -34,7 +34,7 @@ window.QUIZ_ML_1 = {
       options: ['Bir tahtaya sayısal bir puan atar; daha iyi tahtalara daha yüksek puan', 'Tahtayı alıp doğrudan hamle listesi üretir', 'Rakibin hamlelerini yasaklar', 'Oyunu rastgele bitirir'], correct: 0,
       explain: 'V tahtaları değerlendirir. Puan bilindiğinde en iyi hamle, her hamlenin ürettiği ardıl durumlara V uygulanıp en yükseği seçilerek bulunur.', ref: '1.3.2 Hedef Fonksiyonunun Seçimi' },
     { topic: 'Tasarım', q: 'V(b) tanımındaki “oyun sürüyorsa V(b) = V(b′)” satırı neden işlemsel olmayan (nonoperational) bir tanım sayılır?',
-      options: ['Çünkü oyun uzun sürdüğü için', 'Çünkü değerini bulmak oyunun sonuna kadar en iyi oyun çizgisini aramayı gerektirir ve verimli hesaplanamaz', 'Çünkü sayılar negatif olabilir', 'Çünkü rakip hamle yapmaz'], correct: 1,
+      options: ['Çünkü oyun uzun sürdüğü için', 'Çünkü değerini bulmak için oyunu sonuna kadar iki tarafın da en iyi oynadığı varsayımıyla taramak gerekir; bu pratikte hesaplanamaz', 'Çünkü sayılar negatif olabilir', 'Çünkü rakip hamle yapmaz'], correct: 1,
       explain: 'Program bu tanımı gerçekçi sürede hesaplayamaz. Öğrenmenin amacı, V’ye hızlı hesaplanabilir bir yaklaşım (Ṽ) bulmaktır; bu yüzden buna fonksiyon yaklaşımı denir.', ref: '1.3.2 Hedef Fonksiyonunun Seçimi' },
     { topic: 'Tasarım', q: 'Ṽ(b) = w₀ + w₁x₁ + … + w₆x₆ temsilinde öğrenilmesi gereken şey nedir?',
       options: ['x değerleri (tahta özellikleri)', 'w katsayıları (ağırlıklar)', 'Dama tahtasının boyutu', 'Oyunun kuralları'], correct: 1,

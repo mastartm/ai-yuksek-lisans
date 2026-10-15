@@ -58,7 +58,7 @@ window.QUIZ_VB_3 = {
       options: ['Yerel: belirli bir parametrenin çevresindeki küçük değişimlere tepki; küresel: tüm parametre uzayındaki geniş değişimlere tepki', 'Yerel: yalnızca şehirde; küresel: yalnızca dünyada', 'Fark yoktur', 'Yerel: nitel; küresel: nicel'], correct: 0,
       explain: 'Küresel analiz Bayesyen yöntemlerle birlikte kullanıldığında tüm olası senaryolar altında model davranışını değerlendirmeyi sağlar.', ref: '3.2.2 Bayesian Yaklaşımlar ve Duyarlılık Analizi' },
     { topic: 'Etik', q: 'Epistemik adalet neyi ifade eder?',
-      options: ['Bireylerin ya da grupların bilgi üretim süreçlerinde haksız yere dezavantajlı konuma düşürülmemesini', 'Veriye adaletli bir fiyat biçilmesini', 'Verinin eşit bölünmesini', 'Algoritmaların adil olmasını yalnızca'], correct: 0,
+      options: ['Hiçbir kişi ya da grubun, bilgi üretiminde söz hakkından haksızca yoksun bırakılmamasını', 'Veriye adaletli bir fiyat biçilmesini', 'Verinin eşit bölünmesini', 'Algoritmaların adil olmasını yalnızca'], correct: 0,
       explain: 'Katılımcı yöntemlerde katılımcılar yalnızca veri kaynağı değil, bilginin üretilmesinde söz sahibi ortaklardır; marjinal grupların temsil ve bilgi paylaşımı kritiktir.', ref: '3.3.1 Katılımcı Yöntemler ve Epistemik Adalet' },
     { topic: 'Etik', q: 'Dijital uçurum yalnızca neyle ilgili değildir?',
       options: ['Cihaz ve bağlantı erişimiyle; dijital okuryazarlık, yetkinlik ve elde edilen faydaya erişimle de ilgilidir', 'Hiçbir şeyle ilgili değildir', 'Yalnızca internet hızıyla', 'Yalnızca fiyatla'], correct: 0,
@@ -68,7 +68,7 @@ window.QUIZ_VB_3 = {
       explain: 'Gönüllü kuralların bağlayıcılığı sınırlıdır; hukuki düzenlemelerle desteklenmedikçe etkili olma ihtimali düşer.', ref: '3.3.2 Dijital Uçurum ve Veri Sömürüsü' },
     { topic: 'Etik', q: 'Kolektif rıza bireysel onamdan nasıl farklıdır?',
       options: ['Bir proje için topluluğun karar organının (konsey, meclis) onayı gerekebilir; yalnızca bireysel onay yetmeyebilir', 'Hiçbir fark yoktur', 'Kolektif rıza gereksizdir', 'Yalnızca yazılı olmalıdır'], correct: 0,
-      explain: 'Kolektif yapıların tanınmadığı projelerde bireysel katılımcı onayı alınsa bile topluluğun geneline yönelik zarar oluşabilir.', ref: '3.3.3 Yerli Veri Egemenliği' },
+      explain: 'Topluluğun karar mekanizması yok sayılırsa, tek tek kişilerden onay alınmış olsa bile topluluğun bütününe zarar verilebilir.', ref: '3.3.3 Yerli Veri Egemenliği' },
     { topic: 'Etik', q: 'Yerli veri egemenliğinin uzun vadeli şartı olarak hangisi vurgulanır?',
       options: ['Yerel kapasitenin geliştirilmesi (veri bilimi, programlama, siber güvenlik eğitimi)', 'Verinin tamamen dışarıya devredilmesi', 'Verinin silinmesi', 'Tek bir şirkete bağlanmak'], correct: 0,
       explain: 'Yalnızca dış platformlara bağımlı kalan topluluklar kendi kendine yetme pratiğini kaybedebilir; bu, dijital uçurumun farklı bir biçimi olarak geri döner.', ref: '3.3.3 Yerli Veri Egemenliği' }

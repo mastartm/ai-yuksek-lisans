@@ -11,7 +11,7 @@ window.QUIZ_AR_2 = {
       explain: '“Hayatın anlamı nedir?” gibi sorular kişiye göre değiştiği için sınanabilir ve ölçülebilir değildir; iyi bir problem tartışmalı olmamalı ve sağlıklı veri toplanabilmelidir.', ref: '2.1 Araştırma Problemi' },
     { topic: 'Problem', q: 'Araştırma probleminde kullanılması uygun olmayan dil hangisidir?',
       options: ['Olasılık veya emir kipleri (yapabilir, olmalıdır)', 'Net tanımlanmış kavramlar', 'Ölçülebilir değişkenler', 'Açık cümleler'], correct: 0,
-      explain: 'İfadeler olasılık veya emir kipi şeklinde kurulmamalıdır; “yapabilmek, edebilmek, yapmalıdır, olmalıdır” gibi ifadeler uygun değildir.', ref: '2.1 Araştırma Problemi' },
+      explain: 'Problem cümlesi kesin ve ölçülebilir olmalı; “olabilir”, “yapmalı” gibi olasılık ya da emir bildiren kalıplar araştırılacak şeyi belirsizleştirir.', ref: '2.1 Araştırma Problemi' },
     { topic: 'Problem', q: 'Problemin tanıtıldığı bölümün son aşaması hangisidir?',
       options: ['Problem durumu ve problem cümlesi', 'Giriş', 'Gelişme', 'Özet'], correct: 0,
       explain: 'Bölüm giriş, gelişme, özet ve problem durumu olmak üzere dört kısımda anlatılır; problem cümlesi araştırmanın amacına ve sorularına işaret eder.', ref: '2.1 Araştırma Problemi' },
@@ -57,7 +57,7 @@ window.QUIZ_AR_2 = {
     { topic: 'Rapor', q: 'Araştırmanın genel amacı genelde nasıl yazılır, alt amaçlar nasıl?',
       options: ['Genel amaç düz cümle, alt amaçlar duruma göre soru cümlesi (betimsel, korelasyonel, karşılaştırmalı)', 'Hepsi tek kelimeyle', 'Genel amaç soru, alt amaçlar emir', 'Amaç yazılmaz'], correct: 0,
       explain: 'Önce genel (temel) amaç, ardından onu gerçekleştirmek için alt amaçlar belirtilir.', ref: '2.5 Araştırmanın Amacı' },
-    { topic: 'Rapor', q: '“Bu çalışmada şiddet, şiddet davranış ölçeğinden elde edilen puandır.” ne tür tanımdır?',
+    { topic: 'Rapor', q: '“Bu çalışmada sınav kaygısı, kaygı ölçeğinden alınan toplam puandır.” ne tür tanımdır?',
       options: ['İşlevsel (işlemsel) tanım', 'Kavramsal tanım', 'Sayıltı', 'Hipotez'], correct: 0,
       explain: 'Kavram, nasıl ölçüldüğüyle tanımlandığı için işlevsel tanımdır. Kavramı başka kavramlarla açıklamak kavramsal tanımdır.', ref: '2.9 Araştırmalarda Tanım Yazma' }
   ]

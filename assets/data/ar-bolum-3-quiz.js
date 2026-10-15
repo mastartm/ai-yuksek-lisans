@@ -17,7 +17,7 @@ window.QUIZ_AR_3 = {
       explain: 'Denekler çeşitli nedenlerle deneyden ayrılabilir; büyük gruplarla başlamak bu kaybın etkisini azaltır.', ref: '3.1.1 (e) Denek Kaybı Etkisi' },
     { topic: 'İç geçerlik', q: 'Deneklerin ya da araştırmacıların deneysel koşullara dair beklentilerinin sonuçları o yönde etkilemesi hangi tehdittir?',
       options: ['Beklentilerin etkisi', 'Olgunlaşma', 'Geçmiş', 'Etkileşme etkisi'], correct: 0,
-      explain: 'Bu etkinin oluşabileceği deneylerde deneklere deneysel koşullar ve uygulanacak testler hakkında bilgi verilmemesi önerilir.', ref: '3.1.1 (i) Beklentilerinin Etkisi' },
+      explain: 'Beklenti etkisinden korunmak için, mümkünse denekler hangi koşulda olduklarını ve hangi testlerle ölçüleceklerini önceden bilmemelidir.', ref: '3.1.1 (i) Beklentilerinin Etkisi' },
     { topic: 'Dış geçerlik', q: 'Dış geçerliği artırmak için örnekleme etkisine karşı ne yapılmalıdır?',
       options: ['Araştırmayı daha fazla sayıda denek üzerinde yapmak', 'Yalnızca tek okulda yapmak', 'Örneklemi küçültmek', 'Öntesti zorunlu kılmak'], correct: 0,
       explain: 'Sınırlı bir alandan seçilen kişiler başka yerlerdekileri temsil etmeyebilir; sonuç yalnızca araştırmaya dahil edilenler için geçerli olur.', ref: '3.1.2 Dış Geçerliği Tehdit Eden Faktörler (a)' },
