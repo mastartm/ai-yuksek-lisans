@@ -516,3 +516,17 @@ a.row:hover .rt { color: var(--brand); }
 .row.more .rt { color: var(--brand); font-weight: 600; }
 
 .topbar a.back.home { font-size: 1.15rem; margin-right: 4px; }
+
+/* Telefon: üst çubuk taşmasın, sayfa yana kaymasın */
+html, body { max-width: 100%; overflow-x: hidden; }
+@media (max-width: 480px) {
+  .topbar { gap: 8px; padding: 8px 10px; }
+  .topbar > a.back, .topbar > .btn { flex-shrink: 0; }
+  .topbar .btn { padding: 8px 10px; font-size: .85rem; }
+  .topbar .title { display: none; }
+}
+@media (max-width: 480px) {
+  .deck-nav { gap: 8px; padding-left: 10px; padding-right: 10px; }
+  .deck-nav .btn { white-space: nowrap; padding: 10px 12px; font-size: .9rem; }
+  .deck-nav .count { min-width: 3.5em; }
+}
