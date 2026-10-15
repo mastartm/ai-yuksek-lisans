@@ -486,3 +486,15 @@ tr.dim-row td { opacity: .5; }
 .il-ct { font-size: .8rem; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
 canvas.il-cv { width: 100%; height: auto; display: block; border-radius: 6px; background: var(--surface-2); }
 canvas.il-t { max-width: 180px; }
+
+/* ---------- Veri bilimi araçları ---------- */
+.v5-wrap { display: grid; grid-template-columns: minmax(240px, 320px) 1fr; gap: 16px; align-items: center; margin: 10px 0; }
+svg.v5-svg { width: 100%; height: auto; }
+@media (max-width: 700px) { .v5-wrap { grid-template-columns: 1fr; } }
+.dq-c { font: inherit; font-size: .9rem; padding: 4px 8px; border-radius: 6px; border: 2px solid transparent; background: transparent; color: var(--text); cursor: pointer; min-width: 3em; }
+.dq-c:hover { border-color: var(--brand); }
+.dq-c.flag { border-color: var(--warn); background: var(--warn-soft); }
+.dq-c.right { border-color: var(--ok); background: var(--ok-soft); }
+.dq-c.wrong { border-color: var(--bad); background: var(--bad-soft); }
+.dm-m { white-space: nowrap; font-size: .85rem; }
+select { font: inherit; padding: 5px 8px; border-radius: 8px; border: 2px solid var(--line); background: var(--surface); color: var(--text); }

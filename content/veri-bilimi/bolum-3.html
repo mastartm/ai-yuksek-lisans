@@ -1,0 +1,200 @@
+<!--
+course: veri-bilimi
+course_title: Veri Bilimi
+no: 3
+title: Veri Toplama Süreçleri ve Etik Boyut
+quiz: QUIZ_VB_3
+quiz_file: vb-bolum-3-quiz.js
+scripts: vb.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Veri Bilimi · Bölüm 3</div>
+    <h1>Veri Nasıl Toplanır, Kim İçin Toplanır?</h1>
+    <p class="big-quote">Bir anketi kimlere gönderdiğin, kimin boş bıraktığı, topladığın verinin kime ait olduğu: bunların hepsi analiz başlamadan sonucu şekillendirir. Bu bölümde veri toplama yaklaşımlarını, eksik veri problemini, belirsizlik altında çıkarımı ve verinin etik boyutunu ele alıyoruz.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Nicel, nitel ve karma veri toplama yaklaşımlarını ayırt edebilirsin.</li>
+      <li>MCAR, MAR ve MNAR eksik veri türlerini açıklayabilirsin.</li>
+      <li>Silme ve imputasyon yöntemlerinin ne zaman sorun çıkardığını gösterebilirsin.</li>
+      <li>Bayes yaklaşımının ve duyarlılık analizinin ne işe yaradığını anlatabilirsin.</li>
+      <li>Epistemik adalet, dijital uçurum ve yerli veri egemenliği kavramlarını açıklayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Nicel veri toplama">
+  <div class="panel">
+    <div class="kicker">Veri toplama</div>
+    <h2>Nicel veri toplama: ölç, karşılaştır, genelle</h2>
+    <p>Nicel yöntemler, araştırma sorularına <b>ölçülebilir ve karşılaştırılabilir</b> yanıtlar üretir. Önce hangi değişkenlerin ölçüleceği belirlenir, sonra ölçüm araçları seçilir, sonra veriler saha ya da laboratuvarda toplanır. Amaç, sayıların farklı zaman, mekân ve gruplar arasında karşılaştırılabilmesi ve istatistiksel genellemeye imkân vermesidir.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>İki ölçüt</b><b>Geçerlilik</b> (doğru şeyi mi ölçüyor?) ve <b>güvenilirlik</b> (tutarlı ölçüyor mu?).</div>
+      <div class="peas-c e"><b>Örnekleme</b>Olasılıklı yöntemler (basit rastgele, tabakalı, küme) popülasyonu temsil gücü yüksektir; pratik kısıtlarda kolayda ya da amaçlı gibi olasılıksız yöntemler kullanılabilir.</div>
+      <div class="peas-c a"><b>Anket tasarımı</b>Soru türü, yanıt ölçeği, sıralama ve dil, ölçülen değişkenin dağılımını etkiler. Nötr bir dil ve hedef kitleye uygun terimler yanlılığı azaltır.</div>
+      <div class="peas-c s"><b>Doğrulama</b>Tekrarlı ölçümler, pilot çalışmalar ve farklı kaynaklarla çapraz doğrulama (ör. log verisi ile bağımsız değerlendirme skorunu kıyaslamak).</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Yurt memnuniyet anketi</b>“Yurt yemekleri hakkında memnuniyetiniz?” sorusu yerine “Yemeklerden çok memnunum, öyle değil mi?” yazarsan yanıtlar yukarı kayar. Soru cümlesinin kendisi bir ölçüm yanlılığıdır. Önce 20 kişiyle pilot yapmak bu tür sorunları görmeni sağlar.</div>
+    <div class="callout idea"><b>Etik de nicel işin parçası</b>Etik yalnızca onam formu almak ya da anonimleştirmek değildir; verinin hangi amaçla kaydedildiği ve sonuçlarının kimler için ne anlama geldiği de sorulmalıdır. Sayısal karşılaştırmalarda altyapısal önyargılar (ör. hangi gruplara sensör ulaşıyor) hesaba katılmalıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Nitel veri toplama">
+  <div class="panel">
+    <div class="kicker">Veri toplama</div>
+    <h2>Nitel veri toplama: deneyimi ve anlamı yakala</h2>
+    <p>Nitel yöntemler sayısal ölçümler yerine katılımcıların <b>deneyimlerini, algılarını, değerlerini ve bağlama özgü anlamlarını</b> ortaya çıkarmayı amaçlar. Değişkenler önceden sabitlenmez; çalışmanın seyri içinde yeni araştırma soruları doğabilir. Veri toplama aynı zamanda <b>anlam inşa etme</b> sürecidir; bu yüzden araştırmacı kendi konumunun etkisini fark edip kayıt altına almalıdır (refleksivite).</p>
+    <div class="cols">
+      <div><h3>Başlıca araçlar</h3><ul><li><b>Katılımcı gözlem:</b> uzun süre sahada bulunup olguyu doğal ortamında kaydetmek.</li><li><b>Belgesel tarama:</b> tarihsel belgeler, resmi raporlar.</li><li><b>Dijital platformlar:</b> forum tartışmaları, sosyal medya gönderileri.</li><li>Toplanan içerik ham kullanılamaz: <b>kodlama ve tematik analiz</b> gerekir.</li></ul></div>
+      <div><h3>Katılımcı eylem araştırması</h3><p>Amaç yalnızca durumu betimlemek değil, değişim yaratmaktır: araştırmacılar topluluk üyeleriyle birlikte sorunları tanımlar ve çözümleri dener. Bilgi üretimi çift yönlüdür; veri toplama etkinliği aynı zamanda <b>güçlendirme</b> işlevi görebilir.</p></div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Öğrenci yurdunda gözlem</b>Bir araştırmacı bir ay boyunca yurt yemekhanesinde vakit geçirip insanların nerede oturduğunu, neleri konuştuğunu not alır. Anketin yakalayamayacağı “yemek sırasında kim kimle konuşuyor” bilgisi ortaya çıkar; ama bu veri, kodlanıp temalara dönüştürülmeden analiz edilemez.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Karma yöntemler">
+  <div class="panel">
+    <div class="kicker">Veri toplama</div>
+    <h2>Karma yöntemler: ikisini bilinçle birleştirmek</h2>
+    <p>Karma yöntemler nicel ve nitel toplama ve analiz tekniklerini <b>bilinçli biçimde</b> bir araya getirir; birinin sınırlılığı diğerinin güçlü yanıyla dengelenir. Başarı için entegrasyonun hangi “düğüm noktalarında” (felsefi tutum, kuramsal çerçeve, örnekleme planı, analiz ve yorum) yapılacağı baştan kararlaştırılmalıdır.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>“Fazladan değer”</b>Yöntemler yan yana konunca değil, kavramsal olarak kaynaşınca ortaya çıkar: ne yalnızca nicel öngörüler ne yalnızca nitel derinlik tek başına bunu verir.</div>
+      <div class="peas-c e"><b>Eşzamanlı desen</b>Aynı katılımcılardan hem sayısal hem sözel veri toplanır; iki boyut doğrudan bağlanır.</div>
+      <div class="peas-c a"><b>Ekip ve teknik</b>İstatistik ya da etnografi uzmanlarından oluşan tek yönlü ekipler entegrasyonda darboğaz yaşar. Sensör kayıtları, loglar ve serbest metin aynı depoda tutulacaksa şema tasarımı esnek olmalı.</div>
+      <div class="peas-c s"><b>Mahremiyet</b>Aynı kişinin hem ölçümlerde hem görüşmede yer alması kimlik eşleştirme riskini artırır; küçük örneklemlerde anonimlik yeniden düşünülmeli.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Bir uygulamanın kullanımı</b>Log kayıtları “kullanıcıların %40’ı üçüncü ekranda uygulamayı bırakıyor” der (ne). Kısa görüşmeler “üçüncü ekranda ne yapacağımı anlamadım” der (neden). İkisi birleşince ürün ekibi neyi düzelteceğini bilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Hangi yöntem? (oyun)">
+  <div class="panel">
+    <div class="kicker">Laboratuvar</div>
+    <h2>Her senaryo için doğru yaklaşımı seç</h2>
+    <div class="lab" id="methodpick"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Eksik veri teorisi">
+  <div class="panel">
+    <div class="kicker">Veri kalitesi</div>
+    <h2>Eksik veri: neden eksik olduğu, ne yapacağını belirler</h2>
+    <p>Eksikliğin <b>nasıl ortaya çıktığına</b> dair varsayımlar, nasıl ele alınacağını ve sonucun güvenilirliğini belirler. Üç temel tür:</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>MCAR</b> (tamamen rastgele eksik)<br>Eksiklik hiçbir değişkene bağlı değil. En zararsız durum.</div>
+      <div class="peas-c e"><b>MAR</b> (koşullu rastgele eksik)<br>Eksiklik gözlenen başka değişkenlere bağlı (ör. gençler gelir sorusunu daha sık boş bırakıyor).</div>
+      <div class="peas-c a"><b>MNAR</b> (rastgele olmayan eksik)<br>Eksiklik eksik olan değerin kendisine bağlı (ör. geliri yüksek olanlar yanıtlamıyor). En zor durum.</div>
+    </div>
+    <h3>Yöntemler</h3>
+    <ul>
+      <li><b>Silme</b> (listwise/pairwise): en basit; kayıp mekanizması varsayımı ihlal edilirse ciddi yanlılık üretir.</li>
+      <li><b>Çoklu imputasyon:</b> her eksik değer için birden fazla makul tahmin üretip modele yerleştirir; belirsizliği de yansıtır.</li>
+      <li>Hangi doldurma yönteminin kullanıldığını <b>şeffafça raporlamak</b>, tekrar edilebilirliğin koşuludur. Sosyal medyada belirli demografik grupların sistematik olarak az paylaşım yapması MNAR niteliğindeyse imputasyon yerine <b>metodolojik sınırlılığı beyan etmek</b> daha dürüsttür.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Sağlık anketinde boş bırakılan sorular</b>Sigara içen katılımcılar “günde kaç tane içiyorsun?” sorusunu daha sık boş bırakıyor olabilir. Eksiklik, eksik olan değerin kendisine bağlı: MNAR. Boş yanıtları atıp ortalama almak, sigara tüketimini sistematik olarak küçük gösterir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Eksik veri simülatörü">
+  <div class="panel">
+    <div class="kicker">Laboratuvar</div>
+    <h2>Üç eksiklik türünde üç yöntemi dene</h2>
+    <div class="lab" id="missim"></div>
+    <div class="callout idea"><b>Dersler</b>MCAR’da silme neredeyse zararsızdır; MAR’da eksikliğe neden olan değişkeni (yaş) kullanan bir yöntem sapmayı büyük ölçüde giderir; MNAR’da basit düzeltmeler yetmez, bu yüzden sınırlılığı açıkça belirtmek gerekir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bayes yaklaşımı">
+  <div class="panel">
+    <div class="kicker">Belirsizlik · dene</div>
+    <h2>Bayes yaklaşımı: tek değer değil, inanç dağılımı</h2>
+    <p>Bayes yaklaşımında bir parametre sabit bir bilinmeyen değil, <b>bir olasılık dağılımına sahip rastgele değişken</b> sayılır. Önsel bilgi (<b>prior</b>) ile veri birleşerek <b>sonsal</b> dağılımı verir. Eksik ya da belirsiz verilerde tek bir “doğru” değeri tahmin etmek yerine ihtimalleri güncelleyerek belirsizliği modellemeyi sağlar; öğrenme artımlıdır.</p>
+    <div class="lab" id="bayes"></div>
+    <div class="callout real"><b>Gerçek hayat: Yeni bir ürünün memnuniyet oranı</b>Piyasaya yeni çıkan ürün için önce iyimser bir ön inancın olabilir (benzer ürünler iyi gitti). İlk 10 yorumda 7 olumlu çıkarsa ön inanç güncellenir. 500 yorumdan sonra ise ön inancın etkisi neredeyse kalmaz.</div>
+    <div class="callout idea"><b>Zayıf yanlar</b>Hesaplama maliyeti yüksek olabilir: karmaşık çok boyutlu modellerde Markov Chain Monte Carlo (MCMC) gibi örnekleme teknikleri yoğun işlem gücü ister; parametreler güçlü korelasyonluysa yakınsama sorunları çıkabilir. Bu yüzden öncel seçimi ve algoritmanın kararlılığı kritiktir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Duyarlılık analizi">
+  <div class="panel">
+    <div class="kicker">Belirsizlik</div>
+    <h2>Duyarlılık analizi: varsayımlar sonucu ne kadar oynatıyor?</h2>
+    <p>Duyarlılık analizi, modelin girdileri ve varsayımları değiştiğinde çıktının ne kadar değiştiğini inceler. Önceki slayttaki gibi öncel değiştirip sonuca bakmak buna örnektir.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Yerel (local)</th><th>Küresel (global)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ne yapar?</b></td><td>Belirli bir parametrenin çevresindeki küçük değişimlere sistemin tepkisini ölçer</td><td>Tüm parametre uzayındaki geniş değişimlere karşı çıktının değişimini inceler</td></tr>
+        <tr><td><b>Bayes ile</b></td><td>—</td><td>Yalnızca belirli noktalarda değil tüm olası senaryolar altında model davranışı değerlendirilir</td></tr>
+      </tbody>
+    </table></div>
+    <p>Parametre değişiminin <b>bağlamsal anlamı</b> da önemlidir: sağlıkta bir katsayı doz ya da sıklığı, enerji politikasında aynı büyüklükteki değişim yatırım maliyetlerini dramatik biçimde değiştirebilir. Böylece duyarlılık analizi istatistiksel bir teknikten <b>karar destek aracına</b> dönüşür. Büyük veride MCMC benzeri simülasyonların yükü artar; varyans azaltma ve yaklaşık çıkarım stratejileri kullanılır.</p>
+    <div class="callout real"><b>Gerçek hayat: Bütçe tahmini</b>Bir belediyenin gelir tahmini enflasyon varsayımına dayanıyor. “Enflasyon %5 yerine %8 olursa gelir tahmini ne kadar değişir?” sorusu duyarlılık analizidir. Cevap küçük değişim ise karar güvenlidir; büyük değişim ise tahmine temkinle yaklaşmak gerekir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Veri etiği: epistemik adalet">
+  <div class="panel">
+    <div class="kicker">Etik · kartlara tıkla</div>
+    <h2>Katılımcı yöntemler ve epistemik adalet</h2>
+    <p>Katılımcı yöntemler, bilgi üretiminde <b>güç ilişkilerini yeniden düzenlemeyi</b> ve farklı grupların seslerinin duyulmasını amaçlar. Katılımcı yalnızca bir “veri kaynağı” değil, bilginin üretilmesinde söz sahibi bir <b>ortak</b>tır. <b>Epistemik adalet</b>: bireylerin ya da grupların bilgi üretim süreçlerinde haksız yere dezavantajlı konuma düşürülmemesi.</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Risk</b>Kimler temsil edilmiyor?<span class="tip">tıkla</span></span><span class="back"><b class="k">Cevap</b>Marjinalize edilmiş grupların bilgisi yalnızca toplanmamalı, onların yararına olacak şekilde de paylaşılmalıdır. Çeşitliliği temsil eden örnekleme politikaları ve saha erişim planının denetimi önerilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Engel</b>Etik kurulların doğrusal beklentisi<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Kurumsal etik prosedürler çoğunlukla doğrusal bir veri toplama planı bekler; oysa katılımcı tasarımlar esnek ve yinelemelidir. Bürokrasi bu esnekliği sınırlayabilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Fırsat</b>Veriden eyleme<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Topluluk üyeleri yalnızca sorunları tanımlamaz, çözüm geliştirmeye de katılır; epistemik adalet soyut bir norm olmaktan çıkıp ölçülebilir etkisi olan bir araca dönüşür.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Büyük veri çağı</b>Katılımcılık hâlâ gerekli mi?<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Evet. Algoritmik karar destek sistemleri yaygınlaştıkça bireylerin hangi verilerinin kullanıldığına dair söz hakkı daha da önemlidir.</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Mahalle bütçesi</b>Bir belediye, mahalle sakinlerinin ihtiyaç listesini yalnızca anketle toplamak yerine, sakinlerle ortak atölyeler yapar. Hangi sorunların öncelikli olduğuna sakinler karar verir; veri, onların tanımladığı kategorilerle toplanır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Dijital uçurum ve veri sömürüsü">
+  <div class="panel">
+    <div class="kicker">Etik</div>
+    <h2>Dijital uçurum ve veri sömürüsü</h2>
+    <p><b>Dijital uçurum</b>, internete ve teknolojiye erişimdeki eşitsizliğin yanı sıra bu teknolojilerden <b>elde edilen faydaya</b> erişimin dengesiz dağılımıdır. Yalnızca cihaz ve bağlantı değil; dijital okuryazarlık, veri işleme yetkinliği ve anlam çıkarma kapasitesi de içerir. Aynı altyapıya sahip iki topluluk, teknik bilgi ve kültürel sermaye farkıyla çok farklı yararlanabilir.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Algoritma ve şeffaflık</b>Kişiselleştirilmiş eğitim algoritmalarındaki epistemolojik varsayımlar kullanıcıya açıklanmaz; kullanıcı kendi sürecini neyin belirlediğini bilemez.</div>
+      <div class="peas-c e"><b>Coğrafi eşitsizlik</b>Küresel Kuzey’de yoğunlaşan veri altyapıları, Güney’de üretilen verinin işlenip ticari değere dönüşmesini bu şirketlerin lehine çevirebilir.</div>
+      <div class="peas-c a"><b>Düzenleme arbitrajı</b>Çok uluslu şirketler en gevşek düzenlemeli bölgeleri merkez seçebilir; mahremiyet koruması coğrafyaya göre dramatik biçimde değişir.</div>
+      <div class="peas-c s"><b>Önlemler</b>Şeffaflık raporlaması, veri minimizasyonu, algoritmik denetimler, bağımsız gözetim. Gönüllü kuralların bağlayıcılığı sınırlıdır; hukuki düzenleme gerekir.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Uygulama sizden ne topluyor?</b>Ücretsiz bir uygulama konumunu, kişi listeni ve davranışını toplayıp reklam ağlarına satabilir; bunun sağladığı ticari değerin neredeyse tamamı şirkette kalır. Veri üreten sensin, ama veriden doğan değeri paylaşmıyorsun. Bu, veri sömürüsünün gündelik hâlidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Yerli veri egemenliği">
+  <div class="panel">
+    <div class="kicker">Etik</div>
+    <h2>Yerli veri egemenliği: veri kime aittir?</h2>
+    <p>Yerli veri egemenliği, verinin toplandığı, işlendiği ve saklandığı yerel bağlamlarda, özellikle yerli toplulukların <b>kendi verileri üzerindeki denetim hakkını ve karar yetkisini</b> ifade eder. Hukuki mülkiyetle sınırlı değildir: bilginin üretilme biçimini, kullanım amaçlarını, erişim koşullarını ve sonuçların dağıtılmasını kapsar. Veri, <b>kolektif kimliğin, hafızanın ve özerkliğin taşıyıcısıdır</b>.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Kolektif rıza</b>Bireysel onamdan farklıdır: bir projenin onaylanması için kabile konseyi ya da yaşlılar meclisinin kararı gerekebilir. Kolektif yapıların tanınmadığı projelerde bireysel onay alınsa bile topluluğa zarar verilebilir.</div>
+      <div class="peas-c e"><b>Üst veri (metadata)</b>Verinin neyi temsil ettiği, hangi koşullarda toplandığı ve hangi anlam çerçevesinde yorumlanacağı eksiksiz yazılmalı; standart şemalar kültürel ayrıntıları barındırmıyorsa yerel ontolojiler geliştirilmeli.</div>
+      <div class="peas-c a"><b>Mahremiyet</b>Küçük nüfuslu topluluklarda geleneksel anonimleştirme bile kimlik ifşasına yol açabilir; standardın ötesinde teknikler gerekir.</div>
+      <div class="peas-c s"><b>Kapasite</b>Dış platformlara bağımlı kalan topluluk zamanla kendine yetme pratiğini kaybeder. Yerel gençlerin veri bilimi, programlama ve siber güvenlik eğitimi egemenliğin uzun vadeli şartıdır.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Köy ağızları arşivi</b>Bir üniversite, bir köyün geleneksel ağıtlarını kaydedip uluslararası bir arşive yüklüyor. Kayıtlar kimin için, hangi izinle, hangi bağlam bilgisiyle açık olacak? Köy meclisi bunlara karar veremiyorsa, veriden doğan değer ve kültürel kontrol topluluğun elinden çıkmış olur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 3</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Nicel</td><td>Ölçülebilir; geçerlilik ve güvenilirlik; olasılıklı örnekleme; anket tasarımı yanlılığı; çapraz doğrulama</td></tr>
+        <tr><td>Nitel</td><td>Deneyim ve anlam; katılımcı gözlem, belgesel tarama; kodlama ve tematik analiz; refleksivite; eylem araştırması</td></tr>
+        <tr><td>Karma</td><td>Bilinçli entegrasyon, “fazladan değer”, ekip yetkinliği, mahremiyet riski</td></tr>
+        <tr><td>Eksik veri</td><td>MCAR, MAR, MNAR; silme yanlılık yaratır; çoklu imputasyon; MNAR’da sınırlılığı beyan et</td></tr>
+        <tr><td>Bayes</td><td>Parametre = dağılım; önsel + veri = sonsal; MCMC pahalı; öncel seçimi kritik</td></tr>
+        <tr><td>Duyarlılık analizi</td><td>Yerel ve küresel; bağlamsal anlam; karar destek aracı</td></tr>
+        <tr><td>Epistemik adalet</td><td>Katılımcı = ortak; marjinalize gruplar; çeşitli örnekleme</td></tr>
+        <tr><td>Dijital uçurum / veri sömürüsü</td><td>Erişim + yetkinlik + fayda eşitsizliği; şeffaflık, minimizasyon, denetim</td></tr>
+        <tr><td>Yerli veri egemenliği</td><td>Topluluğun veri üzerinde denetimi; kolektif rıza; üst veri; kapasite</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

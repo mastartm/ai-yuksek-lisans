@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veri Biliminin Bilimsel Temelleri — Veri Bilimi</title>
+<meta name="description" content="Veri Bilimi, Bölüm 1: Veri Biliminin Bilimsel Temelleri. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 1 · Veri Biliminin Bilimsel Temelleri</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Veri Bilimi · Bölüm 1</div>
+    <h1>Veri Biliminin Bilimsel Temelleri</h1>
+    <p class="big-quote">Bir uygulama sana “bu filmi seveceksin” diyor ve haklı çıkıyor. Ama <b>neden</b> öyle dediğini sorarsan cevap alamıyorsun. Veri bilimi yalnızca “doğru tahmin” üretmek değil; bilginin nasıl üretildiğini, ne kadar güvenilir olduğunu ve neyi açıklayıp neyi açıklamadığını da sorgulamaktır.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Veri biliminin teknik, felsefi ve toplumsal katmanlarını ayırt edebilirsin.</li>
+      <li>“Kara kutu” problemini ve açıklanabilir yapay zekâ (XAI) yaklaşımlarını anlatabilirsin.</li>
+      <li>Çevik veri bilimi yaklaşımını (Scrum ve Kanban) açıklayabilirsin.</li>
+      <li>Büyük verinin Beş V modelini bir örneğe uygulayabilirsin.</li>
+      <li>Veri kalitesinin boyutlarını sayıp bozuk veriyi tanıyabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Kapsam: çok katmanlı alan">
+  <div class="panel">
+    <div class="kicker">Genel bakış</div>
+    <h2>Veri bilimi yalnızca teknik bir iş değildir</h2>
+    <svg class="diagram" viewBox="0 0 760 240" role="img" aria-label="Veri biliminin katmanları: teknik, epistemolojik, organizasyonel, toplumsal">
+      <rect class="d-box" x="40" y="10" width="680" height="220" rx="16"/><text class="d-sm" x="56" y="32">Toplumsal ve etik katman: güç, adalet, şeffaflık</text>
+      <rect class="d-warn" x="90" y="45" width="580" height="170" rx="14"/><text class="d-sm" x="106" y="67">Organizasyonel katman: ekipler, süreçler, karar vericilere anlaşılır modeller</text>
+      <rect class="d-ok" x="140" y="80" width="480" height="120" rx="12"/><text class="d-sm" x="156" y="102">Epistemolojik katman: bilgi nedir, nasıl üretilir, ne kadar güvenilir?</text>
+      <rect class="d-brand" x="200" y="115" width="360" height="70" rx="12"/><text class="d-txt d-c" x="380" y="145">Teknik katman</text><text class="d-sm d-c" x="380" y="166">veri, algoritma, altyapı</text>
+    </svg>
+    <p>Yalnızca teknik sürece bakmak yetmez: üretilen bilginin değeri, kullanılan <b>verinin ve algoritmaların yapısal özelliklerine</b> bağlıdır. Teorik tartışmalar geri planda bırakılırsa sonuçlar bir “kara kutu” olarak kalır. Alan; ekonomi, eğitim teknolojileri, siber güvenlik gibi çok farklı sahalara yayılmış durumdadır.</p>
+    <div class="callout real"><b>Gerçek hayat: Öğrenci başarı tahmini</b>Bir üniversite, öğrencinin dönem sonu başarısını tahmin eden bir sistem kursun. Teknik katman: model ve veri. Epistemolojik: “başarı” nasıl tanımlandı, hangi veri toplandı? Organizasyonel: danışmanlar çıktıyı nasıl kullanacak? Toplumsal: model bazı grupları sistematik olarak mı dezavantajlı gösteriyor?</div>
+    <div class="callout idea"><b>Güç ve kurumlar</b>Büyük ölçekli veri toplayan ticari ve akademik kurumlar araştırmanın yönünü belirleme gücü kazanabilir. Bu yoğunlaşma, yeni kuramları kimin üreteceği sorusunu da gündeme getirir. Ortak topluluklar (ör. öğrenme analitiği toplulukları) ise teknik Ar-Ge ile pedagojik yeniliği buluşturmaya çalışır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Epistemoloji: indüksiyon ve teori yüklülüğü">
+  <div class="panel">
+    <div class="kicker">Epistemolojik temeller · dene</div>
+    <h2>Veriden bilgi üretmek: indüksiyon ve teori yüklü gözlem</h2>
+    <p>Veri biliminin epistemolojisi <b>tümevarımsaldır</b> (indüktif): veriden başlayıp bilgiye varır. Bu, nedensellik, olasılık ve analoji gibi kavramları işe karıştıran, klasik “say ve genelle” yaklaşımından daha geniş bir mantık ister.</p>
+    <p>Önemli bir ilke <b>gözlemin teori yüklülüğüdür</b>: gözlemler önceden var olan kategoriler ve analiz rutinleri tarafından biçimlendirilir. Veri bilimi pratiğinde veriler önceden seçilmiş kategorilere göre toplanır, etiketlenir ve işlenir. Aşağıdaki laboratuvar bunu somut gösteriyor:</p>
+    <div class="lab" id="labelrule"></div>
+    <div class="callout real"><b>Gerçek hayat: “Aktif kullanıcı” tanımı</b>Bir uygulama yöneticisi “günde en az bir kez giren” kullanıcıyı aktif sayabilir, bir başkası “haftada üç işlem yapan”ı. Aynı kayıtlardan iki farklı “aktif kullanıcı sayısı” çıkar ve iki ekip birbirinden farklı büyüme raporları sunar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kara kutu ve XAI">
+  <div class="panel">
+    <div class="kicker">Epistemolojik temeller</div>
+    <h2>Kara kutu problemi ve açıklanabilir yapay zekâ</h2>
+    <p>Modeller karmaşıklaştıkça <b>kara kutu</b> hâline gelir: içi kolayca erişilemez ya da anlaşılamaz. Bu özellikle <b>yüksek riskli kararlarda</b> (sağlık, ceza adaleti, finans) yasal, etik ve pratik bir sorundur. Doğruluğu yüksek ama açıklanamayan bir model, ilişkileri nedensel olarak çözmeyi de engelleyebilir.</p>
+    <div class="cols">
+      <div class="peas-c p"><b>Doğası gereği yorumlanabilir modeller</b>Karar ağaçları, lojistik regresyon, kural tabanlı sistemler: şeffaflık baştan vardır. Araştırmalar, anlamlı özelliklerle iyi temsil edilmiş yapılandırılmış verilerde basit sınıflandırıcıların çoğu zaman karmaşık olanlardan <i>çok daha kötü olmadığını</i> göstermektedir.</div>
+      <div class="peas-c e"><b>Post-hoc açıklama yöntemleri</b>Mevcut kara kutu modeli sonradan açıklamaya çalışır: <b>LIME</b> (tek bir karar için yerel, model bağımsız açıklama) ve <b>SHAP</b> (her özelliğin karara katkısını adil biçimde paylaştırma).</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Kredi reddi</b>Reddedilen başvurucu “neden?” diye sorabilir. Karar ağacı modelinde cevap kuralları gösterir (“borç oranı yüksek ve kayıtlı gelir düşük”). Kara kutu modelde yalnızca skor vardır; bir açıklama aracı bu skoru “gelirin etkisi −, borç oranının etkisi −” gibi parçalara ayırabilir.</div>
+    <div class="callout idea"><b>Not</b>Kara kutu her zaman gerekli değildir. Yorumlanabilir bir model eşit ya da daha iyi performans sunuyorsa tercih edilmelidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Çevik veri bilimi">
+  <div class="panel">
+    <div class="kicker">Metodoloji</div>
+    <h2>Çevik veri bilimi: küçük adımlar, sürekli geri bildirim</h2>
+    <p>Veri bilimi doğası gereği <b>keşifsel ve yinelemelidir</b>. Çevik yaklaşım, yazılım geliştirmeden uyarlanan ilkelerle katı önceden planlama yerine esneklik ve uyum ister: yinelemeli prototipleme, sürekli çıktı paylaşımı ve etkileşimli görselleştirmeler.</p>
+    <svg class="diagram" viewBox="0 0 760 130" role="img" aria-label="Çevik döngü: veri topla, model kur, doğrula, paylaş ve tekrar">
+      <defs><marker id="ar9" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--node-stroke)"/></marker></defs>
+      <rect class="d-brand" x="10" y="30" width="160" height="60" rx="12"/><text class="d-txt d-c" x="90" y="66">Veri topla</text>
+      <rect class="d-warn" x="200" y="30" width="160" height="60" rx="12"/><text class="d-txt d-c" x="280" y="66">Model eğit</text>
+      <rect class="d-ok" x="390" y="30" width="160" height="60" rx="12"/><text class="d-txt d-c" x="470" y="66">Doğrula</text>
+      <rect class="d-bad" x="580" y="30" width="170" height="60" rx="12"/><text class="d-txt d-c" x="665" y="66">Paylaş, geri bildirim al</text>
+      <path class="d-line" d="M170 60 H198" marker-end="url(#ar9)"/><path class="d-line" d="M360 60 H388" marker-end="url(#ar9)"/><path class="d-line" d="M550 60 H578" marker-end="url(#ar9)"/>
+      <path class="d-dash" d="M665 92 Q665 122 380 122 Q90 122 90 92" fill="none" marker-end="url(#ar9)"/><text class="d-sm d-c" x="380" y="118" style="fill:var(--muted)">her turda tekrar</text>
+    </svg>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Scrum</th><th>Kanban</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ritim</b></td><td>2–4 haftalık sprint döngüleri</td><td>Sürekli akış</td></tr>
+        <tr><td><b>Yapı</b></td><td>Daha yapılandırılmış</td><td>Daha esnek; devam eden iş (WIP) sınırları</td></tr>
+        <tr><td><b>Veri bilimine uyarlama</b></td><td>Her sprintte odağı yeni bulgulara göre ayarlamak</td><td>Gelen analiz isteklerini kesintisiz akıtmak</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Müşteri kaybı modeli</b>Ekip ilk haftada basit bir tahmin modeli çıkarır, satış ekibine gösterir. Satış “bu müşteriler zaten kaybedilmiş” der; ikinci sprintte özellikler değişir. Bir yılı gizlice bir modele harcayıp sonunda “yanlış problemi çözmüşüz” demekten bu yaklaşım korur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Beş V (laboratuvar)">
+  <div class="panel">
+    <div class="kicker">Büyük veri · dene</div>
+    <h2>Büyük verinin Beş V modeli</h2>
+    <p><b>Hacim</b> (ne kadar), <b>Hız</b> (ne kadar çabuk geliyor), <b>Çeşitlilik</b> (yapılandırılmış, yarı yapılandırılmış, yapılandırılmamış), <b>Doğruluk</b> (ne kadar güvenilir) ve <b>Değer</b> (ne işe yarıyor). Bir veri kaynağı seç ya da kaydırıcılarla kendi veri kaynağını tarif et; radar şekli ve ne gerektirdiği değişir.</p>
+    <div class="lab" id="fivev"></div>
+    <div class="callout idea"><b>Not</b>Beş V, veri biliminin temel kavramsal çerçevelerinden biridir: veri büyüdükçe hem altyapı hem işlem maliyetleri artar; güvenlik ve mahremiyet de işin ayrılmaz parçası olur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Beş V ayrıntısı">
+  <div class="panel">
+    <div class="kicker">Büyük veri</div>
+    <h2>Beş V: her V’nin söylediği</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Hacim (Volume)</b>Her saniye üretilen muazzam veri; terabaytlardan petabaytlara. Daha çok veri, küçük veride görünmeyen eğilimleri ortaya çıkarır.</div>
+      <div class="peas-c e"><b>Hız (Velocity)</b>Verinin üretilme, toplanma ve işlenme hızı. Değer genellikle zamansallığa bağlıdır; Apache Kafka, Apache Flink gibi akış işleme çerçeveleri yüksek hızı yönetir.</div>
+      <div class="peas-c a"><b>Çeşitlilik (Variety)</b>Yapılandırılmış, yarı yapılandırılmış, yapılandırılmamış: metin, resim, ses, işlem kayıtları, e-posta. Hepsini entegre etme stratejisi gerekir.</div>
+      <div class="peas-c s"><b>Doğruluk (Veracity)</b>Kalite, güvenilirlik, temizlik. Tutarsızlık ve hatalar varsa veri kullanışlılığını hızla yitirir.</div>
+      <div class="peas-c p"><b>Değer (Value)</b>Verinin ne fayda ve içgörü sağladığı: karar iyileştirme, süreç optimizasyonu, yeni fırsatlar.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Trafik kameraları</b>Hacim: günde milyonlarca kare. Hız: gerçek zamanlı akış, çünkü bir kaza bildirimi bir saat sonra değerini yitirir. Çeşitlilik: kamera görüntüsü, sensör ve hava durumu verisi birlikte. Doğruluk: bulanık lens ya da arızalı sensör. Değer: yönlendirme, kaza müdahalesi.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Veri kalitesi">
+  <div class="panel">
+    <div class="kicker">Veri kalitesi</div>
+    <h2>Veri kalitesi çok boyutludur</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Doğruluk (Accuracy)</b>Veri gerçek dünyayı doğru yansıtıyor mu? Yaşı 217 olan müşteri doğru değildir.</div>
+      <div class="peas-c e"><b>Eksiksizlik (Completeness)</b>Boşluk ya da eksik değer var mı? Boş bırakılmış alanlar analizi bozar.</div>
+      <div class="peas-c a"><b>Tutarlılık (Consistency)</b>Aynı bilgi sistemler arasında uyumlu mu? “İstanbul” ve “istanbul” ayrı sayılırsa gruplama bozulur.</div>
+    </div>
+    <p><b>Veri güveni</b> bunun ötesine geçer: erişilebilirlik, şeffaflık ve güvenilirlik de gerekir. <b>Veri soyağacı</b> (data lineage) araçları verinin kaynağından son kullanımına kadar yolculuğunu görselleştirerek şeffaflığı artırır.</p>
+    <div class="callout idea"><b>Maliyet</b>Gartner araştırması, zayıf veri kalitesinin şirketlere yıllık ortalama <b>12,9 milyon dolara</b> mal olduğunu bildirmektedir; finansal kayıplardan kaçırılan fırsatlara ve müşteri sorunlarına uzanan maliyetler.</div>
+    <div class="callout real"><b>Gerçek hayat: Kargo adresi</b>“Mah.”, “Mahallesi” ve “mh.” üç farklı yazım. Teslimat sisteminde bu üç yazım üç farklı adres olarak görünürse yanlış bölgeye yönlendirme, tekrar eden teslimat denemeleri ve müşteri şikâyeti çıkar. Küçük bir tutarsızlık büyük bir maliyet olur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Oyun: bozuk veriyi bul">
+  <div class="panel">
+    <div class="kicker">Laboratuvar</div>
+    <h2>Beş sorunu bul</h2>
+    <div class="lab" id="dqgame"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 1</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Kapsam</td><td>Teknik + epistemolojik + organizasyonel + toplumsal katman</td></tr>
+        <tr><td>Epistemoloji</td><td>İndüktif; gözlemin teori yüklülüğü: veri önceden seçilmiş kategorilerle toplanır</td></tr>
+        <tr><td>Kara kutu</td><td>Yüksek riskli kararlarda açıklanabilirlik şart; XAI: post-hoc (LIME, SHAP) ya da doğası gereği yorumlanabilir (ağaç, lojistik regresyon, kurallar)</td></tr>
+        <tr><td>Çevik veri bilimi</td><td>Yinelemeli, esnek; Scrum 2–4 haftalık sprint, Kanban sürekli akış ve WIP limiti</td></tr>
+        <tr><td>Beş V</td><td>Hacim, Hız, Çeşitlilik, Doğruluk, Değer</td></tr>
+        <tr><td>Veri kalitesi</td><td>Doğruluk, eksiksizlik, tutarlılık; veri güveni ve soyağacı (lineage)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_VB_1"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/vb-bolum-1-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/vb.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>

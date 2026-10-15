@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veri Biliminin Felsefi ve Epistemolojik Temelleri — Veri Bilimi</title>
+<meta name="description" content="Veri Bilimi, Bölüm 2: Veri Biliminin Felsefi ve Epistemolojik Temelleri. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 2 · Veri Biliminin Felsefi ve Epistemolojik Temelleri</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Veri Bilimi · Bölüm 2</div>
+    <h1>Veri Gerçekten “Ham” mıdır? Felsefi Temeller</h1>
+    <p class="big-quote">Bir tablo gördüğünde onu “gerçeğin kendisi” sanmak çok kolay. Oysa her sütunun bir tercihi, her ölçümün bir amacı var. Bu bölümde verinin ne olduğunu, hangi felsefi bakışlarla okunabileceğini ve disiplinlerin birbirine nasıl köprü kurduğunu inceleyeceğiz.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Veri biliminin hangi disiplinlerin kesişiminde durduğunu açıklayabilirsin.</li>
+      <li>Pozitivist ve yorumlayıcı yaklaşımı karşılaştırabilirsin.</li>
+      <li>“Ham veri miti”ni ve veri nesnelerinin ontolojik statüsünü anlatabilirsin.</li>
+      <li>İstatistik, bilgisayar bilimi ve alan uzmanlığının veri bilimindeki rollerini ayırt edebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Disiplinlerin kesişimi">
+  <div class="panel">
+    <div class="kicker">Tanım · tıkla</div>
+    <h2>Veri bilimi: veriden bilgi çıkarmanın bütünleşik alanı</h2>
+    <p>Veri bilimi; veriden bilgi ve öngörü çıkarma pratiğini sistematik hâle getiren yöntemlerin, algoritmaların ve bilişim teknolojilerinin bütünleşik bir alanıdır. İstatistik, bilgisayar bilimi, yapay zekâ, yazılım mühendisliği ve bilgi yönetimiyle sürekli etkileşim içindedir. Bu yalnızca teknik beceri aktarımı değildir: farklı bilim geleneklerinin <b>epistemolojik kabullerini</b> de bir araya getirir. Üç temel daireye tıkla:</p>
+    <div class="lab" id="venn"></div>
+    <div class="callout real"><b>Gerçek hayat: Salgın takibi</b>İstatistikçi, vaka sayılarının güvenilir bir örneklemden gelip gelmediğini sorar. Bilgisayar bilimcisi, milyonlarca kaydı hızlıca işleyen altyapıyı kurar. Epidemiyolog (alan uzmanı) ise “bu sayı hangi hastalıkla, hangi testle, hangi zamanda ilgili?” sorusunun cevabını verir. Üçü birlikte olmadan anlamlı bir rapor çıkmaz.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Disiplinlerarasılığın iki yüzü">
+  <div class="panel">
+    <div class="kicker">Disiplinlerarasılık</div>
+    <h2>Çok disiplinlilik hem avantaj hem sorundur</h2>
+    <div class="cols">
+      <div class="peas-c e"><b>Avantajlar</b><ul><li>Farklı uzmanlıklar aynı projede birleşir (veritabanı yöneticisi, makine öğrenmesi mühendisi, veri bilimci, alan uzmanı).</li><li>Sosyal bilimlerden gelen “algoritmacılar” hukuk, iktisat ve politika araçlarını bilgisayar bilimiyle harmanlayabilir.</li><li>Çevrim içi medya analizleri (ör. dezenformasyonun yayılımı) sosyolojiyi bilgisayar bilimine yaklaştırır; nitel ve nicel yöntemler birleşir.</li></ul></div>
+      <div class="peas-c a"><b>Zorluklar</b><ul><li>Farklı terminolojiler, araştırma kültürleri ve başarı ölçütleri çatışabilir.</li><li>Keşif odaklı işler süre ve bütçede belirsizlik yaratır; yapılandırılmış veri yönetimi daha öngörülebilirdir.</li><li>Ekip içi iletişim eksikliği ve beklenti uyumsuzluğu uzun vadeli girişimleri zorlar.</li></ul></div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Belediye ve veri</b>Bir belediyenin toplu taşıma verilerini analiz eden proje; şehir plancısı, yazılımcı ve istatistikçiyi bir araya getirir. Plancı “güzergâh”, yazılımcı “API”, istatistikçi “örneklem” der. Ortak bir dil kurulmazsa her biri başarıyı farklı ölçer.</div>
+    <div class="callout idea"><b>Not</b>Veri biliminin çıkarımları farklı toplumsal aktörlere doğrudan karar desteği sunabildiği için etik ve metodolojik sorgulamalar da daha görünür hâle gelir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Pozitivist yaklaşım">
+  <div class="panel">
+    <div class="kicker">Bilim felsefesi</div>
+    <h2>Pozitivist yaklaşım: sına, doğrula, genelle</h2>
+    <p>Pozitivist çerçevede bilgi <b>gözlem ve deneyle test edilebilen, nesnel ve tekrarlanabilir</b> çıktılarla değerlendirilir. Araştırmacı teoriden sınanabilir çıkarımlar türetir, bunları sahadan ya da laboratuvardan gelen verilerle karşılaştırır ve teoriye duyulan güveni artırır ya da azaltır. Vurgu <b>nedensel ilişkilerin açığa çıkarılması</b> ve <b>genelleştirme</b> kapasitesidir.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Döngü</b>Hipotez kur → test et → yeniden formüle et. Büyük veride algoritmik güç bu döngüyü hızlandırır.</div>
+      <div class="peas-c e"><b>Yöntem</b>İstatistiksel modelleme: parametrik testler, regresyon analizi. Yüksek kaliteli girdi beklenir.</div>
+      <div class="peas-c a"><b>Karşılaştırılabilirlik</b>Ölçüm tekniklerinin şeffaf ve yeniden kullanılabilir olması. Araştırmacı herkes kendi aracını yaparsa bulgular karşılaştırılamaz.</div>
+      <div class="peas-c s"><b>Dikkat</b>Simülasyon verisi ile saha verisi aynı değildir; nasıl üretildiği tanımlanmazsa geçerlilik sorunu çıkar.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Yeni bir ilacın etkisi</b>Rastgele atanmış iki grup, kontrollü koşullar, önceden belirlenmiş hipotez ve istatistiksel test: pozitivist yaklaşımın klasik örneğidir. Amaç, “ilaç etkilidir” ifadesinin tekrarlanabilir biçimde doğrulanmasıdır.</div>
+    <div class="callout idea"><b>İnce nokta</b>Modern tartışmalar veri inşasının kaçınılmaz olduğunu vurgular: hangi bilginin veri olarak seçileceği, hangi değişkenin kaydedileceği ve nasıl kodlanacağı insan kararıdır. Pozitivizm de bu tercihleri şeffaf ve belgelenmiş tutmayı bekler.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Yorumlayıcı yaklaşım">
+  <div class="panel">
+    <div class="kicker">Bilim felsefesi</div>
+    <h2>Yorumlayıcı (interpretivist) yaklaşım: bağlamı anla</h2>
+    <p>Yorumlayıcı yaklaşım, bilginin <b>toplumsal bağlamdan, tarihsel süreçlerden ve güç ilişkilerinden</b> ayrı düşünülemeyeceğini savunur. Gerçeklik, araştırmacının bakışından bağımsız sabit bir yapı değil, insanların etkileşimleri ve anlam yüklemeleriyle sürekli yeniden inşa edilen dinamik bir olgudur. Amaç genelleme değil, belirli durumlara ve aktörlerin anlam dünyalarına dair derin içgörüdür.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Pozitivist</th><th>Yorumlayıcı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Gerçeklik</b></td><td>Nesnel, gözlemden bağımsız ölçülebilir</td><td>İnsanların anlamlarıyla inşa edilir</td></tr>
+        <tr><td><b>Amaç</b></td><td>Genelleme, nedensel yasa, doğrulanabilirlik</td><td>Derinlemesine anlama, bağlam, anlam örgüsü</td></tr>
+        <tr><td><b>Yöntem</b></td><td>Standart protokoller, hipotez testi, regresyon</td><td>Esnek, bağlama duyarlı: görüşme, gözlem</td></tr>
+        <tr><td><b>Araştırmacı</b></td><td>Tarafsız gözlemci olmaya çalışır</td><td>Öznelliğinin etkisini tanır ve açıkça belirtir (refleksivite)</td></tr>
+        <tr><td><b>Katılımcı</b></td><td>Veri kaynağı</td><td>Analizde söz sahibi ortak</td></tr>
+      </tbody>
+    </table></div>
+    <p>Bu yaklaşım sayısal yöntemlere kapalı değildir: nitel içerikten çıkan kodların sıklık analizi ya da sosyal ağ haritaları bir arada kullanılabilir. Ama öncelik nedensel yasa formüle etmek değil, ilişkilerin ardındaki anlamı çözmektir.</p>
+    <div class="callout real"><b>Gerçek hayat: Kredi puanlama</b>Bir kredi puanlama modelinin hangi tarihsel önyargıları yeniden ürettiği yalnızca doğruluk oranıyla ölçülemez. Etkilenen insanların deneyimleri ve sosyo-tarihsel bağlam yorumlayıcı bir incelemeyi gerektirir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Ham veri miti (laboratuvar)">
+  <div class="panel">
+    <div class="kicker">Veri ontolojisi · dene</div>
+    <h2>Ham veri miti: veri toplanmadan önce bile inşa edilir</h2>
+    <p>“Ham veri” ifadesi, verinin gerçekliğin tarafsız bir yansıması olduğunu ima eder. Oysa veri doğada “ham” bulunmaz; belirli amaçlarla <b>seçilir, ölçülür, temsil edilir</b>. Hangi bilginin kaydedileceği, hangi değişkenin dahil ya da dışlanacağı, hangi çözünürlükte tutulacağı kararlara bağlıdır. Aşağıdaki örnekte sensör ölçümleri sabit; yalnızca kararlarını değiştir:</p>
+    <div class="lab" id="hamveri"></div>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>“Çokluk güvenilirlik değildir”</b>Büyük veride küçük bir önyargı bile sistematik hata üretir. İdari kayıtlar ve sosyal medya belirli demografik grupları eksik temsil edebilir.</div>
+      <div class="peas-c e"><b>Etik ihmal</b>“Teknik” söylem, mahremiyet ve onam süreçlerini görünmez kılabilir.</div>
+      <div class="peas-c a"><b>Çare</b>Araçları, örneklemeyi, filtreleme ve temizleme adımlarını belgelemek; olası önyargıları açıkça değerlendirmek; katılımcı epistemolojiyle verinin tanımına araştırılan kişileri de katmak.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="Veri nesnelerinin statüsü">
+  <div class="panel">
+    <div class="kicker">Veri ontolojisi</div>
+    <h2>Veri nesnesi nedir? Üç düzey ve iki “ontoloji”</h2>
+    <p>Eleştirel gerçekçi bakışa göre gerçeklik üç düzeyden oluşur ve <b>veri nesneleri bu üç düzeyin belirli bir temsilidir</b>:</p>
+    <svg class="diagram" viewBox="0 0 760 210" role="img" aria-label="Eleştirel realizm: gerçek, fiili ve ampirik düzeyler">
+      <rect class="d-ok" x="40" y="10" width="680" height="60" rx="12"/><text class="d-txt d-c d-big" x="380" y="38">Gerçek (the real)</text><text class="d-sm d-c" x="380" y="58">olayları mümkün kılan yapılar ve mekanizmalar</text>
+      <rect class="d-warn" x="110" y="80" width="540" height="55" rx="12"/><text class="d-txt d-c d-big" x="380" y="108">Fiili (the actual)</text><text class="d-sm d-c" x="380" y="126">belirli koşullar altında gerçekleşen olaylar</text>
+      <rect class="d-brand" x="180" y="145" width="400" height="55" rx="12"/><text class="d-txt d-c d-big" x="380" y="172">Ampirik (the empirical)</text><text class="d-sm d-c" x="380" y="190">yalnızca gözlemlenmiş olan: veri burada</text>
+    </svg>
+    <div class="cols">
+      <div><h3>Felsefi ontoloji</h3><p>“Varlık nedir, nasıl var olur?” Veri nesnesi, gözlem süreçlerinden ve toplama amaçlarından bağımsız düşünülemez. Sensör belirli sinyalleri algılar, başkalarını dışarıda bırakır; potansiyel zenginlik daralır.</p></div>
+      <div><h3>Teknik ontoloji</h3><p>Bilgi temsili sistemlerinde varlık türlerini ve aralarındaki ilişkileri tanımlayan <b>sınıflar, özellikler ve ilişkiler</b>. Veri nesnelerini bir bilgi ağı içine yerleştirir; insan ve makine tarafından işlenebilirliği artırır.</p></div>
+    </div>
+    <div class="callout idea"><b>Veri sosyo-teknik bir üründür</b>Aynı paylaşımlardan hazırlanmış bir duygu analizi veri seti ile bir pazarlama tercihleri veri seti, yapıları ve temsil ettikleri gerçeklik bakımından farklı ontolojik statülere sahiptir. Farklı şemalı kaynakları ortak bir üst-ontolojiye taşımak, nesnenin anlamını da değiştirebilir (ör. hava verisi tarım istatistiğiyle aynı modele konunca yeni bağlamsal anlamlar yüklenir).</div>
+    <div class="callout real"><b>Gerçek hayat: Termometre</b>“Dün 31 derece” sayısı ampirik düzeydedir. Fiili düzeyde o gün gerçekleşen ısı olayı, gerçek düzeyde atmosferin mekanizmaları vardır. Termometrenin konumu ve kalitesi, sayının neyi ne kadar temsil ettiğini belirler.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="İstatistik ile köprü">
+  <div class="panel">
+    <div class="kicker">Epistemik köprüler</div>
+    <h2>İstatistik ve veri bilimi: rakip değil, tamamlayıcı</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Klasik istatistik</th><th>Veri bilimi</th></tr></thead>
+      <tbody>
+        <tr><td><b>Model</b></td><td>Çoğunlukla veri toplanmadan önce kurulur; ön bilgiye dayanır</td><td>Çoğu zaman veri toplandıktan sonra esnek biçimde, keşifle kurulur</td></tr>
+        <tr><td><b>Veri</b></td><td>Küçük ama iyi tasarlanmış örneklemden popülasyona genelleme</td><td>Popülasyonun neredeyse tamamını temsil eden devasa dijital izler; zorluk gürültü ve anlamlı sinyal</td></tr>
+        <tr><td><b>Başarı ölçütü</b></td><td>p-değeri, güven aralığı</td><td>Doğruluk (accuracy), F1 gibi metrikler</td></tr>
+        <tr><td><b>Sunum</b></td><td>Grafikler hipotezi destekler</td><td>Etkileşimli arayüzler, dinamik raporlar karar desteğin merkezinde</td></tr>
+        <tr><td><b>Roller</b></td><td>Daha bütünleşik araştırmacı profili</td><td>Analist, ML mühendisi, yazılım geliştirici arasında bölünmüş</td></tr>
+      </tbody>
+    </table></div>
+    <p>Chambers’ın “<b>greater statistics</b>” tanımında üç aşamalı süreç (veriyi hazırlama, analiz etme, sunma) hem klasik istatistiğin hem veri biliminin ortak çekirdeğidir. Temizleme, aykırı değer tespiti, eksik gözlem imputasyonu, dağılım varsayımı testleri gibi adımlar klasik istatistiğin refleksleridir. Karmaşık algoritmalar bile temelde regresyon ve olasılık teorisini taşır (lojistik regresyon, kayıp fonksiyonu optimizasyonu).</p>
+    <div class="callout real"><b>Gerçek hayat: Anket mi, tıklama kaydı mı?</b>1.000 kişilik iyi tasarlanmış bir anket sonuçları bütün ülkeye genellemek için kurulur. Bir uygulamanın tüm tıklama kayıtları ise neredeyse “herkesi” kapsar; ama kimlerin uygulamayı hiç kullanmadığı sorusu hâlâ geçerlidir. İkisi farklı güçlere ve farklı tuzaklara sahiptir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bilgisayar bilimi ve algoritmalar">
+  <div class="panel">
+    <div class="kicker">Epistemik köprüler</div>
+    <h2>Bilgisayar bilimi: ölçek, algoritma, temsil</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Makine öğrenmesi</b>Gözetimli (etiketli veriden tahmin), gözetimsiz (benzerlik ve farklılık yapıları). Veri madenciliği hem istatistikten hem bilgisayar biliminden beslenir.</div>
+      <div class="peas-c e"><b>Ölçeklenebilirlik</b>Büyük hacimde tek işlemci yetmez; dağıtık işleme gerekir. Karmaşıklık analizi: O(n³) bir yöntem küçük veride harika, milyonlarca kayıtta kullanılamaz.</div>
+      <div class="peas-c a"><b>Temsil öğrenmesi</b>Girdiyi göreve uygun içsel özelliklere dönüştürme (derin öğrenme katmanları). İnsan gözünün seçemeyeceği düzenlilikleri bulabilir.</div>
+      <div class="peas-c s"><b>Veri hazırlama otomasyonu</b>Hızlıdır ama yan etkisi vardır: yanlış filtreleme ya da doldurma stratejisi sinyali gürültüye çevirebilir; bağlama özgü kararlar kolay genellenemez.</div>
+      <div class="peas-c p"><b>Ontolojilerle bütünleştirme</b>Farklı şemaları ortak bir dilde buluşturan eşleştirme algoritmaları (grafik kuramı, mantıksal programlama).</div>
+      <div class="peas-c e"><b>Etkileşimli görselleştirme</b>Model çıktılarını yorumlanabilir kılar; insan–yapay zekâ iş birliğini mümkün kılar.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Akış verisi</b>Bir online sınavda öğrencilerin tıklamaları anlık akar. Gecikme, bant genişliği ve eşzamanlı kullanıcı sayısı, algoritmanın doğruluğu kadar önemlidir: cevap 10 saniye geç gelirse geri bildirimin değeri kalmaz.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Alan uzmanlığı">
+  <div class="panel">
+    <div class="kicker">Epistemik köprüler · dene</div>
+    <h2>Alan uzmanlığı: teknik beceri yetmez</h2>
+    <p>Model ne kadar gelişmiş olursa olsun, sahadaki karşılığı çoğu zaman alanı bilen birinin katkısıyla anlam kazanır. Ham veriyi temizlerken, dönüştürürken ve özellik seçerken <b>alan bilgisi</b> gerekir. Aşağıda bir hastaneden gelen farklı yazılmış ilaç kayıtlarını etken maddeye eşle:</p>
+    <div class="lab" id="drugmatch"></div>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Erken dahil et</b>Alan uzmanı yalnızca sonuçları yorumlayan değil, soruyu formüle eden ve hangi verinin toplanacağına karar veren süreçte de olmalıdır. Yanlış problem tanımının yükünü algoritma telafi edemez.</div>
+      <div class="peas-c e"><b>Nedensel çıkarım</b>Neden-sonuç tahminleri yalnızca istatistiksel bağıntıya değil, bağıntıların gerçek hayattaki karşılığının bilinmesine dayanır.</div>
+      <div class="peas-c a"><b>Köprü rolü</b>Bilimsel yöntemle yerel uygulama gerçekliği arasında iki yönlü bilgi akışı; ortak bir dil kurulamazsa yorum ve aktarım sürecinde kopukluk yaşanır.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Siber güvenlik</b>Bir davranış desenini “saldırı” diye işaretlemek yetmez; gerçekten tehdit olup olmadığını o tehdit ortamını bilen operasyon tecrübesi söyler.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 2</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Veri bilimi</td><td>İstatistik + bilgisayar bilimi + alan uzmanlığı; farklı bilim geleneklerinin epistemolojik kabullerini birleştirir</td></tr>
+        <tr><td>Disiplinlerarasılık</td><td>Hem avantaj hem sorun: ortak dil, farklı başarı ölçütleri</td></tr>
+        <tr><td>Pozitivist</td><td>Nesnel, test edilebilir, nedensellik ve genelleme; hipotez–test döngüsü</td></tr>
+        <tr><td>Yorumlayıcı</td><td>Bağlam, anlam, güç ilişkileri; derin içgörü; araştırmacı öznelliğini belirtir</td></tr>
+        <tr><td>Ham veri miti</td><td>Veri seçilir, ölçülür, temsil edilir; çokluk güvenilirlik değildir; çare şeffaf belgeleme</td></tr>
+        <tr><td>Ontoloji</td><td>Gerçek–fiili–ampirik; felsefi ve teknik ontoloji; veri sosyo-teknik üründür</td></tr>
+        <tr><td>İstatistik köprüsü</td><td>Greater statistics: hazırlama, analiz, sunma; tamamlayıcılık</td></tr>
+        <tr><td>Bilgisayar bilimi</td><td>Ölçek, dağıtık işleme, temsil öğrenmesi, ontolojilerle bütünleştirme</td></tr>
+        <tr><td>Alan uzmanlığı</td><td>Problem tanımı, özellik, yorum; erken dahil edilmeli</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_VB_2"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/vb-bolum-2-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/vb.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>
