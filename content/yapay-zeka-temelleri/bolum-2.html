@@ -1,0 +1,214 @@
+<!--
+course: yapay-zeka-temelleri
+course_title: Yapay Zeka Temelleri
+no: 2
+title: Problem Çözme
+quiz: QUIZ_YZ_2
+quiz_file: yz-bolum-2-quiz.js
+scripts: puzzle8.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Yapay Zeka Temelleri · Bölüm 2</div>
+    <h1>Problem Çözme: Önce Problemi Tarif Et</h1>
+    <p class="big-quote">Bir arkadaşına “şuraya nasıl giderim?” diye sorduğunda, cevap verebilmesi için başlangıç noktanı, gidilecek yeri ve yolda neler yapabileceğini bilmesi gerekir. Yapay zekâ da öyle: algoritmayı seçmeden önce problemi doğru tarif etmek gerekir.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Bir problemi beş bileşenle tanımlayabilirsin.</li>
+      <li>Oyuncak (toy) ve gerçek dünya problemlerini ayırabilirsin.</li>
+      <li>Problem türlerini ve yaygın formülasyon hatalarını sayabilirsin.</li>
+      <li>Problem çözme ile planlama arasındaki farkı anlatabilirsin.</li>
+      <li>Aramayı hızlandıran temel teknikleri sıralayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="İyi tanımlı problem: beş bileşen">
+  <div class="panel">
+    <div class="kicker">Problem tanımı</div>
+    <h2>İyi tanımlı bir problemin beş parçası</h2>
+    <p>Bir problem “iyi tanımlı” sayılabilmesi için beş şeyin açıkça söylenmesi gerekir:</p>
+    <svg class="diagram" viewBox="0 0 760 170" role="img" aria-label="Problemin beş bileşeni">
+      <rect class="d-brand" x="4" y="20" width="140" height="120" rx="12"/><text class="d-txt d-c" x="74" y="48">1</text><text class="d-txt d-c" x="74" y="72">Başlangıç</text><text class="d-txt d-c" x="74" y="90">durumu</text><text class="d-sm d-c" x="74" y="118">Neredeyim?</text>
+      <rect class="d-warn" x="154" y="20" width="140" height="120" rx="12"/><text class="d-txt d-c" x="224" y="48">2</text><text class="d-txt d-c" x="224" y="72">Aksiyonlar</text><text class="d-txt d-c" x="224" y="90">ACTIONS(s)</text><text class="d-sm d-c" x="224" y="118">Ne yapabilirim?</text>
+      <rect class="d-ok" x="304" y="20" width="140" height="120" rx="12"/><text class="d-txt d-c" x="374" y="48">3</text><text class="d-txt d-c" x="374" y="72">Geçiş modeli</text><text class="d-txt d-c" x="374" y="90">RESULT(s,a)</text><text class="d-sm d-c" x="374" y="118">Yapınca ne olur?</text>
+      <rect class="d-bad" x="454" y="20" width="140" height="120" rx="12"/><text class="d-txt d-c" x="524" y="48">4</text><text class="d-txt d-c" x="524" y="72">Hedef testi</text><text class="d-txt d-c" x="524" y="90">GOAL(s)</text><text class="d-sm d-c" x="524" y="118">Vardım mı?</text>
+      <rect class="d-box" x="604" y="20" width="150" height="120" rx="12"/><text class="d-txt d-c" x="679" y="48">5</text><text class="d-txt d-c" x="679" y="72">Yol maliyeti</text><text class="d-txt d-c" x="679" y="90">toplam bedel</text><text class="d-sm d-c" x="679" y="118">Ne kadara mal oldu?</text>
+    </svg>
+    <p>İlk üçü birlikte <b>durum uzayını</b> tanımlar: başlangıçtan herhangi bir aksiyon dizisiyle ulaşabileceğin tüm durumlar. Durum uzayı, düğümlerin durumlar, oklarının aksiyonlar olduğu yönlü bir graf gibi düşünülebilir. Maliyetler negatif olmamalıdır.</p>
+    <div class="callout real"><b>Gerçek hayat: Satranç</b><b>Başlangıç:</b> taşların standart dizilişi ve sıra kimde. <b>Aksiyonlar:</b> o durumda yapılabilecek yasal hamleler (rok ve en passant dahil). <b>Geçiş:</b> hamle sonrası yeni tahta. <b>Hedef:</b> şah mat. <b>Maliyet:</b> hamle sayısı, süre ya da kazanılan taş değeri; hangisini seçtiğin “iyi”nin tanımını değiştirir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Oyna: 8-bulmaca">
+  <div class="panel">
+    <div class="kicker">Laboratuvar</div>
+    <h2>8-bulmaca: beş bileşen canlı</h2>
+    <p>Tahtada 8 taş ve bir boşluk var. Boşluğa komşu bir taşı kaydırabilirsin. Hedef, taşları şu sıraya dizmek:
+      <span class="puzzle" style="grid-template-columns:repeat(3,26px);gap:2px;vertical-align:middle"><span style="height:26px;font-size:.8rem">1</span><span style="height:26px;font-size:.8rem">2</span><span style="height:26px;font-size:.8rem">3</span><span style="height:26px;font-size:.8rem">4</span><span style="height:26px;font-size:.8rem">5</span><span style="height:26px;font-size:.8rem">6</span><span style="height:26px;font-size:.8rem">7</span><span style="height:26px;font-size:.8rem">8</span><span class="bl" style="height:26px"></span></span>
+      Kırmızı taşlar yanlış yerde, yeşiller doğru yerde. Taşa tıkla ya da hamle düğmelerini kullan; sağdaki liste problemin beş bileşenini canlı gösterir.</p>
+    <div class="lab" id="puzzle8"></div>
+    <div class="callout idea"><b>Dene</b>Önce kendin çöz; kaç hamle yaptın? Sonra “A* çözsün”e bas. A*, Bölüm 3’te göreceğimiz algoritma: en kısa çözümü garanti eder. Senin hamle sayınla karşılaştır.</div>
+    <div class="callout real"><b>Gerçek hayat: Bir bulmaca uygulaması</b>Telefondaki kaydırmalı bulmaca oyunlarının “ipucu” düğmesi, mevcut durumdan hedefe en kısa yolu bu tür bir aramayla bulur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Oyuncak ve gerçek problemler">
+  <div class="panel">
+    <div class="kicker">Problem örnekleri</div>
+    <h2>Oyuncak problemler ve gerçek problemler</h2>
+    <div class="cols">
+      <div>
+        <h3>Oyuncak (toy) problemler</h3>
+        <p>Kuralları kısa ve kesin bulmacalar: 8-bulmaca, süpürge dünyası, labirent. Algoritmaları anlamak ve test etmek için idealdir. Kuralları basit olduğu için tüm sonuçlar gerçek hayata aynen taşınmaz.</p>
+        <div class="callout idea"><b>Süpürge dünyası</b>İki odalı bir ev, her odada kir olabilir ya da olmayabilir. Ajanın eylemleri: sola git, sağa git, süpür. Toplam 8 olası dünya durumu vardır (2 konum × 4 kir kombinasyonu).</div>
+      </div>
+      <div>
+        <h3>Gerçek dünya problemleri</h3>
+        <p>İnsanların gerçekten önemsediği, tanımı genelde tartışmalı problemler. Belirsizlik, değişen ortam, birden çok hedef ve insan faktörü içerirler.</p>
+        <ul>
+          <li>Uçak seyahati planlama</li>
+          <li>Otonom araç navigasyonu</li>
+          <li>Tedarik zinciri optimizasyonu</li>
+          <li>Akıllı sağlık teşhisi</li>
+          <li>Doğal dil çevirisi</li>
+          <li>Protein tasarımı</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Uçak seyahati</b><b>Durum:</b> bulunduğun havalimanı, saat, önceki uçuşların. <b>Aksiyonlar:</b> uçuş seç, aktarma yap, bilet sınıfını değiştir. <b>Zorluk:</b> fiyatlar değişir, aktarma süreleri kısıtlıdır, hava durumu bozabilir. <b>Maliyet:</b> toplam süre, toplam fiyat ve konfor birlikte düşünülür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Çözümün kalitesi">
+  <div class="panel">
+    <div class="kicker">Çözüm</div>
+    <h2>Çözüm, bir aksiyon dizisidir</h2>
+    <p>Problem tanımlandıktan sonra ajanın işi, başlangıçtan hedefe giden <b>aksiyon dizisini</b> bulmaktır. Arama algoritmaları bunu bir arama ağacı kurarak yapar. Bulunan çözüm ve algoritma, dört ölçütle değerlendirilir:</p>
+    <div class="metrics">
+      <div class="metric"><b>Tamlık</b>Çözüm varsa bulur mu? Labirentte çıkışı mutlaka bulan algoritma tamdır.</div>
+      <div class="metric"><b>Optimallik</b>Bulduğu çözüm en iyisi mi? Gidilecek yere ulaşan yol değil, en kısa yol.</div>
+      <div class="metric"><b>Zaman</b>Kaç düğüm genişletti? (b dallanma, d derinlik: yaklaşık b<sup>d</sup>)</div>
+      <div class="metric"><b>Bellek</b>Aynı anda kaç düğüm tuttu?</div>
+    </div>
+    <div class="callout idea"><b>Denge</b>Bazen hızlı ama en iyi olmayan çözüm yeterlidir; bazen optimallik şarttır. Hangisinin seçileceği problemin ihtiyacına bağlıdır. Bu ölçütleri Bölüm 3’te her algoritma için dolduracağız.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Problem türleri">
+  <div class="panel">
+    <div class="kicker">Sınıflandırma</div>
+    <h2>Problemler farklı eksenlere göre ayrılır</h2>
+    <p>Problemin türü, hangi çözüm yaklaşımının uygun olduğunu belirler.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Eksen</th><th>Bir uç</th><th>Diğer uç</th></tr></thead>
+      <tbody>
+        <tr><td><b>Tanım</b></td><td>İyi tanımlı: bileşenleri net (8-bulmaca, labirent)</td><td>Kötü tanımlı: eksik ya da yoruma açık (“mutlu yaşamak”, “sanat eseri yapmak”). Genelde öğrenme ve bilgi keşfi gerekir.</td></tr>
+        <tr><td><b>Sonuç</b></td><td>Deterministik: aynı eylem hep aynı sonuç (satranç hamlesi)</td><td>Olasılıklı: sonuç şansa bağlı (zar, hava durumu)</td></tr>
+        <tr><td><b>Ajan sayısı</b></td><td>Tek ajan: labirentten çıkmak</td><td>Çok ajan: satranç, trafik. Oyun kuramı ve müzakere devreye girer.</td></tr>
+        <tr><td><b>Ortam</b></td><td>Statik: arama sırasında değişmez (sudoku)</td><td>Dinamik: değişir (canlı trafik, borsa)</td></tr>
+        <tr><td><b>Gözlem</b></td><td>Tam gözlemlenebilir: her şey görünür (satranç)</td><td>Kısmi: eksik ya da gürültülü bilgi (kart oyunu, radar)</td></tr>
+        <tr><td><b>Hedef</b></td><td>Tek hedef: belirli bir noktaya varmak</td><td>Çok hedef: birden çok ve farklı öncelikli (kargo: maliyet, süre, güvenlik)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Aynı ev, iki problem</b>“Evi toparla” iyi tanımlı değil: toparlanmış ev ne demek? Ama “çamaşırları katla ve dolaba yerleştir” hedef ve eylemleriyle net bir problemdir. Yapay zekâ ile de önce belirsiz isteği iyi tanımlı bir probleme çevirmek gerekir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Formülasyon hataları">
+  <div class="panel">
+    <div class="kicker">Hatalar · kartlara tıkla</div>
+    <h2>Altı yaygın formülasyon hatası</h2>
+    <p>En iyi algoritma bile yanlış tarif edilmiş bir problemi çözemez. Kartı çevir, sonucunu gör.</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Hata 1</b>Durumun eksik tanımlanması<span class="tip">tıkla</span></span><span class="back"><b class="k">Sonuç</b>Rota planlarken trafiği durum bilgisine koymazsan önerilen yol gerçekte en hızlı olmayabilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Hata 2</b>Belirsiz hedef testi<span class="tip">tıkla</span></span><span class="back"><b class="k">Sonuç</b>“En kısa rota” mesafe mi, süre mi? Hedef net değilse algoritma farklı çözümler arasında gidip gelir ya da vardığını anlayamaz.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Hata 3</b>Uygun olmayan maliyet fonksiyonu<span class="tip">tıkla</span></span><span class="back"><b class="k">Sonuç</b>Uçuşu yalnızca mesafeyle ölçersen aktarma sayısı ve bilet fiyatı gözden kaçar; “en iyi” rota pratikte kötü olabilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Hata 4</b>Gereksiz geniş durum uzayı<span class="tip">tıkla</span></span><span class="back"><b class="k">Sonuç</b>8-bulmacada taşların rengini de duruma koyarsan, aynı bulmaca için çok daha fazla durum üretirsin; arama yavaşlar, bellek tükenebilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Hata 5</b>Tekrar eden durumları önlememek<span class="tip">tıkla</span></span><span class="back"><b class="k">Sonuç</b>Aynı yere defalarca dönmek zaman ve belleği katlayarak harcar. Labirentte aynı koridorda dönüp durmak gibi.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Hata 6</b>Ortamı yanlış varsaymak<span class="tip">tıkla</span></span><span class="back"><b class="k">Sonuç</b>Sabit hızla gidebileceğini varsayan bir sürüş algoritması, trafik değişince başarısız olur. Statik sandığın ortam dinamik çıkmıştır.</span></button>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="Gerçek dünya zorlukları">
+  <div class="panel">
+    <div class="kicker">Gerçek dünya</div>
+    <h2>Gerçek problemleri zorlaştıran altı şey</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Zorluk</th><th>Örnek</th><th>Çözüm yaklaşımı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Belirsizlik</b></td><td>Ani hava değişimleri</td><td>Olasılık temelli modelleme (Bayes ağları, Markov süreçleri)</td></tr>
+        <tr><td><b>Dinamik ortam</b></td><td>Canlı trafikte rota planlama</td><td>Yeniden planlama, gerçek zamanlı arama</td></tr>
+        <tr><td><b>Kısmi gözlem</b></td><td>Kameranın kör noktaları</td><td>Filtreleme (Kalman, parçacık filtresi), sensör birleştirme</td></tr>
+        <tr><td><b>Ölçeklenebilirlik</b></td><td>Çok şehirli en kısa tur (gezgin satıcı)</td><td>Sezgisel arama, durum uzayını daraltma, problemi bölme</td></tr>
+        <tr><td><b>Çatışan hedefler</b></td><td>Lojistikte maliyet ↔ teslimat süresi</td><td>Çok amaçlı optimizasyon, Pareto analizi</td></tr>
+        <tr><td><b>İnsan ve etik</b></td><td>Otonom aracın kaza anındaki seçimi</td><td>Etik kuralları tasarıma katmak, insan denetimi</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Navigasyon uygulaması</b>Yolda kaza olunca rota yeniden hesaplanır. Bu, dinamik ortamda “yeniden planlama”nın günlük hayattaki hâlidir. Ortam değiştiği için ilk bulunan plan değişmek zorundadır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Problem çözme ve planlama">
+  <div class="panel">
+    <div class="kicker">İlişki</div>
+    <h2>Problem çözme “ne”, planlama “ne zaman ve sırayla”</h2>
+    <svg class="diagram" viewBox="0 0 760 130" role="img" aria-label="Problem tanımından planlamaya geçiş süreci">
+      <defs><marker id="ar3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--node-stroke)"/></marker></defs>
+      <rect class="d-brand" x="4" y="20" width="170" height="90" rx="12"/><text class="d-txt d-c" x="89" y="52">1 · Problem tanımı</text><text class="d-sm d-c" x="89" y="78">başlangıç, hedef, eylemler</text>
+      <rect class="d-warn" x="198" y="20" width="170" height="90" rx="12"/><text class="d-txt d-c" x="283" y="52">2 · Çözüm bulma</text><text class="d-sm d-c" x="283" y="78">arama ile eylem dizisi</text>
+      <rect class="d-ok" x="392" y="20" width="170" height="90" rx="12"/><text class="d-txt d-c" x="477" y="52">3 · Planlama</text><text class="d-sm d-c" x="477" y="78">zaman, kaynak, kısıt</text>
+      <rect class="d-bad" x="586" y="20" width="170" height="90" rx="12"/><text class="d-txt d-c" x="671" y="52">4 · Uygula, izle</text><text class="d-sm d-c" x="671" y="78">değişirse yeniden planla</text>
+      <path class="d-line" d="M174 65 H196" marker-end="url(#ar3)"/><path class="d-line" d="M368 65 H390" marker-end="url(#ar3)"/><path class="d-line" d="M562 65 H584" marker-end="url(#ar3)"/>
+    </svg>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Problem çözme</th><th>Planlama</th></tr></thead>
+      <tbody>
+        <tr><td><b>Soru</b></td><td>Ne yapılmalı?</td><td>Ne zaman, hangi sırayla, hangi kaynakla?</td></tr>
+        <tr><td><b>Çıktı</b></td><td>Eylem dizisi</td><td>Zamanlamalı, kaynak atamalı eylem dizisi</td></tr>
+        <tr><td><b>Zorluk</b></td><td>Durum uzayı araması</td><td>Zaman ve kaynak kısıtlarıyla optimizasyon</td></tr>
+        <tr><td><b>Örnek</b></td><td>Bulmaca çözme, rota bulma</td><td>Üretim planlama, proje yönetimi</td></tr>
+      </tbody>
+    </table></div>
+    <p>Planlamanın üç tipik türü: <b>klasik</b> (belirli, tam gözlemlenebilir, durağan ortam; sabit üretim hattı), <b>gerçek zamanlı</b> (dinamik ortam, kısa süre; trafikte ani karar) ve <b>koşullu</b> (belirsizlik için alternatif planlar; hava durumuna göre drone rotaları).</p>
+    <div class="callout real"><b>Gerçek hayat: Düğün hazırlığı</b>Problem çözme: “Salon, yemek ve müzik gerekli” (ne yapılmalı). Planlama: “Salonu 3 ay önce, yemeği 1 ay önce ayarla, müzik provası son hafta” (ne zaman, hangi sırayla, hangi bütçeyle). Biri yönü, diğeri takvimi verir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Performans iyileştirme teknikleri">
+  <div class="panel">
+    <div class="kicker">Performans</div>
+    <h2>Büyük durum uzaylarında beş kısayol</h2>
+    <p>Doğrudan arama çoğu zaman çok yavaştır. Aşağıdaki teknikler aramayı hızlandırır ya da belleği korur.</p>
+    <div class="ladder">
+      <div class="step"><span class="lv">1</span><div><b>Durum uzayını daraltmak (budama)</b><p>Her eylemi denemek yerine yalnızca umut vadedenleri dikkate al. Satranç motoru, kötü görünen hamle dallarını hiç açmaz.</p></div></div>
+      <div class="step"><span class="lv">2</span><div><b>Tekrar eden durumları önlemek</b><p>Gezilen durumları bir hash set’te sakla; aynı duruma ikinci kez girme. Yeni sayfa açarken “bunu zaten okudum” demek gibi.</p></div></div>
+      <div class="step"><span class="lv">3</span><div><b>Sezgisel (heuristic) kullanmak</b><p>Hedefe yakınlık tahmini aramayı yönlendirir. 8-bulmacada taşların Manhattan uzaklığı toplamı gibi. En etkili yöntemlerden biri.</p></div></div>
+      <div class="step"><span class="lv">4</span><div><b>Böl ve yönet</b><p>Büyük problemi bağımsız alt problemlere ayır, ayrı çöz, sonuçları birleştir; paralel çalışmaya da imkân verir. Bir kitabı bölümlere bölüp arkadaşlarla paylaşıp çalışmak gibi.</p></div></div>
+      <div class="step"><span class="lv">5</span><div><b>Belleği dengelemek</b><p>Yinelemeli derinleşme, DFS’in düşük belleğini ve BFS’in tamlığını birleştirir.</p></div></div>
+    </div>
+    <div class="callout idea"><b>Sonraki adım</b>Bu tekniklerin pratiğini Bölüm 3’te göreceksin: BFS, DFS, UCS, A* ve Greedy algoritmaları tam olarak bunları kullanır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 2</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Problem tanımı</td><td>Başlangıç durumu, aksiyonlar, geçiş modeli, hedef testi, yol maliyeti</td></tr>
+        <tr><td>Durum uzayı</td><td>İlk üç bileşenin tanımladığı, ulaşılabilir tüm durumların yönlü grafı</td></tr>
+        <tr><td>Problem örnekleri</td><td>Oyuncak: 8-bulmaca, süpürge dünyası. Gerçek: uçuş, tedarik zinciri, protein tasarımı</td></tr>
+        <tr><td>Çözüm ölçütleri</td><td>Tamlık, optimallik, zaman, bellek</td></tr>
+        <tr><td>Problem türleri</td><td>İyi/kötü tanımlı, deterministik/olasılıklı, tek/çok ajan, statik/dinamik, tam/kısmi gözlem, tek/çok hedef</td></tr>
+        <tr><td>Formülasyon hataları</td><td>Eksik durum, belirsiz hedef, kötü maliyet, geniş uzay, tekrar eden durum, yanlış ortam varsayımı</td></tr>
+        <tr><td>Planlama</td><td>Problem çözmenin bulduğu yolu zaman ve kaynaklara oturtur</td></tr>
+        <tr><td>Hızlandırma</td><td>Budama, tekrar önleme, sezgisel, böl ve yönet, bellek dengesi</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

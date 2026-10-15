@@ -429,3 +429,15 @@ svg.nest-svg { width: 100%; height: auto; }
 .ladder .step { display: grid; grid-template-columns: 2.2em 1fr; gap: 12px; align-items: start; border: 2px solid var(--line); border-radius: 12px; padding: 10px 14px; background: var(--surface); }
 .ladder .step .lv { width: 2em; height: 2em; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; font-weight: 700; }
 .ladder .step p { margin: 2px 0 0; color: var(--muted); font-size: .92rem; }
+
+/* ---------- 8-bulmaca ---------- */
+.p8 { display: grid; grid-template-columns: 210px 1fr; gap: 18px; align-items: start; }
+.p8-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-width: 210px; }
+.p8-tile { aspect-ratio: 1; font: inherit; font-size: 1.6rem; font-weight: 800; border-radius: 12px; border: 2px solid var(--line); background: var(--surface); color: var(--text); cursor: pointer; }
+.p8-tile.ok { background: var(--ok-soft); border-color: var(--ok); }
+.p8-tile.bad { background: var(--bad-soft); border-color: var(--bad); }
+.p8-tile.blank { background: transparent; border-style: dashed; cursor: default; }
+.p8-comp { display: grid; gap: 4px; margin-bottom: 8px; }
+.p8-row { display: grid; grid-template-columns: 10.5em 1fr; gap: 8px; padding: 4px 0; border-bottom: 1px dashed var(--line); font-size: .92rem; }
+.p8-acts { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+@media (max-width: 700px) { .p8 { grid-template-columns: 1fr; } .p8-board { margin: 0 auto; } .p8-row { grid-template-columns: 1fr; } }
