@@ -250,4 +250,18 @@
     function pick(i) { pressGroup(btns, i); info.innerHTML = '<h3>' + D[i][0] + '</h3><p><b>Yapay zekâya katkısı:</b> ' + D[i][1] + '</p><p><b>Bugün nerede görürsün:</b> ' + D[i][2] + '</p>'; }
     pick(0);
   })();
+  /* Alt alan etiketleri: tıklayınca kısa açıklama */
+  (function () {
+    var box = document.getElementById('fields'), info = document.getElementById('field-info'); if (!box || !info) return;
+    var chips = Array.prototype.slice.call(box.querySelectorAll('.chip'));
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        var open = c.getAttribute('aria-pressed') === 'true';
+        chips.forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+        if (open) { info.innerHTML = '<b>Bir alana dokun</b>Alt alanlardan birine tıkla; ne işe yaradığını ve günlük hayattan bir örneğini göster.'; return; }
+        c.setAttribute('aria-pressed', 'true');
+        info.innerHTML = '<b>' + c.textContent + '</b>' + c.getAttribute('data-info');
+      });
+    });
+  })();
 })();
