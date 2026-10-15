@@ -17,6 +17,7 @@ PAGE = '''<!doctype html>
 <body>
 
 <header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa">⌂</a>
   <a class="back" href="index.html">← Bölümler</a>
   <span class="title">Bölüm {no} · {title}</span>
   <button class="btn" id="toc-open" type="button">İçindekiler</button>

@@ -514,3 +514,5 @@ a.row:hover .rt { color: var(--brand); }
 .row .rt { flex: 1; }
 .row.soon { opacity: .55; }
 .row.more .rt { color: var(--brand); font-weight: 600; }
+
+.topbar a.back.home { font-size: 1.15rem; margin-right: 4px; }

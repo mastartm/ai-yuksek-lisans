@@ -48,22 +48,15 @@
     return el;
   }
 
-  /* Giriş sayfası: her ders bir liste, hazır bölümler doğrudan tıklanır */
+  /* Giriş sayfası: ders kartları, tıklayınca dersin bölüm listesine gider */
   var coursesBox = document.getElementById('courses');
   if (coursesBox) {
-    coursesBox.className = 'courselists';
     C.forEach(function (c) {
-      var ready = c.chapters.filter(function (x) { return x[2]; });
-      var d = document.createElement('details'); d.className = 'coursebox'; d.open = ready.length > 0;
-      var sm = document.createElement('summary');
-      sm.innerHTML = '<span class="ct">' + c.title + '</span><span class="tag' + (ready.length ? '' : ' soon') + '">' + ready.length + ' / ' + c.chapters.length + ' bölüm hazır</span>';
-      d.appendChild(sm);
-      var list = document.createElement('div'); list.className = 'chlist';
-      ready.forEach(function (x) { list.appendChild(row(c.slug + '/bolum-' + x[0] + '.html', x[0], x[1], true)); });
-      var more = document.createElement('a'); more.className = 'row more'; more.href = c.slug + '/index.html';
-      more.innerHTML = '<span class="rt">Tüm bölümleri gör (' + (c.chapters.length - ready.length) + ' bölüm yakında) →</span>';
-      list.appendChild(more);
-      d.appendChild(list); coursesBox.appendChild(d);
+      var ready = c.chapters.filter(function (x) { return x[2]; }).length;
+      var a = document.createElement('a'); a.className = 'card'; a.href = c.slug + '/index.html';
+      a.innerHTML = '<div class="num">DERS</div><h3>' + c.title + '</h3><p>' + c.blurb + '</p>' +
+        '<span class="tag' + (ready ? '' : ' soon') + '">' + ready + ' / ' + c.chapters.length + ' bölüm hazır</span>';
+      coursesBox.appendChild(a);
     });
   }
 
