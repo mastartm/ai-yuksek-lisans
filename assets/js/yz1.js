@@ -118,7 +118,7 @@
       tg.addEventListener('click', function () { X[i][1] = X[i][1] ? 0 : 1; tg.setAttribute('aria-pressed', X[i][1] ? 'true' : 'false'); calc(); });
       var sl = el('input'); sl.type = 'range'; sl.min = -3; sl.max = 3; sl.step = 0.5; sl.value = W[i]; sl.setAttribute('aria-label', x[0] + ' ağırlığı');
       var out = el('output'); sl.addEventListener('input', function () { W[i] = +sl.value; out.textContent = (W[i] > 0 ? '+' : '') + W[i]; calc(); }); out.textContent = (W[i] > 0 ? '+' : '') + W[i];
-      r.appendChild(tg); r.appendChild(el('span', 'mm-note', 'önem (ağırlık):')); r.appendChild(sl); r.appendChild(out); rows.appendChild(r);
+      r.appendChild(tg); r.appendChild(el('span', 'mm-note', 'etki (ağırlık):')); r.appendChild(sl); r.appendChild(out); rows.appendChild(r);
     });
     var rb = el('div', 'neu-row'); rb.appendChild(el('span', '', '<b>Tembellik payı</b> (bias)')); rb.appendChild(el('span', 'mm-note', ''));
     var sb = el('input'); sb.type = 'range'; sb.min = -4; sb.max = 2; sb.step = 0.5; sb.value = bias; sb.setAttribute('aria-label', 'Eşik değeri');
