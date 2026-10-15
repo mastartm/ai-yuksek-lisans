@@ -63,24 +63,24 @@
         <rect class="d-brand" x="5" y="30" width="170" height="110" rx="14"/>
         <text class="d-txt d-c d-big" x="90" y="62">1. Başlangıç</text>
         <text class="d-sm d-c" x="90" y="88">Şu an neredeyim?</text>
-        <text class="d-txt d-c" x="90" y="116">Yurt kapısı</text>
+        <text class="d-txt d-c" x="90" y="116">Kızılay</text>
         <rect class="d-warn" x="200" y="30" width="170" height="110" rx="14"/>
         <text class="d-txt d-c d-big" x="285" y="62">2. Eylemler</text>
         <text class="d-sm d-c" x="285" y="88">Ne yapabilirim?</text>
-        <text class="d-txt d-c" x="285" y="116">Komşu binaya yürü</text>
+        <text class="d-txt d-c" x="285" y="116">Sıhhiye’ye git</text>
         <rect class="d-ok" x="395" y="30" width="170" height="110" rx="14"/>
         <text class="d-txt d-c d-big" x="480" y="62">3. Geçiş</text>
         <text class="d-sm d-c" x="480" y="88">Yapınca ne olur?</text>
-        <text class="d-txt d-c" x="480" y="116">Konumum değişir</text>
+        <text class="d-txt d-c" x="480" y="116">Artık Sıhhiye’desin</text>
         <rect class="d-bad" x="590" y="30" width="165" height="110" rx="14"/>
         <text class="d-txt d-c d-big" x="672" y="62">4. Hedef testi</text>
         <text class="d-sm d-c" x="672" y="88">Vardım mı?</text>
-        <text class="d-txt d-c" x="672" y="116">Sınav salonu mu?</text>
+        <text class="d-txt d-c" x="672" y="116">Ulus’ta mıyım?</text>
         <path class="d-line" d="M175 85 H198" marker-end="url(#ar1)"/><path class="d-line" d="M370 85 H393" marker-end="url(#ar1)"/><path class="d-line" d="M565 85 H588" marker-end="url(#ar1)"/>
       </g>
     </svg>
     <div class="callout idea"><b>Durum nedir?</b>Problemin bir andaki tam görüntüsüdür. Haritada “şu an hangi binadayım” bir durumdur; satrançta tahtanın o anki dizilişi bir durumdur. Tüm olası durumlara <b>durum uzayı</b> denir.</div>
-    <div class="callout real"><b>Gerçek hayat</b>Rubik küpünde durum, altı yüzün renk dizilişidir; eylem, bir yüzü çevirmektir; hedef testi, her yüzün tek renk olup olmadığına bakmaktır. Çözücü yazılım tam olarak bu dört parçayı kullanır.</div>
+    <div class="callout real"><b>Gerçek hayat: Kızılay’dan Ulus’a</b>Atatürk Bulvarı boyunca Kızılay’dan Ulus’a gitmek istiyorsun. <b>Başlangıç:</b> Kızılay. <b>Eylem:</b> bir sonraki durağa gitmek (yürü, otobüse ya da metroya bin). <b>Geçiş:</b> Sıhhiye’ye gidersen artık Sıhhiye’desin. <b>Hedef testi:</b> “Ulus’a vardım mı?” sorusu. Bir kavşakta birden fazla yol varsa seçenekler çoğalır; ağacın dallanması tam olarak budur.</div>
   </div>
 </section>
 
@@ -112,7 +112,7 @@
       <div><h3>Sınır (frontier / açık liste)</h3><p>Üretilmiş ama henüz genişletilmemiş düğümler. Algoritmanın “yapılacaklar listesi”dir. Hangi düğümü bu listeden alacağı, algoritmanın kimliğidir.</p></div>
       <div><h3>Kapalı liste</h3><p>Zaten genişletilmiş düğümler. Aynı yere ikinci kez girip döngüye düşmemek için tutulur.</p></div>
     </div>
-    <div class="callout real"><b>Gerçek hayat</b>Bir web tarayıcı (crawler) önüne düşen bağlantıları “gidilecekler” listesine yazar; gezdiklerini “gezildi” listesine koyar. Gidilecekler listesi frontier, gezilenler kapalı listedir.</div>
+    <div class="callout real"><b>Gerçek hayat: Wikipedia’da link link gezmek</b>Bir maddeyi okurken ilgini çeken bağlantıları yeni sekmede açıyorsun. Henüz okumadığın açık sekmeler <b>sınırdır (frontier)</b>; okuyup kapattıkların <b>kapalı listedir</b>. Aynı maddeyi ikinci kez açmamak için neyi okuduğunu hatırlarsın. Web tarayıcılar (crawler) bağlantılara aynen böyle bakar.</div>
   </div>
 </section>
 
@@ -174,7 +174,7 @@
       <rect class="d-plain" x="430" y="190" width="140" height="40" rx="10"/><text class="d-txt d-c" x="500" y="215">Açgözlü (Greedy)</text>
       <rect class="d-plain" x="600" y="190" width="100" height="40" rx="10"/><text class="d-txt d-c" x="650" y="215">A*</text>
     </svg>
-    <div class="callout real"><b>Gerçek hayat</b>Gözün bağlı bir labirentte yürümek kör aramadır: yalnızca dokunduğun duvarlardan öğrenirsin. Çıkışın hangi yönde olduğunu biliyorsan (ses geliyor, ışık görüyorsun) bu bir sezgisel bilgidir ve seni yönlendirir.</div>
+    <div class="callout real"><b>Gerçek hayat: Büyük bir AVM’de mağaza aramak</b>Haritan yok. Her katı ve her koridoru sırayla gezerek mağazayı bulmaya çalışırsan bu <b>kör aramadır</b>: hiçbir ipucu kullanmıyorsun. Ama girişteki kat planına bakıp “o mağaza üst katta, sağ tarafta” dersen <b>sezgisel bilgi</b> kullanmış olursun; gezmeyeceğin onlarca koridoru baştan elersin.</div>
   </div>
 </section>
 
@@ -191,7 +191,7 @@
       <div class="metric"><b>Zaman / bellek: <span class="no">O(b^d)</span></b>Bellek yükü ağır basar.</div>
     </div>
     <div class="callout idea"><b>Dikkat</b>Yukarıdaki örnekte BFS en az <i>adımlı</i> yolu buldu, ama dakikalar eşit değil. Bulunan yol en <i>hızlı</i> yol olmayabilir. Bunu iki slayt sonra UCS ile düzelteceğiz.</div>
-    <div class="callout real"><b>Gerçek hayat</b>“Arkadaşımın arkadaşının arkadaşı” zinciri: bir sosyal ağda sana en az kaç kişi uzaklıkta olduğunu BFS bulur. Önce arkadaşların, sonra onların arkadaşları… Web tarayıcıların bağlantıları ilk önce yakın olandan gezmesi de BFS’tir.</div>
+    <div class="callout real"><b>Gerçek hayat: LinkedIn’deki “1., 2., 3. derece bağlantı”</b>Önce doğrudan tanıdıkların (1. derece), sonra onların tanıdıkları (2. derece), sonra onların tanıdıkları (3. derece) listelenir. Bu, BFS’in katman katman ilerlemesidir. Sana “en az kaç kişi üzerinden ulaşırım” sorusunun cevabını verir, ama aradaki ilişkilerin ne kadar güçlü olduğunu saymaz. Bu yüzden ölçüt “adım sayısı”dır.</div>
   </div>
 </section>
 
@@ -208,7 +208,7 @@
       <div class="metric"><b>Bellek: <span class="yes">O(b·m)</span></b>Yalnızca o anki yolu tutar. Çok hafiftir.</div>
     </div>
     <div class="callout idea"><b>Çözüm yolları</b><b>Derinlik sınırlı arama (DLS):</b> “En fazla L adım in” diye bir sınır koyar; sonsuz dala girmeyi önler ama sınır yanlışsa çözümü kaçırır. <b>Yinelemeli derinleşme (IDDFS):</b> sınırı 1, 2, 3… diye artırarak DLS’i tekrar tekrar çalıştırır; DFS’in belleğini, BFS’in tamlığını alır.</div>
-    <div class="callout real"><b>Gerçek hayat</b>Bilgisayarında “bu dosyayı bul” dediğinde bir klasörün içinin içine kadar inip geri çıkman DFS’tir. Sudoku çözücüler de bir sayıyı dener, tutmazsa geri alır, yani DFS ve geri izleme kullanır.</div>
+    <div class="callout real"><b>Gerçek hayat: Sudoku çözmek</b>Bir kareye bir rakam yazarsın, onun üzerine bir sonrakini, bir sonrakini… Bir noktada kural bozulursa en son yazdığın rakamı silip bir sonraki rakamı denersin. Bu <b>DFS ve geri izlemedir (backtracking)</b>: bir seçimi sonuna kadar götürür, çıkmaza girince geri dönersin. Bilgisayarında bir dosyayı klasörlerin içine içine inerek aramak da böyledir.</div>
   </div>
 </section>
 
@@ -217,7 +217,7 @@
   <div class="panel">
     <div class="kicker">Kör arama · 3</div>
     <h2>Tek tip maliyet araması (UCS)</h2>
-    <p>Yolların süreleri (maliyetleri) farklıysa “en az adım” ile “en kısa süre” aynı şey değildir. UCS her adımda <b>şimdiye kadar en ucuza gelinen</b> düğümü genişletir. Sınır bir <b>öncelik kuyruğu</b>dur; anahtar, başlangıçtan beri harcanan maliyet <b>g</b>’dir. Kenarlardaki sayılar yürüme dakikalarıdır.</p>
+    <p>Yolların süreleri (maliyetleri) farklıysa “en az adım” ile “en kısa süre” aynı şey değildir. UCS her adımda <b>şimdiye kadar en ucuza gelinen</b> düğümü genişletir. Sınır bir <b>öncelik kuyruğu</b>dur; anahtar, başlangıçtan beri harcanan maliyet <b>g</b>’dir. Harita bu ders için uydurulmuş bir kampüstür (gerçek bir yeri göstermez); kenarlardaki sayılar yürüme dakikalarıdır.</p>
     <div class="lab graphlab" data-algos="bfs,ucs" data-algo="ucs" data-weights="true" data-show-h="true"></div>
     <p><b>Dene:</b> yukarıda BFS ve UCS’i sırayla çalıştır. BFS yolu 23 dakikada bitirir; UCS 18 dakikada. Aynı harita, farklı strateji.</p>
     <div class="metrics">
@@ -225,7 +225,7 @@
       <div class="metric"><b>Optimal: <span class="yes">evet</span></b>En düşük maliyetli yolu garanti eder.</div>
       <div class="metric"><b>Bedel: <span class="no">çok düğüm</span></b>Hedefi “bilmediği” için her yöne eşit yayılır.</div>
     </div>
-    <div class="callout real"><b>Gerçek hayat</b>Uçak bileti uygulamaları: aktarmalı uçuşlarda adım sayısı değil toplam fiyat (veya süre) önemlidir. Navigasyon uygulamaları da “en az kavşak” yerine “en az süre” için UCS’in torunlarını (Dijkstra, A*) kullanır.</div>
+    <div class="callout real"><b>Gerçek hayat: Ankara’da Kızılay’dan AŞTİ’ye gitmek</b>En az durakla giden hat ile en az sürede giden hat her zaman aynı olmaz: biri az duraklı ama yavaş olabilir, diğeri çok duraklı ama hızlı. “En az durak” BFS’in, “en az süre” UCS’in sorusudur. Navigasyon uygulamaları süreyi esas aldığı için UCS’in torunlarını (Dijkstra, A*) kullanır. Uçak biletinde aktarma sayısı yerine toplam fiyatı aramak da aynı fikirdir.</div>
   </div>
 </section>
 
@@ -235,17 +235,19 @@
     <div class="kicker">Kör arama · 4</div>
     <h2>Çift yönlü arama: ortada buluşalım</h2>
     <p>İki arama aynı anda yürür: biri başlangıçtan ileri, biri hedeften geri. Çemberler ortada çakışınca yol bulunmuştur.</p>
-    <svg class="diagram" viewBox="0 0 760 250" role="img" aria-label="Tek yönlü arama büyük bir daire, çift yönlü arama iki küçük daire ile alanı kaplar">
-      <text class="d-txt" x="10" y="22">Tek yönlü: büyük daire</text>
-      <circle class="d-warn" cx="140" cy="130" r="95" opacity=".6"/><circle class="d-brand" cx="140" cy="130" r="7"/><text class="d-sm d-c" x="140" y="118">Başla</text>
-      <circle class="d-bad" cx="330" cy="130" r="7"/><text class="d-sm d-c" x="330" y="118">Hedef</text><path class="d-dash" d="M147 130 H323"/>
-      <text class="d-txt" x="410" y="22">Çift yönlü: iki küçük daire</text>
-      <circle class="d-ok" cx="520" cy="130" r="48" opacity=".7"/><circle class="d-ok" cx="660" cy="130" r="48" opacity=".7"/>
-      <circle class="d-brand" cx="480" cy="130" r="7"/><text class="d-sm d-c" x="480" y="118">Başla</text>
-      <circle class="d-bad" cx="700" cy="130" r="7"/><text class="d-sm d-c" x="700" y="118">Hedef</text>
-      <circle class="d-plain" cx="590" cy="130" r="7"/><text class="d-sm d-c" x="590" y="165">buluşma</text>
-      <text class="d-sm" x="10" y="240">Alan = düğüm sayısı: iki küçük daire, tek büyük daireden çok daha az yer kaplar.</text>
+    <svg class="diagram" viewBox="0 0 760 300" role="img" aria-label="Tek yönlü arama büyük bir daire, çift yönlü arama ortada buluşan iki küçük daire ile alanı kaplar">
+      <text class="d-txt" x="10" y="22">Tek yönlü: tek büyük daire</text>
+      <circle class="d-warn" cx="150" cy="160" r="130" opacity=".55"/>
+      <circle class="d-brand" cx="150" cy="160" r="8"/><text class="d-sm d-c" x="150" y="146">Başla</text>
+      <circle class="d-bad" cx="280" cy="160" r="8"/><text class="d-sm d-c" x="280" y="146">Hedef</text>
+      <path class="d-dash" d="M158 160 H272"/>
+      <text class="d-txt" x="400" y="22">Çift yönlü: ortada buluşan iki küçük daire</text>
+      <circle class="d-ok" cx="500" cy="160" r="65" opacity=".6"/><circle class="d-ok" cx="630" cy="160" r="65" opacity=".6"/>
+      <circle class="d-brand" cx="500" cy="160" r="8"/><text class="d-sm d-c" x="500" y="146">Başla</text>
+      <circle class="d-bad" cx="630" cy="160" r="8"/><text class="d-sm d-c" x="630" y="146">Hedef</text>
+      <circle class="d-plain" cx="565" cy="160" r="7"/><text class="d-sm d-c" x="565" y="198">buluşma noktası</text>
     </svg>
+    <p class="mm-note">Başla–Hedef uzaklığı iki çizimde de aynı. Çift yönlü aramada her yön yalnızca yarı yola kadar gider. Bu düz çizimde alan yarıya iner; gerçek arama ağaçlarında fark çok daha büyüktür (üstel).</p>
     <div class="cols">
       <div>
         <h3>Neden hızlı?</h3>
@@ -261,7 +263,7 @@
         </ul>
       </div>
     </div>
-    <div class="callout real"><b>Gerçek hayat</b>“İkimizin ortak bir tanıdığı var mı?” sorusu: seni ve karşındakini ayrı ayrı genişletip ortak tanıdıkta buluşturursun. “Ağ üzerinde A noktasından B noktasına en kısa yol” hesapları (rota planlama) da çoğu zaman iki uçtan başlar.</div>
+    <div class="callout real"><b>Gerçek hayat: “Altı derece” ve Kevin Bacon oyunu</b>İki yabancıyı ortak tanıdıklarla bağlamak istiyorsun. Yalnızca birinden yayılırsan çevresindeki herkesi, onların çevresindeki herkesi taramak zorunda kalırsın. İkisinden birden yayılırsan her biri yalnızca 2-3 adım gider ve ortada ortak biri çıkar. Harita servisleri de uzun rotaları (örneğin Ankara–İstanbul) bazen iki uçtan birden hesaplayıp ortada buluşturur.</div>
   </div>
 </section>
 
@@ -283,7 +285,7 @@
     </table>
     </div>
     <div class="callout idea"><b>Karar akışı</b>1) Maliyetler eşit mi değil mi? Değilse UCS. &nbsp;2) Belleğin yetmiyor mu? DFS/DLS. &nbsp;3) Hedef tek ve çok derinde mi? Çift yönlü. &nbsp;4) Küçük ve eşit mi? BFS yeter.</div>
-    <div class="callout real"><b>Üç senaryo</b>Web’de bir sayfa bulmak: BFS (yakın sayfalar önce). Çok geniş ve derin bir dizinde bir dosya aramak, RAM az: DFS/DLS. Şehirler arası en ucuz rota: UCS ve çok büyük haritada çift yönlü.</div>
+    <div class="callout real"><b>Üç senaryo</b>Bir sosyal ağda en az aracıyla ulaşmak: BFS. Ankara metrosunda “en az süre”yi aramak ya da uçak biletlerinde en ucuz aktarmalı rotayı bulmak: UCS. İki kişiyi en kısa tanıdık zinciriyle bağlamak veya şehirler arası çok uzun bir rota hesaplamak: çift yönlü. Belleği çok kısıtlı bir cihazda çok derin bir klasör ağacını taramak: DFS/DLS.</div>
   </div>
 </section>
 
@@ -304,7 +306,7 @@
     <p>En basit kullanım: sırada <b>h’si en küçük</b> düğümü genişlet. Yani her zaman hedefe en yakın görüneni seç. Hızlıdır ama yoldaki maliyeti hiç saymaz. Aşağıda Greedy’i ve karşılaştırma için UCS’i dene; sarı düğümlerin altındaki sayı h’dir (tahmini kalan dakika).</p>
     <div class="lab graphlab" data-algos="greedy,ucs" data-algo="greedy" data-weights="true" data-show-h="true"></div>
     <p><b>Ne oldu?</b> Greedy hedefe “yakın” görünen kuzey rotasına gitti ve 28 dakikalık yolda kaldı. UCS’in bulduğu güney rota 18 dakika. Greedy ne tam ne optimaldir.</p>
-    <div class="callout real"><b>Gerçek hayat</b>Bir şehirde kalabalık hedefe doğru yürümek: “hedef şu yönde” diyerek en çok o yöne ilerlemek, kapalı bir yol veya nehir çıkana kadar işe yarar. Robot süpürgelerin düz çizgide engele kadar gitmesi gibi.</div>
+    <div class="callout real"><b>Gerçek hayat: Mogan Gölü’nün karşı kıyısına gitmek</b>Göl kenarındasın ve karşı kıyıdaki bir kafeye gitmek istiyorsun. Yalnızca kuşuçuşu en yakın görünen yöne gidersen önce göle dayanırsın; kıyıdan dolaşman gerektiğini orada anlarsın. Kuşuçuşu mesafe yön verir ama gölü, çıkmaz sokağı ya da yokuşu bilmez. Greedy’nin zayıflığı budur.</div>
   </div>
 </section>
 
@@ -329,7 +331,7 @@
       <div class="metric"><b>Optimal: <span class="yes">evet</span></b>h kabul edilebilirse (sonraki slayt).</div>
       <div class="metric"><b>Bellek: <span class="no">çok</span></b>Tüm sınırı tutar; büyük uzayda asıl dar boğaz.</div>
     </div>
-    <div class="callout real"><b>Gerçek hayat</b>Oyunlarda karakterin yol bulması (NPC’lerin duvarların etrafından dolaşması), robotların yol planlaması ve harita servisleri A* ve türevlerini kullanır. Bir sonraki laboratuvarda onu izgara üstünde canlı göreceksin.</div>
+    <div class="callout real"><b>Gerçek hayat: Strateji oyunlarında birlik yürütmek</b>Bir strateji oyununda birliğine haritanın öbür ucuna gitmesini söylediğinde birlik dağları, nehirleri ve binaları dolaşarak yol bulur. Oyun “şimdiye kadar ne kadar yürüdü” (g) ile “hedefe kuşuçuşu ne kadar kaldı” (h) bilgisini birlikte kullanır: A*. Navigasyon uygulamalarının ve robot süpürgelerin yol planlaması da benzer fikirlerle çalışır.</div>
   </div>
 </section>
 
@@ -371,14 +373,14 @@
   <div class="panel">
     <div class="kicker">Laboratuvar</div>
     <h2>Aynı harita, beş algoritma</h2>
-    <p>Haritayı sürükleyerek değiştir: duvar çiz, çamur (geçmesi 5 kat pahalı) ekle, başlangıç ve hedefi taşı. Sonra algoritmaları çalıştır ya da “Hepsini karşılaştır” de.</p>
+    <p>Üç adım: <b>harita seç, algoritma seç, çalıştır</b>. İstersen sağdaki araç kutusuyla haritayı kendin çiz (duvar, çamur, başlangıç, hedef). “Beşini yan yana karşılaştır” aynı haritada bütün algoritmaları küçük resimlerle yan yana gösterir.</p>
     <div class="lab" id="gridlab"></div>
     <h3>Dene ve gözlemle</h3>
     <ul>
       <li><b>Açık alan:</b> A* ve Greedy neredeyse doğrudan hedefe gider (yaklaşık 20 hücre). BFS ve UCS ise her yöne daire gibi yayılır (yaklaşık 220 hücre).</li>
       <li><b>U duvarı:</b> Hedef karşıda ama arada duvar var. Sezgisel aramalar önce duvara doğru gider, çıkmaz olduğunu görünce geri dönüp dolaşır. Yine de kör aramadan çok daha az hücre açarlar.</li>
       <li><b>Çamurlu yol:</b> BFS adım sayısını sayar, çamuru umursamaz; Greedy de maliyeti saymaz ve çamura dalar. Yol maliyetini UCS ve A* ile karşılaştır: ikisi en ucuz yolu bulur, A* daha az hücreyle.</li>
-      <li><b>Kendi haritan:</b> Duvarları değiştir ve “Hepsini karşılaştır”. Greedy’nin ne zaman en iyi yoldan saptığını bulabilir misin?</li>
+      <li><b>Kendi haritan:</b> Duvarları değiştir ve “Beşini yan yana karşılaştır”a bas. Greedy’nin ne zaman en iyi yoldan saptığını bulabilir misin?</li>
     </ul>
   </div>
 </section>
@@ -490,5 +492,6 @@
 <script src="assets/js/minimax.js"></script>
 <script src="assets/js/widgets.js"></script>
 <script src="assets/js/quiz.js"></script>
+<script src="assets/js/responsive.js"></script>
 </body>
 </html>
