@@ -1,0 +1,271 @@
+<!--
+course: yapay-zeka-temelleri
+course_title: Yapay Zeka Temelleri
+no: 1
+title: Yapay Zekâ Tanımı ve Tarihsel Gelişimi
+quiz: QUIZ_YZ_1
+quiz_file: yz-bolum-1-quiz.js
+scripts: yz1.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Yapay Zeka Temelleri · Bölüm 1</div>
+    <h1>Yapay Zekâ Nedir? Nereden Geldi?</h1>
+    <p class="big-quote">Telefonun yüzünü tanıyıp kilidi açıyor, müzik uygulaması bir sonraki şarkıyı öneriyor, çeviri uygulaması cümleni çeviriyor. Bunların hepsine “yapay zekâ” diyoruz. Peki yapay zekâ tam olarak ne demek?</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Yapay zekânın dört farklı tanımını ayırt edebilirsin.</li>
+      <li>Turing Testi’ni ve eleştirisini anlatabilirsin.</li>
+      <li>Yapay zekânın tarihindeki iniş ve çıkışları sıralayabilirsin.</li>
+      <li>Makine öğrenmesi, derin öğrenme ve üretken yapay zekâ ilişkisini çizebilirsin.</li>
+      <li>Bir ajanı PEAS ile tanımlayıp ortamını sınıflandırabilirsin.</li>
+    </ul>
+    <p class="mm-note">Slaytlar arasında ← → tuşlarıyla ya da telefonda yana kaydırarak gez. Sarı kutular gerçek hayat örnekleridir; “tıkla” yazan çizimler etkileşimlidir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Yapay zekâ nedir?">
+  <div class="panel">
+    <div class="kicker">Tanım</div>
+    <h2>Zekâyı makineyle yeniden kurmak</h2>
+    <p>Yapay zekâ, insan zekâsının yeteneklerini anlamaya, modellemeye ve makinelerde yeniden üretmeye çalışan bir bilim ve mühendislik alanıdır. Amaç yalnızca insanın nasıl düşündüğünü çözmek değil; insanı taklit eden ya da aşan “akıllı varlıklar” kurmaktır.</p>
+    <p>Tek bir konu değildir; birçok alt alanı kapsar:</p>
+    <div class="chips" style="margin-bottom:12px">
+      <span class="chip">Öğrenme</span><span class="chip">Algı (görme, işitme)</span><span class="chip">Doğal dil</span><span class="chip">Bilgi temsili</span><span class="chip">Akıl yürütme</span><span class="chip">Planlama</span><span class="chip">Robotik</span><span class="chip">Öneri sistemleri</span>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Bir sabah rutini</b>Alarmı sesinle kapatmak (konuşma tanıma), telefonu yüzünle açmak (bilgisayarlı görü), kahve molası için önerilen yakın kafe (öneri sistemi), yolda trafiğe göre değişen rota (planlama). Aynı sabah içinde en az dört farklı yapay zekâ alt alanıyla karşılaşıyorsun.</div>
+    <div class="callout idea"><b>Not</b>“Yapay zekâ” 1956’da Dartmouth’ta toplanan bir atölyede resmen adlandırıldı. Fikirler ise İkinci Dünya Savaşı’ndan hemen sonra şekillenmeye başlamıştı.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Dört tanım">
+  <div class="panel">
+    <div class="kicker">Tanım · tıkla</div>
+    <h2>Yapay zekâya dört farklı bakış</h2>
+    <p>Tanımlar iki soruya verilen cevaplara göre ayrılır: <b>düşünmek mi, davranmak mı?</b> ve <b>insan gibi mi, rasyonel mi?</b> Dört kutuya tıkla.</p>
+    <div id="quad"></div>
+    <div class="callout idea"><b>Hangisi bugün baskın?</b>Rasyonel davranma. “Rasyonel ajan” kavramı mantığı da olasılığı da kapsar ve belirsizlik altında çalışır. Bu dersin geri kalanı büyük ölçüde bu bakışı kullanır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Turing Testi">
+  <div class="panel">
+    <div class="kicker">Tanım</div>
+    <h2>Turing Testi: taklit oyunu</h2>
+    <p>Alan Turing 1950’de şu soruyu sordu: “Bir makine düşünebilir mi?” Cevap aramak yerine pratik bir deney önerdi. Bir sorgulayıcı, ekran üzerinden iki kişiyle yazışır: biri insan, biri makine. Makul bir süre sonra hangisinin makine olduğunu ayırt edemezse makine testi geçmiş sayılır.</p>
+    <svg class="diagram" viewBox="0 0 760 210" role="img" aria-label="Turing Testi: sorgulayıcı iki gizli tarafla yazışır">
+      <rect class="d-brand" x="20" y="70" width="150" height="70" rx="12"/><text class="d-txt d-c" x="95" y="100">Sorgulayıcı</text><text class="d-sm d-c" x="95" y="120">sorular sorar</text>
+      <rect class="d-box" x="300" y="20" width="170" height="60" rx="12" stroke-dasharray="6 5"/><text class="d-txt d-c" x="385" y="48">Gizli taraf A</text><text class="d-sm d-c" x="385" y="66">insan ya da makine?</text>
+      <rect class="d-box" x="300" y="130" width="170" height="60" rx="12" stroke-dasharray="6 5"/><text class="d-txt d-c" x="385" y="158">Gizli taraf B</text><text class="d-sm d-c" x="385" y="176">insan ya da makine?</text>
+      <path class="d-line" d="M170 95 L298 55"/><path class="d-line" d="M170 115 L298 155"/>
+      <rect class="d-warn" x="540" y="70" width="200" height="70" rx="12"/><text class="d-txt d-c" x="640" y="98">Karar</text><text class="d-sm d-c" x="640" y="118">ayırt edemezse makine</text><text class="d-sm d-c" x="640" y="132">testi geçti</text>
+      <path class="d-line" d="M470 50 L538 90"/><path class="d-line" d="M470 160 L538 120"/>
+    </svg>
+    <p>Testi geçmek için makinenin doğal dil işleme, bilgi temsili, otomatik akıl yürütme ve makine öğrenmesi yeteneklerine sahip olması gerekir. “Tam Turing Testi” buna bilgisayarlı görü ve robotik de ekler.</p>
+    <div class="callout bad"><b>Eleştiri</b>Zekâ yalnızca insanı taklit edebilmek midir? Bir sistem insan gibi görünmeden de çok zeki olabilir; ya da insan gibi görünüp hiçbir şey anlamıyor olabilir.</div>
+    <div class="callout real"><b>Gerçek hayat: CAPTCHA</b>“Ben robot değilim” kutuları Turing Testi’nin tersidir: bu kez makine, karşısındakinin insan mı bot mu olduğunu anlamaya çalışır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Hangi alanlardan beslendi?">
+  <div class="panel">
+    <div class="kicker">Temeller · tıkla</div>
+    <h2>Yapay zekâ tek bir alanın ürünü değil</h2>
+    <p>Felsefeden dilbilime sekiz disiplin yapay zekânın temelini oluşturdu. Her kutu, o disiplinin ne verdiğini ve bugün nerede göründüğünü anlatır.</p>
+    <div id="disc"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Tarihçe">
+  <div class="panel">
+    <div class="kicker">Tarihçe · tıkla</div>
+    <h2>Heyecan, hayal kırıklığı ve geri dönüş</h2>
+    <p>Yapay zekâ doğrusal bir başarı hikâyesi değil. Büyük vaatler, sert bir gerçeklik dozu ve yeniden yükselişler var. Aşağıdaki eğri kabaca heyecan düzeyini gösterir; bir döneme tıklayınca ayrıntısı açılır.</p>
+    <div id="timeline"></div>
+    <div class="callout real"><b>Gerçek hayat: Her teknolojide görülen döngü</b>Yeni bir teknoloji çıkınca abartılı beklentiler oluşur, sonra gerçek sınırlar görülür ve hayal kırıklığı yaşanır; ardından sağlam kullanım alanları olgunlaşır. Yapay zekâ bu döngüyü birkaç kez yaşadı.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Matruşka: alt alanlar">
+  <div class="panel">
+    <div class="kicker">Disiplinler · tıkla</div>
+    <h2>Yapay zekâ, makine öğrenmesi ve derin öğrenme</h2>
+    <p>Bu terimler birbirinin yerine kullanılır ama aynı şey değildir: her biri bir öncekinin içindeki daha dar bir alandır, matruşka gibi.</p>
+    <div id="nest"></div>
+    <div class="callout idea"><b>Kural</b>Her derin öğrenme sistemi makine öğrenmesidir; her makine öğrenmesi sistemi yapay zekâdır. Ama tersi doğru değildir: elle yazılmış kurallarla çalışan bir satranç motoru yapay zekâdır, öğrenme içermez.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Makine öğrenmesinin üç yolu">
+  <div class="panel">
+    <div class="kicker">Disiplinler</div>
+    <h2>Makine nasıl öğrenir? Üç yol</h2>
+    <p>Kuralları programcı yazmak yerine sistem örneklerden öğrenir. Öğrenme şekli, elindeki geri bildirime göre üçe ayrılır.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Gözetimli öğrenme</b>Her örneğin doğru cevabı (etiket) bellidir. Öğretmenli ders gibi. <i>Örnek: Etiketli geçmiş işlemlerden dolandırıcılığı tanımayı öğrenmek.</i></div>
+      <div class="peas-c e"><b>Gözetimsiz öğrenme</b>Etiket yoktur; sistem veride kendi gruplarını bulur. Etiketsiz bir fotoğraf arşivini benzerlerine göre kümelemek gibi. <i>Örnek: Müşterileri alışveriş alışkanlığına göre gruplamak.</i></div>
+      <div class="peas-c a"><b>Pekiştirmeli öğrenme</b>Ajan dener, ödül ya da ceza alır, zamanla iyi stratejiyi bulur. Köpek eğitimi gibi. <i>Örnek: Bir oyun oynayan yazılımın puana bakarak strateji geliştirmesi.</i></div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Spam filtresi</b>“Spam”, “spam değil” diye işaretlediğin her e-posta, filtre için bir etiketli örnektir. Bu gözetimli öğrenmedir. Filtre zamanla senin spam’ini senden daha iyi tanır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Sinir ağı: tek nöron">
+  <div class="panel">
+    <div class="kicker">Disiplinler · dene</div>
+    <h2>Derin öğrenmenin yapı taşı: yapay nöron</h2>
+    <p>Yapay sinir ağları beyindeki nöronlardan esinlenir. Bir nöron girdilerini <b>önemlerine (ağırlıklarına)</b> göre toplar; toplam eşiği geçerse “ateşler”. Derin öğrenme, böyle nöronları katman katman üst üste koymaktır. <b>Öğrenmek</b>, bu ağırlıkları ayarlamaktır.</p>
+    <p>Aşağıdaki nöron “Bugün dışarı çıkayım mı?” kararını veriyor. Girdileri aç-kapat, önemleri değiştir.</p>
+    <div class="lab" id="neuron"></div>
+    <div class="callout idea"><b>Dene</b>Sınav önemini artır (−3) ve arkadaş daveti ile hava güzel olsun: karar değişir mi? Bir ağın “öğrenmesi” bu ağırlıkları kendi kendine doğru değerlere getirmesidir; milyarlarca ağırlıklı ağlar bu sayede dil ve görüntü anlar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Görü, dil ve üretim">
+  <div class="panel">
+    <div class="kicker">Disiplinler</div>
+    <h2>Görmek, anlamak ve üretmek</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Bilgisayarlı görü</b>Görüntü ve videodan anlam çıkarır: sınıflandırma, nesne bulma, yüz tanıma, bölütleme. 2012’de bir derin ağın ImageNet yarışmasında elde ettiği sıçrama derin öğrenme çağını başlattı.</div>
+      <div class="peas-c e"><b>Büyük dil modelleri (LLM)</b>Çok büyük metin kümeleriyle eğitilmiş, milyarlarca parametreli ağlar. Transformer mimarisi (2017) ile standart oldular. Özet, çeviri, soru yanıtlama, sohbet.</div>
+      <div class="peas-c a"><b>Üretken yapay zekâ</b>Eğitim verisindeki kalıpları öğrenip yeni metin, görsel, ses ve kod üretir. GAN, difüzyon modelleri ve VAE gibi teknikler kullanılır.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Tıpta görü</b>Bir röntgen ya da biyopsi görüntüsünde şüpheli bölgeyi işaretleyen sistemler bilgisayarlı görü kullanır. Karar yine doktorundur; sistem “şuraya da bak” diyen ikinci bir göz gibi çalışır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Dil modeli sonraki kelimeyi tahmin eder">
+  <div class="panel">
+    <div class="kicker">Disiplinler · dene</div>
+    <h2>Bir dil modeli aslında ne yapar?</h2>
+    <p>Bir büyük dil modeli, kendisine verilen metinden sonra <b>hangi kelimenin geleceğine dair olasılıklar</b> hesaplar ve birini seçer. Bunu kelime kelime tekrarlayarak uzun cevaplar yazar. Aşağıda “sıcaklık” ayarı seçimin ne kadar rastgele olacağını belirler.</p>
+    <div class="lab" id="nextword"></div>
+    <div class="callout idea"><b>Gözlem</b>Sıcaklık düşükken model hep en olası kelimeyi seçer: tutarlı ama sıkıcı. Yüksekken olasılıklar eşitlenir: çeşitli ama hataya açık. Bu yüzden aynı soruya iki kez farklı cevaplar alabilirsin.</div>
+    <div class="callout real"><b>Gerçek hayat: Telefon klavyesi</b>Mesaj yazarken çıkan kelime önerileri bu fikrin küçük hâlidir. LLM’ler aynı işi milyarlarca parametre ve çok daha geniş bağlamla yapar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Ajan: algıla, karar ver, harekete geç">
+  <div class="panel">
+    <div class="kicker">Ajanlar</div>
+    <h2>Ajan: sensörle algılar, aktüatörle etki eder</h2>
+    <svg class="diagram" viewBox="0 0 760 270" role="img" aria-label="Ajan döngüsü: ortamdan sensörlerle algı alır, ajan programı karar verir, aktüatörlerle eylem uygular">
+      <defs><marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--node-stroke)"/></marker></defs>
+      <rect class="d-ok" x="40" y="10" width="680" height="62" rx="14"/><text class="d-txt d-c d-big" x="380" y="48">ORTAM (yol, ev, borsa, kullanıcı…)</text>
+      <rect class="d-warn" x="40" y="130" width="170" height="70" rx="12"/><text class="d-txt d-c" x="125" y="160">Sensörler</text><text class="d-sm d-c" x="125" y="180">kamera, API, mikrofon</text>
+      <rect class="d-brand" x="290" y="120" width="180" height="90" rx="14"/><text class="d-txt d-c d-big" x="380" y="158">Ajan programı</text><text class="d-sm d-c" x="380" y="182">algıya göre karar verir</text>
+      <rect class="d-bad" x="550" y="130" width="170" height="70" rx="12"/><text class="d-txt d-c" x="635" y="160">Aktüatörler</text><text class="d-sm d-c" x="635" y="180">motor, ekran, ağ isteği</text>
+      <path class="d-line" d="M125 74 V128" marker-end="url(#ar2)"/><text class="d-sm" x="135" y="108">algı (percept)</text>
+      <path class="d-line" d="M210 165 H288" marker-end="url(#ar2)"/><path class="d-line" d="M470 165 H548" marker-end="url(#ar2)"/>
+      <path class="d-line" d="M635 128 V74" marker-end="url(#ar2)"/><text class="d-sm" x="645" y="108">eylem</text>
+      <text class="d-sm d-c" x="380" y="250">Bu döngü sürekli tekrarlanır: algıla → karar ver → harekete geç → ortam değişir → yeniden algıla.</text>
+    </svg>
+    <div class="cols">
+      <div><h3>Ajan yalnızca robot değildir</h3><p>Yazılım da ajandır. Sensörü bir API’den gelen veri ya da kullanıcı girişi, aktüatörü ekrana yazma ya da ağ isteği olabilir.</p></div>
+      <div><h3>Ajan fonksiyonu ve programı</h3><p><b>Ajan fonksiyonu:</b> “şu algı dizisinde şu eylem” diyen soyut eşleme. <b>Ajan programı:</b> onu gerçekleyen somut kod. Eşlemeyi tablo olarak tutmak imkânsızdır; küçük bir programla aynı davranışı elde etmek asıl zorluktur.</p></div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Akıllı termostat</b>Sensörü sıcaklık ve hareket algılayıcısı, aktüatörü ısıtıcı. Program basit bir kuraldan öğrenen bir modele kadar her seviyede olabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Beş ajan türü">
+  <div class="panel">
+    <div class="kicker">Ajanlar</div>
+    <h2>Beş ajan türü: basitten zekiye</h2>
+    <p>Aynı robot süpürgeyi beş farklı akıllılık düzeyinde düşün:</p>
+    <div class="ladder">
+      <div class="step"><span class="lv">1</span><div><b>Basit refleks</b><p>“Önümde kir varsa emerim, yoksa ilerlerim.” Yalnızca o anki algıya bakar; hafızası yok. Aynı köşede dönüp durabilir.</p></div></div>
+      <div class="step"><span class="lv">2</span><div><b>Model tabanlı</b><p>Evin bir iç modelini tutar: “Salonu temizledim, mutfak kaldı.” Göremediği şeyleri hatırlayarak tamamlar.</p></div></div>
+      <div class="step"><span class="lv">3</span><div><b>Hedef tabanlı</b><p>“Tüm evi temizle” hedefine ulaşmak için rota planlar; pil bitmeden şarj istasyonuna dönmeyi de hesaba katar.</p></div></div>
+      <div class="step"><span class="lv">4</span><div><b>Yararlılık tabanlı</b><p>Birden fazla amaç arasında denge kurar: temizlik kalitesi, pil, gürültü. Gece komşuyu rahatsız etmemek için sessiz modu seçebilir.</p></div></div>
+      <div class="step"><span class="lv">5</span><div><b>Öğrenen</b><p>Ev halkının alışkanlıklarını öğrenir: “Hafta içi 17:00’de salon kirleniyor.” Zamanla davranışını kendi iyileştirir.</p></div></div>
+    </div>
+    <div class="callout idea"><b>Not</b>Üst basamaklar alttakilerin yeteneklerini de kullanır. Gerçek sistemlerde bu türler çoğunlukla bir arada çalışır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Rasyonellik ve performans ölçütü">
+  <div class="panel">
+    <div class="kicker">Ajanlar</div>
+    <h2>Rasyonel olmak, hatasız olmak değildir</h2>
+    <p>Rasyonel ajan, <b>eldeki bilgiyle beklenen performansı en yükseğe çıkaran</b> eylemi seçer. Gerçek sonucu değil, o anda sahip olduğu bilgiyi esas alır. Her şeyi bilmek (omniscience) imkânsızdır; rasyonellik bunu gerektirmez.</p>
+    <div class="callout real"><b>Gerçek hayat: Şemsiye</b>Hava durumu “%30 yağmur” diyor. Şemsiyeyi çantana attın, yağmur yağmadı. Karar yanlış mıydı? Hayır: şemsiyeyi taşımanın maliyeti küçük, ıslanmanın maliyeti büyük. Beklenen sonuca göre doğru karar buydu, tahmin tutmasa da.</div>
+    <h3>Performans ölçütünü doğru seçmek</h3>
+    <p>Ajanın başarısı, <i>ajanın kendi kanaatiyle</i> değil, ortamdaki istenen durumla ölçülmelidir.</p>
+    <div class="callout bad"><b>Yanlış ölçüt, yanlış davranış</b>Robot süpürgeye “süpürülen toplam alanı artır” dersen, zemini kirletip tekrar süpürmeyi öğrenebilir. Doğru ölçüt: “zemin ne kadar temiz?”. Ölçüt, istediğin sonucu yansıtmalı.</div>
+    <h3>Özerklik</h3>
+    <p>Ajan yalnızca tasarımcısının verdiği ön bilgiye değil, kendi deneyimine ne kadar dayanıyorsa o kadar <b>özerktir</b>. Öğrenebilen ajan, eksik ya da yanlış ön bilgisini zamanla düzeltebilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="PEAS ile tanımla">
+  <div class="panel">
+    <div class="kicker">Ajanlar · tıkla</div>
+    <h2>PEAS: bir ajanın görev ortamını tarif et</h2>
+    <p>Ajan tasarlamadan önce dört soruyu cevaplarsın: <b>P</b>erformans (başarı nasıl ölçülür?), <b>E</b>nvironment/Çevre (nerede çalışır?), <b>A</b>ctuators/Aktüatörler (neyle eylem yapar?), <b>S</b>ensors/Sensörler (neyle algılar?).</p>
+    <div id="peas"></div>
+    <div class="callout idea"><b>Sen dene</b>Aklına gelen bir uygulama seç (ör. kütüphane robotu) ve dört soruyu kendin cevapla. Cevapların hızlıca çıkmıyorsa problem henüz iyi tanımlanmamış demektir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Ortam özellikleri">
+  <div class="panel">
+    <div class="kicker">Ajanlar</div>
+    <h2>Ortamın altı özelliği ajanı biçimlendirir</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Tam ↔ Kısmi gözlem</b>Sensörler durumun tamamını verir mi? <i>Satranç tam, poker kısmi.</i></div>
+      <div class="peas-c e"><b>Tek ↔ Çok ajan</b>Ortamda başka ajanlar (rakip ya da iş birlikçi) var mı? <i>Sudoku tek, trafik çok.</i></div>
+      <div class="peas-c a"><b>Belirli ↔ Rastlantılı</b>Sonuç, durum ve eylemle tam belirli mi? <i>Hesap makinesi belirli, hava durumu rastlantılı.</i></div>
+      <div class="peas-c s"><b>Bölümlü ↔ Ardışık</b>Kararlar birbirinden bağımsız mı? <i>Fotoğraf sınıflandırma bölümlü, satranç ardışık.</i></div>
+      <div class="peas-c p"><b>Durağan ↔ Değişken</b>Ajan düşünürken dünya değişiyor mu? <i>Fotoğraf analizi durağan, gerçek zamanlı strateji oyunu değişken.</i></div>
+      <div class="peas-c e"><b>Ayrık ↔ Sürekli</b>Durumlar ve eylemler sayılabilir mi? <i>Dama ayrık, drone uçuşu sürekli.</i></div>
+    </div>
+    <div class="callout idea"><b>Neden önemli?</b>En zor ortam: kısmi gözlemli, çok ajanlı, rastlantılı, ardışık, değişken ve sürekli. Otonom sürüş tam olarak böyledir; bu yüzden zordur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Oyun: ortamı sınıflandır">
+  <div class="panel">
+    <div class="kicker">Laboratuvar</div>
+    <h2>Beş ortamı altı boyutta sınıflandır</h2>
+    <p>Her kutuya tıklayarak seçim yap, sonra “Kontrol et” de. Yanlış satırların gerekçesi gösterilir.</p>
+    <div class="lab" id="envgame"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Yapay zekâ ne değildir?">
+  <div class="panel">
+    <div class="kicker">Yanılgılar · kartlara tıkla</div>
+    <h2>Altı yaygın yanılgı</h2>
+    <p>Yapay zekâ hakkında sık duyulan yanlış inanışlar. Kartı çevirince gerçeği görürsün.</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Yanılgı</b>“Yapay zekâ düşünür ve hisseder.”<span class="tip">tıkla</span></span><span class="back"><b class="k">Gerçek</b>Bugünkü sistemler bilinç ve duyguya sahip değildir. Bir sohbet botunun “üzgünüm” demesi, olasılıksal olarak üretilmiş bir cevaptır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Yanılgı</b>“Her şeyi bilir.”<span class="tip">tıkla</span></span><span class="back"><b class="k">Gerçek</b>Yalnızca eğitildiği veri ve algoritmalar kadar bilir. Eğitim dışı durumlarda başarısız olabilir; güvenle söylenen yanlış cevaplara (hallucination) neden olabilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Yanılgı</b>“Hata yapmaz.”<span class="tip">tıkla</span></span><span class="back"><b class="k">Gerçek</b>Veride nadir görülen durumları kaçırabilir, önyargı taşıyabilir. Eğitim verisindeki dengesizlik sonuca doğrudan yansır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Yanılgı</b>“İnsan olmadan kendi başına yeter.”<span class="tip">tıkla</span></span><span class="back"><b class="k">Gerçek</b>Kritik alanlarda (sağlık, güvenlik, finans) insan gözetimi (human-in-the-loop) standarttır. Hukuki ve etik sorumluluk insandadır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Yanılgı</b>“Filmlerdeki gibi dünyayı ele geçirecek.”<span class="tip">tıkla</span></span><span class="back"><b class="k">Gerçek</b>Bugünkü sistemler belirli görevlerde güçlü ama dar kapsamlıdır (narrow AI). İnsan düzeyinde genel zekâ (AGI) hâlâ çözülmemiş ve tartışmalı bir hedeftir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Yanılgı</b>“Her problemi sihirli şekilde çözer.”<span class="tip">tıkla</span></span><span class="back"><b class="k">Gerçek</b>Doğru veri, temizlik, model seçimi ve bakım ister. Yanlış tanımlanmış bir problem ya da yetersiz veriyle en gelişmiş model bile başarısız olur.</span></button>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 1</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Tanım</td><td>Düşünme/davranma × insan gibi/rasyonel. Bugün baskın olan: rasyonel davranma (ajan).</td></tr>
+        <tr><td>Turing Testi</td><td>Davranışa dayalı ölçüt; eleştirisi: zekâ taklitten ibaret değildir.</td></tr>
+        <tr><td>Tarihçe</td><td>1956 doğuş → büyük vaatler → gerçeklik dozu → bilgi tabanlı sistemler → bilimsel yöntem → ajanlar → büyük veri.</td></tr>
+        <tr><td>Alanlar</td><td>Derin öğrenme ⊂ makine öğrenmesi ⊂ yapay zekâ. Üç öğrenme yolu: gözetimli, gözetimsiz, pekiştirmeli.</td></tr>
+        <tr><td>Ajan</td><td>Sensör + aktüatör + program. Beş tür: refleks, model, hedef, yararlılık, öğrenen.</td></tr>
+        <tr><td>Rasyonellik</td><td>Eldeki bilgiyle beklenen performansı maksimize etmek; her şeyi bilmek değil.</td></tr>
+        <tr><td>PEAS ve ortam</td><td>Performans, Çevre, Aktüatör, Sensör. Ortam altı boyutta sınıflanır.</td></tr>
+        <tr><td>Sınırlar</td><td>Bilinci yok, hata yapar, insan gözetimi gerekir, dar kapsamlıdır.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada. Yanlış her soruda doğru cevap, nedeni ve ders notundaki başlık gösterilecek.</p>
+  </div>
+</section>

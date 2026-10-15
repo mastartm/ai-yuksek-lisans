@@ -56,7 +56,7 @@
       if (o.ok) { b.classList.add('correct'); b.querySelector('.txt').insertAdjacentHTML('beforeend', '<span class="tagline">' + (right ? '✓ Doğru cevap' : '✓ Doğru cevap bu') + '</span>'); }
       else if (k === i) { b.classList.add('wrong'); b.querySelector('.txt').insertAdjacentHTML('beforeend', '<span class="tagline">✗ Senin cevabın</span>'); }
     });
-    var box2 = h('div', 'callout ' + (right ? 'ok' : 'bad'), '<b>' + (right ? 'Doğru!' : 'Yanlış.') + '</b>' + esc(item.q.explain));
+    var box2 = h('div', 'callout ' + (right ? 'ok' : 'bad'), '<b>' + (right ? 'Doğru!' : 'Yanlış.') + '</b>' + esc(item.q.explain) + (item.q.ref ? '<div class="mm-note" style="margin-top:6px">📖 Ders notunda: ' + esc(item.q.ref) + '</div>' : ''));
     after.appendChild(box2);
     var nb = h('button', 'btn primary', pos === order.length - 1 ? 'Sonucu gör' : 'Sonraki soru');
     nb.type = 'button'; nb.style.marginTop = '8px';
@@ -93,7 +93,7 @@
       var ul = h('ul', 'review');
       wrong.forEach(function (a) {
         var right = a.item.opts.filter(function (o) { return o.ok; })[0].text;
-        ul.appendChild(h('li', '', '<b>' + esc(a.item.q.q) + '</b><div class="your">✗ Senin cevabın: ' + esc(a.picked) + '</div><div class="right">✓ Doğru cevap: ' + esc(right) + '</div><div class="mm-note" style="margin-top:6px">' + esc(a.item.q.explain) + '</div>'));
+        ul.appendChild(h('li', '', '<b>' + esc(a.item.q.q) + '</b><div class="your">✗ Senin cevabın: ' + esc(a.picked) + '</div><div class="right">✓ Doğru cevap: ' + esc(right) + '</div><div class="mm-note" style="margin-top:6px">' + esc(a.item.q.explain) + (a.item.q.ref ? ' <b>📖 ' + esc(a.item.q.ref) + '</b>' : '') + '</div>'));
       });
       wrap.appendChild(ul);
     }
