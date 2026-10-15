@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Giriş — Araştırma Yöntemleri</title>
+<meta name="description" content="Araştırma Yöntemleri, Bölüm 1: Giriş. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 1 · Giriş</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Araştırma Yöntemleri · Bölüm 1</div>
+    <h1>Bilmek, Araştırmak, Doğrulamak</h1>
+    <p class="big-quote">“Bu yılki derslik grupları daha mı başarılı?” sorusuna iki kişi iki farklı şekilde cevap verir: biri “bence öyle” der, öbürü veriyi toplayıp inceler. Araştırma yöntemleri, ikinci kişinin yolunun neden daha güvenilir olduğunu ve bu yolun nasıl yürüneceğini anlatır.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Bilmenin yollarını (deneyim, görüş birliği, uzman, mantık, bilim) karşılaştırabilirsin.</li>
+      <li>Bilimsel yöntemin olgusal ve kuramsal süreçlerini anlatabilirsin.</li>
+      <li>Araştırmaları farklı ölçütlere göre sınıflandırabilirsin.</li>
+      <li>Araştırma sürecinin aşamalarını sıralayabilirsin.</li>
+      <li>Bilimsel etik ihlal türlerini birbirinden ayırabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Bilmenin yolları">
+  <div class="panel">
+    <div class="kicker">Bilgi</div>
+    <h2>Beş bilme yolu ve her birinin zayıf noktası</h2>
+    <p>İnsanlar daha iyi, daha güvenli, daha nitelikli bir yaşam için bilmek ister. Bir sorunun çözümü için başvurulan yaklaşımlara <b>bilmenin yolları</b> denir. Dewey’den bu yana şu aşamalar anlatılır:</p>
+    <div class="ladder">
+      <div class="step"><span class="lv">1</span><div><b>Duyularla deneyim</b><p>Görerek, duyarak, dokunarak, deneme yanılmayla öğrenmek. <i>Zayıf nokta:</i> duyular yanıltabilir (termometre havayı duyunun düzelttiği biçimde düzeltir).</p></div></div>
+      <div class="step"><span class="lv">2</span><div><b>Görüş birliği</b><p>Çevreyle paylaşıp kontrol etmek: “Yemek sana da acı geldi mi?” Gelenekler böyle oluşur. <i>Zayıf nokta:</i> çoğunluğun doğrulaması doğruluğun garantisi değildir.</p></div></div>
+      <div class="step"><span class="lv">3</span><div><b>Uzman görüşü</b><p>Konuda güvenilir sayılan birine başvurmak. <i>Zayıf nokta:</i> uzmanlar da yanılabilir.</p></div></div>
+      <div class="step"><span class="lv">4</span><div><b>Mantık</b><p>Tümden gelim ve tüme varım: “Tüm insanlar ölümlüdür; Ayşe insandır; o hâlde Ayşe ölümlüdür.” Öncüller doğruysa yargı kesin doğrudur. <i>Zayıf nokta:</i> öncüllerin doğruluğu başka yoldan bilinmek zorundadır.</p></div></div>
+      <div class="step"><span class="lv">5</span><div><b>Bilim (bilimsel araştırma)</b><p>Kontrol edilebilir ve tekrarlanabilir; bilgiye ulaşmanın en güvenilir ve geçerli yolu. Bir problemin tanımlanması, verinin toplanıp analiz edilmesi ve sonuçların yorumlanmasıdır.</p></div></div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Bir ilaç hakkında karar vermek</b>Arkadaşının “bana iyi geldi” demesi (görüş birliği), doktorunun önerisi (uzman), ilacın etki mekanizmasından çıkardığın sonuç (mantık) ve kontrollü klinik denemeler (bilim). Son yol, ilk dördünün yanılma noktalarını sınayabildiği için en güvenilirdir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bilimsel yöntem">
+  <div class="panel">
+    <div class="kicker">Bilimsel yöntem</div>
+    <h2>Olgusal süreç ve kuramsal süreç</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Bilimsel yöntem: olgusal süreç (betimleme) ve kuramsal süreç (açıklama)">
+      <defs><marker id="ar10" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--node-stroke)"/></marker></defs>
+      <rect class="d-brand" x="10" y="15" width="350" height="170" rx="14"/><text class="d-txt d-c d-big" x="185" y="42">Olgusal süreç (betimleme)</text>
+      <rect class="d-plain" x="30" y="62" width="95" height="50" rx="10"/><text class="d-txt d-c" x="77" y="92">Gözlem</text>
+      <rect class="d-plain" x="135" y="62" width="95" height="50" rx="10"/><text class="d-txt d-c" x="182" y="92">Ölçme</text>
+      <rect class="d-plain" x="240" y="62" width="100" height="50" rx="10"/><text class="d-txt d-c" x="290" y="92">Deney</text>
+      <text class="d-sm d-c" x="185" y="145">Olguları belirle, ölç, müdahaleyle üret</text><text class="d-sm d-c" x="185" y="165">ve kaydet.</text>
+      <rect class="d-ok" x="400" y="15" width="350" height="170" rx="14"/><text class="d-txt d-c d-big" x="575" y="42">Kuramsal süreç (açıklama)</text>
+      <rect class="d-plain" x="415" y="62" width="75" height="50" rx="10"/><text class="d-txt d-c" x="452" y="92">Hipotez</text>
+      <rect class="d-plain" x="496" y="62" width="75" height="50" rx="10"/><text class="d-txt d-c" x="533" y="92">Kuram</text>
+      <rect class="d-plain" x="577" y="62" width="75" height="50" rx="10"/><text class="d-txt d-c" x="614" y="92">Yasa</text>
+      <rect class="d-plain" x="658" y="62" width="82" height="50" rx="10"/><text class="d-txt d-c" x="699" y="92">Öngörü</text>
+      <text class="d-sm d-c" x="575" y="145">Olguları ve ilişkilerini kavramlarla</text><text class="d-sm d-c" x="575" y="165">anlaşılır kıl.</text>
+      <path class="d-line" d="M360 100 H398" marker-end="url(#ar10)"/>
+    </svg>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Gözlem</b>Olgu bulma işlemi. Gözlem hem veri hem yorum içerir; bilimsel gözlemde önemli olan öznellikten kaçınmaktır. Değeri güvenilirlik ve geçerlilik koşullarına bağlıdır.</div>
+      <div class="peas-c e"><b>Ölçme</b>Gözlemi herkes için geçerli kılar. “Su ısıtılınca kaynar” yerine “su 100 °C’de kaynar” daha kesin ve açık, daha çok bilgi içerir. Nitelikleri belli kurallara göre sayılaştırmaktır.</div>
+      <div class="peas-c a"><b>Deney</b>Gözlemden farkı <b>müdahale</b>dir: gözlemci olanı bekler, deneyci olguyu belli koşullarda üretir.</div>
+      <div class="peas-c s"><b>Hipotez → kuram → yasa</b>Hipotez henüz doğrulanmamış genellemedir. Doğrulanmış hipotezler kuramı kurar. Yasa, doğrulukları defalarca sınanmış genellemedir.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Ders çalışma süresi</b>Gözlem: “Çok çalışanlar daha iyi not alıyor gibi.” Ölçme: haftalık çalışma saati ve sınav puanı. Hipotez: “Çalışma süresi arttıkça not artar.” Veriler tutarlı çıkarsa bu bir kuram parçasına, defalarca doğrulanırsa daha genel bir önermeye dönüşür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Araştırma ve sınıflandırma">
+  <div class="panel">
+    <div class="kicker">Araştırma türleri</div>
+    <h2>Araştırmayı hangi ölçütle sınıflandırırsın?</h2>
+    <p>Araştırma, sorunlara güvenilir çözümler aramak için <b>planlı ve sistemli</b> biçimde veri toplama, çözümleme, yorumlama ve raporlama sürecidir. Aynı araştırma farklı ölçütlerle sınıflanabilir:</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Ölçüt</th><th>Türler</th></tr></thead>
+      <tbody>
+        <tr><td><b>Bakış açısı / felsefe</b></td><td><b>Nicel</b> (pozitivist; nesnel gerçeklik; genelleme, tahmin, nedensellik) · <b>Nitel</b> (yorumlayıcı; gerçeklik bağlamda inşa edilir; genelleme kaygısı yok) · <b>Karma</b> (pragmatist; ikisi birlikte)</td></tr>
+        <tr><td><b>Veri toplama tekniği</b></td><td><b>Görgül</b> (ampirik: anket, gözlem, görüşme ile veri toplanır) · <b>Belgesel</b> (kayıtlı belgeler derlenir ve analiz edilir)</td></tr>
+        <tr><td><b>Verinin toplanma zamanı</b></td><td><b>Anlık</b> (tek zamanda) · <b>Boylamsal</b> (aynı gruptan birçok zamanda) · <b>Kesitsel</b> (farklı yaş/zaman dilimlerini temsil eden alt gruplardan tek zamanda)</td></tr>
+        <tr><td><b>Denek sayısı</b></td><td>Tek denekli · çok denekli</td></tr>
+        <tr><td><b>Faktör sayısı</b></td><td>Tek faktörlü · çok faktörlü (faktöryel)</td></tr>
+        <tr><td><b>Ölçme koşulları</b></td><td>Gruplar arası · gruplar içi · tekrarlı ölçümler / karma</td></tr>
+        <tr><td><b>Düzey</b></td><td><b>Betimsel</b> (“nedir?”) · <b>İlişkisel</b> (değişkenler arası ilişki) · <b>Müdahale</b> (etkisini test etme)</td></tr>
+        <tr><td><b>Amaç</b></td><td><b>Temel</b> (özgün bilgi/kuram üretimi) · <b>Uygulamalı</b> (sorunu çözme, durumu iyileştirme)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Aşağıda dört senaryoyu sınıflandır:</p>
+    <div class="lab" id="rtype"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Araştırma süreci">
+  <div class="panel">
+    <div class="kicker">Süreç</div>
+    <h2>Araştırma süreci: döngüsel ve esnek</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Araştırma süreci: problemi tanımla, yöntemi belirle, uygula ve raporla; literatür tarama sürekli">
+      <defs><marker id="ar11" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--node-stroke)"/></marker></defs>
+      <rect class="d-brand" x="10" y="30" width="230" height="110" rx="14"/><text class="d-txt d-c d-big" x="125" y="58">1 · Problemi tanımla</text><text class="d-sm d-c" x="125" y="84">literatür tarama</text><text class="d-sm d-c" x="125" y="102">problem ve gerekçe</text><text class="d-sm d-c" x="125" y="120">soru / hipotez</text>
+      <rect class="d-warn" x="265" y="30" width="230" height="110" rx="14"/><text class="d-txt d-c d-big" x="380" y="58">2 · Yöntemi belirle</text><text class="d-sm d-c" x="380" y="84">desen, evren/örneklem</text><text class="d-sm d-c" x="380" y="102">veri toplama aracı</text><text class="d-sm d-c" x="380" y="120">veri analizi planı</text>
+      <rect class="d-ok" x="520" y="30" width="230" height="110" rx="14"/><text class="d-txt d-c d-big" x="635" y="58">3 · Uygula ve raporla</text><text class="d-sm d-c" x="635" y="84">veriyi topla</text><text class="d-sm d-c" x="635" y="102">analiz et ve yorumla</text><text class="d-sm d-c" x="635" y="120">raporlaştır</text>
+      <path class="d-line" d="M240 85 H263" marker-end="url(#ar11)"/><path class="d-line" d="M495 85 H518" marker-end="url(#ar11)"/>
+      <rect class="d-box" x="10" y="160" width="740" height="30" rx="8"/><text class="d-txt d-c" x="380" y="181">Literatür tarama süreç boyunca sürer (başından sonuna)</text>
+    </svg>
+    <ul>
+      <li><b>Problem tanımlama:</b> araştırma konusunu sınırlandırıp gerekçelendirme. Literatür taraması bunun altyapısını kurar.</li>
+      <li><b>Yöntem:</b> desen amaca ve sorulara göre kurulur; evren tamamına ulaşılamıyorsa <b>örneklem</b> seçilir.</li>
+      <li><b>Araştırma önerisinde</b> ayrıca gerçekçi bir <b>zaman çizelgesi</b> ve gerekli olanaklar yer alır.</li>
+      <li>Sonuçlar yorumlanırken mantıksal muhakeme yanında kuramsal çerçeve de kullanılır.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Bitirme projesi</b>Önce “konum ne?” (problem), sonra “kime, hangi anketle, kaç kişiye?” (yöntem), en sonda “topla, analiz et, rapor yaz” (uygulama). Literatürü ise baştan sona okumaya devam edersin.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bilimsel etik">
+  <div class="panel">
+    <div class="kicker">Etik</div>
+    <h2>Bilimde beş etik dışı davranış türü</h2>
+    <p>Etik, bir meslekte rol alanların uyması gereken kurallar kümesidir. Türkiye Bilimler Akademisi etik dışı davranışları beş grupta toplar:</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Disiplinsiz araştırma</b>Dikkatsiz, özensiz planlama ve uygulama; kasıtsız hatalar. Çoğunlukla düzeltilebilir.</div>
+      <div class="peas-c e"><b>Yinelenen yayın</b>Bir çalışmayı birden çok dergide yayımlamak ya da gereksiz parçalayıp yayımlamak.</div>
+      <div class="peas-c a"><b>Sahtecilik</b>Veriler üzerinde kasıtlı değişiklik; istenmeyen verileri çıkarmak da buna girer. Veri toplama araçlarını ve ham veriyi saklamak önerilir (en az 5 yıl).</div>
+      <div class="peas-c s"><b>Uydurmacılık</b>Hiç araştırma yapmadan yapılmış gibi veri seti oluşturup yayımlamak.</div>
+      <div class="peas-c p"><b>Aşırmacılık (intihal)</b>Başkasının bilgisini kaynak göstermeden kendisininmiş gibi kullanmak. Sistematik yapıldığında suçtur (5846 sayılı Fikir ve Sanat Eserleri Kanunu).</div>
+    </div>
+    <h3>Nedenleri ve çözümleri</h3>
+    <ul>
+      <li>Araştırma eğitiminde ve etikte yeterince durulmaması: üniversitelerin etik eğitimleri düzenlemesi.</li>
+      <li>“Çok yayın = saygınlık” yanılgısı: yükselmelerde sayı yerine niteliğe bakmak.</li>
+      <li>Akademik yükselme ve kabul görme hırsı; mali baskılar (burs, proje, sanayi desteği).</li>
+    </ul>
+    <p>Beş senaryoda ihlal türünü bul:</p>
+    <div class="lab" id="ethics"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 1</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Bilmenin yolları</td><td>Deneyim, görüş birliği, uzman, mantık, bilim; bilim kontrol edilebilir ve tekrarlanabilirdir</td></tr>
+        <tr><td>Bilimsel yöntem</td><td>Olgusal süreç (gözlem, ölçme, deney) + kuramsal süreç (hipotez, kuram, yasa, öngörü)</td></tr>
+        <tr><td>Deney ≠ gözlem</td><td>Deneyde müdahale vardır</td></tr>
+        <tr><td>Sınıflandırma</td><td>Nicel/nitel/karma; görgül/belgesel; anlık/boylamsal/kesitsel; betimsel/ilişkisel/müdahale; temel/uygulamalı</td></tr>
+        <tr><td>Süreç</td><td>Problem → yöntem → uygulama/rapor; literatür taraması sürekli</td></tr>
+        <tr><td>Etik</td><td>Disiplinsiz, yinelenen yayın, sahtecilik, uydurmacılık, aşırmacılık</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_AR_1"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/ar-bolum-1-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/ar.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>
