@@ -449,3 +449,20 @@ svg.nest-svg { width: 100%; height: auto; }
 tr.cur-row td { background: var(--brand-soft); }
 tr.dim-row td { opacity: .5; }
 .pill.cur { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+/* ---------- Karar ağacı araçları ---------- */
+.dots { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0; }
+.dot { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: .85rem; color: #fff; }
+.dot.pos { background: var(--ok); } .dot.neg { background: var(--bad); }
+.tree, .tree ul { list-style: none; margin: 0; padding-left: 22px; border-left: 2px dashed var(--line); }
+.tree { padding-left: 0; border-left: 0; }
+.tree li { margin: 8px 0; position: relative; }
+.tnode2 { display: inline-block; max-width: 100%; background: var(--surface); border: 2px solid var(--line); border-radius: 12px; padding: 8px 12px; }
+.tnode2.pos { background: var(--ok-soft); border-color: var(--ok); }
+.tnode2.neg { background: var(--warn-soft); border-color: var(--warn); }
+.tn-edge { display: inline-block; background: var(--brand-soft); color: var(--brand); font-size: .78rem; font-weight: 700; padding: 1px 8px; border-radius: 99px; }
+.tn-split { margin-top: 4px; } .tn-leaf { margin-top: 4px; font-weight: 700; }
+.tn-opts { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chip.bestg { border-color: var(--ok); }
+.datad { margin: 8px 0; } .datad summary { cursor: pointer; font-weight: 600; color: var(--brand); }
+.tree-host { margin-top: 10px; overflow-x: auto; }

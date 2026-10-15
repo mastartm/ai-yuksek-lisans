@@ -1,0 +1,240 @@
+<!--
+course: makine-ogrenmesi
+course_title: Makine Öğrenmesi
+no: 3
+title: Karar Ağacı Öğrenme
+quiz: QUIZ_ML_3
+quiz_file: ml-bolum-3-quiz.js
+scripts: ml3.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 3</div>
+    <h1>Karar Ağacı Öğrenme: Soru Sora, Dallara Ayır</h1>
+    <p class="big-quote">Bilgisayar arızası için bir yardım hattı arıyorsun: “Cihaz açılıyor mu?” Evet. “Ekran geliyor mu?” Hayır. “Şarj kablosu takılı mı?” … Sorularla ilerleyip sonuca varıyorsun. Karar ağaçları tam olarak bunu yapar; ama sorularını verilerden öğrenir.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Bir karar ağacını okuyup if-then kurallarına çevirebilirsin.</li>
+      <li>Entropi ve bilgi kazancını hesaplayabilirsin.</li>
+      <li>ID3’ün bir ağacı nasıl büyüttüğünü adım adım anlatabilirsin.</li>
+      <li>Gini indeksini, kazanç oranını ve ikisinin neden gerektiğini açıklayabilirsin.</li>
+      <li>Aşırı uyumu ve budamayı, sürekli öznitelikleri ve eksik değerleri tartışabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Neden karar ağacı?">
+  <div class="panel">
+    <div class="kicker">Giriş</div>
+    <h2>Neden bu kadar yaygın?</h2>
+    <p>Karar ağacı öğrenme, <b>ayrık değerli</b> bir fonksiyonu (örneğin evet/hayır ya da bir kategori) öğrenmek için en yaygın ve pratik yöntemlerden biridir. ID3 ve C4.5 gibi bir algoritma ailesi vardır.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Okunaklıdır</b>Model açıktır; girdiden çıktıya giden süreç görülür. Sinir ağları gibi “kara kutu” değildir. Kurallara çevrilebilir.</div>
+      <div class="peas-c e"><b>Gürültüye dayanıklıdır</b>Bir karar için bütün özniteliklere bakmaz. Bakmadığı öznitelik eksik ya da hatalıysa sonuç etkilenmez.</div>
+      <div class="peas-c a"><b>Tam bir hipotez uzayı arar</b>Her ayrık değerli fonksiyonu bir ağaçla ifade edebilir; kavram uzayda olmayabilir kaygısı yoktur.</div>
+      <div class="peas-c s"><b>Önyargısı: küçük ağaç</b>Büyük ağaçlar yerine küçük ağaçları tercih eder.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Arıza giderme akış şeması</b>Müşteri hizmetlerinin “modem ışığı yanıyor mu?” ile başlayan akış şemaları aslında elle çizilmiş karar ağaçlarıdır. Karar ağacı öğrenme, bu şemayı verilerden otomatik üretir.</div>
+    <div class="callout idea"><b>Uygulama alanları</b>Kredi riski, tıbbi tanı, ekipman arızasının nedeni, kullanıcı profili, protein türü sınıflandırma. Hepsi “örneği olası kategorilerden birine ata” problemleridir (sınıflandırma).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Ağacı okumak">
+  <div class="panel">
+    <div class="kicker">Gösterim</div>
+    <h2>Kök → dal → yaprak</h2>
+    <p>Her <b>düğüm</b> bir özniteliği test eder, her <b>dal</b> o özniteliğin bir değerine karşılık gelir, her <b>yaprak</b> bir sınıf verir. Örneği kökten başlatıp dalları izleyerek yaprağa ulaşırsın.</p>
+    <svg class="diagram" viewBox="0 0 760 260" role="img" aria-label="Örnek karar ağacı: ödevini bitirdin mi, sınav yakın mı">
+      <g class="d-line"><path d="M380 50 L200 120"/><path d="M380 50 L560 120"/><path d="M200 150 L110 215"/><path d="M200 150 L290 215"/></g>
+      <rect class="d-brand" x="300" y="20" width="160" height="40" rx="10"/><text class="d-txt d-c" x="380" y="46">Sınav yakın mı?</text>
+      <text class="d-sm" x="255" y="78">Evet</text><text class="d-sm" x="490" y="78">Hayır</text>
+      <rect class="d-brand" x="120" y="118" width="160" height="40" rx="10"/><text class="d-txt d-c" x="200" y="144">Konu bitti mi?</text>
+      <rect class="d-ok" x="490" y="118" width="140" height="40" rx="10"/><text class="d-txt d-c" x="560" y="144">Dinlen ✅</text>
+      <text class="d-sm" x="130" y="190">Evet</text><text class="d-sm" x="250" y="190">Hayır</text>
+      <rect class="d-ok" x="40" y="212" width="150" height="40" rx="10"/><text class="d-txt d-c" x="115" y="238">Tekrar yap</text>
+      <rect class="d-warn" x="220" y="212" width="150" height="40" rx="10"/><text class="d-txt d-c" x="295" y="238">Konuya çalış</text>
+    </svg>
+    <p>Bu ağaçtaki her kök–yaprak <b>yolu bir kural</b>dır. Yaprak sayısı kadar kural çıkar:</p>
+    <ul>
+      <li>EĞER sınav yakın ve konu bitti İSE tekrar yap</li>
+      <li>EĞER sınav yakın ve konu bitmedi İSE konuya çalış</li>
+      <li>EĞER sınav yakın değil İSE dinlen</li>
+    </ul>
+    <p>Ağaç, mantık diliyle <b>VE’lerin VEYA’sıdır</b>: her yol bir VE, yollar VEYA ile birleşir. Genelde yalnızca “Evet” veren kurallar tutulur; hiçbirine uymayan örnek otomatik olarak “Hayır” sayılır.</p>
+    <div class="callout real"><b>Gerçek hayat: Kredi başvurusu</b>“Gelir yeterli mi? → Borç oranı düşük mü? → Geçmiş ödemeler düzenli mi?” diye ilerleyen bir ağaç, bir başvuruyu “onay / ret” yaprağına götürür. Bankacı her kararın nedenini kurallardan okuyabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Entropi">
+  <div class="panel">
+    <div class="kicker">Hangi öznitelik en iyi? · dene</div>
+    <h2>Entropi: bir kümenin ne kadar karışık olduğu</h2>
+    <p>Ağacın ilk sorusu “hangi öznitelik”? Bunun için önce bir kümenin <b>safsızlığını</b> (karışıklığını) ölçmeliyiz. İkili sınıflamada entropi:</p>
+    <p class="big-quote mono">Entropi(S) = − p₊ · log₂ p₊ − p₋ · log₂ p₋</p>
+    <p>p₊ ve p₋ pozitif ve negatif örneklerin oranıdır (0·log 0 = 0 kabul edilir). Entropi 0 ile 1 arasındadır: <b>0 = tamamen saf</b> (hepsi aynı sınıf), <b>1 = en karışık</b> (yarı yarıya). Kaydırıcıyla dene:</p>
+    <div class="lab" id="entropy"></div>
+    <div class="callout idea"><b>Anlamı</b>Entropi, kümeden rastgele çekilen bir örneğin sınıfını bildirmek için gereken ortalama bit sayısıdır. Hepsi pozitifse hiç mesaj gerekmez (0 bit). Yarı yarıyaysa 1 bit gerekir. Yirmi soru oyunundaki “evet/hayır” sorusu tam 1 bit taşır.</div>
+    <p class="mm-note">İkiden çok sınıf varsa entropi Σ −pᵢ log₂ pᵢ olarak genellenir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Bilgi kazancı">
+  <div class="panel">
+    <div class="kicker">Hangi öznitelik en iyi?</div>
+    <h2>Bilgi kazancı: entropideki beklenen düşüş</h2>
+    <p>Bir özniteliğe göre bölünce örnekler daha saf gruplara ayrılır. <b>Bilgi kazancı</b>, bölmeden önceki entropi ile bölmeden sonraki <i>ağırlıklı ortalama</i> entropi arasındaki farktır:</p>
+    <p class="big-quote mono">Kazanç(S, A) = Entropi(S) − Σ (|Sᵥ| / |S|) · Entropi(Sᵥ)</p>
+    <p>En yüksek kazanca sahip öznitelik seçilir. Öğrenci–kütüphane örneğimizde (12 gün, [5+, 7−], entropi <b>0,980</b>) “Ortam” özniteliği için hesap:</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Ortam</th><th>Örnekler</th><th>Entropi</th><th>Ağırlık</th></tr></thead>
+      <tbody>
+        <tr><td>Gürültülü</td><td>[4+, 2−]</td><td>0,918</td><td>6/12</td></tr>
+        <tr><td>Sessiz</td><td>[1+, 5−]</td><td>0,650</td><td>6/12</td></tr>
+      </tbody>
+    </table></div>
+    <p class="mono">Kazanç(S, Ortam) = 0,980 − (6/12)·0,918 − (6/12)·0,650 = <b>0,196</b></p>
+    <p>Diğerleri: Arkadaş 0,072 · Hava 0,043 · Sınav 0,021. Kazancı en büyük olan <b>Ortam</b>, kök düğüm olur.</p>
+    <div class="callout real"><b>Gerçek hayat: 20 soru oyunu</b>İyi bir ilk soru, aday kümesini en çok daraltan sorudur. “Canlı mı?” sorusu bilinmeyen nesneler arasında yaklaşık yarı yarıya böler; “Adı ‘a’ ile başlıyor mu?” çok daha az bilgi verir. Bilgi kazancı, “en çok bilgi veren soru”yu sayıya döker.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="ID3 laboratuvarı">
+  <div class="panel">
+    <div class="kicker">Laboratuvar</div>
+    <h2>Ağacı kendin büyüt</h2>
+    <p>Kök düğümden başla: her saf olmayan düğümde bir öznitelik seç. Yanındaki sayı o öznitelğin <b>bilgi kazancıdır</b>, ★ en yüksek olanı gösterir. İstersen “ID3 kursun” de ve ID3’ün seçtiği ağacı gör; sonra sıfırlayıp kendi seçimlerinle daha küçük bir ağaç bulabilir misin dene.</p>
+    <div class="lab" id="id3lab"></div>
+    <div class="callout idea"><b>Mantık</b>ID3 ağacı <b>yukarıdan aşağıya</b>, her adımda en yüksek kazançlı özniteliği <b>açgözlüce</b> seçerek büyütür. Bir düğümdeki tüm örnekler aynı sınıfa aitse (entropi 0) dallanma durur ve yaprak oluşur. O yaprakta diğer özniteliklerin eksik ya da yanlış olması önemsizdir.</div>
+    <div class="callout real"><b>Denemeni öner</b>Kökte “Sınav”ı elle seç, sonra ★ işaretlilerle devam et: aynı veriden <b>5 yapraklı</b> bir ağaç çıkar. ID3 ise kökte kazancı en yüksek olan “Ortam”ı seçtiği için <b>7 yapraklı</b> bir ağaç kurar. Açgözlü seçim her zaman en küçük ağacı vermez.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Gini indeksi">
+  <div class="panel">
+    <div class="kicker">Alternatif ölçüt</div>
+    <h2>Gini indeksi: CART’ın safsızlık ölçüsü</h2>
+    <p>Entropi tek ölçüt değil. <b>CART</b> algoritması <b>Gini indeksini</b> kullanır:</p>
+    <p class="big-quote mono">Gini(S) = 1 − Σ pᵢ²</p>
+    <p>Saf kümede Gini 0’dır; sınıflar eşit karışıksa en yüksektir. Entropi gibi “ne kadar karışık” sorusunu cevaplar, ama logaritma gerekmez. CART her öznitelik için <b>ikili</b> bölmeleri dener (v değerli bir öznitelikte 2ᵛ − 2 olası ikili bölme) ve safsızlığı en çok azaltanı seçer. Sürekli öznitelikte her komşu çiftin orta noktası aday eşiktir.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Ölçü</th><th>Kök [5+, 7−]</th><th>Ortam’a göre bölünce</th><th>Azalma</th></tr></thead>
+      <tbody>
+        <tr><td>Entropi</td><td>0,980</td><td>0,5·0,918 + 0,5·0,650 = 0,784</td><td>0,196</td></tr>
+        <tr><td>Gini</td><td>1 − (5/12)² − (7/12)² = 0,486</td><td>0,5·0,444 + 0,5·0,278 = 0,361</td><td>0,125</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Not</b>İki ölçü sayısal olarak farklı ama çoğu zaman aynı özniteliği tercih eder. Her ölçütün kendi yanlılıkları vardır; “en iyi ölçüt” yoktur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Hipotez uzayı araması">
+  <div class="panel">
+    <div class="kicker">ID3 bir arama algoritmasıdır</div>
+    <h2>ID3 hipotez uzayında nasıl arar?</h2>
+    <p>ID3, tüm olası karar ağaçları uzayında, boş ağaçtan başlayıp giderek karmaşıklaşan ağaçlar arasında arama yapar; arama bilgi kazancıyla yönlendirilir.</p>
+    <div class="ladder">
+      <div class="step"><span class="lv">✓</span><div><b>Tam bir uzayı arar</b><p>Her ayrık değerli fonksiyon bir ağaçla yazılabildiği için hedef fonksiyonu kaçırma riski yoktur.</p></div></div>
+      <div class="step"><span class="lv">1</span><div><b>Tek bir hipotez tutar</b><p>Başka hangi ağaçların verilerle tutarlı olduğunu bilmez; alternatifleri sorgulayamaz (versiyon uzayının aksine).</p></div></div>
+      <div class="step"><span class="lv">2</span><div><b>Geri dönmez</b><p>Bir düğümde öznitelik seçince bir daha değiştirmez. Bu, tepe tırmanma gibi yerel en iyiye takılma riski taşır. Budama bir tür geri dönüş sağlar.</p></div></div>
+      <div class="step"><span class="lv">3</span><div><b>Tüm örnekleri birlikte kullanır</b><p>Kazancı istatistiksel olarak, tüm örneklerle hesaplar; bu yüzden tek tek hatalı örneklere daha az duyarlıdır (FIND-S ve ADAY-ELEME örnek örnek ilerler).</p></div></div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Alışveriş yaparken en ucuzunu seçmek</b>Her adımda “şu an en iyi görünen” mağazayı seçip geri dönmezsen, toplamda daha pahalıya gelebilirsin. ID3’ün açgözlü seçimi de yerelde en iyi, bütünde mutlaka en iyi olmayabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Tümevarımsal önyargı ve Occam">
+  <div class="panel">
+    <div class="kicker">Önyargı</div>
+    <h2>Kısıtlama önyargısı ve tercih önyargısı</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>ID3</th><th>ADAY-ELEME</th></tr></thead>
+      <tbody>
+        <tr><td><b>Hipotez uzayı</b></td><td>Tam (her ayrık fonksiyon)</td><td>Eksik (yalnızca bağlaçlı hipotezler)</td></tr>
+        <tr><td><b>Arama</b></td><td>Eksik (basitten karmaşığa, ilk bulunan tutarlı ağaç)</td><td>Tam (tüm tutarlı hipotezleri bulur)</td></tr>
+        <tr><td><b>Önyargının kaynağı</b></td><td>Arama stratejisi: <b>kısa ağaçları tercih eder</b></td><td>Hipotez temsilinin ifade gücü</td></tr>
+        <tr><td><b>Önyargı türü</b></td><td><b>Tercih önyargısı</b> (preference bias)</td><td><b>Kısıtlama önyargısı</b> (restriction bias)</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Tercih önyargısı</b> genelde daha iyidir: bilinmeyen hedefi içerdiğinden emin olduğun tam bir uzayda çalışırsın. <b>Kısıtlama önyargısı</b> hedefi uzaydan tamamen dışarıda bırakabilir. Dama programındaki doğrusal değerlendirme fonksiyonu ise ikisini birleştirir.</p>
+    <h3>Neden kısa ağaçlar? Occam’ın usturası</h3>
+    <p>“Verilere uyan en basit hipotezi seç.” Bir argüman: basit hipotez az olduğundan, tesadüfen verilere uyma olasılığı düşüktür. Ama bu argüman tartışmalıdır: aynı mantıkla “17 yapraklı, öznitelikleri sıra numarasıyla test eden ağaç” gibi garip kümeler de az sayıdadır. Üstelik “basitlik”, öğrenicinin temsiline bağlıdır; iki öğrenici farklı temsillerle farklı ağaçları “basit” sayabilir.</p>
+    <div class="callout real"><b>Gerçek hayat: Hastalık teşhisi</b>Aynı belirtileri iki hastalık açıklayabiliyorsa, doktor çoğu zaman daha yaygın ve basit olanı düşünür. Bu, Occam gibi bir tercih önyargısıdır: işe yarar, ama her zaman haklı olmak zorunda değildir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Aşırı uyum ve budama">
+  <div class="panel">
+    <div class="kicker">Sorunlar</div>
+    <h2>Aşırı uyum (overfitting) ve budama</h2>
+    <p>Ağacı çok büyütürsen, eğitim verisindeki <b>tesadüfi düzenlilikleri</b> de ezberler. Eğitim doğruluğu artar ama yeni örneklerdeki doğruluk düşer.</p>
+    <svg class="diagram" viewBox="0 0 560 240" role="img" aria-label="Ağaç büyüdükçe eğitim doğruluğu artar, test doğruluğu önce artar sonra düşer">
+      <line class="d-line" x1="50" y1="200" x2="540" y2="200"/><line class="d-line" x1="50" y1="20" x2="50" y2="200"/>
+      <polyline class="d-line-brand" fill="none" points="50,150 130,100 210,70 300,52 400,40 520,32"/>
+      <polyline fill="none" stroke="var(--bad)" stroke-width="3" points="50,155 130,105 210,78 270,72 340,90 430,112 520,132"/>
+      <text class="d-txt" x="400" y="26">Eğitim doğruluğu</text><text class="d-txt" x="395" y="148" fill="var(--bad)" style="fill:var(--bad)">Test doğruluğu</text>
+      <line x1="270" y1="20" x2="270" y2="200" stroke="var(--ok)" stroke-width="2.5" stroke-dasharray="6 5"/><text class="d-sm" x="276" y="38" style="fill:var(--ok)">burada budamak iyi</text>
+      <text class="d-sm d-c" x="295" y="224">ağaç boyutu (düğüm sayısı) →</text>
+      <text class="d-sm" x="4" y="16">doğruluk</text>
+    </svg>
+    <p class="mm-note">Çizim anlatım içindir (kabaca şekil), gerçek bir ölçüm değildir.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Azaltılmış hata budaması</b>Ayrı bir <i>doğrulama kümesi</i> ayır. Her düğüm için “alt ağacı sil, yaprak yap” dene; doğrulamada kötüleşmiyorsa sil. Veri çoksa iyi; azsa doğrulama için ayırmak eğitimi zayıflatır.</div>
+      <div class="peas-c e"><b>Kural budama (C4.5)</b>1) Ağacı büyüt. 2) Her yolu bir kurala çevir. 3) Doğruluğu düşürmeyen şartları sil (kuralı genelleştir). 4) Kuralları tahmini doğruluğa göre sırala.</div>
+    </div>
+    <div class="callout idea"><b>Neden kurala çevirip budamak?</b>Ayrı yollar ayrı kurallara dönüşür; aynı öznitelik testi için farklı bağlamlarda farklı kararlar verilebilir. Köke yakın ve yapraklara yakın testler arasındaki karışık muhasebe ortadan kalkar. Kurallar okunması da kolaydır.</div>
+    <div class="callout real"><b>Gerçek hayat: Ezberlenmiş çıkmış sorular</b>Tüm çıkmış soruların numarasına kadar ezberleyen biri eğitim setinde (çıkmışlarda) 100 alır, yeni sınavda düşer. Budama, “ayrıntıyı unutup asıl kuralı tut” demektir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Sürekli değerli öznitelikler">
+  <div class="panel">
+    <div class="kicker">Sorunlar</div>
+    <h2>Sayısal öznitelik ağaca nasıl girer?</h2>
+    <p>ID3 kategorik öznitelikleri varsayar. Sayısal bir öznitelik (örneğin çalışma saati) şöyle işlenir: örnekleri değere göre sırala, <b>sınıfın değiştiği komşu çiftlerin ortalamasını</b> aday eşik al, her aday için bilgi kazancını hesapla, en iyisini seç. Böylece sayısal öznitelik “≤ eşik / &gt; eşik” gibi ikili bir teste dönüşür.</p>
+    <div class="lab" id="thresh"></div>
+    <div class="callout real"><b>Gerçek hayat: “Kaç saat çalışırsan geçersin?”</b>Yedi öğrencinin çalışma saatiyle sonuçlarına bakarak “şu saatin üstü” gibi bir eşik bulmak, karar ağacının sayısal bir özniteliği bölme biçimidir.</div>
+    <div class="callout idea"><b>Dikkat</b>Eşik noktalarının mantıklı olup olmadığını da değerlendirmek gerekir; veri azsa eşik tesadüfi olabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kazanç oranı ve eksik değerler">
+  <div class="panel">
+    <div class="kicker">Sorunlar</div>
+    <h2>Çok değerli özniteliklere dikkat; eksik veriyle ne yapmalı?</h2>
+    <h3>Bilgi kazancının tuzağı</h3>
+    <p>Bilgi kazancı, çok değer alabilen özniteliklere kayırma yapar. Örneğin her gün için benzersiz olan bir <b>“Tarih”</b> özniteliği veriyi tek örneklik parçalara böler; her parça saftır ve kazanç en yüksek çıkar. Ama bu özniteliğin yeni günlerde hiçbir faydası yoktur.</p>
+    <p><b>Çözüm: kazanç oranı</b> (gain ratio). Özniteliğin veriyi ne kadar “parçaladığını” <b>ayırma bilgisi</b> (split information, A’nın değerlerine göre entropi) ile ölçüp kazancı ona böler:</p>
+    <p class="big-quote mono">KazançOranı(S, A) = Kazanç(S, A) / AyırmaBilgisi(S, A)</p>
+    <p>Çok değerli öznitelikler cezalandırılır. Ayırma bilgisi sıfıra yakınsa oran anormal büyür; bu yüzden önce ortalamanın üzerinde kazançlı özniteliklere bakıp onlar arasında oranı kullanmak gibi önlemler alınır. Başka ölçütler de vardır (MDL, CHAID, çok değişkenli bölmeler); hiçbirinin yanlılığı sıfır değildir.</p>
+    <h3>Eksik değerli öznitelikler</h3>
+    <ul>
+      <li><b>Tahmin ederek doldurmak</b> (diğer örneklere bakarak). Ama bazı verilerde bu mümkün değildir: kolesterol gibi sürekli değişen değerler önceki ölçümlerden bulunamaz.</li>
+      <li><b>En olası değeri koymak</b> ya da rastgele bir değer.</li>
+      <li><b>Olasılık atamak:</b> “A özniteliği v değerini 0,3 olasılıkla alır” diyerek bu bilgiyi kazanç hesabına katmak (daha karmaşık, daha dürüst).</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Öğrenci numarası ile sınav tahmini</b>Öğrenci numarası her öğrenci için benzersizdir; “numarası şu olan öğrenci geçti” diyen bir ağaç eğitim verisini mükemmel açıklar, ama yeni öğrenci için hiçbir şey öğretmez.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 3</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Karar ağacı</td><td>Düğüm = öznitelik testi, dal = değer, yaprak = sınıf; her yol bir if-then kuralı</td></tr>
+        <tr><td>Entropi</td><td>Safsızlık ölçüsü: 0 = saf, 1 = yarı yarıya (ikili)</td></tr>
+        <tr><td>Bilgi kazancı</td><td>Entropi(S) − ağırlıklı alt küme entropileri; en yüksek kazançlı öznitelik seçilir (ID3)</td></tr>
+        <tr><td>Gini indeksi</td><td>1 − Σpᵢ²; CART, ikili bölmeler</td></tr>
+        <tr><td>ID3 araması</td><td>Tam uzay, tek hipotez, geri dönüş yok, tüm örneklerle hesap</td></tr>
+        <tr><td>Önyargı</td><td>ID3: tercih önyargısı (kısa ağaç, Occam). ADAY-ELEME: kısıtlama önyargısı.</td></tr>
+        <tr><td>Aşırı uyum</td><td>Azaltılmış hata budaması (doğrulama kümesi) ve kural budama (C4.5)</td></tr>
+        <tr><td>Sürekli öznitelik</td><td>Sınıf değiştiren komşuların ortalaması aday eşik; kazancı en yüksek olan seçilir</td></tr>
+        <tr><td>Kazanç oranı</td><td>Çok değerli özniteliklere (Tarih gibi) kayırmayı azaltır</td></tr>
+        <tr><td>Eksik değer</td><td>Doldurma, en olası değer ya da olasılık atama</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
