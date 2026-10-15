@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arama Algoritmaları — Yapay Zeka Temelleri</title>
+<meta name="description" content="Yapay zeka hedefe giden yolu nasıl bulur? BFS, DFS, UCS, A* ve minimax; etkileşimli görseller ve bölüm sonu quiziyle.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back" href="index.html">← Dersler</a>
+  <span class="title">Bölüm 3 · Arama Algoritmaları</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+
+<!-- 1 -->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Yapay Zeka Temelleri · Bölüm 3</div>
+    <h1>Arama Algoritmaları: Yapay Zeka Yolunu Nasıl Bulur?</h1>
+    <p class="big-quote">Sınav sabahı yurttan sınav salonuna en hızlı nasıl gidersin? Telefondaki harita bunu saniyeler içinde yapar. Arkasındaki fikir: <b>arama</b>.</p>
+    <div class="cols">
+      <div>
+        <h3>Bu bölümün sonunda</h3>
+        <ul>
+          <li>Bir problemi “arama problemi” olarak tanımlayabilirsin.</li>
+          <li>BFS, DFS, UCS ve çift yönlü aramayı birbirinden ayırabilirsin.</li>
+          <li>Sezgisel (heuristic) bilginin aramayı neden hızlandırdığını anlatabilirsin.</li>
+          <li>A* ile açgözlü aramanın farkını gösterebilirsin.</li>
+          <li>Minimax ve alfa-beta budama ile oyun oynayan yapay zekâyı açıklayabilirsin.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Nasıl kullanılır?</h3>
+        <p>Slaytlar arasında <b>← →</b> tuşlarıyla, alttaki düğmelerle ya da telefonda yana kaydırarak gez. Sarı kutular <b>gerçek hayat</b> örnekleridir. “Sonraki adım” düğmesi olan çizimler etkileşimlidir; kurcala.</p>
+        <p class="mm-note">Bu sayfa bağımsız bir öğrenci çalışmasıdır. Resmî ders materyali değildir; konular özgün örneklerle yeniden anlatılmıştır.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-title="Arama problemi: dört parça">
+  <div class="panel">
+    <div class="kicker">Temel</div>
+    <h2>Her arama problemi dört parçadan oluşur</h2>
+    <p>Yapay zekâya bir yol bulduracaksan önce problemi ona anlatman gerekir. Bunun için dört şeyi tanımlarsın:</p>
+    <svg class="diagram" viewBox="0 0 760 190" role="img" aria-label="Arama probleminin dört parçası: başlangıç durumu, eylemler, geçiş modeli, hedef testi">
+      <defs><marker id="ar1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--node-stroke)"/></marker></defs>
+      <g>
+        <rect class="d-brand" x="5" y="30" width="170" height="110" rx="14"/>
+        <text class="d-txt d-c d-big" x="90" y="62">1. Başlangıç</text>
+        <text class="d-sm d-c" x="90" y="88">Şu an neredeyim?</text>
+        <text class="d-txt d-c" x="90" y="116">Yurt kapısı</text>
+        <rect class="d-warn" x="200" y="30" width="170" height="110" rx="14"/>
+        <text class="d-txt d-c d-big" x="285" y="62">2. Eylemler</text>
+        <text class="d-sm d-c" x="285" y="88">Ne yapabilirim?</text>
+        <text class="d-txt d-c" x="285" y="116">Komşu binaya yürü</text>
+        <rect class="d-ok" x="395" y="30" width="170" height="110" rx="14"/>
+        <text class="d-txt d-c d-big" x="480" y="62">3. Geçiş</text>
+        <text class="d-sm d-c" x="480" y="88">Yapınca ne olur?</text>
+        <text class="d-txt d-c" x="480" y="116">Konumum değişir</text>
+        <rect class="d-bad" x="590" y="30" width="165" height="110" rx="14"/>
+        <text class="d-txt d-c d-big" x="672" y="62">4. Hedef testi</text>
+        <text class="d-sm d-c" x="672" y="88">Vardım mı?</text>
+        <text class="d-txt d-c" x="672" y="116">Sınav salonu mu?</text>
+        <path class="d-line" d="M175 85 H198" marker-end="url(#ar1)"/><path class="d-line" d="M370 85 H393" marker-end="url(#ar1)"/><path class="d-line" d="M565 85 H588" marker-end="url(#ar1)"/>
+      </g>
+    </svg>
+    <div class="callout idea"><b>Durum nedir?</b>Problemin bir andaki tam görüntüsüdür. Haritada “şu an hangi binadayım” bir durumdur; satrançta tahtanın o anki dizilişi bir durumdur. Tüm olası durumlara <b>durum uzayı</b> denir.</div>
+    <div class="callout real"><b>Gerçek hayat</b>Rubik küpünde durum, altı yüzün renk dizilişidir; eylem, bir yüzü çevirmektir; hedef testi, her yüzün tek renk olup olmadığına bakmaktır. Çözücü yazılım tam olarak bu dört parçayı kullanır.</div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-title="Arama ağacı ve sınır (frontier)">
+  <div class="panel">
+    <div class="kicker">Temel</div>
+    <h2>Arama, bir ağacı adım adım açmaktır</h2>
+    <p>Algoritma başlangıçtan başlar, bir durumu <b>genişletir</b> (o durumdan yapılabilecek eylemlerin gittiği yeni durumları üretir) ve bunu hedef çıkana kadar sürdürür. Aramanın çeşitleri, <i>sırada hangi düğümü genişletirim</i> sorusuna verdikleri cevapta ayrılır.</p>
+    <svg class="diagram" viewBox="0 0 760 270" role="img" aria-label="Arama ağacı: genişletilmiş, sınırdaki ve henüz keşfedilmemiş düğümler">
+      <g class="d-line">
+        <path d="M380 40 L200 110"/><path d="M380 40 L380 110"/><path d="M380 40 L560 110"/>
+        <path d="M200 110 L120 190"/><path d="M200 110 L270 190"/><path d="M380 110 L380 190"/><path d="M560 110 L500 190"/><path d="M560 110 L630 190"/>
+      </g>
+      <circle class="d-brand" cx="380" cy="40" r="22"/><text class="d-txt d-c" x="380" y="45">S</text>
+      <circle class="d-brand" cx="200" cy="110" r="22"/><text class="d-txt d-c" x="200" y="115">A</text>
+      <circle class="d-brand" cx="380" cy="110" r="22"/><text class="d-txt d-c" x="380" y="115">B</text>
+      <circle class="d-warn" cx="560" cy="110" r="22"/><text class="d-txt d-c" x="560" y="115">C</text>
+      <circle class="d-warn" cx="120" cy="190" r="22"/><text class="d-txt d-c" x="120" y="195">D</text>
+      <circle class="d-warn" cx="270" cy="190" r="22"/><text class="d-txt d-c" x="270" y="195">E</text>
+      <circle class="d-warn" cx="380" cy="190" r="22"/><text class="d-txt d-c" x="380" y="195">F</text>
+      <circle class="d-plain" cx="500" cy="190" r="22" stroke-dasharray="5 4"/><text class="d-sm d-c" x="500" y="195">?</text>
+      <circle class="d-plain" cx="630" cy="190" r="22" stroke-dasharray="5 4"/><text class="d-sm d-c" x="630" y="195">?</text>
+      <rect class="d-brand" x="20" y="235" width="22" height="22" rx="6"/><text class="d-txt" x="50" y="252">genişletildi</text>
+      <rect class="d-warn" x="170" y="235" width="22" height="22" rx="6"/><text class="d-txt" x="200" y="252">sınırda (sırada bekliyor)</text>
+      <rect class="d-plain" x="420" y="235" width="22" height="22" rx="6" stroke-dasharray="5 4"/><text class="d-txt" x="450" y="252">henüz üretilmedi</text>
+    </svg>
+    <div class="cols">
+      <div><h3>Sınır (frontier / açık liste)</h3><p>Üretilmiş ama henüz genişletilmemiş düğümler. Algoritmanın “yapılacaklar listesi”dir. Hangi düğümü bu listeden alacağı, algoritmanın kimliğidir.</p></div>
+      <div><h3>Kapalı liste</h3><p>Zaten genişletilmiş düğümler. Aynı yere ikinci kez girip döngüye düşmemek için tutulur.</p></div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat</b>Bir web tarayıcı (crawler) önüne düşen bağlantıları “gidilecekler” listesine yazar; gezdiklerini “gezildi” listesine koyar. Gidilecekler listesi frontier, gezilenler kapalı listedir.</div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-title="Algoritmalar nasıl karşılaştırılır?">
+  <div class="panel">
+    <div class="kicker">Temel</div>
+    <h2>Bir arama algoritmasına dört soru sorarız</h2>
+    <div class="metrics">
+      <div class="metric"><b>Tamlık</b>Çözüm varsa mutlaka bulur mu?</div>
+      <div class="metric"><b>Optimallik</b>Bulduğu çözüm en iyisi mi?</div>
+      <div class="metric"><b>Zaman</b>Kaç düğüm genişletir?</div>
+      <div class="metric"><b>Bellek</b>Aynı anda kaç düğüm tutar?</div>
+    </div>
+    <p>Zaman ve bellek üç sayıya göre ifade edilir:</p>
+    <table class="cmp"><tbody>
+      <tr><th><b>b</b></th><td>Dallanma faktörü: bir düğümden en fazla kaç yeni düğüm çıkar? (Bir kavşakta 3 yol varsa b≈3.)</td></tr>
+      <tr><th><b>d</b></th><td>En sığ hedefin derinliği: hedefe en az kaç adımda varılır?</td></tr>
+      <tr><th><b>m</b></th><td>Ağacın en büyük derinliği (sonsuz da olabilir).</td></tr>
+    </tbody></table>
+    <div class="callout idea"><b>Neden önemli?</b>Her seviyede düğüm sayısı b ile çarpılır. Yani ağaç <b>üstel</b> büyür. Bunu bir sonraki slayttaki çizgi üzerinde kendin gör.</div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide" data-title="Büyüme laboratuvarı">
+  <div class="panel">
+    <div class="kicker">Laboratuvar</div>
+    <h2>Üstel büyüme: neden bazı aramalar felaket olur?</h2>
+    <p>Dallanmayı ve hedefin uzaklığını değiştir. Üç yaklaşımın tutması gereken düğüm sayısına bak.</p>
+    <div class="lab" id="growth">
+      <div class="slider-row"><label for="gb">Dallanma (b)</label><input id="gb" type="range" min="2" max="12" value="10"><output id="gbo"></output></div>
+      <div class="slider-row"><label for="gd">Hedef derinliği (d)</label><input id="gd" type="range" min="2" max="14" value="8"><output id="gdo"></output></div>
+      <div class="bars">
+        <div class="barrow" data-r="bfs"><span>BFS<br><span class="mm-note">~ b^d</span></span><span class="track"><span class="fill" style="display:block"></span><span class="val"></span></span></div>
+        <div class="barrow" data-r="bi"><span>Çift yönlü<br><span class="mm-note">~ 2·b^(d/2)</span></span><span class="track"><span class="fill" style="display:block"></span><span class="val"></span></span></div>
+        <div class="barrow" data-r="dfs"><span>DFS<br><span class="mm-note">~ b·d</span></span><span class="track"><span class="fill" style="display:block"></span><span class="val"></span></span></div>
+      </div>
+      <p class="mm-note" id="gnote"></p>
+    </div>
+    <p><b>Gözlem:</b> b=10, d=8 iken BFS yaklaşık yüz milyon düğüm ister; DFS birkaç yüz. Çift yönlü arama üssü yarıya indirdiği için BFS’in milyonlarca düğümünü binlere düşürür. Ama bu, DFS’in de bedava olduğu anlamına gelmez: DFS en iyi çözümü bulmayı garanti etmez. Kazancın bedeli var.</p>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-title="İki aile: kör ve sezgisel">
+  <div class="panel">
+    <div class="kicker">Harita</div>
+    <h2>Arama algoritmalarının iki ailesi</h2>
+    <svg class="diagram" viewBox="0 0 760 300" role="img" aria-label="Arama algoritmalarının sınıflandırması">
+      <path class="d-line" d="M380 50 L190 120 M380 50 L570 120 M190 120 L80 200 M190 120 L190 200 M190 120 L300 200 M570 120 L500 200 M570 120 L650 200"/>
+      <rect class="d-box" x="270" y="20" width="220" height="44" rx="12"/><text class="d-txt d-c" x="380" y="48">Arama algoritmaları</text>
+      <rect class="d-warn" x="70" y="96" width="240" height="50" rx="12"/><text class="d-txt d-c" x="190" y="119">Kör (bilgisiz) arama</text><text class="d-sm d-c" x="190" y="136">hedefe ne kadar yakın olduğunu bilmez</text>
+      <rect class="d-ok" x="450" y="96" width="240" height="50" rx="12"/><text class="d-txt d-c" x="570" y="119">Sezgisel (bilgili) arama</text><text class="d-sm d-c" x="570" y="136">“Hedefe şu kadar var” tahmini kullanır</text>
+      <rect class="d-plain" x="30" y="190" width="100" height="40" rx="10"/><text class="d-txt d-c" x="80" y="215">BFS</text>
+      <rect class="d-plain" x="140" y="190" width="100" height="40" rx="10"/><text class="d-txt d-c" x="190" y="215">DFS / DLS</text>
+      <rect class="d-plain" x="250" y="190" width="100" height="40" rx="10"/><text class="d-txt d-c" x="300" y="215">UCS</text>
+      <rect class="d-plain" x="190" y="245" width="140" height="40" rx="10"/><text class="d-txt d-c" x="260" y="270">Çift yönlü</text>
+      <rect class="d-plain" x="430" y="190" width="140" height="40" rx="10"/><text class="d-txt d-c" x="500" y="215">Açgözlü (Greedy)</text>
+      <rect class="d-plain" x="600" y="190" width="100" height="40" rx="10"/><text class="d-txt d-c" x="650" y="215">A*</text>
+    </svg>
+    <div class="callout real"><b>Gerçek hayat</b>Gözün bağlı bir labirentte yürümek kör aramadır: yalnızca dokunduğun duvarlardan öğrenirsin. Çıkışın hangi yönde olduğunu biliyorsan (ses geliyor, ışık görüyorsun) bu bir sezgisel bilgidir ve seni yönlendirir.</div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-title="BFS: katman katman">
+  <div class="panel">
+    <div class="kicker">Kör arama · 1</div>
+    <h2>Genişlik öncelikli arama (BFS)</h2>
+    <p>Önce başlangıca bir adım uzaktakileri, sonra iki adım uzaktakileri… diye <b>katman katman</b> keşfeder. Sınır bir <b>sıra</b>dır (kuyruk): ilk giren ilk çıkar.</p>
+    <div class="lab graphlab" data-algo="bfs"></div>
+    <div class="metrics">
+      <div class="metric"><b>Tam: <span class="yes">evet</span></b>Dallanma sonluysa her zaman bulur.</div>
+      <div class="metric"><b>Optimal: <span class="yes">adım sayısında</span></b>En az adımlı yolu bulur. Adımlar eşit maliyetliyse en iyisidir.</div>
+      <div class="metric"><b>Zaman / bellek: <span class="no">O(b^d)</span></b>Bellek yükü ağır basar.</div>
+    </div>
+    <div class="callout idea"><b>Dikkat</b>Yukarıdaki örnekte BFS en az <i>adımlı</i> yolu buldu, ama dakikalar eşit değil. Bulunan yol en <i>hızlı</i> yol olmayabilir. Bunu iki slayt sonra UCS ile düzelteceğiz.</div>
+    <div class="callout real"><b>Gerçek hayat</b>“Arkadaşımın arkadaşının arkadaşı” zinciri: bir sosyal ağda sana en az kaç kişi uzaklıkta olduğunu BFS bulur. Önce arkadaşların, sonra onların arkadaşları… Web tarayıcıların bağlantıları ilk önce yakın olandan gezmesi de BFS’tir.</div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-title="DFS: sonuna kadar dal">
+  <div class="panel">
+    <div class="kicker">Kör arama · 2</div>
+    <h2>Derinlik öncelikli arama (DFS)</h2>
+    <p>Bir dalda <b>mümkün olduğunca derine</b> iner. Çıkmaza girerse geri döner (backtrack) ve başka bir dala geçer. Sınır bir <b>yığın</b>dır: son giren ilk çıkar.</p>
+    <div class="lab graphlab" data-algo="dfs"></div>
+    <div class="metrics">
+      <div class="metric"><b>Tam: <span class="no">hayır</span></b>Sonsuz dala ya da döngüye girerse çıkamaz.</div>
+      <div class="metric"><b>Optimal: <span class="no">hayır</span></b>Buldu diye en iyisi olmak zorunda değil. (Yukarıda 28 dk’lık yolu buldu.)</div>
+      <div class="metric"><b>Bellek: <span class="yes">O(b·m)</span></b>Yalnızca o anki yolu tutar. Çok hafiftir.</div>
+    </div>
+    <div class="callout idea"><b>Çözüm yolları</b><b>Derinlik sınırlı arama (DLS):</b> “En fazla L adım in” diye bir sınır koyar; sonsuz dala girmeyi önler ama sınır yanlışsa çözümü kaçırır. <b>Yinelemeli derinleşme (IDDFS):</b> sınırı 1, 2, 3… diye artırarak DLS’i tekrar tekrar çalıştırır; DFS’in belleğini, BFS’in tamlığını alır.</div>
+    <div class="callout real"><b>Gerçek hayat</b>Bilgisayarında “bu dosyayı bul” dediğinde bir klasörün içinin içine kadar inip geri çıkman DFS’tir. Sudoku çözücüler de bir sayıyı dener, tutmazsa geri alır, yani DFS ve geri izleme kullanır.</div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide" data-title="UCS: en ucuza öncelik">
+  <div class="panel">
+    <div class="kicker">Kör arama · 3</div>
+    <h2>Tek tip maliyet araması (UCS)</h2>
+    <p>Yolların süreleri (maliyetleri) farklıysa “en az adım” ile “en kısa süre” aynı şey değildir. UCS her adımda <b>şimdiye kadar en ucuza gelinen</b> düğümü genişletir. Sınır bir <b>öncelik kuyruğu</b>dur; anahtar, başlangıçtan beri harcanan maliyet <b>g</b>’dir. Kenarlardaki sayılar yürüme dakikalarıdır.</p>
+    <div class="lab graphlab" data-algos="bfs,ucs" data-algo="ucs" data-weights="true" data-show-h="true"></div>
+    <p><b>Dene:</b> yukarıda BFS ve UCS’i sırayla çalıştır. BFS yolu 23 dakikada bitirir; UCS 18 dakikada. Aynı harita, farklı strateji.</p>
+    <div class="metrics">
+      <div class="metric"><b>Tam: <span class="yes">evet</span></b>Maliyetler pozitifse.</div>
+      <div class="metric"><b>Optimal: <span class="yes">evet</span></b>En düşük maliyetli yolu garanti eder.</div>
+      <div class="metric"><b>Bedel: <span class="no">çok düğüm</span></b>Hedefi “bilmediği” için her yöne eşit yayılır.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat</b>Uçak bileti uygulamaları: aktarmalı uçuşlarda adım sayısı değil toplam fiyat (veya süre) önemlidir. Navigasyon uygulamaları da “en az kavşak” yerine “en az süre” için UCS’in torunlarını (Dijkstra, A*) kullanır.</div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-title="Çift yönlü arama">
+  <div class="panel">
+    <div class="kicker">Kör arama · 4</div>
+    <h2>Çift yönlü arama: ortada buluşalım</h2>
+    <p>İki arama aynı anda yürür: biri başlangıçtan ileri, biri hedeften geri. Çemberler ortada çakışınca yol bulunmuştur.</p>
+    <svg class="diagram" viewBox="0 0 760 250" role="img" aria-label="Tek yönlü arama büyük bir daire, çift yönlü arama iki küçük daire ile alanı kaplar">
+      <text class="d-txt" x="10" y="22">Tek yönlü: büyük daire</text>
+      <circle class="d-warn" cx="140" cy="130" r="95" opacity=".6"/><circle class="d-brand" cx="140" cy="130" r="7"/><text class="d-sm d-c" x="140" y="118">Başla</text>
+      <circle class="d-bad" cx="330" cy="130" r="7"/><text class="d-sm d-c" x="330" y="118">Hedef</text><path class="d-dash" d="M147 130 H323"/>
+      <text class="d-txt" x="410" y="22">Çift yönlü: iki küçük daire</text>
+      <circle class="d-ok" cx="520" cy="130" r="48" opacity=".7"/><circle class="d-ok" cx="660" cy="130" r="48" opacity=".7"/>
+      <circle class="d-brand" cx="480" cy="130" r="7"/><text class="d-sm d-c" x="480" y="118">Başla</text>
+      <circle class="d-bad" cx="700" cy="130" r="7"/><text class="d-sm d-c" x="700" y="118">Hedef</text>
+      <circle class="d-plain" cx="590" cy="130" r="7"/><text class="d-sm d-c" x="590" y="165">buluşma</text>
+      <text class="d-sm" x="10" y="240">Alan = düğüm sayısı: iki küçük daire, tek büyük daireden çok daha az yer kaplar.</text>
+    </svg>
+    <div class="cols">
+      <div>
+        <h3>Neden hızlı?</h3>
+        <p>Her yön yalnızca derinliğin yarısına (d/2) iner. b=10, d=6 için: tek yönlü ≈ 10⁶ = 1.000.000 düğüm; çift yönlü ≈ 2·10³ = 2.000 düğüm. <i>Beş yüz kat</i> fark.</p>
+      </div>
+      <div>
+        <h3>Koşulları</h3>
+        <ul>
+          <li>Hedef tek ve belli olmalı.</li>
+          <li>Eylemlerin tersi tanımlanabilmeli (geri adım atabilmeli).</li>
+          <li>İki ağacın çakıştığı an hızlıca anlaşılmalı.</li>
+          <li>İki ağaç da bellekte durur: bellek yine büyük olabilir.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat</b>“İkimizin ortak bir tanıdığı var mı?” sorusu: seni ve karşındakini ayrı ayrı genişletip ortak tanıdıkta buluşturursun. “Ağ üzerinde A noktasından B noktasına en kısa yol” hesapları (rota planlama) da çoğu zaman iki uçtan başlar.</div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-title="Kör aramalar: karşılaştırma">
+  <div class="panel">
+    <div class="kicker">Özet · kör arama</div>
+    <h2>Hangi durumda hangisi?</h2>
+    <div class="scroll-x">
+    <table class="cmp">
+      <thead><tr><th>Algoritma</th><th>Tam?</th><th>Optimal?</th><th>Zaman</th><th>Bellek</th><th>Ne zaman?</th></tr></thead>
+      <tbody>
+        <tr><td><b>BFS</b></td><td class="yes">evet</td><td>adım sayısında</td><td>b^d</td><td class="no">b^d</td><td>Küçük uzay, eşit adım maliyeti</td></tr>
+        <tr><td><b>DFS</b></td><td class="no">hayır</td><td class="no">hayır</td><td>b^m</td><td class="yes">b·m</td><td>Bellek çok kısıtlı, en iyisi şart değil</td></tr>
+        <tr><td><b>DLS</b></td><td>sınır içinde</td><td class="no">hayır</td><td>b^L</td><td class="yes">b·L</td><td>Derinlik sınırı biliniyorsa</td></tr>
+        <tr><td><b>UCS</b></td><td class="yes">evet</td><td class="yes">evet</td><td colspan="2">~ b^(1+C*/ε)</td><td>Maliyetler farklı ve en iyisi şart</td></tr>
+        <tr><td><b>Çift yönlü</b></td><td class="yes">evet</td><td>alt algoritmaya bağlı</td><td>b^(d/2)</td><td>b^(d/2)</td><td>Tek hedef, tersine çevrilebilir eylemler, derin problem</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="callout idea"><b>Karar akışı</b>1) Maliyetler eşit mi değil mi? Değilse UCS. &nbsp;2) Belleğin yetmiyor mu? DFS/DLS. &nbsp;3) Hedef tek ve çok derinde mi? Çift yönlü. &nbsp;4) Küçük ve eşit mi? BFS yeter.</div>
+    <div class="callout real"><b>Üç senaryo</b>Web’de bir sayfa bulmak: BFS (yakın sayfalar önce). Çok geniş ve derin bir dizinde bir dosya aramak, RAM az: DFS/DLS. Şehirler arası en ucuz rota: UCS ve çok büyük haritada çift yönlü.</div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-title="Sezgisel: hedefe ne kadar var?">
+  <div class="panel">
+    <div class="kicker">Sezgisel arama · 1</div>
+    <h2>Tahmin eklenince arama akıllanır</h2>
+    <p>Kör arama hedefin hangi yönde olduğunu bilmez, o yüzden her yöne eşit yayılır. Gerçek hayatta çoğu zaman <b>kabaca bir tahmin</b> vardır. Bu tahmine <b>sezgisel fonksiyon h(n)</b> denir: “n düğümünden hedefe tahmini maliyet”.</p>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Kuş uçuşu mesafe sezgiseli: gerçek yol yan yan, kuş uçuşu doğrudan">
+      <circle class="d-brand" cx="90" cy="140" r="12"/><text class="d-txt d-c" x="90" y="170">Sen (n)</text>
+      <circle class="d-bad" cx="660" cy="50" r="12"/><text class="d-txt d-c" x="660" y="30">Hedef</text>
+      <path class="d-dash" d="M100 133 L650 57"/><text class="d-txt" x="260" y="68" transform="rotate(-8 260 68)">h(n): kuş uçuşu mesafe (tahmin)</text>
+      <path class="d-line-brand" d="M100 148 C250 190 350 160 420 130 S600 100 650 60"/><text class="d-txt" x="420" y="190">gerçek yol (daha uzun)</text>
+    </svg>
+    <div class="callout idea"><b>Önemli fikir</b>h(n) tahmindir; doğru olması gerekmez ama <i>gerçek maliyeti abartmamalıdır</i> (bunu iki slayt sonra “kabul edilebilirlik” diye göreceğiz). Kuş uçuşu mesafe buna iyi bir örnek: gerçek yol hiçbir zaman kuş uçuşundan kısa olamaz.</div>
+    <h3>Açgözlü en-iyi-ilk arama (Greedy)</h3>
+    <p>En basit kullanım: sırada <b>h’si en küçük</b> düğümü genişlet. Yani her zaman hedefe en yakın görüneni seç. Hızlıdır ama yoldaki maliyeti hiç saymaz. Aşağıda Greedy’i ve karşılaştırma için UCS’i dene; sarı düğümlerin altındaki sayı h’dir (tahmini kalan dakika).</p>
+    <div class="lab graphlab" data-algos="greedy,ucs" data-algo="greedy" data-weights="true" data-show-h="true"></div>
+    <p><b>Ne oldu?</b> Greedy hedefe “yakın” görünen kuzey rotasına gitti ve 28 dakikalık yolda kaldı. UCS’in bulduğu güney rota 18 dakika. Greedy ne tam ne optimaldir.</p>
+    <div class="callout real"><b>Gerçek hayat</b>Bir şehirde kalabalık hedefe doğru yürümek: “hedef şu yönde” diyerek en çok o yöne ilerlemek, kapalı bir yol veya nehir çıkana kadar işe yarar. Robot süpürgelerin düz çizgide engele kadar gitmesi gibi.</div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-title="A*: geçmiş + gelecek">
+  <div class="panel">
+    <div class="kicker">Sezgisel arama · 2</div>
+    <h2>A*: hem harcananı hem kalanı say</h2>
+    <p>UCS yalnızca <b>geçmişe</b> (g), Greedy yalnızca <b>geleceğe</b> (h) bakıyordu. A* ikisini toplar:</p>
+    <svg class="diagram" viewBox="0 0 760 150" role="img" aria-label="f(n) = g(n) + h(n): geçmişte harcanan ile tahmini kalanın toplamı">
+      <circle class="d-brand" cx="60" cy="80" r="12"/><text class="d-txt d-c" x="60" y="115">Başla</text>
+      <circle class="d-warn" cx="340" cy="80" r="12"/><text class="d-txt d-c" x="340" y="115">n</text>
+      <circle class="d-bad" cx="690" cy="80" r="12"/><text class="d-txt d-c" x="690" y="115">Hedef</text>
+      <path class="d-line-brand" d="M72 80 H328"/><text class="d-txt d-c" x="200" y="64">g(n): gerçekten harcanan</text>
+      <path class="d-dash" d="M352 80 H678"/><text class="d-txt d-c" x="515" y="64">h(n): tahmini kalan</text>
+      <text class="d-txt d-c d-big" x="380" y="30">f(n) = g(n) + h(n)</text>
+    </svg>
+    <p>Sırada <b>f’si en küçük</b> düğüm genişletilir. “n üzerinden geçen en ucuz yolun tahmini toplamı” demektir. Aşağıda A*’ı, Greedy ve UCS ile kıyasla. Düğüm altında f = g + h yazar.</p>
+    <div class="lab graphlab" data-algos="astar,greedy,ucs" data-algo="astar" data-weights="true" data-show-h="true"></div>
+    <div class="metrics">
+      <div class="metric"><b>Tam: <span class="yes">evet</span></b></div>
+      <div class="metric"><b>Optimal: <span class="yes">evet</span></b>h kabul edilebilirse (sonraki slayt).</div>
+      <div class="metric"><b>Bellek: <span class="no">çok</span></b>Tüm sınırı tutar; büyük uzayda asıl dar boğaz.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat</b>Oyunlarda karakterin yol bulması (NPC’lerin duvarların etrafından dolaşması), robotların yol planlaması ve harita servisleri A* ve türevlerini kullanır. Bir sonraki laboratuvarda onu izgara üstünde canlı göreceksin.</div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-title="İyi sezgisel nasıl olur?">
+  <div class="panel">
+    <div class="kicker">Sezgisel arama · 3</div>
+    <h2>İyi bir sezgisel: iyimser ama bilgili</h2>
+    <div class="cols">
+      <div>
+        <h3>Kabul edilebilir (admissible)</h3>
+        <p>h(n) ≤ hedefe kalan <i>gerçek</i> maliyet. Yani <b>asla abartmaz</b>, en fazla iyimserdir. Böyle bir h ile A* optimal çözümü bulur.</p>
+        <div class="callout ok"><b>Örnek</b>Kuş uçuşu mesafe: gerçek yol ondan kısa olamaz. ✓</div>
+        <div class="callout bad"><b>Karşı örnek</b>Kuş uçuşunu 2 ile çarpmak: gerçek yol bazen daha kısa olur, yani h abartır. ✗ A* optimali kaçırabilir.</div>
+      </div>
+      <div>
+        <h3>Tutarlı (consistent)</h3>
+        <p>Bir adım atınca tahmin, o adımın maliyetinden fazla düşmez: h(n) ≤ maliyet(n→n′) + h(n′). Tutarlı her sezgisel kabul edilebilirdir; ayrıca aynı düğüme ikinci kez ucuz yoldan gelinmez.</p>
+      </div>
+    </div>
+    <h3>Sezgisel nasıl bulunur? Kuralları gevşet.</h3>
+    <p>Problemin bazı kurallarını kaldır, kolaylaşmış problemi çöz; o çözümün maliyeti sezgiseldir. 8 bulmacada bir taş yalnızca komşu boş kareye kayabilir. Bu kuralı kaldırırsan taşı istediğin yere koyabilirsin ve her yanlış taş en az bir hamle ister.</p>
+    <p>Aşağıdaki durumda yanlış yerdeki taşlar kırmızı:</p>
+    <div>
+      <div class="puzzle" aria-label="Mevcut durum"><span class="good">1</span><span class="mis">3</span><span class="mis">6</span><span class="good">4</span><span class="bl"></span><span class="mis">2</span><span class="good">7</span><span class="mis">5</span><span class="mis">8</span></div>
+      <span>→</span>
+      <div class="puzzle" aria-label="Hedef durum"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span class="bl"></span></div>
+    </div>
+    <table class="cmp"><tbody>
+      <tr><th>h₁ = yanlış yerdeki taş sayısı</th><td>3, 6, 2, 5, 8 → <b>5</b></td></tr>
+      <tr><th>h₂ = taşların hedefe Manhattan uzaklığı toplamı</th><td>1 + 1 + 2 + 1 + 1 = <b>6</b></td></tr>
+    </tbody></table>
+    <p>İkisi de kabul edilebilir. h₂ daha büyük ve gerçeğe daha yakındır, yani <b>daha bilgilidir</b>: A* daha az düğüm açar. Kural: kabul edilebilir iki sezgiselden büyük olanı daha iyidir.</p>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-title="Laboratuvar: ızgarada yol bulma">
+  <div class="panel">
+    <div class="kicker">Laboratuvar</div>
+    <h2>Aynı harita, beş algoritma</h2>
+    <p>Haritayı sürükleyerek değiştir: duvar çiz, çamur (geçmesi 5 kat pahalı) ekle, başlangıç ve hedefi taşı. Sonra algoritmaları çalıştır ya da “Hepsini karşılaştır” de.</p>
+    <div class="lab" id="gridlab"></div>
+    <h3>Dene ve gözlemle</h3>
+    <ul>
+      <li><b>Açık alan:</b> A* ve Greedy neredeyse doğrudan hedefe gider (yaklaşık 20 hücre). BFS ve UCS ise her yöne daire gibi yayılır (yaklaşık 220 hücre).</li>
+      <li><b>U duvarı:</b> Hedef karşıda ama arada duvar var. Sezgisel aramalar önce duvara doğru gider, çıkmaz olduğunu görünce geri dönüp dolaşır. Yine de kör aramadan çok daha az hücre açarlar.</li>
+      <li><b>Çamurlu yol:</b> BFS adım sayısını sayar, çamuru umursamaz; Greedy de maliyeti saymaz ve çamura dalar. Yol maliyetini UCS ve A* ile karşılaştır: ikisi en ucuz yolu bulur, A* daha az hücreyle.</li>
+      <li><b>Kendi haritan:</b> Duvarları değiştir ve “Hepsini karşılaştır”. Greedy’nin ne zaman en iyi yoldan saptığını bulabilir misin?</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-title="Oyunlarda arama: minimax">
+  <div class="panel">
+    <div class="kicker">Rakipli arama · 1</div>
+    <h2>Rakip de oynuyor: minimax</h2>
+    <p>Şimdiye kadar ortam sabitti. Oyunlarda ise bir <b>rakip</b> var ve her hamlenden sonra senin aleyhine oynuyor. Oyun da bir ağaçtır: düğümler oyun durumları, dallar hamleler, yapraklar oyun sonu puanlarıdır.</p>
+    <svg class="diagram" viewBox="0 0 760 270" role="img" aria-label="Minimax: MAX en büyüğü, MIN en küçüğü seçer">
+      <path class="d-line" d="M380 40 L200 120 M380 40 L560 120 M200 120 L130 210 M200 120 L270 210 M560 120 L490 210 M560 120 L630 210"/>
+      <polygon class="d-brand" points="380,15 408,58 352,58"/><text class="d-txt d-c" x="380" y="48">3</text><text class="d-sm" x="425" y="45">MAX (biz): en büyüğü seçer</text>
+      <polygon class="d-warn" points="200,140 228,100 172,100"/><text class="d-txt d-c" x="200" y="124">3</text><text class="d-sm" x="30" y="125">MIN (rakip): en küçüğü seçer</text>
+      <polygon class="d-warn" points="560,140 588,100 532,100"/><text class="d-txt d-c" x="560" y="124">2</text>
+      <rect class="d-plain" x="108" y="192" width="44" height="34" rx="8"/><text class="d-txt d-c" x="130" y="214">3</text>
+      <rect class="d-plain" x="248" y="192" width="44" height="34" rx="8"/><text class="d-txt d-c" x="270" y="214">8</text>
+      <rect class="d-plain" x="468" y="192" width="44" height="34" rx="8"/><text class="d-txt d-c" x="490" y="214">2</text>
+      <rect class="d-plain" x="608" y="192" width="44" height="34" rx="8"/><text class="d-txt d-c" x="630" y="214">9</text>
+      <text class="d-sm" x="30" y="255">Yapraklar: oyun sonu puanı (bizim açımızdan, yüksek = iyi).</text>
+    </svg>
+    <p><b>Mantık:</b> Yapraklardan yukarı doğru hesapla. Rakibin sırasında o, bizim için <i>en kötü</i> yaprağı seçer (min). Bizim sırada <i>en iyiyi</i> seçeriz (max). Köke gelen değer, rakip mükemmel oynasa bile <b>garanti edebileceğimiz en iyi sonuçtur</b>. Yukarıdaki küçük ağaçta sol hamle 3, sağ hamle 2 garanti eder; sol seçilir.</p>
+    <div class="callout real"><b>Gerçek hayat</b>XOX (tic-tac-toe) bilgisayarı yenilmezdir çünkü oyun ağacını sonuna kadar minimax ile tarar. Satranç ve dama motorlarının çekirdeği de budur; fark, ağacın çok büyük olması ve bu yüzden bir sonraki iki slayttaki hilelere ihtiyaç duymalarıdır.</div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="slide" data-title="Alfa-beta budama (laboratuvar)">
+  <div class="panel">
+    <div class="kicker">Rakipli arama · 2</div>
+    <h2>Alfa-beta budama: gereksiz dalları at</h2>
+    <p>Minimax bütün ağacı gezer. Ama bazen bir dalın sonucunun kararı değiştirmeyeceği daha baştan bellidir. <b>α (alfa)</b>: MAX’in şu ana kadar garanti ettiği en iyi değer. <b>β (beta)</b>: MIN’in garanti ettiği en iyi değer. Bir MIN düğümü α’dan küçük ya da eşit bir değer bulduğu an, MAX zaten o dala girmeyecektir; kalan yapraklara bakmaya gerek kalmaz.</p>
+    <div class="lab" id="mmlab"></div>
+    <p><b>Dene:</b> önce “Minimax”ı sonuna kadar izle: 9 yaprağın hepsine bakar. Sonra “Alfa-beta budama”ya geç. Aynı hamleyi (Hamle A, değer 3) <b>daha az yaprağa bakarak</b> buldu. Budanan dallar soluk ve kesik çizgili gösteriliyor.</p>
+    <div class="metrics">
+      <div class="metric"><b>Sonuç değişmez</b>Minimax ile aynı hamleyi bulur.</div>
+      <div class="metric"><b>En iyi durum: b^(m/2)</b>Hamleler iyi sıralanırsa derinlik neredeyse iki katına çıkabilir.</div>
+      <div class="metric"><b>En kötü durum: b^m</b>Sıralama kötüyse budama olmaz.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat</b>Stockfish gibi satranç motorları alfa-beta ile çalışır; iyi görünen hamleleri önce denemek (hamle sıralaması) budamayı artırır.</div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-title="Değerlendirme fonksiyonu">
+  <div class="panel">
+    <div class="kicker">Rakipli arama · 3</div>
+    <h2>Oyun bitmeden puan vermek: değerlendirme fonksiyonu</h2>
+    <p>Satranç gibi oyunlarda ağacı oyun sonuna kadar taramak imkânsızdır. Bu yüzden belli bir derinlikte durulur ve bitmemiş durum bir <b>değerlendirme fonksiyonu</b> ile puanlanır. Genelde özelliklerin ağırlıklı toplamıdır:</p>
+    <p class="big-quote mono">Eval(s) = w₁·f₁(s) + w₂·f₂(s) + … + wₙ·fₙ(s)</p>
+    <p>f’ler durumun özellikleri (taş farkı, hareket serbestliği, merkez kontrolü…), w’ler önemleridir. Ağırlıklar fonksiyonun “kişiliğini” belirler. İki aday pozisyonu ağırlıklara göre kıyasla:</p>
+    <div class="lab" id="evalfn">
+      <div id="evw"></div>
+      <div class="score">
+        <div id="evx"><span>Pozisyon X (az taş avantajı, rahat)</span><b></b><span class="mm-note">materyal +3, hareket +2, merkez +1</span></div>
+        <div id="evy"><span>Pozisyon Y (çok taş avantajı, sıkışmış)</span><b></b><span class="mm-note">materyal +5, hareket −6, merkez −2</span></div>
+      </div>
+    </div>
+    <p><b>Gözlem:</b> hareket ağırlığını yüksek tut, X kazanır; düşür, Y kazanır. Hangi pozisyonun “iyi” sayılacağına ağırlıklar karar verir. Bu yüzden değerlendirme fonksiyonunun kalitesi oyun gücünü doğrudan belirler.</p>
+    <div class="callout idea"><b>Tasarım ilkeleri</b>Hızlı hesaplanmalı (her düğümde çağrılır), gerçek kazanma şansıyla uyumlu olmalı ve küçük değişimlerde sıçramamalı. Modern sistemler (ör. AlphaZero) bu fonksiyonu elle yazmak yerine kendi kendine oynayarak <i>öğrenir</i>.</div>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 3</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Soru</th><th>Cevap</th></tr></thead>
+      <tbody>
+        <tr><td>Arama problemi neyle tanımlanır?</td><td>Başlangıç durumu, eylemler, geçiş modeli, hedef testi</td></tr>
+        <tr><td>Algoritmaları nasıl kıyaslarız?</td><td>Tamlık, optimallik, zaman, bellek (b, d, m ile)</td></tr>
+        <tr><td>Eşit adım maliyeti, küçük uzay</td><td>BFS</td></tr>
+        <tr><td>Bellek çok az</td><td>DFS / DLS / IDDFS</td></tr>
+        <tr><td>Maliyetler farklı, en iyi yol şart</td><td>UCS</td></tr>
+        <tr><td>Tek hedef, derin uzay, geri adım mümkün</td><td>Çift yönlü arama</td></tr>
+        <tr><td>Hedefe yakınlık tahmini var</td><td>Greedy (hızlı, riskli) ya da A* (f = g + h, kabul edilebilir h ile optimal)</td></tr>
+        <tr><td>Rakipli oyunlar</td><td>Minimax; hızlandırmak için alfa-beta; derinlik sınırında değerlendirme fonksiyonu</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Tek cümleyle</b>Kör arama “her yere bak”, sezgisel arama “umut verici yere bak”, rakipli arama “rakip de en iyisini yapacak” der.</div>
+    <p>Hazırsan quiz sırada. Yanlış yaptığın her soruda doğru cevap ve nedeni gösterilecek.</p>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_BOLUM_3"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="assets/js/graphcore.js"></script>
+<script src="assets/data/kampus-graf.js"></script>
+<script src="assets/data/bolum-3-quiz.js"></script>
+<script src="assets/js/deck.js"></script>
+<script src="assets/js/graphlab.js"></script>
+<script src="assets/js/gridlab.js"></script>
+<script src="assets/js/minimax.js"></script>
+<script src="assets/js/widgets.js"></script>
+<script src="assets/js/quiz.js"></script>
+</body>
+</html>

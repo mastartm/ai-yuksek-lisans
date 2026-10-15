@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yapay Zeka Temelleri — Görsel Ders Notları</title>
+<meta name="description" content="Yüksek lisans Yapay Zeka Temelleri konularının görsel, örnekli ve etkileşimli anlatımı; bölüm sonu quizleriyle.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <span class="title">Yapay Zeka Temelleri</span>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="wrap">
+  <section class="hero">
+    <div class="kicker">Görsel ders notları</div>
+    <h1>Yapay zekâyı çizerek, deneyerek öğren</h1>
+    <p class="lead">Yüksek lisans Yapay Zeka Temelleri dersinin konuları; slayt tarzı anlatım, gerçek hayat örnekleri, kurcalayabileceğin görseller ve her bölümün sonunda quiz ile. Yanlış cevapta doğrusu ve nedeni gösterilir.</p>
+  </section>
+
+  <div class="grid">
+    <a class="card" href="bolum-3.html">
+      <div class="num">BÖLÜM 3</div>
+      <h3>Arama Algoritmaları</h3>
+      <p>BFS, DFS, UCS, A*, minimax ve alfa-beta. Adım adım çalışan grafikler, yol bulma laboratuvarı, 20 soruluk quiz.</p>
+      <span class="tag">Hazır</span>
+    </a>
+    <div class="card soon"><div class="num">BÖLÜM 1</div><h3>Yapay Zekâ Tanımı ve Tarihsel Gelişimi</h3><span class="tag soon">Yakında</span></div>
+    <div class="card soon"><div class="num">BÖLÜM 2</div><h3>Problem Çözme</h3><span class="tag soon">Yakında</span></div>
+    <div class="card soon"><div class="num">BÖLÜM 4</div><h3>Bilgi Gösterimi</h3><span class="tag soon">Yakında</span></div>
+    <div class="card soon"><div class="num">BÖLÜM 5–6</div><h3>Mantık ve Akıl Yürütme</h3><span class="tag soon">Yakında</span></div>
+    <div class="card soon"><div class="num">BÖLÜM 7–8</div><h3>Karar Verme ve Karar Ağaçları</h3><span class="tag soon">Yakında</span></div>
+    <div class="card soon"><div class="num">BÖLÜM 9–10</div><h3>Etik ve Yapay Zekânın Geleceği</h3><span class="tag soon">Yakında</span></div>
+  </div>
+
+  <footer class="site">
+    Bu site bağımsız bir öğrenci çalışmasıdır; resmî ders materyali değildir. Konular özgün örneklerle ve çizimlerle yeniden anlatılmıştır; ders slaytlarından ya da kitaplardan metin veya görsel alınmamıştır. Hatalı bir şey görürsen haber ver.
+  </footer>
+</div>
+<script>
+(function () {
+  function safe(fn) { try { return fn(); } catch (e) { return null; } }
+  var root = document.documentElement, t = safe(function () { return localStorage.getItem('theme'); });
+  if (t) root.setAttribute('data-theme', t);
+  document.getElementById('theme').addEventListener('click', function () {
+    var dark = root.getAttribute('data-theme') === 'dark' || (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+    var n = dark ? 'light' : 'dark'; root.setAttribute('data-theme', n); safe(function () { localStorage.setItem('theme', n); });
+  });
+})();
+</script>
+</body>
+</html>
