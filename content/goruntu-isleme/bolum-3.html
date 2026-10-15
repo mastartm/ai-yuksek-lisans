@@ -1,0 +1,175 @@
+<!--
+course: goruntu-isleme
+course_title: Görüntü İşleme
+no: 3
+title: Noktasal İşlemler
+quiz: QUIZ_GI_3
+quiz_file: gi-bolum-3-quiz.js
+scripts: imglab.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 3</div>
+    <h1>Noktasal İşlemler: Her Piksel Kendi Başına</h1>
+    <p class="big-quote">Telefonda bir fotoğrafın “parlaklık” çubuğunu çektiğinde ne olur? Her pikselin değeri, <b>yalnızca kendi eski değerine</b> bakılarak yeniden hesaplanır. Komşusuna bakmaz. Bu kadar basit olan fikir, görüntü işlemenin en çok kullanılan araçlarından biridir.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Noktasal işlemi g(x,y) = T[f(x,y)] olarak yazabilirsin.</li>
+      <li>Homojen ve homojen olmayan işlemleri ayırabilirsin.</li>
+      <li>Parlaklık, kontrast, negatif, logaritmik, gamma ve eşikleme dönüşümlerinin etkisini açıklayabilirsin.</li>
+      <li>Histogram eşitlemenin ne yaptığını anlatabilirsin.</li>
+      <li>Renkli görüntülerde (RGB ve HSV) noktasal işlemlerin nasıl uygulandığını tartışabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Noktasal işlem nedir?">
+  <div class="panel">
+    <div class="kicker">Tanım</div>
+    <h2>g(x, y) = T[ f(x, y) ]</h2>
+    <p>Giriş görüntüsünün her (x, y) pikseli, aynı konumdaki çıkış pikselini üretir; üretirken yalnızca o pikselin <b>kendi değeri</b> bir T fonksiyonundan geçirilir. Komşu piksellere hiç bakılmaz.</p>
+    <svg class="diagram" viewBox="0 0 760 140" role="img" aria-label="Girdi pikseli T fonksiyonundan geçip çıktı pikselini üretir">
+      <defs><marker id="ar7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--node-stroke)"/></marker></defs>
+      <rect class="d-brand" x="20" y="35" width="190" height="70" rx="12"/><text class="d-txt d-c" x="115" y="65">f(x, y)</text><text class="d-sm d-c" x="115" y="86">girdi pikseli (örn. 90)</text>
+      <rect class="d-warn" x="285" y="35" width="190" height="70" rx="12"/><text class="d-txt d-c d-big" x="380" y="78">T</text><text class="d-sm d-c" x="380" y="96">dönüşüm fonksiyonu</text>
+      <rect class="d-ok" x="550" y="35" width="190" height="70" rx="12"/><text class="d-txt d-c" x="645" y="65">g(x, y)</text><text class="d-sm d-c" x="645" y="86">çıktı pikseli (örn. 150)</text>
+      <path class="d-line" d="M210 70 H283" marker-end="url(#ar7)"/><path class="d-line" d="M475 70 H548" marker-end="url(#ar7)"/>
+    </svg>
+    <div class="cols">
+      <div><h3>Artıları</h3><ul><li>Çok basit, düşük işlem maliyeti.</li><li>Her piksel bağımsız: paralel çalışmaya ve gerçek zamana çok uygun.</li></ul></div>
+      <div><h3>Eksisi</h3><ul><li>Komşuluğa bakmadığı için kenar bulma ya da desen çıkarma gibi uzamsal işlerde tek başına yetersiz.</li></ul></div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Fotoğraf filtresi</b>“Siyah-beyaz yap”, “parlaklığı artır”, “negatif” gibi filtrelerin birçoğu noktasal işlemdir. Hepsi, her pikseli kendi değerinden hesaplar; bu yüzden uygulama anında çalışır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Homojen / homojen olmayan">
+  <div class="panel">
+    <div class="kicker">Sınıflandırma</div>
+    <h2>Aynı kural herkese mi, yoksa bölgeye göre mi?</h2>
+    <div class="cols">
+      <div class="peas-c p"><b>Homojen işlemler</b>Tüm piksellere <b>aynı</b> T uygulanır. Sabit ekleme (parlaklık), sabitle çarpma (kontrast), negatif. Hızlı ve kesin; ama sahnede aydınlatma değişiyorsa tek ayar yetmez.</div>
+      <div class="peas-c e"><b>Homojen olmayan işlemler</b>T, pikselin konumuna ya da yerel istatistiklerine göre <b>değişir</b>: g = T[f(x,y), P(x,y)]. Adaptif eşikleme, yerel kontrast iyileştirme, dinamik aralık ayarı. Daha iyi sonuç; ama daha pahalı ve parametreleri seçmek zor.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Yarı gölgede kalan belge</b>Bir belgenin yarısı gölgede, yarısı ışıkta. Tüm sayfa için tek eşik seçersen gölgedeki yazı kaybolur ya da aydınlık yarı bembeyaz olur. Bölgeye göre eşik belirleyen adaptif eşikleme bu yüzden gereklidir.</div>
+    <div class="callout idea"><b>Not</b>Bu bölümün laboratuvarı homojen işlemlerle çalışır: tek bir T tüm görüntüye uygulanır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Laboratuvar: noktasal işlemler">
+  <div class="panel">
+    <div class="kicker">Laboratuvar</div>
+    <h2>Dönüşümü seç, eğriye ve histograma bak</h2>
+    <p>Bir görüntü türü ve bir işlem seç. “Dönüşüm eğrisi” T(r) girdi değerini çıktı değerine eşler: eğri çizgi y = x’in <i>üstündeyse</i> görüntü aydınlanır, <i>altındaysa</i> kararır. Sağdaki histogramlar işlemin dağılımı nasıl değiştirdiğini gösterir.</p>
+    <div class="lab imglab" data-mode="point"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Doğrusal dönüşümler">
+  <div class="panel">
+    <div class="kicker">Doğrusal</div>
+    <h2>Parlaklık ve kontrast: g = a·f + b</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Parlaklık (b)</b>Tüm piksellere sabit bir değer eklenir/çıkarılır. Pozitif b görüntüyü aydınlatır. <i>Histogram sağa/sola kayar; genişliği değişmez, yani kontrast aynı kalır.</i></div>
+      <div class="peas-c e"><b>Kontrast (a)</b>Piksel değerleri bir katsayıyla çarpılır. a &gt; 1: kontrast artar (histogram genişler); 0 &lt; a &lt; 1: azalır (histogram daralır).</div>
+    </div>
+    <p>Pratikte ikisi birlikte kullanılır. Laboratuvarda “Parlaklık” ve “Kontrast” işlemlerini sırayla seç ve <b>histogramın nasıl kaydığını ya da genişlediğini</b> gözle.</p>
+    <div class="callout idea"><b>Dikkat</b>Değerler 0–255 aralığının dışına çıkarsa sınırlanır (kırpılır) ve ayrıntı kaybolur. Aşırı kontrast gürültüyü de belirginleştirir. (Laboratuvarda kontrast, ortadaki 128 değeri etrafında uygulanır.)</div>
+    <div class="callout real"><b>Gerçek hayat: Akşam çekilen kareyi toparlamak</b>Karanlık bir fotoğrafta önce parlaklığı artırırsın (histogram sağa kayar), sonra soluk görünüyorsa kontrastı biraz yükseltirsin (histogram genişler). Her iki düğme de doğrusal bir noktasal işlemdir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Doğrusal olmayanlar">
+  <div class="panel">
+    <div class="kicker">Doğrusal olmayan</div>
+    <h2>Logaritmik, gamma ve parça parça doğrusal</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Logaritmik: s = c·log(1+r)</b>Düşük değerleri <b>genişletir</b>, yüksek değerleri sıkıştırır. Karanlık bölgelerdeki ayrıntıyı görünür kılar. Astronomide zayıf sinyalleri çıkarmak için.</div>
+      <div class="peas-c e"><b>Gamma: s = c·rᵞ</b>γ &lt; 1: koyu bölgeler açılır (görüntü aydınlanır, düşük ışıklı görüntü için). γ &gt; 1: parlak bölgeler bastırılır, görüntü kararır (fazla pozlanmış bölgeleri dengelemek için). Ekran kalibrasyonu ve televizyon yayıncılığında yaygın.</div>
+      <div class="peas-c a"><b>Parça parça doğrusal</b>Yoğunluk aralığının farklı bölümlerinde farklı doğrular kullanılır; belirli bir parlaklık aralığı ön plana çıkarılır. Tıpta doku farkı küçük bölgelerde sık kullanılır.</div>
+    </div>
+    <p>Laboratuvarda “Karanlık” görüntüyü seçip <b>Gamma</b>’yı γ = 0,5’e getir ve sonra “Aşırı aydınlık” görüntüde γ = 2’yi dene. Eğrinin y = x çizgisine göre eğilmesine dikkat et.</p>
+    <div class="callout real"><b>Gerçek hayat: Gece modu</b>Telefonun gece modu, karanlık bölgelerin parlaklığını (gamma/log benzeri bir eğriyle) açarken parlak lambaları patlatmamaya çalışır. Hepsi aynı doğrusal olmayan fikir: karanlığı açmak için eğriyi bükmek.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Özel teknikler">
+  <div class="panel">
+    <div class="kicker">Özel teknikler</div>
+    <h2>Negatif, eşikleme, sıkıştırma, pencere</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Teknik</th><th>Ne yapar?</th><th>Nerede?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Negatif</b></td><td>s = (L − 1) − r. Tonları tersine çevirir.</td><td>Röntgende doku ayrımı, film şeritlerini sayısallaştırma</td></tr>
+        <tr><td><b>Eşikleme</b></td><td>Eşiğin altı 0 (siyah), üstü 1 (beyaz): ikili (binary) görüntü.</td><td>Bölütleme, nesne bulma, kalite kontrol</td></tr>
+        <tr><td><b>Sıkıştırma (clamping)</b></td><td>Değerleri bir alt-üst sınır arasına kırpar.</td><td>Aşırı parlak/koyu bölgelerin etkisini sınırlama</td></tr>
+        <tr><td><b>Yoğunluk penceresi</b></td><td>[a, b] aralığını öne çıkarır, dışını bastırır.</td><td>BT ve MR’da doku türlerini ayırma</td></tr>
+        <tr><td><b>Otomatik kontrast</b></td><td>Histograma bakıp değerleri geniş aralığa yayar.</td><td>Farklı ışıkta çekilen görüntüleri tutarlı kılma</td></tr>
+        <tr><td><b>Değiştirilmiş kontrast</b></td><td>Kontrastı belirli bölgelere/aralıklara uygular.</td><td>Detay korurken bozulmayı önleme</td></tr>
+      </tbody>
+    </table></div>
+    <p>Eşikleme, global (tüm görüntü tek eşik) ya da adaptif (yerel eşik) olabilir. Laboratuvarda “Eşikleme” seçip eşiği kaydır ve beyaz–siyah ayrımının nasıl kaydığını gör.</p>
+    <div class="callout real"><b>Gerçek hayat: Sınav kâğıdı tarayıcı</b>Optik okuyucu, işaretlenen kutuyu eşikleme ile bulur: yeterince koyu olan piksel “işaretli”, açık olan “boş”. Eşik çok düşük ya da çok yüksek olursa yanlış okur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Histogram tabanlı işlemler">
+  <div class="panel">
+    <div class="kicker">Histogram tabanlı</div>
+    <h2>Histogram eşitleme ve eşik belirleme</h2>
+    <p><b>Histogram eşitleme</b>, kümülatif dağılım fonksiyonu (CDF) ile piksel değerlerini yeni bir aralığa yeniden dağıtır ve histogramı yayar. Düşük kontrastlı görüntülerde küçük farkları da görünür kılar. Tıpta küçük doku farkları, uyduda arazi ayrıntıları, güvenlik kameralarında düşük ışıklı görüntüler için yaygındır.</p>
+    <p><b>Histogram tabanlı eşik belirleme:</b> histogramda belirgin <b>iki tepe</b> (nesne ve arka plan) varsa, ikisi arasındaki çukur eşik olarak seçilebilir. Daha gelişmişi <b>Otsu</b> gibi istatistiksel yöntemlerdir. Işık koşulları tutarlıysa çok iyi çalışır.</p>
+    <p>Laboratuvarda “Düşük kontrast” görüntüyü seç, “Histogram eşitleme”yi uygula; sonra “İki tepeli” görüntüde eşiği iki tepenin arasına yerleştir.</p>
+    <div class="callout real"><b>Gerçek hayat: Mikroskopta hücre sayımı</b>Koyu hücreler açık zeminde ise histogram iki tepe verir. Eşiği iki tepe arasına koyarsan hücreler siyah, zemin beyaz olur ve program hücreleri saymaya başlayabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Renkli görüntülerde">
+  <div class="panel">
+    <div class="kicker">Renk</div>
+    <h2>Renkli görüntüde noktasal işlem</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>RGB uzayı</b>Her kanala ayrı dönüşüm uygulanır. Kırmızı kanalı artırmak görüntüyü sıcak yapar; mavi kanalı azaltmak sarımsı bir ton verir. Fotoğraf düzenleme yazılımlarında yaygındır.</div>
+      <div class="peas-c e"><b>HSV/HSL uzayı</b>İnsan algısına daha uygun: Ton, Doygunluk, Parlaklık ayrı ayrı işlenir. Bitki örtüsünün doygunluğunu artırmak ya da bir dokunun tonunu değiştirmek böyle yapılır.</div>
+      <div class="peas-c a"><b>Renkli histogram</b>Üç kanalın ayrı histogramı; renk dengesi ve beyaz dengesi düzeltmesinde, ayrıca görüntü erişim sistemlerinde renk istatistiği için kullanılır.</div>
+    </div>
+    <div class="callout idea"><b>Neden HSV?</b>RGB’de parlaklığı artırmak için üç kanalı da değiştirmen gerekir ve renk kayabilir. HSV’de yalnızca V (parlaklık) kanalını değiştirirsin; ton ve doygunluk korunur.</div>
+    <div class="callout real"><b>Gerçek hayat: Soğuk fotoğrafı ısıtmak</b>Mavi bir ton hâkimse kırmızı kanalı artırıp mavi kanalı azaltarak “daha sıcak” bir görüntü elde edersin; bu bir RGB noktasal işlemidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Uygulamalar ve seçim">
+  <div class="panel">
+    <div class="kicker">Uygulama</div>
+    <h2>Hangi işlem, hangi iş için?</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Alan</th><th>Tipik noktasal işlem</th><th>Dikkat</th></tr></thead>
+      <tbody>
+        <tr><td><b>Tıp</b></td><td>Histogram eşitleme, yoğunluk penceresi (MR, BT)</td><td>Aşırı kontrast bazı yapıların yanlış yorumlanmasına yol açabilir</td></tr>
+        <tr><td><b>Uydu</b></td><td>Parlaklık/kontrast, renk düzeltme; belirli kanalların işlenmesiyle bitki indeksleri</td><td>Büyük veri kümelerinde hızlı olduğu için pratik</td></tr>
+        <tr><td><b>Endüstri</b></td><td>Eşikleme ile kusur bulma</td><td>Değişken ışık ve karmaşık yüzey desenlerinde güvenilirlik düşer</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Altın kural</b>İşlem türü ve parametreler uygulamanın doğasına uygun seçilmelidir; doğru parametrelerle noktasal işlemler hem hızlıdır hem de yorumlanabilir sonuçlar verir. Yanlış parametre ton kaymasına ve doğal olmayan görüntüye yol açar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 3</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Tanım</td><td>g(x,y) = T[f(x,y)]: her piksel yalnızca kendi değerinden; komşuluk yok</td></tr>
+        <tr><td>Sınıflar</td><td>Homojen (aynı T her yerde) · homojen olmayan (T konuma/yerel istatistiğe bağlı; adaptif)</td></tr>
+        <tr><td>Doğrusal</td><td>Parlaklık (+b: histogram kayar) · Kontrast (×a: histogram genişler/daralır)</td></tr>
+        <tr><td>Doğrusal olmayan</td><td>Logaritmik (koyuyu açar) · Gamma (γ&lt;1 aydınlatır, γ&gt;1 karartır) · Parça parça doğrusal</td></tr>
+        <tr><td>Özel</td><td>Negatif · Eşikleme (ikili görüntü) · Sıkıştırma/clamping · Yoğunluk penceresi · Otomatik kontrast</td></tr>
+        <tr><td>Histogram tabanlı</td><td>Histogram eşitleme (CDF) · İki tepe arası eşik, Otsu</td></tr>
+        <tr><td>Renk</td><td>RGB’de kanal başına işlem · HSV’de ton, doygunluk, parlaklık ayrı</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

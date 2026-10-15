@@ -1,0 +1,151 @@
+<!--
+course: goruntu-isleme
+course_title: Görüntü İşleme
+no: 2
+title: Histogramlar
+quiz: QUIZ_GI_2
+quiz_file: gi-bolum-2-quiz.js
+scripts: imglab.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 2</div>
+    <h1>Histogramlar: Görüntünün Parlaklık Parmak İzi</h1>
+    <p class="big-quote">Fotoğraf makinelerinin ekranında çekimden önce beliren o dağlı grafik, görüntünün parlaklık dağılımını gösteren <b>histogramdır</b>. Fotoğrafın karanlık mı, fazla aydınlık mı, soluk mu olduğunu görüntüye bakmadan o grafikten anlayabilirsin.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Histogramı tanımlayıp eksenlerini yorumlayabilirsin.</li>
+      <li>Karanlık, aydınlık, düşük ve yüksek kontrastlı görüntüleri histogramdan ayırt edebilirsin.</li>
+      <li>Histogramın sınırlarını (uzamsal bilgiyi bilmemesi gibi) açıklayabilirsin.</li>
+      <li>Renkli görüntülerde kanal histogramlarını okuyabilirsin.</li>
+      <li>Histogramın uygulama alanlarını sayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Histogram nedir?">
+  <div class="panel">
+    <div class="kicker">Tanım</div>
+    <h2>Histogram: hangi parlaklıktan kaç piksel var?</h2>
+    <p>Histogram, bir görüntüdeki piksel değerlerinin <b>dağılımını</b> gösteren istatistiksel bir grafiktir. Yatay eksen parlaklık değerleridir (8 bitte 0 = siyah, 255 = beyaz), dikey eksen o değere sahip piksel sayısıdır.</p>
+    <p>Normalize edilmiş histogram p(rₖ) = nₖ / n olarak yazılır (nₖ: rₖ değerli piksel sayısı, n: toplam piksel). Toplamı 1’dir; bu yüzden “gri seviye olasılık yoğunluk fonksiyonu” da denir.</p>
+    <div class="callout real"><b>Gerçek hayat: Sınıfın not dağılımı</b>Bir sınavın not histogramı “kaç kişi hangi aralıkta not aldı”yı gösterir. Görüntü histogramı da aynı şeyi piksel parlaklığı için yapar: her “not” bir parlaklık seviyesi, her “öğrenci” bir piksel.</div>
+    <h3>Neden yararlı?</h3>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Hızlı</b>Görüntü tek taramada, O(n) sürede çıkarılır.</div>
+      <div class="peas-c e"><b>Bellek dostu</b>Görüntü ne kadar büyük olursa olsun yalnızca 256 sayı saklanır.</div>
+      <div class="peas-c a"><b>Geometriden bağımsız</b>Çevirme ve döndürme histogramı değiştirmez (uzamsal düzene bakmaz).</div>
+      <div class="peas-c s"><b>İstatistik verir</b>Ortalama, varyans, çarpıklık gibi ölçüler hızla hesaplanır.</div>
+    </div>
+    <p>İki tür histogram vardır: tek kanallı <b>gri seviye histogramı</b> ve her kanalı ayrı gösteren <b>renkli histogram</b>.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Histogramı oku (laboratuvar)">
+  <div class="panel">
+    <div class="kicker">Laboratuvar</div>
+    <h2>Altı görüntü, altı histogram</h2>
+    <p>Aşağıda aynı sahnenin farklı pozlanmış hâlleri var. Bir türü seç, sol altta histogramına, altta da otomatik yorumuna bak. Kırmızı çizgi ortalama parlaklığı gösterir.</p>
+    <div class="lab imglab" data-mode="hist"></div>
+    <div class="callout idea"><b>Okuma kuralları</b>Histogram <b>sola yığılmışsa</b> görüntü koyu (az pozlanmış); <b>sağa yığılmışsa</b> aşırı aydınlık (fazla pozlanmış). <b>Dar bir tepe</b> düşük kontrast; <b>geniş yayılım</b> yüksek kontrast; <b>iki ayrı tepe</b> hem gölge hem parlak bölge olduğunu, yani aydınlatma dengesizliğini gösterir.</div>
+    <div class="callout real"><b>Gerçek hayat: Kameranın histogram ekranı</b>Fotoğrafçı, histogramı çekim sırasında izleyip “sola fazla yığıldı, pozu artırayım” der. Yani histogram, çekim sonrası düzeltmeden önce çekimi doğru yapma aracıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kontrast ve pozlama">
+  <div class="panel">
+    <div class="kicker">Yorumlama</div>
+    <h2>Pozlama ve kontrastı histogramdan teşhis etmek</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Histogramda ne görürsün?</th><th>Anlamı</th><th>Çözüm</th></tr></thead>
+      <tbody>
+        <tr><td>Hepsi sola yığılmış</td><td>Karanlık, az pozlanmış; gölgelerde detay kaybı</td><td>Pozu/parlaklığı artır</td></tr>
+        <tr><td>Hepsi sağa yığılmış</td><td>Aşırı aydınlık; parlak bölgelerde detay kaybı</td><td>Pozu/parlaklığı azalt</td></tr>
+        <tr><td>Dar bir tepe, ortada</td><td>Düşük kontrast: soluk, mat görüntü (sis, yetersiz ışık)</td><td>Kontrast germe, histogram eşitleme</td></tr>
+        <tr><td>Geniş yayılmış</td><td>Yüksek kontrast: keskin ama aşırıysa detay kaybı</td><td>Gerekirse azalt</td></tr>
+        <tr><td>İki tepe</td><td>Aydınlatma dengesizliği: bir kısım gölgede, bir kısım parlak</td><td>Yerel yöntemler, pozlama telafisi</td></tr>
+        <tr><td>Pürüzlü, dalgalı</td><td>Gürültü (yüksek ISO, düşük ışık)</td><td>Gürültü giderme sonrası histogram düzgünleşir</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Orta tonlar</b> da önemlidir: portrede ten rengi, endüstride yüzey detayı orta tonların dengesine bağlıdır. Orta kısım zayıfsa görüntü ya aşırı koyu ya aşırı açıktır.</p>
+    <div class="callout idea"><b>Dikkat: bağlam önemli</b>Düşük kontrast her zaman kötü kalite demek değildir. Bazı tıbbi ve endüstriyel analizlerde düşük kontrast, belirli bir yapının daha net görünmesini sağlayabilir. Histogram, görüntünün amacına göre yorumlanmalıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kontrastı düzeltmek">
+  <div class="panel">
+    <div class="kicker">Laboratuvar</div>
+    <h2>Soluk görüntüyü kurtarmak: germe ve eşitleme</h2>
+    <p>Düşük kontrastlı bir görüntü seç, sonra “Kontrast germe” ve “Histogram eşitleme”yi dene. Sol histogram dar, sonuç histogramı nasıl değişiyor?</p>
+    <div class="lab imglab" data-mode="hist"></div>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Kontrast germe</b>En küçük ve en büyük değeri 0 ve 255’e çeker, aradakileri orantılı yayar. Histogramın şekli aynı kalır ama genişler.</div>
+      <div class="peas-c e"><b>Histogram eşitleme</b>Kümülatif dağılıma (CDF) göre değerleri yeniden dağıtır; histogramı mümkün olduğunca düzleştirmeyi hedefler. Küçük farkları da belirgin kılar.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Sisli fotoğraf</b>Sisli bir yolda çekilen fotoğrafın histogramı dardır. Eşitleme ya da germe ile bu daralan aralığı yaymak, siste kaybolan araç ve tabelaların seçilmesini kolaylaştırır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Histogramın sınırları">
+  <div class="panel">
+    <div class="kicker">Sınırlar · kartlara tıkla</div>
+    <h2>Histogram her şeyi söylemez</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sınır 1</b>Uzamsal bilgi kaybı<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Pikselin <i>nerede</i> olduğunu bilmez. Tamamen farklı iki görüntünün histogramı aynı olabilir: biri homojen gri, diğeri küçük parlak nesnelerle dolu olsa da.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sınır 2</b>Tek boyutlu temsil<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Çok boyutlu veri (renkli görüntü) tek boyutlu dağılıma indirgenince kanallar arası ilişki ve uzamsal bağlantılar kaybolur.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sınır 3</b>Gürültüye duyarlılık<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Rastgele gürültü histogramda dalgalanmalar yaratır ve gerçek sinyal karakterini gizleyebilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sınır 4</b>Ölçek bağımlılığı<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Histogramın şekli, çözünürlüğe ve örnekleme yoğunluğuna göre değişebilir; düşük çözünürlükte bazı ayrıntılar kaybolur.</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Aynı not ortalaması</b>İki sınıfın not ortalaması aynı olabilir; birinde herkes 70 almıştır, diğerinde yarısı 40, yarısı 100. Ortalama (ve tek başına histogram) hangi öğrencinin nerede olduğunu söylemez. Görüntüde de “hangi piksel nerede” bilgisi histogramda yoktur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Renkli histogramlar">
+  <div class="panel">
+    <div class="kicker">Renk · dene</div>
+    <h2>Renkli görüntüde her kanalın kendi histogramı vardır</h2>
+    <p>RGB görüntüde kırmızı, yeşil ve mavi kanalların histogramları ayrı çıkarılır; üst üste bindirilmiş hâli de genel renk kompozisyonunu gösterir. Kaydırıcılarla kanal kazancını değiştir ve hangi histogramın kaydığına bak.</p>
+    <div class="lab" id="colorlab"></div>
+    <ul>
+      <li><b>Kırmızı kanal sağa kaymışsa</b> sıcak (kırmızımsı/sarımsı) tonlar baskındır; <b>mavi kanal sağdaysa</b> soğuk tonlar. Beyaz dengesi sorunu böyle anlaşılır.</li>
+      <li>RGB dışında <b>HSV</b> (ton dağılımı, renk bazlı bölütleme için) ve <b>Lab</b> (insan algısına yakın) uzaylarında da histogram çıkarılır.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Meyve olgunluğu</b>Bir domates fotoğrafında kırmızı kanalın yoğunluğu arttıkça olgunluk düzeyi arttığı varsayılabilir; bu yüzden sınıflama sistemleri kırmızı kanal histogramına bakar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Uygulama alanları">
+  <div class="panel">
+    <div class="kicker">Uygulamalar</div>
+    <h2>Histogramlar nerelerde kullanılır?</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Fotoğraf ve sinema</b>Çekim sırasında pozlama ve kontrast ayarı; gölge ve parlak bölgelerde detay kaybını önlemek.</div>
+      <div class="peas-c e"><b>Tıbbi görüntüleme</b>MR/röntgende belirli yoğunluk aralıklarının anormal yığılması (ör. lezyon) bir ipucudur.</div>
+      <div class="peas-c a"><b>Uydu ve uzaktan algılama</b>Arazi örtüsü sınıflama, bitki sağlığı (yakın kızılötesi kanal), afet sonrası hasar tespiti.</div>
+      <div class="peas-c s"><b>Endüstriyel kalite kontrol</b>Standart histogram profilini referans alıp sapan ürünleri ayıklamak; yüzey kusurları belirli ton aralığında beklenmedik artış gösterir.</div>
+      <div class="peas-c p"><b>Güvenlik ve gözetim</b>Otomatik pozlama; ani histogram değişimi (ışık kapanması) alarm tetikleyebilir.</div>
+      <div class="peas-c e"><b>Eğitim ve araştırma</b>Bir algoritmanın etkisini sayısal olarak görmenin pratik yolu.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Işık kapanınca alarm</b>Bir depodaki güvenlik kamerasında ışıklar aniden kapanırsa tüm görüntü sola kayar. Histogramdaki bu ani değişim, hareket algılamaya benzer bir tetikleyici olarak kullanılabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 2</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Tanım</td><td>Yatay eksen parlaklık, dikey eksen piksel sayısı; p(rₖ) = nₖ/n, toplam 1</td></tr>
+        <tr><td>Avantajlar</td><td>O(n) hesap, 256 sayı bellek, geometriden bağımsız, istatistik verir</td></tr>
+        <tr><td>Okuma</td><td>Sola yığılmış: karanlık · Sağa: aşırı aydınlık · Dar: düşük kontrast · Geniş: yüksek kontrast · İki tepe: aydınlatma dengesizliği</td></tr>
+        <tr><td>Sınırlar</td><td>Uzamsal bilgi yok, tek boyutlu, gürültüye duyarlı, ölçek bağımlı</td></tr>
+        <tr><td>Düzeltme</td><td>Kontrast germe, histogram eşitleme</td></tr>
+        <tr><td>Renk</td><td>Kanal başına histogram (R, G, B); HSV ve Lab’de de çıkarılır</td></tr>
+        <tr><td>Uygulamalar</td><td>Fotoğraf, tıp, uydu, endüstri, güvenlik, eğitim</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

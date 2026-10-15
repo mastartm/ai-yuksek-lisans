@@ -1,0 +1,213 @@
+<!--
+course: goruntu-isleme
+course_title: Görüntü İşleme
+no: 1
+title: Görüntü İşlemeye Giriş
+quiz: QUIZ_GI_1
+quiz_file: gi-bolum-1-quiz.js
+scripts: gi1.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 1</div>
+    <h1>Görüntü İşlemeye Giriş: Fotoğraf Aslında Sayılardır</h1>
+    <p class="big-quote">Telefonda bir fotoğrafı “yakınlaştırdığında” kareli bir yapı belirir. O her kare bir <b>piksel</b>; her pikselin içinde bir sayı var. Bu bölümde bir görüntünün nasıl sayıya döndüğünü, bu sayılarla neler yapılabildiğini göreceksin.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Dijital görüntüyü matris olarak açıklayabilirsin.</li>
+      <li>Örnekleme, nicemleme ve çözünürlük kavramlarını ayırt edebilirsin.</li>
+      <li>İnsan gözünün parlaklığı algılama özelliklerini sayabilirsin.</li>
+      <li>Görüntü işlemenin temel aşamalarını sıralayabilir, uygulama alanlarını sayabilirsin.</li>
+      <li>Bir görüntü için doğru dosya biçimini seçebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Görüntü bir matristir">
+  <div class="panel">
+    <div class="kicker">Görüntü nedir?</div>
+    <h2>Görüntü = piksellerden oluşan matris</h2>
+    <p>Görüntü, fiziksel ortamdan yansıyan ışığın algılanıp iki boyutlu bir düzlemde temsil edilmesidir. Dijital görüntüde bu düzlem satır ve sütunlardan oluşan bir <b>matristir</b>; her eleman bir <b>piksel</b>dir ve o noktanın parlaklığını (ya da rengini) tutar. Matematiksel olarak görüntü, iki değişkenli bir <b>f(x, y)</b> fonksiyonudur.</p>
+    <div class="lab" id="pixmat"></div>
+    <div class="callout idea"><b>Analog ve dijital</b>Analog görüntü ışığın sürekli, kesintisiz hâlidir. Dijitalleştirince sayılara dönüşür ve bilgisayar onu analiz edebilir, düzenleyebilir, yorumlayabilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Fotoğrafı büyütmek</b>Bir fotoğrafı çok yakınlaştırdığında beliren kareler tam olarak bu matris elemanlarıdır. Kareler büyüdükçe görüntü “bozulmuş” gibi görünür: aslında yeni detay yoktur, sadece mevcut pikseller büyür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Dijital görüntü türleri">
+  <div class="panel">
+    <div class="kicker">Örnekler</div>
+    <h2>Dijital görüntünün beş yüzü</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Doğal görüntüler</b>Kamera ve telefonla çekilen günlük fotoğraflar; genelde renkli (RGB).</div>
+      <div class="peas-c e"><b>Uydu görüntüleri</b>Yeryüzünün uydularla alınmış görüntüleri; çoklu spektral bantlı, farklı çözünürlüklü.</div>
+      <div class="peas-c a"><b>Tıbbi görüntüler</b>MR, BT, PET, ultrason; genellikle gri seviyeli.</div>
+      <div class="peas-c s"><b>Endüstriyel görüntüler</b>Üretim hattında kalite kontrol; yüksek çözünürlüklü, çoğunlukla tek renkli.</div>
+      <div class="peas-c p"><b>Termal görüntüler</b>Cisimlerin yaydığı ısıya göre oluşan kızılötesi görüntüler; görünür ışık yerine ısı bilgisi.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Termal kamera ile ateş ölçümü</b>Bir termal kamera bir yüzün ısı haritasını çıkarır; renkler ısı seviyelerini gösterir. Normal fotoğraf makinesi “ışığa”, termal kamera “ısıya” duyarlıdır; ama ikisi de sonunda bir sayı matrisi üretir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="İnsan gözü">
+  <div class="panel">
+    <div class="kicker">İnsan görsel sistemi · tıkla</div>
+    <h2>Gözün yapısı ve görüntü oluşumu</h2>
+    <p>Işık kornea ve mercekle kırılıp <b>retinaya</b> odaklanır. Mercek şeklini değiştirerek farklı uzaklıklara odaklanır. Görüntü retinada <b>ters</b> oluşur; beyin onu düzeltip anlamlı hâle getirir. Retinada iki tür fotoreseptör var:</p>
+    <div class="lab" id="eyecells"></div>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Işığın göze girip retinada ters görüntü oluşturması">
+      <rect class="d-box" x="40" y="40" width="40" height="110" rx="6"/><text class="d-sm d-c" x="60" y="175">nesne</text>
+      <path class="d-line-brand" d="M80 50 L330 100 M80 140 L330 100"/>
+      <ellipse class="d-warn" cx="400" cy="100" rx="22" ry="48"/><text class="d-sm d-c" x="400" y="175">mercek</text>
+      <path class="d-line-brand" d="M330 100 L560 140 M330 100 L560 50"/>
+      <path class="d-box" d="M560 20 Q640 100 560 180" fill="none" stroke="var(--bad)" stroke-width="5"/><text class="d-sm" x="590" y="100">retina: ters görüntü</text>
+    </svg>
+    <div class="callout idea"><b>Mühendislik ilhamı</b>Kamera lensi ve sensörü, gözün mercek ve retinasından esinlenir. Yapay görme sistemleri bu biyolojik sürecin ilham verdiği düzeneklerdir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Parlaklığı algılama">
+  <div class="panel">
+    <div class="kicker">İnsan görsel sistemi · dene</div>
+    <h2>Göz parlaklığı ölçmez, kıyaslar</h2>
+    <p>İnsan gözü çok geniş bir aydınlık aralığına uyum sağlayabilir (<b>parlaklık uyumu</b>) ama aynı anda yalnızca sınırlı sayıda seviyeyi birbirinden ayırabilir (<b>ayırt etme</b>). Algılanan parlaklık, gerçek yoğunluğun basit bir yansıması değildir. Aşağıdaki dört iç kare <b>tamamen aynı griye</b> sahip; kaydırıcıyı oynat ve sonra sayıya bak:</p>
+    <div class="lab" id="simcon"></div>
+    <div class="callout idea"><b>Mach bandı etkisi</b>Basamaklı bir gri şeridin her basamağı düz renklidir, ama gözün kenarlarda aşırı vurgu yapması yüzünden basamak sınırlarında açık ve koyu şeritler görürsün. Bu da algının gerçek yoğunluğu aynen yansıtmadığını gösterir.</div>
+    <div class="callout real"><b>Gerçek hayat: Aynı gömlek, farklı ışık</b>Aynı gri gömleği beyaz duvarın önünde koyu, siyah duvarın önünde açık görürsün. Fotoğraf düzenlerken “parlaklığı kıyasla ayarlama” gereksinimi buradan gelir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Görüntü edinimi">
+  <div class="panel">
+    <div class="kicker">Edinim</div>
+    <h2>Işıktan sayıya: görüntü edinimi</h2>
+    <svg class="diagram" viewBox="0 0 760 150" role="img" aria-label="Işık kaynağı, nesne, sensör ve dijital görüntü">
+      <defs><marker id="ar6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--node-stroke)"/></marker></defs>
+      <rect class="d-warn" x="10" y="30" width="150" height="80" rx="12"/><text class="d-txt d-c" x="85" y="62">Işık kaynağı</text><text class="d-sm d-c" x="85" y="84">sahneyi aydınlatır</text>
+      <rect class="d-ok" x="200" y="30" width="150" height="80" rx="12"/><text class="d-txt d-c" x="275" y="62">Nesne</text><text class="d-sm d-c" x="275" y="84">ışığı yansıtır</text>
+      <rect class="d-brand" x="390" y="30" width="150" height="80" rx="12"/><text class="d-txt d-c" x="465" y="62">Sensör</text><text class="d-sm d-c" x="465" y="84">ışık → elektrik</text>
+      <rect class="d-bad" x="580" y="30" width="170" height="80" rx="12"/><text class="d-txt d-c" x="665" y="62">Dijital görüntü</text><text class="d-sm d-c" x="665" y="84">sayı matrisi</text>
+      <path class="d-line" d="M160 70 H198" marker-end="url(#ar6)"/><path class="d-line" d="M350 70 H388" marker-end="url(#ar6)"/><path class="d-line" d="M540 70 H578" marker-end="url(#ar6)"/>
+    </svg>
+    <p>Sensörler gelen enerjiyi elektrik sinyaline çevirir. Sensörler çoğunlukla bir <b>dizi</b> hâlindedir ve her sensör bir piksele karşılık gelir.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Tekil sensör</b>Tek bir eleman; görüntüyü noktadan noktaya tarayarak oluşturur.</div>
+      <div class="peas-c e"><b>Doğrusal sensör dizisi</b>Bir sıra eleman; nesne ya da dizi hareket ederek satır satır görüntü çıkarır. <i>Örnek: belge tarayıcı.</i></div>
+      <div class="peas-c a"><b>Matris (alan) sensörü</b>Tüm görüntüyü aynı anda yakalar. <i>Örnek: telefon kamerası.</i></div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Işık ve renk</b>Yeşil bir yaprak yeşil ışığı yansıtır, kırmızı ve maviyi soğurur; gözün konileri yansıyan bu dalga boylarını “yeşil” diye algılar. Bir nesnenin rengini, beyaz ışığın hangi kısmını yansıttığı belirler. Sensör hangi bantlara duyarlıysa o bandı “görür”: RGB kameralar gözün bantlarında, termal kameralar ısı bandında çalışır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Örnekleme ve nicemleme">
+  <div class="panel">
+    <div class="kicker">Laboratuvar</div>
+    <h2>Örnekleme ve nicemleme: iki ayrı düğme</h2>
+    <p><b>Örnekleme</b> (sampling): görüntünün <i>nerelerinden</i> ölçüm alınacağı; yani kaç piksel olacağı. <b>Nicemleme</b> (quantization): her ölçümün <i>ne kadar hassas</i> yazılacağı; yani kaç yoğunluk seviyesi olacağı. Kodla çizilmiş bir manzara üzerinde iki düğmeyi ayrı ayrı oynat.</p>
+    <div class="lab" id="pixlab"></div>
+    <div class="callout idea"><b>Gözlem</b>Çözünürlüğü düşürünce görüntü <b>bloklaşır</b> (detay kaybı). Bit sayısını düşürünce görüntü <b>bantlaşır</b> (yumuşak geçişler basamaklara dönüşür; 1 bitte yalnızca siyah ve beyaz kalır). Biri nerede, diğeri ne kadar hassas ölçtüğümüzü belirler.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Çözünürlük türleri">
+  <div class="panel">
+    <div class="kicker">Çözünürlük</div>
+    <h2>Dört çözünürlük, bir hesap</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Tür</th><th>Neyi ölçer?</th><th>Örnek</th></tr></thead>
+      <tbody>
+        <tr><td><b>Uzamsal</b></td><td>En küçük ayırt edilebilir ayrıntı; piksel sayısı (ya da DPI)</td><td>1920 × 1080</td></tr>
+        <tr><td><b>Radyometrik (yoğunluk)</b></td><td>Pikselin kaç farklı seviyeyi gösterebildiği</td><td>8 bit → 256 seviye</td></tr>
+        <tr><td><b>Zaman</b></td><td>Videoda saniyedeki kare sayısı</td><td>30 kare/sn</td></tr>
+        <tr><td><b>Renk derinliği</b></td><td>Piksel başına renk hassasiyeti</td><td>RGB, kanal başına 8 bit = 24 bit</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Bit</th><th>Seviye sayısı</th></tr></thead>
+      <tbody><tr><td>1</td><td>2</td></tr><tr><td>2</td><td>4</td></tr><tr><td>4</td><td>16</td></tr><tr><td>8</td><td>256</td></tr><tr><td>16</td><td>65.536</td></tr></tbody>
+    </table></div>
+    <p>Ham (sıkıştırılmamış) boyut = <b>genişlik × yükseklik × bit / 8</b> bayttır. Kendin hesapla:</p>
+    <div class="lab" id="sizecalc"></div>
+    <div class="callout real"><b>Gerçek hayat: Neden fotoğraflar JPEG?</b>12 megapiksellik bir fotoğraf ham hâlde yaklaşık 34 MB tutar; ama telefonun kaydettiği dosya birkaç MB’dır. Fark sıkıştırmadan gelir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Görüntü işleme nedir?">
+  <div class="panel">
+    <div class="kicker">Alan</div>
+    <h2>Görüntü işleme: girdi görüntü, çıktı görüntü ya da bilgi</h2>
+    <p>Görüntü işleme, dijital görüntülerden bilgi çıkarma, düzeltme, dönüştürme ve analiz işlemlerinin algoritmalarla yapıldığı disiplinler arası bir alandır. Girdi bir görüntüdür; çıktı <b>işlenmiş yeni bir görüntü</b> ya da görüntünün özniteliklerini taşıyan <b>sayılar</b> olabilir. Dört temel hedef:</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>İyileştirme</b>Görsel kaliteyi artırmak (ör. kontrast).</div>
+      <div class="peas-c e"><b>Restorasyon</b>Bozulmuş görüntüyü özgün hâline yaklaştırmak.</div>
+      <div class="peas-c a"><b>Bölütleme (segmentasyon)</b>Görüntüyü anlamlı parçalara ayırmak.</div>
+      <div class="peas-c s"><b>Öznitelik çıkarma ve tanıma</b>Nesneleri algılayıp etiketlemek.</div>
+    </div>
+    <h3>Nerelerde kullanılır?</h3>
+    <div class="chips"><span class="chip">Tıbbi görüntüleme</span><span class="chip">Uzaktan algılama / GIS</span><span class="chip">Endüstriyel kalite kontrol</span><span class="chip">Biyometri ve güvenlik</span><span class="chip">Trafik ve akıllı ulaşım</span><span class="chip">Multimedya ve film</span><span class="chip">Tarım</span><span class="chip">Arkeoloji ve sanat tarihi</span></div>
+    <div class="callout real"><b>Gerçek hayat: Plaka okuma</b>Otoyolda geçişinde kamera aracın fotoğrafını çeker (edinim), plakayı bulur (bölütleme), harfleri okur (tanıma). Bir fotoğraf, sonunda “şu plaka şu saatte geçti” bilgisine döner.</div>
+    <div class="callout idea"><b>Diğer alanlarla ilişki</b>Bilgisayarla görme (anlam çıkarma), yapay zekâ ve makine öğrenmesi (özellikle derin öğrenme) ve robotik (görsel bilgiyle yön bulma) görüntü işlemeyle iç içedir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Temel aşamalar">
+  <div class="panel">
+    <div class="kicker">Süreç · tıkla</div>
+    <h2>Dijital görüntü işlemenin on aşaması</h2>
+    <p>Aşamalar birbirini izler ama gerektiğinde tekrar eden döngüler hâlinde ilerler. Her aşamaya tıkla:</p>
+    <div class="lab" id="stages"></div>
+    <div class="callout real"><b>Gerçek hayat: Belgeyi taratmak</b>Telefonla bir kâğıdı tarattığında: kamera görüntüyü alır (edinim), kenarları düzleştirir ve parlaklığı dengeler (ön işleme, iyileştirme), metni arka plandan ayırır (bölütleme), istersen metni okur (tanıma) ve PDF’e sıkıştırır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Dosya biçimleri">
+  <div class="panel">
+    <div class="kicker">Biçimler · dene</div>
+    <h2>Hangi dosya biçimi, hangi iş için?</h2>
+    <p>Biçimler renk modeli, sıkıştırma ve kullanım amacına göre ayrılır: <b>Gri tonlama</b> (tek kanal, 0–255), <b>RGB</b> (3 kanal, 24 bit), <b>RGBA</b> (RGB + saydamlık), <b>CMYK</b> (baskı), <b>BMP</b> (ham, kayıpsız), <b>JPEG</b> (kayıplı), <b>PNG</b> (kayıpsız, saydamlık), <b>GIF</b> (256 renk, animasyon), <b>TIFF</b> (yüksek kalite, kayıpsız), <b>DICOM</b> (tıbbi standart, üst veri). Altı senaryoda doğru biçimi seç:</p>
+    <div class="lab" id="fmtpick"></div>
+    <div class="callout idea"><b>Seçim kriterleri</b>Gerçek zamanlı görüntüleme: JPEG. Web: PNG, GIF. Tıp: DICOM, TIFF. Akademik analiz ve arşiv: RAW, BMP, TIFF. Dosya boyutu, kayıp toleransı ve platform desteği belirleyicidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Araçlar ve eğilimler">
+  <div class="panel">
+    <div class="kicker">Araçlar</div>
+    <h2>Hangi araçla çalışılır, nereye gidiyor?</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Kütüphane / araç</th><th>Kısaca</th></tr></thead>
+      <tbody>
+        <tr><td><b>OpenCV</b></td><td>Açık kaynak bilgisayarla görme kütüphanesi</td></tr>
+        <tr><td><b>MATLAB Image Processing Toolbox</b></td><td>Akademi ve mühendislikte yaygın hazır araç seti</td></tr>
+        <tr><td><b>scikit-image</b></td><td>Python bilimsel görüntü işleme</td></tr>
+        <tr><td><b>Pillow (PIL)</b></td><td>Python’da temel açma, kaydetme, dönüştürme</td></tr>
+        <tr><td><b>TensorFlow/Keras, PyTorch</b></td><td>Derin öğrenme tabanlı görüntü modelleri</td></tr>
+        <tr><td><b>SimpleITK/ITK</b></td><td>Tıbbi görüntü analizi</td></tr>
+        <tr><td><b>Fiji (ImageJ)</b></td><td>Bilimsel (özellikle biyolojik) görüntü analizi için arayüzlü araç</td></tr>
+      </tbody>
+    </table></div>
+    <p>Güncel eğilimler: <b>derin öğrenme</b> tabanlı yöntemlerin yaygınlaşması, <b>gerçek zamanlı</b> sistemler, tıbbi görüntülemede yapay zekâ, çok kipli (multimodal) analiz, görüntü sentezi ve <b>deepfake</b>, <b>kenar bilişim</b> ve IoT, kuantum görüntü işleme.</p>
+    <div class="callout real"><b>Gerçek hayat: Deepfake</b>Aynı teknik yaratıcı işlerde (film efekti) de kötüye kullanımda (sahte görüntü) kullanılır. Görüntü sentezi güçlendikçe bir görüntünün gerçek olup olmadığını doğrulamak da bir görüntü işleme problemi hâline geliyor.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 1</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Görüntü</td><td>f(x, y); piksel matrisi; analog → dijital</td></tr>
+        <tr><td>İnsan gözü</td><td>Koniler (renk, parlak ışık, fovea), çubuklar (düşük ışık); parlaklık uyumu ve ayırt etme; Mach bandı, eş zamanlı kontrast</td></tr>
+        <tr><td>Edinim</td><td>Işık kaynağı → nesne → sensör → dijital görüntü; tekil, doğrusal, matris sensör</td></tr>
+        <tr><td>Örnekleme / nicemleme</td><td>Nerede ölçülür / ne kadar hassas yazılır</td></tr>
+        <tr><td>Çözünürlükler</td><td>Uzamsal, radyometrik, zaman, renk derinliği; 2ᵇ seviye; ham boyut = w × h × bit / 8</td></tr>
+        <tr><td>Görüntü işleme</td><td>İyileştirme, restorasyon, bölütleme, tanıma</td></tr>
+        <tr><td>Aşamalar</td><td>Edinim, ön işleme, iyileştirme, restorasyon, renk, morfoloji, bölütleme, tanıma, temsil, sıkıştırma</td></tr>
+        <tr><td>Biçimler</td><td>JPEG (kayıplı), PNG (kayıpsız, saydam), TIFF, DICOM (tıp), CMYK (baskı)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
