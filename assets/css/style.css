@@ -498,3 +498,19 @@ svg.v5-svg { width: 100%; height: auto; }
 .dq-c.wrong { border-color: var(--bad); background: var(--bad-soft); }
 .dm-m { white-space: nowrap; font-size: .85rem; }
 select { font: inherit; padding: 5px 8px; border-radius: 8px; border: 2px solid var(--line); background: var(--surface); color: var(--text); }
+
+/* Liste görünümü (giriş ve ders sayfaları) */
+.courselists { display: grid; gap: 14px; margin: 24px 0 48px; }
+.coursebox { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 16px; }
+.coursebox > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; cursor: pointer; list-style: none; }
+.coursebox > summary::-webkit-details-marker { display: none; }
+.coursebox .ct { font-weight: 700; font-size: 1.1rem; }
+.chlist { display: flex; flex-direction: column; margin: 0 0 12px; }
+.wrap > .chlist { margin: 24px 0 48px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 6px 16px; }
+.row { display: flex; align-items: center; gap: 12px; padding: 12px 4px; border-top: 1px solid var(--line); color: var(--text); text-decoration: none; }
+.chlist > .row:first-child { border-top: 0; }
+a.row:hover .rt { color: var(--brand); }
+.row .rn { min-width: 1.8em; color: var(--brand); font-weight: 700; }
+.row .rt { flex: 1; }
+.row.soon { opacity: .55; }
+.row.more .rt { color: var(--brand); font-weight: 600; }
