@@ -1,0 +1,198 @@
+<!--
+course: makine-ogrenmesi
+course_title: Makine Öğrenmesi
+no: 1
+title: Giriş
+quiz: QUIZ_ML_1
+quiz_file: ml-bolum-1-quiz.js
+scripts: ml1.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 1</div>
+    <h1>Makine Öğrenmesine Giriş</h1>
+    <p class="big-quote">Telefonun yazdığın mesajlardan hangi kelimeyi yazacağını tahmin ediyor. Hiç kimse ona senin alışkanlıklarını tek tek yazmadı. Peki bilgisayar nasıl “öğreniyor”?</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Makine öğrenmesinin nerede ve neden kullanıldığını sayabilirsin.</li>
+      <li>“Öğrenme” kavramını T, P, E üçlüsüyle tanımlayabilirsin.</li>
+      <li>Bir öğrenme sisteminin dört tasarım kararını açıklayabilirsin.</li>
+      <li>Hedef fonksiyon ve temsil seçiminin ne anlama geldiğini bir örnekle gösterebilirsin.</li>
+      <li>Öğrenmenin neden bir “arama” olduğunu anlatabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Makine öğrenmesi neden?">
+  <div class="panel">
+    <div class="kicker">Neden önemli?</div>
+    <h2>Üç durumda makine öğrenmesi parlar</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>1 · Büyük veride gizli örüntü</b>Büyük veri tabanlarında gözle fark edilmeyen düzenlilikler olabilir. Veri madenciliği. <i>Örnek: hasta kayıtlarından hangi tedavinin işe yaradığını bulmak.</i></div>
+      <div class="peas-c e"><b>2 · Kuralı yazamadığımız işler</b>İnsanlar bir işi yapar ama nasıl yaptığını tarif edemez. <i>Örnek: bir fotoğraftaki yüzü tanımak.</i></div>
+      <div class="peas-c a"><b>3 · Değişen koşullar</b>Program, değişen duruma kendi kendine uyum sağlamalı. <i>Örnek: haber uygulamasının değişen ilgi alanlarına göre öneri yapması.</i></div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Müzik uygulamasının önerisi</b>Hiçbir programcı senin zevkini yazmadı. Uygulama dinlediklerinden, atladıklarından ve tekrar açtıklarından öğrenir. Zevkin değişirse öneriler de değişir; yani üçüncü durum geçerli.</div>
+    <div class="callout idea"><b>Not</b>Makine öğrenmesi, insanın öğrenmesini daha iyi anlamaya da yardımcı olabilir; çünkü bir algoritmanın neden öğrenemediğini görmek, öğrenmenin zorluklarını gösterir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Başka alanlardan beslenir">
+  <div class="panel">
+    <div class="kicker">Disiplinler</div>
+    <h2>Çok disiplinli bir alan</h2>
+    <p>Makine öğrenmesi tek bir alanın içinde değil; sekiz alandan fikir alır:</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Yapay zekâ</b>Bilginin sembolik temsili, öğrenmeyi arama olarak görmek, ön bilgiyi kullanmak.</div>
+      <div class="peas-c e"><b>Bayes yöntemleri</b>Hipotezlerin olasılığını Bayes teoremiyle hesaplamak. Sonuç olasılıksal bir değerdir.</div>
+      <div class="peas-c a"><b>Hesaplamalı karmaşıklık</b>Bir şeyi öğrenmenin en az ne kadar çaba, örnek ve hata gerektirdiğini sınırlar.</div>
+      <div class="peas-c s"><b>Kontrol teorisi</b>Hedefe yönelik süreçleri kontrol etmeyi ve bir sonraki durumu tahmin etmeyi öğrenmek.</div>
+      <div class="peas-c p"><b>Bilgi teorisi</b>Entropi ve bilgi içeriği ölçüleri; en az açıklama uzunluğu fikri.</div>
+      <div class="peas-c e"><b>Felsefe</b>Occam’ın usturası: en basit hipotez en iyisidir. Veriden öteye genellemenin gerekçesi.</div>
+      <div class="peas-c a"><b>Psikoloji ve nörobiyoloji</b>İnsan öğrenmesi, tepki süreleri; yapay sinir ağlarına ve derin öğrenmeye ilham.</div>
+      <div class="peas-c s"><b>İstatistik</b>Sınırlı örnekle hipotez doğruluğunu tahmin ederken oluşan hatalar (yanlılık, varyans), güven aralıkları.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Occam’ın usturası</b>Aynı verinin iki açıklaması var: biri üç kural, diğeri doksan istisna. Hangisinin yeni bir durumda tutacağına güvenirsin? Çoğu kişi basit olana güvenir; makine öğrenmesi de bu sezgiyi kullanır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Öğrenme nedir? T · P · E">
+  <div class="panel">
+    <div class="kicker">İyi tanımlı öğrenme problemi</div>
+    <h2>Öğrenme = deneyimle performansı artırmak</h2>
+    <p class="big-quote">Bir program, T görevlerinde, P ölçüsüyle ölçülen performansı E deneyimiyle iyileşiyorsa, E’den öğreniyor demektir.</p>
+    <svg class="diagram" viewBox="0 0 760 150" role="img" aria-label="E deneyimi, program, T görevi ve P performansı">
+      <defs><marker id="ar4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--node-stroke)"/></marker></defs>
+      <rect class="d-ok" x="10" y="30" width="170" height="80" rx="14"/><text class="d-txt d-c d-big" x="95" y="62">E · Deneyim</text><text class="d-sm d-c" x="95" y="86">örnekler, geçmiş veri</text>
+      <rect class="d-brand" x="280" y="20" width="200" height="100" rx="14"/><text class="d-txt d-c d-big" x="380" y="62">Öğrenen program</text><text class="d-sm d-c" x="380" y="86">zamanla daha iyi olur</text>
+      <rect class="d-warn" x="580" y="30" width="170" height="80" rx="14"/><text class="d-txt d-c d-big" x="665" y="62">T · Görev</text><text class="d-sm d-c" x="665" y="86">P ile ölçülür</text>
+      <path class="d-line" d="M180 70 H278" marker-end="url(#ar4)"/><path class="d-line" d="M480 70 H578" marker-end="url(#ar4)"/>
+    </svg>
+    <p>İyi tanımlı bir öğrenme problemi için üç şeyi belirlemek gerekir: <b>görev (T)</b>, <b>performans ölçüsü (P)</b> ve <b>deneyim kaynağı (E)</b>. Beş örneğe tıkla:</p>
+    <div class="lab" id="tpe"></div>
+    <div class="callout idea"><b>Kural</b>Ölçü doğru seçilmezse sistem yanlış şeyi iyileştirir. Spam filtresinde sadece “spam yakalama oranı”nı ölçersen, önemli e-postaları da spam sayan bir filtre en iyi görünür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Öğrenme sistemi tasarlamak">
+  <div class="panel">
+    <div class="kicker">Tasarım</div>
+    <h2>Bir öğrenme sisteminin dört kararı</h2>
+    <p>Dama oynayan bir program yazacağını düşün. Sistemi kurmadan önce şu dört kararı vermelisin:</p>
+    <div class="ladder">
+      <div class="step"><span class="lv">1</span><div><b>Eğitim deneyimini seç</b><p>Sistem neyden öğrenecek? Hamle sonuçlarını bildiren doğrudan örneklerden mi, yalnızca oyunun sonunda kazandı/kaybetti bilgisinden mi, yoksa kendi kendine oynayarak mı?</p></div></div>
+      <div class="step"><span class="lv">2</span><div><b>Hedef fonksiyonu seç</b><p>Tam olarak <i>ne</i> öğrenilecek? Her tahtada en iyi hamleyi veren bir fonksiyon mu, yoksa tahtaya puan veren bir değerlendirme fonksiyonu mu?</p></div></div>
+      <div class="step"><span class="lv">3</span><div><b>Hedef fonksiyonun temsilini seç</b><p>Fonksiyon nasıl ifade edilecek? Büyük bir tablo, kurallar, polinom ya da sinir ağı.</p></div></div>
+      <div class="step"><span class="lv">4</span><div><b>Öğrenme mekanizmasını seç</b><p>Temsilin içindeki sayıları (ağırlıkları) deneyimden nasıl ayarlayacaksın? (Sonraki bölümlerin konusu.)</p></div></div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Yemek yapmayı öğrenen bir robot</b>Deneyim: tariflerden mi, aşçıyı izleyerek mi, deneme yanılmayla mı öğrenecek? Hedef: “lezzet puanı”nı mı tahmin edecek? Temsil: bir kurallar listesi mi, bir ağ mı? Dört karar burada da aynı.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Eğitim deneyimi">
+  <div class="panel">
+    <div class="kicker">Karar 1</div>
+    <h2>Eğitim deneyiminin üç önemli özelliği</h2>
+    <div class="cols">
+      <div>
+        <h3>1 · Doğrudan mı dolaylı mı geri bildirim?</h3>
+        <p><b>Doğrudan:</b> her tahta durumu için doğru hamle bellidir. Öğrenmesi kolaydır.</p>
+        <p><b>Dolaylı:</b> yalnızca oyunun sonunda “kazandın/kaybettin” bilgisi vardır. Bu durumda <b>kredi atama</b> sorunu çıkar: erken hamleler iyiydi ama sonraki hatalar yüzünden oyun kaybedildiyse, hangi hamleye ne kadar ödül ya da ceza verilecek?</p>
+      </div>
+      <div>
+        <h3>2 · Örnekleri kim seçiyor?</h3>
+        <p>Öğretmen bilgilendirici durumları seçebilir; öğrenci kafasını karıştıran durumları öğretmene sorabilir; ya da kendi kendine oynayıp tüm durumları kendi seçebilir. Son durumda keşfet ya da bildiğini geliştir ikilemi vardır.</p>
+      </div>
+    </div>
+    <h3>3 · Eğitim, test dağılımını temsil ediyor mu?</h3>
+    <p>Öğrenme en güvenilir olduğu durum, eğitim örneklerinin gelecekteki test örnekleriyle benzer dağıldığı durumdur. Pratikte bu çoğu zaman ihlal edilir.</p>
+    <div class="callout real"><b>Gerçek hayat: Çıkmış sorularla sınava hazırlanmak</b>Yalnızca geçen yılın sorularını çözdün; bu yıl hoca farklı tarz sorarsa, o sorularda ustalaşman yeni sınavda performansını garanti etmez. Eğitim dağılımı (çıkmış sorular) ile test dağılımı (gerçek sınav) uyuşmadı. Makine öğrenmesinde de aynı tuzak var.</div>
+    <div class="callout idea"><b>Dama örneği</b>Yalnızca kendisine karşı oynayan program, insan şampiyonların oynayacağı kritik durumları hiç görmemiş olabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Hedef fonksiyon">
+  <div class="panel">
+    <div class="kicker">Karar 2</div>
+    <h2>Neyi öğreneceğiz? Hedef fonksiyon</h2>
+    <p>Öğrenme problemini genelde <b>bir fonksiyonu öğrenme</b> problemine indirgeriz. Dama için iki aday var:</p>
+    <div class="cols">
+      <div class="peas-c p"><b>HamleYap : B → M</b>Tahtayı alıp en iyi hamleyi verir. Çok doğal ama dolaylı geri bildirimle öğrenmesi zordur.</div>
+      <div class="peas-c e"><b>V : B → ℝ</b>Tahtaya bir <i>puan</i> verir; iyi tahtalara yüksek puan. Puan bilinirse en iyi hamle kolayca seçilir: her hamlenin sonucu tahtaya puan ver, en yükseğini seç.</div>
+    </div>
+    <p>V’nin ideal değeri şöyle tanımlanır:</p>
+    <div class="scroll-x"><table class="cmp">
+      <tbody>
+        <tr><td>Oyun kazanıldıysa</td><td>V(b) = +100</td></tr>
+        <tr><td>Oyun kaybedildiyse</td><td>V(b) = −100</td></tr>
+        <tr><td>Berabere bittiyse</td><td>V(b) = 0</td></tr>
+        <tr><td>Oyun sürüyorsa</td><td>V(b) = V(b′): iki taraf da en iyi oynarsa varılacak son tahtanın değeri</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Sorun</b>Dördüncü satır oyunun sonuna kadar aramayı gerektirir; program bunu verimli hesaplayamaz. Böyle tanıma <b>işlemsel olmayan (nonoperational)</b> tanım denir. Öğrenmenin amacı, V’nin hızlı hesaplanabilir bir <b>yaklaşımını</b> (<b>Ṽ</b>) bulmaktır. Bu yüzden öğrenmeye “fonksiyon yaklaşımı” da denir.</div>
+    <div class="callout real"><b>Gerçek hayat: Ev fiyatı</b>Gerçek “değer” bilinmez (ev satılınca belli olur). Fiyat tahmin sistemi, satılmış evlerden öğrenip bu bilinmeyen fonksiyona hızlı hesaplanabilir bir yaklaşım kurar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Temsil seçimi">
+  <div class="panel">
+    <div class="kicker">Karar 3 · dene</div>
+    <h2>Fonksiyon nasıl yazılacak? Temsil</h2>
+    <p>Ṽ’yi tablo, kural koleksiyonu, polinom ya da sinir ağı olarak yazabilirsin. Basit bir seçim: tahtanın özelliklerinin <b>doğrusal bir toplamı</b>.</p>
+    <p class="big-quote mono">Ṽ(b) = w₀ + w₁x₁ + w₂x₂ + w₃x₃ + w₄x₄ + w₅x₅ + w₆x₆</p>
+    <p>x’ler tahta özellikleri (taş sayıları, şahlar, tehdit altındaki taşlar), w’ler ağırlıklardır. <b>Öğrenmek, w değerlerini bulmaktır.</b> Aşağıda iki tahtayı ağırlıklara göre kıyasla:</p>
+    <div class="lab" id="checkers"></div>
+    <div class="callout idea"><b>Gözlem</b>Kırmızı şahın ağırlığını eksi yapmak (rakibin şahı sana kötü) ve kırmızı tehdidi artı yapmak, bize avantajlı tahtaları öne çıkarır. Ağırlıklar yanlışsa program kötü tahtaları sever; öğrenme bu ağırlıkları verilerden bulur.</div>
+    <div class="callout real"><b>Gerçek hayat: Ev puanı</b>Bir kiralık evi puanlarken metrekare, bina yaşı ve metroya uzaklığı toplarsın. Her özelliğin “önemi” senin ağırlığındır. Makine öğrenmesi bu önemleri gerçek kiralardan kendisi çıkarır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Temsilde ödünleşme">
+  <div class="panel">
+    <div class="kicker">Karar 3</div>
+    <h2>Temsil seçimi bir ödünleşmedir</h2>
+    <svg class="diagram" viewBox="0 0 760 170" role="img" aria-label="Basit temsil az veri ister ama gerçeği yakalayamaz; zengin temsil çok veri ister">
+      <rect class="d-ok" x="10" y="20" width="350" height="120" rx="14"/><text class="d-txt d-c d-big" x="185" y="52">Basit temsil</text><text class="d-sm d-c" x="185" y="78">örn. doğrusal toplam</text><text class="d-sm d-c" x="185" y="98">✓ az örnek yeter</text><text class="d-sm d-c" x="185" y="118">✗ gerçek fonksiyona uzak kalabilir</text>
+      <rect class="d-warn" x="400" y="20" width="350" height="120" rx="14"/><text class="d-txt d-c d-big" x="575" y="52">Zengin temsil</text><text class="d-sm d-c" x="575" y="78">örn. büyük tablo, derin ağ</text><text class="d-sm d-c" x="575" y="98">✓ gerçeğe çok yaklaşabilir</text><text class="d-sm d-c" x="575" y="118">✗ çok eğitim örneği ister</text>
+    </svg>
+    <p>Bir yandan ideal fonksiyona mümkün olduğunca yaklaşmak için <b>anlamlı (zengin)</b> bir temsil istersin. Öte yandan temsil zenginleştikçe, seçenekler arasından doğru olanı ayırt etmek için gereken <b>eğitim örneği sayısı</b> artar.</p>
+    <div class="callout real"><b>Gerçek hayat: Ezber ve kural</b>Bir dili yalnızca sözlüğü ezberleyerek öğrenmek (çok zengin ama çok veri ister) ile birkaç dilbilgisi kuralıyla öğrenmek (basit ve hızlı ama istisnaları kaçırır) arasındaki fark.</div>
+    <h3>Öğrenme = hipotezler arasında arama</h3>
+    <p>Bir temsil seçmek, <b>hipotez uzayını</b> seçmektir: öğrenici, bu uzay içinde eğitim örneklerine en uygun hipotezi arar. Bu dersin büyük kısmı farklı hipotez uzaylarını (karar ağaçları, sinir ağları, kural kümeleri, sayısal fonksiyonlar) arayan yöntemlerdir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Alanın açık soruları">
+  <div class="panel">
+    <div class="kicker">Perspektif · kartlara tıkla</div>
+    <h2>Makine öğrenmesi hâlâ şu soruların peşinde</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Soru</b>Hangi algoritma hangi problem ve temsil için en iyisi?<span class="tip">tıkla</span></span><span class="back"><b class="k">Neden önemli</b>Yeterli veriyle bile her algoritma her fonksiyona yakınsamaz. Doğru eşleşmeyi bulmak, alanın temel işidir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Soru</b>Ne kadar eğitim verisi yeterli?<span class="tip">tıkla</span></span><span class="back"><b class="k">Neden önemli</b>Öğrenilen hipoteze duyulan güven, veri miktarı ve hipotez uzayının yapısıyla ilişkilidir. Bunun sınırları teoride aranır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Soru</b>Ön bilgi öğrenmeye nasıl yardım eder?<span class="tip">tıkla</span></span><span class="back"><b class="k">Neden önemli</b>Yaklaşık doğru bir ön bilgi bile genellemeyi yönlendirebilir mi? Bu, daha az veriyle öğrenmenin yolu olabilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Soru</b>Bir sonraki eğitim deneyimi nasıl seçilmeli?<span class="tip">tıkla</span></span><span class="back"><b class="k">Neden önemli</b>Öğrenicinin hangi örneği isteyeceği, problemin karmaşıklığını değiştirir. (Soran bir öğrenci daha hızlı öğrenir.)</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Soru</b>Hangi fonksiyonlar öğrenilmeli?<span class="tip">tıkla</span></span><span class="back"><b class="k">Neden önemli</b>Öğrenme görevini hangi fonksiyon yaklaşım problemlerine indirgeyeceğin kararı da otomatikleştirilebilir mi?</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Soru</b>Temsil kendini geliştirebilir mi?<span class="tip">tıkla</span></span><span class="back"><b class="k">Neden önemli</b>Öğrenici hedef fonksiyonu temsil etme ve öğrenme becerisini artırmak için temsilini otomatik değiştirebilir mi?</span></button>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 1</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Neden ML?</td><td>Büyük veride örüntü, kuralı yazılamayan işler, değişen koşullar</td></tr>
+        <tr><td>Öğrenme tanımı</td><td>T görevinde, P ölçüsüyle, E deneyimiyle iyileşmek</td></tr>
+        <tr><td>Tasarım kararları</td><td>Eğitim deneyimi, hedef fonksiyon, temsil, öğrenme mekanizması</td></tr>
+        <tr><td>Eğitim deneyimi</td><td>Doğrudan/dolaylı geri bildirim (kredi atama), örnekleri kim seçiyor, test dağılımına benzerlik</td></tr>
+        <tr><td>Hedef fonksiyon</td><td>V: tahtaya puan; işlemsel olmayan ideal tanım → Ṽ yaklaşımı</td></tr>
+        <tr><td>Temsil</td><td>Ṽ = w₀ + Σ wᵢxᵢ; öğrenme = w’leri bulmak; ifade gücü ↔ örnek ihtiyacı</td></tr>
+        <tr><td>Genel bakış</td><td>Öğrenme, hipotez uzayında arama yapmaktır</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

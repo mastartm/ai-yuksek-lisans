@@ -1,0 +1,224 @@
+<!--
+course: makine-ogrenmesi
+course_title: Makine Öğrenmesi
+no: 2
+title: Kavram Öğrenme
+quiz: QUIZ_ML_2
+quiz_file: ml-bolum-2-quiz.js
+scripts: ml2.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 2</div>
+    <h1>Kavram Öğrenme: Örneklerden Kural Çıkarmak</h1>
+    <p class="big-quote">Bir çocuğa “kuş” kavramını tanım yaparak öğretmezsin; güvercini, serçeyi ve martıyı gösterir, penguenle yarasayı da “bu kuş değil” diye ayırırsın. Çocuk kısa sürede genel bir fikir çıkarır. Makine bunu nasıl yapar?</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Kavram öğrenmeyi, ikili (evet/hayır) bir fonksiyonu örneklerden bulmak olarak tanımlayabilirsin.</li>
+      <li>Bağlaçlı hipotezleri okuyup “daha genel” ilişkisini kurabilirsin.</li>
+      <li>FIND-S ve ADAY-ELEME’yi (Candidate Elimination) bir örnek üzerinde adım adım çalıştırabilirsin.</li>
+      <li>Versiyon uzayı, S ve G sınırlarının ne anlatığını açıklayabilirsin.</li>
+      <li>Tümevarımsal önyargının neden zorunlu olduğunu gösterebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Kavram nedir?">
+  <div class="panel">
+    <div class="kicker">Giriş</div>
+    <h2>Kavram = ikili değerli bir fonksiyon</h2>
+    <p>Öğrenme çoğu zaman özel örneklerden <b>genel kavramlar</b> çıkarmaktır. Bir kavram, daha geniş bir kümenin alt kümesini tanımlar (hayvanlar içinde kuşlar). Aynı şeyi şöyle de söyleyebiliriz: kavram, her nesneye “evet” ya da “hayır” diyen <b>ikili bir fonksiyondur</b>.</p>
+    <div class="cols">
+      <div class="peas-c p"><b>Örnek kavram: kuş</b>Hayvan → “kuş mu?” <br>Güvercin: evet · Yarasa: hayır</div>
+      <div class="peas-c e"><b>Örnek kavram: spam</b>E-posta → “spam mi?” <br>“Ödül kazandınız!”: evet · Ders duyurusu: hayır</div>
+    </div>
+    <p><b>Kavram öğrenme</b>, bir kavramın üyesi olan ya da olmayan örneklerden genel kavramı otomatik olarak çıkarma problemidir. Bu bölümde iki klasik algoritma var: FIND-S ve ADAY-ELEME.</p>
+    <div class="callout real"><b>Gerçek hayat: Müşteri “memnun mu?”</b>Bir restoran, “memnun müşteri” kavramını yorum puanı, bekleme süresi ve yemeğin sıcak gelip gelmediğinden öğrenmeye çalışabilir. Girdi özellikleri belli, çıktı evet/hayır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Veri kümemiz">
+  <div class="panel">
+    <div class="kicker">Örnek görev</div>
+    <h2>Çalışacağımız örnek: basketbol oynanır mı?</h2>
+    <p>Arkadaşlarla basketbol oynayıp oynamayacağını dört özellikten tahmin etmek istiyoruz. Her özellik <b>kategoriktir</b> (sayı değil, etiket).</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>#</th><th>Hava</th><th>Sıcaklık</th><th>Zemin</th><th>Oyuncu</th><th>Basketbol?</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Güneşli</td><td>Ilık</td><td>Kuru</td><td>Yeterli</td><td class="yes">Evet</td></tr>
+        <tr><td>2</td><td>Güneşli</td><td>Soğuk</td><td>Kuru</td><td>Yeterli</td><td class="yes">Evet</td></tr>
+        <tr><td>3</td><td>Yağmurlu</td><td>Ilık</td><td>Islak</td><td>Yeterli</td><td class="no">Hayır</td></tr>
+        <tr><td>4</td><td>Güneşli</td><td>Ilık</td><td>Kuru</td><td>Eksik</td><td class="no">Hayır</td></tr>
+      </tbody>
+    </table></div>
+    <p>Elde <b>pozitif</b> (c(x)=1, kavrama ait) ve <b>negatif</b> (c(x)=0) örnekler var. Eğitim kümesi D, ⟨x, c(x)⟩ çiftlerinden oluşur. Öğrencinin işi, <b>tüm x’ler için h(x) = c(x)</b> olan bir hipotez h bulmaktır.</p>
+    <div class="callout idea"><b>Not</b>Veri kümesi değişirse (yeni kayıt, silinen kayıt, değişen bir değer), öğrenme sürecini baştan çalıştırıp hipotezi yeniden üretmek gerekir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Hipotez gösterimi">
+  <div class="panel">
+    <div class="kicker">Hipotez · dene</div>
+    <h2>Hipotez: dört özelliğin şartları</h2>
+    <p>Hipotezi dört elemanlı bir vektör olarak yazarız. Her eleman şunlardan biridir:</p>
+    <ul>
+      <li><b>?</b>: bu özelliğin değeri önemli değil, her değer kabul.</li>
+      <li><b>Tek bir değer</b> (ör. Güneşli): yalnızca bu değer kabul.</li>
+      <li><b>∅</b>: hiçbir değer kabul edilmez.</li>
+    </ul>
+    <p>Bir örnek hipotezin <b>tüm</b> şartlarını sağlıyorsa hipotez onu “evet” sınıflar. Örneğin ⟨Güneşli, ?, Kuru, ?⟩: “hava güneşli ve zemin kuru ise oyna”. Aşağıdan kendi hipotezini kur; dört örnekle tutarlı olana kadar dene.</p>
+    <div class="lab" id="hypo"></div>
+    <div class="callout idea"><b>Uç noktalar</b>En genel hipotez ⟨?, ?, ?, ?⟩ her günü “evet” sayar. En özel hipotez ⟨∅, ∅, ∅, ∅⟩ hiçbir günü “evet” saymaz.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Genel ve özel">
+  <div class="panel">
+    <div class="kicker">Hipotezlerin sıralanması</div>
+    <h2>Hipotezler genelden özele sıralanır</h2>
+    <p>h₂ = ⟨Güneşli, ?, ?, ?⟩ ile h₁ = ⟨Güneşli, ?, ?, Yeterli⟩ düşün. h₁’in kabul ettiği her gün h₂ tarafından da kabul edilir. Bu yüzden <b>h₂, h₁’den daha geneldir</b> (h₂ ≥g h₁). Daha az şart, daha çok “evet”.</p>
+    <svg class="diagram" viewBox="0 0 760 210" role="img" aria-label="Genelden özele hipotez zinciri">
+      <defs><marker id="ar5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--node-stroke)"/></marker></defs>
+      <rect class="d-ok" x="10" y="10" width="740" height="40" rx="10"/><text class="d-txt d-c" x="380" y="36">⟨ ?, ?, ?, ? ⟩ — en genel: her günü “evet” sayar</text>
+      <rect class="d-warn" x="110" y="75" width="540" height="40" rx="10"/><text class="d-txt d-c" x="380" y="101">⟨ Güneşli, ?, ?, ? ⟩ — yalnızca hava şartı</text>
+      <rect class="d-brand" x="210" y="140" width="340" height="40" rx="10"/><text class="d-txt d-c" x="380" y="166">⟨ Güneşli, ?, Kuru, Yeterli ⟩</text>
+      <path class="d-line" d="M380 52 V73" marker-end="url(#ar5)"/><path class="d-line" d="M380 117 V138" marker-end="url(#ar5)"/>
+      <text class="d-sm" x="400" y="66">daha özel</text><text class="d-sm" x="400" y="131">daha özel</text>
+      <text class="d-sm" x="12" y="204">Ok yönünde şart sayısı artar, kabul edilen gün sayısı azalır.</text>
+    </svg>
+    <p>Bu ilişki bir <b>kısmi sıralama</b>dır (iki hipotez her zaman karşılaştırılabilir olmayabilir). Algoritmalar, hipotez uzayında bu sıralama sayesinde sonsuz uzaylarda bile düzenli arama yapabilir.</p>
+    <div class="callout real"><b>Gerçek hayat: Hayvan → memeli → kedi</b>“Hayvan” en geneldir; “kedi” daha özeldir. “Kedi”nin tüm üyeleri “memeli”nin de üyesidir. Hipotezlerin genel/özel ilişkisi de aynı mantıktır.</div>
+    <div class="callout idea"><b>Tümevarımsal öğrenme varsayımı</b>Yeterince çok eğitim örneğinde hedefe iyi yaklaşan bir hipotez, görülmemiş örneklerde de hedefe iyi yaklaşır. Makine öğrenmesinin temel varsayımlarından biri budur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="FIND-S">
+  <div class="panel">
+    <div class="kicker">Algoritma 1</div>
+    <h2>FIND-S: en özelden başla, gerektikçe genelleştir</h2>
+    <ol>
+      <li>h’yi en özel hipotez (⟨∅, ∅, ∅, ∅⟩) yap.</li>
+      <li>Her <b>pozitif</b> örnek x için: h x’i kapsamıyorsa, uyuşmayan öznitelikleri <b>daha genel</b> değerle (?) değiştir.</li>
+      <li>h’yi çıktı olarak ver.</li>
+    </ol>
+    <p><b>Negatif örnekleri yok sayar.</b> Hipotez uzayı doğru kavramı içerdiği ve veri hatasız olduğu sürece negatif örnek, hipotezi değiştirmeyi gerektirmez.</p>
+    <div class="callout real"><b>Gerçek hayat: Yeni bir kafenin “iyi” olduğunu öğrenmek</b>İlk iyi kafede: sakin, wi-fi var, kahve güzel. İkinci iyi kafede: sakin değil ama wi-fi ve kahve var. Ortak olanlar “wi-fi + kahve güzel”; “sakin” artık şart değil (?). FIND-S tam böyle çalışır: pozitif örneklerin ortak noktasını bulur.</div>
+    <div class="callout idea"><b>Aşağıdaki laboratuvarı kullan</b>Bir sonraki slayttaki laboratuvarda “FIND-S” modunu seçip dört örneği tek tek işle. Sonuç ⟨Güneşli, ?, Kuru, Yeterli⟩ olmalı.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="FIND-S'in cevapsız soruları">
+  <div class="panel">
+    <div class="kicker">Sınırlar · kartlara tıkla</div>
+    <h2>FIND-S neleri bilemez?</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Soru 1</b>Gerçek hedefi öğrendi mi?<span class="tip">tıkla</span></span><span class="back"><b class="k">Cevap</b>Bilemez. Verilere uyan bir hipotez bulur ama gerçek hedef kavramdan ne kadar uzakta olduğunu söyleyemez.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Soru 2</b>Neden en özel hipotezi seçiyor?<span class="tip">tıkla</span></span><span class="back"><b class="k">Cevap</b>Verilere uyan birçok hipotez olabilir; FIND-S’in neden özeli seçtiğine dair bir gerekçesi yoktur. Bu, algoritmaya gömülü bir tercihtir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Soru 3</b>Veri tutarlı mı, gürültü var mı?<span class="tip">tıkla</span></span><span class="back"><b class="k">Cevap</b>Fark edemez. Etiketi yanlış bir pozitif örnek hipotezi yanlış yönde genelleştirir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Soru 4</b>Birden fazla tutarlı hipotez varsa?<span class="tip">tıkla</span></span><span class="back"><b class="k">Cevap</b>Yalnızca birini verir. Pozitif örnekleri sağlayan başka hipotezler olsa bile onları göstermez. ADAY-ELEME bu eksiği gidermek için geliştirilmiştir.</span></button>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="Versiyon uzayı: S ve G">
+  <div class="panel">
+    <div class="kicker">Algoritma 2</div>
+    <h2>Versiyon uzayı: tutarlı tüm hipotezler</h2>
+    <p><b>Versiyon uzayı</b>, eğitim verisiyle tutarlı <i>bütün</i> hipotezlerin kümesidir. ADAY-ELEME bu kümeyi her üyesini tek tek saklamak yerine yalnızca iki sınırıyla gösterir:</p>
+    <svg class="diagram" viewBox="0 0 760 190" role="img" aria-label="Versiyon uzayı: G en genel sınır, S en özel sınır, aradaki tüm hipotezler tutarlı">
+      <rect class="d-ok" x="30" y="14" width="700" height="36" rx="10"/><text class="d-txt d-c" x="380" y="38">G · genel sınır: tutarlı olan en genel hipotezler</text>
+      <rect class="d-box" x="130" y="64" width="500" height="64" rx="10" stroke-dasharray="6 5"/><text class="d-txt d-c" x="380" y="92">Aradaki hipotezler de tutarlıdır</text><text class="d-sm d-c" x="380" y="112">(G ile S arasında kalan her hipotez)</text>
+      <rect class="d-brand" x="30" y="142" width="700" height="36" rx="10"/><text class="d-txt d-c" x="380" y="166">S · özel sınır: tutarlı olan en özel hipotezler</text>
+    </svg>
+    <ul>
+      <li><b>S</b> (özel sınır): verilerle tutarlı, <i>en az genel</i> hipotezler.</li>
+      <li><b>G</b> (genel sınır): verilerle tutarlı, <i>en genel</i> hipotezler.</li>
+      <li>S ve G birlikte versiyon uzayını tamamen belirler: G ile S arasında kalan her hipotez tutarlıdır.</li>
+    </ul>
+    <div class="callout idea"><b>Mantık</b>Pozitif örnekler S’yi daha genel olmaya zorlar. Negatif örnekler G’yi daha özel olmaya zorlar. Veri arttıkça S ve G birbirine yaklaşır; tek bir hipotezde birleşirlerse kavram tam öğrenilmiştir.</div>
+    <div class="callout real"><b>Gerçek hayat: Dedektif</b>Her ipucu şüpheli listesini daraltır: bir ipucu “bu özellikleri taşımalı” (S’yi genişletir), bir diğeri “şu özelliği taşıyamaz” (G’yi daraltır). Sonunda geriye tek şüpheli kalırsa vaka çözülmüştür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Laboratuvar: FIND-S ve ADAY-ELEME">
+  <div class="panel">
+    <div class="kicker">Laboratuvar</div>
+    <h2>Dört örneği tek tek işle</h2>
+    <p>Önce <b>FIND-S</b>’i, sonra <b>ADAY-ELEME</b>’yi dene. “Sonraki örnek”e bas ve her adımda ne olduğunu oku. Bittiğinde yeni bir gün sorabilir, “gürültü ekle” kutusuyla çelişkili bir örnek ekleyip sonucu gözlemleyebilirsin.</p>
+    <div class="lab" id="celab"></div>
+    <div class="callout idea"><b>Gözlem 1</b>Üçüncü örnek (negatif) G’yi ikiye böler. Neden ⟨?, Soğuk, ?, ?⟩ gibi bir özelleşme G’ye girmedi? Çünkü S’den daha genel olmayan bir hipotez, geçmiş pozitif örnekleri kapsayamaz. S, geçmiş pozitif örneklerin özetidir.</div>
+    <div class="callout idea"><b>Gözlem 2</b>Dördüncü örnekten sonra G’nin bir üyesi elendi, çünkü bu üye yeni pozitif örneği kapsayamaz ve ne özelleştirilebilir ne genelleştirilebilir: tüm bir dal versiyon uzayından çıkar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Yakınsama, gürültü, sorgu">
+  <div class="panel">
+    <div class="kicker">Versiyon uzayı ne söyler?</div>
+    <h2>Versiyon uzayı bize üç şey söyler</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>1 · Yakınsadık mı?</b>S ve G tek ve aynı hipotezde birleşirse hedef kavram tam öğrenilmiştir. Koşullar: veri hatasız ve hedef kavram H içinde ifade edilebilir olmalı.</div>
+      <div class="peas-c e"><b>2 · Veri tutarlı mı?</b>Bir etiket yanlışsa doğru kavram versiyon uzayından elenebilir. Çelişkili veriyle S ve G boş kümeye yakınsar: hiçbir hipotez tüm örneklerle tutarlı değildir. Laboratuvarda “gürültü ekle”yi dene: aynı gün hem Evet hem Hayır olursa versiyon uzayı boşalır.</div>
+      <div class="peas-c a"><b>3 · Sıradaki en iyi soru</b>Hipotezlerin tam yarısının “evet”, yarısının “hayır” dediği örnek en bilgilendiricidir; cevabı versiyon uzayını yarıya indirir. Yirmi soru oyununa benzer.</div>
+    </div>
+    <h3>Kısmen öğrenilmiş kavramla sınıflandırma</h3>
+    <p>Kavram tam öğrenilmemiş olsa bile, bazı yeni örnekleri güvenle sınıflandırabilirsin:</p>
+    <ul>
+      <li>Yeni örnek <b>S’nin her üyesini</b> sağlıyorsa: tüm hipotezler “evet” der. Güvenli pozitif.</li>
+      <li>Yeni örnek <b>G’nin hiçbir üyesini</b> sağlamıyorsa: tüm hipotezler “hayır” der. Güvenli negatif.</li>
+      <li>Hipotezler bölünüyorsa: belirsiz. Oylama, “evet” oranı bir güven ölçüsü olarak kullanılabilir.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: İki doktor aynı fikirdeyse</b>Bir hastayı muayene eden üç doktorun üçü de aynı teşhisi koyuyorsa güvenirsin. İkisi “evet”, biri “hayır” diyorsa ek tetkik (yeni bir sorgu) istersin. Versiyon uzayı da hipotezlerin oy birliğine ya da bölünmesine bakar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Tümevarımsal önyargı">
+  <div class="panel">
+    <div class="kicker">Önyargı</div>
+    <h2>Tümevarımsal önyargı: genellemenin bedeli</h2>
+    <p>Algoritma, görmediği bir örneği nasıl sınıflandırabiliyor? Çünkü <b>öğrenicinin bir varsayımı var</b>. Buna <b>tümevarımsal önyargı</b> (inductive bias) denir: eğitim verisi dışında genelleme yaparken kullandığı ek varsayımlar kümesi. ADAY-ELEME için bu varsayım şudur: <i>“hedef kavram, hipotez uzayında (bağlaçlarla) ifade edilebilir.”</i></p>
+    <h3>Önyargı güçleri: zayıftan güçlüye</h3>
+    <div class="ladder">
+      <div class="step"><span class="lv">1</span><div><b>Ezberci öğrenici (rote learner)</b><p>Gördüğü örnekleri saklar; gördüğünü bilir, görmediği için “bilmiyorum” der. Önyargısı yok, genellemesi de yok.</p></div></div>
+      <div class="step"><span class="lv">2</span><div><b>ADAY-ELEME</b><p>Yalnızca versiyon uzayındaki tüm hipotezler hemfikirse sınıflandırır. Önyargısı: hedef kavram hipotez uzayında var.</p></div></div>
+      <div class="step"><span class="lv">3</span><div><b>FIND-S</b><p>Önceki varsayıma ek olarak “aksi kanıtlanmadıkça her şey negatiftir” der. En güçlü önyargı, en çok genelleme.</p></div></div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Ezber ve anlayış</b>Sınava yalnızca çözülmüş soruları ezberleyerek giren (ezberci), sorular biraz değişince çaresiz kalır. Konunun kurallarını çıkaran öğrenci yeni sorularda da cevap verir, ama kuralı yanlış çıkarmışsa yanlış cevap verir. Güçlü önyargı, hem sıçrama hem risk demektir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Önyargısız öğrenme işe yaramaz">
+  <div class="panel">
+    <div class="kicker">Önyargı</div>
+    <h2>Önyargısız öğrenme neden imkânsız?</h2>
+    <p>Hedef kavramı ifade edemeyeceğinden endişelenip hipotez uzayını “her kümeyi” (kuvvet kümesini) ifade edecek kadar büyütürsen, bu kez başka bir sorun çıkar. Bizim dört özellikli veri kümesinde:</p>
+    <div class="metrics">
+      <div class="metric"><b>16 farklı gün</b>2 × 2 × 2 × 2 olası örnek (|X| = 16).</div>
+      <div class="metric"><b>2<sup>16</sup> = 65.536 kavram</b>Bu 16 günün olası tüm alt kümeleri: “evet”lerin herhangi bir dağılımı.</div>
+      <div class="metric"><b>Yalnızca 82 hipotez</b>Bağlaçlı hipotez uzayı: her özellik için {?, değer 1, değer 2} = 3⁴ = 81, bir de ∅ hipotezi.</div>
+    </div>
+    <p>Yani bağlaçlı uzay 65.536 kavramın yalnızca 82’sini ifade eder: <b>çok önyargılı</b> bir uzay. Her kümeyi ifade eden uzaya geçince hedef kavram kesin içeride olur; ama artık S, “gördüğün pozitiflerin birleşimi”, G de “gördüğün negatiflerin dışındakiler” olur. Görmediğin her örnek için hipotezlerin tam yarısı “evet”, yarısı “hayır” der. Genelleme yapamazsın.</p>
+    <div class="callout idea"><b>Ders</b>Hedef kavram hakkında hiçbir ön varsayımı olmayan bir öğrenicinin, görülmemiş örnekleri sınıflandırmak için rasyonel bir temeli yoktur. Önyargı, öğrenmenin bir kusuru değil, genellemenin <b>önkoşuludur</b>.</div>
+    <div class="callout real"><b>Gerçek hayat: Spam filtresi</b>Filtre, “spam’e benzeyen e-postalar spam’dir” gibi bir varsayım olmadan, hiç görmediği bir e-posta için karar veremez. Bu varsayım yanlışsa (spam yöntemi değişirse) filtre hata yapar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 2</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Kavram öğrenme</td><td>Pozitif/negatif örneklerden ikili değerli bir fonksiyonu (kavramı) bulmak; hipotez uzayında arama</td></tr>
+        <tr><td>Hipotez gösterimi</td><td>⟨?, değer, ∅, …⟩ vektörü; en genel ⟨?,…⟩, en özel ⟨∅,…⟩</td></tr>
+        <tr><td>Genel/özel sırası</td><td>hⱼ ≥g hₖ ⇔ hₖ’nın pozitif dediği her örneğe hⱼ de pozitif der. Kısmi sıralama.</td></tr>
+        <tr><td>FIND-S</td><td>En özelden başlar, pozitif örneklerle genelleştirir, negatifleri yok sayar. Tek hipotez verir; gürültüyü fark edemez.</td></tr>
+        <tr><td>Versiyon uzayı</td><td>Verilerle tutarlı tüm hipotezler; G (en genel) ve S (en özel) sınırlarıyla gösterilir</td></tr>
+        <tr><td>ADAY-ELEME</td><td>Pozitif örnek: G’yi süz, S’yi genelleştir. Negatif örnek: S’yi süz, G’yi özelleştir.</td></tr>
+        <tr><td>Güvenle sınıflandırma</td><td>S’nin hepsini sağlıyorsa pozitif; G’nin hiçbirini sağlamıyorsa negatif; aksi hâlde belirsiz</td></tr>
+        <tr><td>Tümevarımsal önyargı</td><td>Genelleme için zorunlu ek varsayım. Ezberci &lt; ADAY-ELEME &lt; FIND-S (önyargı gücü). Önyargısız öğrenme genelleme yapamaz.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

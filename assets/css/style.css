@@ -441,3 +441,11 @@ svg.nest-svg { width: 100%; height: auto; }
 .p8-row { display: grid; grid-template-columns: 10.5em 1fr; gap: 8px; padding: 4px 0; border-bottom: 1px dashed var(--line); font-size: .92rem; }
 .p8-acts { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
 @media (max-width: 700px) { .p8 { grid-template-columns: 1fr; } .p8-board { margin: 0 auto; } .p8-row { grid-template-columns: 1fr; } }
+
+/* ---------- Kavram öğrenme araçları ---------- */
+.hyp-sel { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0; }
+.hyp-s { display: flex; flex-direction: column; font-size: .85rem; color: var(--muted); gap: 3px; }
+.hyp-s select { font: inherit; padding: 7px 10px; border-radius: 8px; border: 2px solid var(--line); background: var(--surface); color: var(--text); }
+tr.cur-row td { background: var(--brand-soft); }
+tr.dim-row td { opacity: .5; }
+.pill.cur { background: var(--brand); color: #fff; border-color: var(--brand); }
