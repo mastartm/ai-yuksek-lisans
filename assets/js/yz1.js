@@ -229,11 +229,7 @@
     rst.addEventListener('click', function () { state = ENV.map(function () { return [null, null, null, null, null, null]; }); ENV.forEach(function (e, i) { DIM.forEach(function (d, j) { paint(i, j); }); }); out.innerHTML = ''; });
   })();
 
-  /* ---------- 8) Ters çevrilen kartlar ---------- */
-  Array.prototype.forEach.call(document.querySelectorAll('.flip'), function (f) {
-    f.addEventListener('click', function () { f.classList.toggle('on'); f.setAttribute('aria-pressed', f.classList.contains('on') ? 'true' : 'false'); });
-    f.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f.click(); } });
-  });
+  /* 8) Ters çevrilen kartlar: deck.js'te (tüm sayfalar için) */
 
   /* ---------- 9) Disiplin kutuları ---------- */
   (function () {

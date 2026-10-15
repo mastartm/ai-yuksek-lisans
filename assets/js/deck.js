@@ -82,5 +82,9 @@
 
   var start = parseInt((location.hash || '').replace('#', ''), 10);
   go(isNaN(start) ? 0 : start - 1);
+  /* Ters çevrilen kartlar (.flip): tıkla ya da Enter/Boşluk ile aç-kapat */
+  Array.prototype.forEach.call(document.querySelectorAll('.flip'), function (f) {
+    f.addEventListener('click', function () { f.classList.toggle('on'); f.setAttribute('aria-pressed', f.classList.contains('on') ? 'true' : 'false'); });
+  });
   window.Deck = { go: go, current: function () { return cur; } };
 })();
