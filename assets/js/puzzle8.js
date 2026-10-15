@@ -48,7 +48,7 @@
   var acts = el('div', 'p8-acts'); panel.appendChild(acts);
   var bar = el('div', 'bar'); panel.appendChild(bar);
   function btn(label, fn, primary) { var b = el('button', 'btn' + (primary ? ' primary' : ''), label); b.type = 'button'; b.addEventListener('click', fn); bar.appendChild(b); return b; }
-  btn('🤖 A* çözsün', function () { aiSolve(); }, true);
+  btn('🤖 Bilgisayar çözsün (A*)', function () { aiSolve(); }, true);
   btn('🔀 Karıştır', function () { shuffle(); });
   btn('↶ Geri al', function () { stop(); if (history.length) { state = history.pop(); draw(); } });
   btn('↺ Başa dön', function () { stop(); state = START.slice(); history = []; draw(); });
