@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keşifçi Veri Analizi ve Görselleştirme — Veri Bilimi</title>
+<meta name="description" content="Veri Bilimi, Bölüm 4: Keşifçi Veri Analizi ve Görselleştirme. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 4 · Keşifçi Veri Analizi ve Görselleştirme</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Veri Bilimi · Bölüm 4</div>
+    <h1>Keşifçi Veri Analizi: Veriye Önce Bak, Sonra İddia Et</h1>
+    <p class="big-quote">Elinde yeni bir veri seti var ama henüz hangi soruyu soracağını bilmiyorsun. Önce ona bakarsın: grafikler çizersin, tuhaf noktaları ararsın, değişkenleri sadeleştirirsin. Bu bölüm, “bakmanın” bilimsel bir yöntem olarak nasıl yapıldığını ve nasıl yanıltabileceğini anlatır.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Keşifçi ve doğrulayıcı analizi ayırt edebilirsin.</li>
+      <li>İnsan örüntü tanıması ile algoritmik örüntü tanımayı karşılaştırabilirsin.</li>
+      <li>Grafiklerin neden “masum” olmadığını, nasıl yanıltabildiğini gösterebilirsin.</li>
+      <li>Bilişsel yükün üç türünü sayabilirsin.</li>
+      <li>PCA ile faktör analizi arasındaki farkı açıklayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Keşfet, görselleştir, sadeleştir, sonra doğrula</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Keşifçi analiz akışı: keşif, görselleştirme, boyut indirgeme, doğrulama"><rect class="d-brand" x="10" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="90" y="88">Keşif (EDA)</text><text class="d-sm d-c" x="90" y="108">hipotez üret</text><rect class="d-ok" x="200" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="280" y="88">Görselleştirme</text><text class="d-sm d-c" x="280" y="108">örüntüyü gör</text><rect class="d-warn" x="390" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="470" y="88">Boyut indirgeme</text><text class="d-sm d-c" x="470" y="108">PCA, faktör analizi</text><rect class="d-box" x="580" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="665" y="88">Doğrulama</text><text class="d-sm d-c" x="665" y="108">yeni veriyle sına</text><path class="d-line-brand" d="M170 95 L200 95"/><path class="d-line-brand" d="M360 95 L390 95"/><path class="d-line-brand" d="M550 95 L580 95"/><path class="d-dash" d="M665 135 C665 180 90 180 90 140"/><text class="d-sm d-c" x="380" y="190">yeni soru çıkarsa başa dön</text></svg>
+    <p>Keşif hipotez doğurur, doğrulama onu sınar. İkisini <b>aynı veriyle</b> yapmak, kendi kendine sınav hazırlayıp sonra çözmek gibidir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="EDA ve doğrulayıcı analiz">
+  <div class="panel">
+    <div class="kicker">Temel ayrım</div>
+    <h2>Keşifçi analiz ve doğrulayıcı analiz</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Keşifçi (EDA)</th><th>Doğrulayıcı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Hipotez</b></td><td>Önceden kesin değil; veriye bakarak oluşur.</td><td>Önceden net belirlenir.</td></tr>
+        <tr><td><b>Amaç</b></td><td>Örüntü, eğilim, beklenmedik ilişki aramak; açıklama üretmek.</td><td>Teorinin öngördüğünü onaylamak ya da reddetmek.</td></tr>
+        <tr><td><b>Görsellerin işi</b></td><td>Düşünmeye ve fikir üretmeye yardım eder.</td><td>Kanıtı doğru aktarır: hata çubuğu, güven aralığı, model uyumu.</td></tr>
+        <tr><td><b>Sürpriz</b></td><td>Değerlidir; yaratıcı potansiyeli korunur.</td><td>Mümkün olduğunca azaltılır.</td></tr>
+        <tr><td><b>Ana risk</b></td><td>Sahte korelasyona dayalı sahte öngörü.</td><td>Yeterli güç yoksa yanlış negatif (gerçek etkiyi kaçırmak).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Altın kural</b>Doğrulama verisi, keşifte denenen varyasyonlarla “kirlenmemiş” olmalıdır. Aynı veriyi önce hipotez bulmak, sonra hipotezi sınamak için kullanırsan sonuçlar güvenilmez olur. Çözüm: veriyi ayırmak ya da analiz planını önceden açıklamak (ön-kayıt).</div>
+    <div class="callout real"><b>Gerçek hayat: Satış verisi</b>Grafiklere bakıp “Cuma günü satışlar yükseliyor” fikrini bulmak keşiftir. Bu fikri <i>gelecek aydaki yeni verilerle</i> sınamak doğrulamadır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Örüntü tanıma">
+  <div class="panel">
+    <div class="kicker">Örüntü tanıma ve bilişsel psikoloji</div>
+    <h2>İnsan zihni ve algoritma aynı örüntüye nasıl bakar?</h2>
+    <p>Örüntü tanıma, veride yinelenen yapıları ve anlamlı ilişkileri bulmaktır. Bilgisayar özellikleri sayılaştırıp sınıflandırma, kümeleme ya da boyut indirgeme uygular. İnsan ise istatistiksel benzerliğe ek olarak <b>anlam yükler</b>, kavramlaştırır, bağlamı birleştirir.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>İnsan zihni</th><th>Algoritma</th></tr></thead>
+      <tbody>
+        <tr><td><b>Odaklanma</b></td><td>Dikkat, ilgisiz bilgiyi eler.</td><td>Özellik seçimi, en çok bilgi taşıyan değişkenleri seçer.</td></tr>
+        <tr><td><b>Anormallik</b></td><td>Bağlama göre “normal sapma” ya da “kritik sinyal” der.</td><td>Eğitimde görmediği durumu istatistiksel sapma olarak işaretler.</td></tr>
+        <tr><td><b>Uyum</b></td><td>Yeni bilgiyle eski örüntünün anlamını hızla yeniden yorumlar.</td><td>Genellikle parametre güncellemesi ya da yeniden eğitim gerekir.</td></tr>
+        <tr><td><b>Eksik bilgi</b></td><td>Sezgisel kısayollar (heuristik) kullanır.</td><td>Veriye ve eğitime bağımlıdır.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Öğrenci kayıtları</b>Bir öğrencinin görev başarısının düşmesini algoritma “sapma” diye işaretler. Öğretmen aynı düşüşü “dikkat kaybı ya da motivasyon sorunu” diye yorumlar. En iyi analiz ikisini birleştirir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Grafikler bilgi üretir">
+  <div class="panel">
+    <div class="kicker">Görsel epistemoloji · dene</div>
+    <h2>Grafik yalnızca ayna değil, bir karardır</h2>
+    <p>Bir grafik çizerken hangi değişkenin, hangi ölçekle, hangi renk ve düzenle gösterileceğine karar verirsin. Her karar, izleyicinin <b>neyi göreceğini</b> belirler. Bu yüzden grafik, bilginin üretiminde etkin bir parçadır; ayrıca ikna aracıdır.</p>
+    <p>Kaydırıcıyla eksenin başlangıcını yukarı çek: aynı veri nasıl farklı görünüyor?</p>
+    <div class="lab" id="axislab"></div>
+    <div class="callout idea"><b>Etik uyarı</b>Eksen kırpma, ölçek oynama ve renk seçimi izleyiciyi yanıltabilir. Dürüst grafik, veriyi büyütmez ya da küçültmez; seçimlerini gizlemez.</div>
+    <h3>Başka rolleri</h3>
+    <ul>
+      <li>Keşifte hipotez üretir; doğrulamada ölçütü net sunar.</li>
+      <li>Çok boyutlu veriyi (korelasyon matrisi, zaman serisi kümeleri) insanın kavrayabileceği hâle getirir.</li>
+      <li>Aynı grafik farklı alan uzmanlarına farklı şeyler söyler.</li>
+      <li>Boyut indirgemeyle çizilen grafikte bilgi kaybı vardır; gösterilmeyen eksenlerde önemli varyans saklı kalabilir.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Bilişsel yük">
+  <div class="panel">
+    <div class="kicker">Bilişsel yük · kartlara tıkla</div>
+    <h2>Zihnin çalışma belleği sınırlıdır</h2>
+    <p>Çalışma belleği aynı anda yalnızca sınırlı sayıda bilgi parçası (chunk) tutar. Bu sınır aşılınca öğrenme ve hatırlama düşer. Grafik tasarlarken “bu izleyiciyi gereksiz yormuyor muyum?” diye sor.</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Tür 1</b>İçsel yük<span class="tip">tıkla</span></span><span class="back"><b class="k">Kaynağı</b>Konunun kendi zorluğu. Değiştirmek zordur; parçalara bölerek yönetilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Tür 2</b>Dışsal yük<span class="tip">tıkla</span></span><span class="back"><b class="k">Kaynağı</b>Kötü sunum: gereksiz süs, her öğenin aynı kontrastta olması, karışık düzen. Azaltılmalıdır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Tür 3</b>Yapıcı (germane) yük<span class="tip">tıkla</span></span><span class="back"><b class="k">Kaynağı</b>Anlam kurmaya harcanan çaba: etkileşimli filtre, adım adım açıklama paneli. Teşvik edilmelidir.</span></button>
+    </div>
+    <div class="callout idea"><b>Odak + bağlam</b>İlgilenilen alt kümeyi öne çıkar, genel yapıyı arka planda tut. Ayrıntıyı ipucu penceresiyle ya da katmanlı görünümle kademeli ver.</div>
+    <div class="callout real"><b>Gerçek hayat: Yönetim paneli</b>Bir panoda 30 grafik aynı parlaklıkta duruyorsa göz neye bakacağını bilemez. Tek bir ana metriği büyütmek dışsal yükü düşürür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Boyut indirgeme">
+  <div class="panel">
+    <div class="kicker">Boyut indirgeme ve gizil yapı</div>
+    <h2>Yüzlerce değişkeni birkaç eksene sıkıştırmak</h2>
+    <p>Veri setinde onlarca ya da yüzlerce değişken varsa insan bunu doğrudan göremez. İki yaklaşım vardır: <b>PCA</b> (varyansı koruyarak yeni eksenler kurar) ve <b>faktör analizi</b> (değişkenleri yöneten gizil yapıları arar). Her ikisi de gözlemlenen karmaşıklığı sade bir temsile çevirir.</p>
+    <div class="callout real"><b>Gerçek hayat: Anket maddeleri</b>40 maddelik bir kaygı ölçeğini 3 genel boyuta indirmek, hem grafik çizmeyi hem yorumlamayı kolaylaştırır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="PCA">
+  <div class="panel">
+    <div class="kicker">Temel bileşenler analizi · dene</div>
+    <h2>PCA: en çok yayılan yönü bul</h2>
+    <p>PCA, değişkenlerin doğrusal birleşimlerinden birbirinden bağımsız yeni eksenler üretir ve bunları <b>varyansı en büyük olandan küçüğe</b> sıralar. İlk eksen (PC1) verinin en çok yayıldığı yöndür. Veri, ilk birkaç eksene yansıtılınca boyut azalır ama bilginin çoğu korunur.</p>
+    <p>Aşağıda noktaları bir doğruya yansıt. Eksenin açısını çevir ve izdüşümlerin (kırmızı) ne kadar yayıldığına bak:</p>
+    <div class="lab" id="pcalab"></div>
+    <ul>
+      <li>Veri genellikle <b>ortalamadan merkezlenir</b> ve gerekirse ölçeklenir; yoksa büyük ölçekli değişken baskın çıkar.</li>
+      <li>Özdeğerler, her bileşenin açıkladığı varyansı gösterir. Kaç bileşen tutulacağına özdeğer grafiğine (scree) ve toplam açıklanan varyansa bakılarak karar verilir.</li>
+      <li>Bileşenler doğada hazır duran eksenler değil; seçtiğin ölçek ve standartlaştırma gibi tercihlerin ürünüdür.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Faktör analizi">
+  <div class="panel">
+    <div class="kicker">Faktör analizi</div>
+    <h2>Gözlenen değişkenlerin ardındaki gizil faktörler</h2>
+    <p>Faktör analizi, doğrudan ölçülemeyen ama gözlenen değişkenler arasındaki ilişkileri yöneten <b>gizil (latent)</b> yapıları modeller. Model şöyle yazılır:</p>
+    <p class="big-quote" style="font-size:1.1rem">X = L·F + U</p>
+    <p>X gözlenen değişkenler, F gizil faktörler, L faktör yükleri, U ise ölçüme özgü hata terimidir. Varyans ikiye ayrılır: <b>ortak varyans</b> (faktörlerden gelen) ve <b>özgül varyans</b> (hata).</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>PCA</th><th>Faktör analizi</th></tr></thead>
+      <tbody>
+        <tr><td><b>Amaç</b></td><td>Toplam varyansı koruyarak sıkıştırmak.</td><td>Kavramsal olarak anlamlı gizil yapıları bulmak.</td></tr>
+        <tr><td><b>Varyans</b></td><td>Toplam varyans üzerinde çalışır.</td><td>Ortak varyans ile hata varyansını ayırır.</td></tr>
+        <tr><td><b>Sonuç</b></td><td>Bileşen matematiksel bir dönüşümdür.</td><td>Faktör, kuramsal bir yapıyı temsil eder.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Türler ve rotasyon</h3>
+    <ul>
+      <li><b>EFA (keşifçi):</b> faktör yapısı hakkında önvarsayım yok; yükler veriden bulunur.</li>
+      <li><b>CFA (doğrulayıcı):</b> yapı önceden kuramla tanımlanır; model uyum indeksleriyle (CFI, TLI, RMSEA) sınanır.</li>
+      <li><b>Dik (ortogonal) rotasyon</b> (ör. varimax): faktörler bağımsız kalır, yükler belirginleşir.</li>
+      <li><b>Eğik (oblik) rotasyon</b> (ör. oblimin, promax): faktörlerin ilişkili olmasına izin verir; psikolojik yapılar için sık seçilir.</li>
+    </ul>
+    <div class="callout idea"><b>Faktör gerçek midir?</b>Bir faktör bulmak onun “var olduğunu” kanıtlamaz; model kurmanın ürünü olabilir. Farklı model tanımlarıyla çıkan yapıları karşılaştır, alan uzmanıyla yorumla. İşe alım ve öğrenci yönlendirme gibi alanlarda sonuçlar insanları etkilediğinden etik sorumluluk büyüktür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 4</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>EDA / doğrulayıcı</td><td>Keşif hipotez üretir, doğrulama sınar; aynı veriyi ikisi için kullanma</td></tr>
+        <tr><td>Örüntü tanıma</td><td>İnsan anlam ve bağlam katar; algoritma istatistik ve ölçek</td></tr>
+        <tr><td>Grafik</td><td>Bilgi üretimine katılır; eksen, ölçek, renk kararlarıdır; yanıltabilir</td></tr>
+        <tr><td>Bilişsel yük</td><td>İçsel, dışsal, yapıcı; dışsalı azalt, yapıcıyı destekle</td></tr>
+        <tr><td>PCA</td><td>Varyans sıralı bağımsız eksenler; merkezle, ölçekle, bileşen sayısını seç</td></tr>
+        <tr><td>Faktör analizi</td><td>X = LF + U; ortak varyans; EFA / CFA; rotasyon</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_VB_4"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/vb-bolum-4-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/vb4.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>

@@ -20,7 +20,7 @@
       [10, 'Morfolojik Görüntü İşleme', 0], [11, 'Renkli Görüntü İşleme', 0], [12, 'Görüntü Bölütleme', 0], [13, 'Nesne Tanıma', 0], [14, 'Geleceğin Paradigmaları', 0]
     ] },
     { slug: 'veri-bilimi', title: 'Veri Bilimi', blurb: 'Temeller, veri toplama ve etik, EDA, istatistik, büyük veri, metodolojiler.', chapters: [
-      [1, 'Veri Biliminin Bilimsel Temelleri', 1], [2, 'Felsefi ve Epistemolojik Temeller', 1], [3, 'Veri Toplama ve Etik', 1], [4, 'Keşifçi Veri Analizi ve Görselleştirme', 0],
+      [1, 'Veri Biliminin Bilimsel Temelleri', 1], [2, 'Felsefi ve Epistemolojik Temeller', 1], [3, 'Veri Toplama ve Etik', 1], [4, 'Keşifçi Veri Analizi ve Görselleştirme', 1],
       [5, 'İstatistiksel Analiz ve Çıkarım', 0], [6, 'Veri Mimarisi ve Yönetimi', 0], [7, 'Büyük Veri ve Ölçeklenebilirlik', 0],
       [8, 'Makine Öğrenmesi ve Yapay Zekâ', 0], [9, 'Veri Biliminin Geleceği', 0], [10, 'Metodolojiler ve Teknik Uygulamalar', 0]
     ] },
