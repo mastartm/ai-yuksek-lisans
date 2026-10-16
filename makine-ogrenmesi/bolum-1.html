@@ -29,7 +29,7 @@
   <div class="panel">
     <div class="kicker">Makine Öğrenmesi · Bölüm 1</div>
     <h1>Makine Öğrenmesine Giriş</h1>
-    <p class="big-quote">Telefonun yazdığın mesajlardan hangi kelimeyi yazacağını tahmin ediyor. Hiç kimse ona senin alışkanlıklarını tek tek yazmadı. Peki bilgisayar nasıl “öğreniyor”?</p>
+    <p class="big-quote">Telefonun, mesaj yazarken bir sonraki kelimeyi tahmin ediyor. Hiç kimse ona senin alışkanlıklarını tek tek yazmadı. Peki bilgisayar nasıl “öğreniyor”?</p>
     <h3>Bu bölümün sonunda</h3>
     <ul>
       <li>Makine öğrenmesinin nerede ve neden kullanıldığını sayabilirsin.</li>
@@ -87,7 +87,7 @@
   <div class="panel">
     <div class="kicker">İyi tanımlı öğrenme problemi</div>
     <h2>Öğrenme = deneyimle performansı artırmak</h2>
-    <p class="big-quote">Bir program, T görevlerinde, P ölçüsüyle ölçülen performansı E deneyimiyle iyileşiyorsa, E’den öğreniyor demektir.</p>
+    <p class="big-quote">Bir programın T görevlerindeki performansı (P ölçüsüyle ölçülür) E deneyimiyle iyileşiyorsa, program E’den öğreniyor demektir.</p>
     <svg class="diagram" viewBox="0 0 760 150" role="img" aria-label="E deneyimi, program, T görevi ve P performansı">
       <defs><marker id="ar4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--node-stroke)"/></marker></defs>
       <rect class="d-ok" x="10" y="30" width="170" height="80" rx="14"/><text class="d-txt d-c d-big" x="95" y="62">E · Deneyim</text><text class="d-sm d-c" x="95" y="86">örnekler, geçmiş veri</text>
@@ -128,11 +128,11 @@
       </div>
       <div>
         <h3>2 · Örnekleri kim seçiyor?</h3>
-        <p>Öğretmen bilgilendirici durumları seçebilir; öğrenci kafasını karıştıran durumları öğretmene sorabilir; ya da kendi kendine oynayıp tüm durumları kendi seçebilir. Son durumda keşfet ya da bildiğini geliştir ikilemi vardır.</p>
+        <p>Öğretmen bilgilendirici durumları seçebilir; öğrenci kafasını karıştıran durumları öğretmene sorabilir; ya da kendi kendine oynayıp tüm durumları kendi seçebilir. Son durumda “yeni durumları keşfet mi, bildiğini mi geliştir?” ikilemi vardır.</p>
       </div>
     </div>
     <h3>3 · Eğitim, test dağılımını temsil ediyor mu?</h3>
-    <p>Öğrenme en güvenilir olduğu durum, eğitim örneklerinin gelecekteki test örnekleriyle benzer dağıldığı durumdur. Pratikte bu çoğu zaman ihlal edilir.</p>
+    <p>Öğrenmenin en güvenilir olduğu durum, eğitim örneklerinin gelecekteki test örnekleriyle benzer dağıldığı durumdur. Pratikte bu çoğu zaman ihlal edilir.</p>
     <div class="callout real"><b>Gerçek hayat: Çıkmış sorularla sınava hazırlanmak</b>Yalnızca geçen yılın sorularını çözdün; bu yıl hoca farklı tarz sorarsa, o sorularda ustalaşman yeni sınavda performansını garanti etmez. Eğitim dağılımı (çıkmış sorular) ile test dağılımı (gerçek sınav) uyuşmadı. Makine öğrenmesinde de aynı tuzak var.</div>
     <div class="callout idea"><b>Dama örneği</b>Yalnızca kendisine karşı oynayan program, insan şampiyonların oynayacağı kritik durumları hiç görmemiş olabilir.</div>
   </div>
@@ -145,7 +145,7 @@
     <p>Öğrenme problemini genelde <b>bir fonksiyonu öğrenme</b> problemine indirgeriz. Dama için iki aday var:</p>
     <div class="cols">
       <div class="peas-c p"><b>HamleYap : B → M</b>Tahtayı alıp en iyi hamleyi verir. Çok doğal ama dolaylı geri bildirimle öğrenmesi zordur.</div>
-      <div class="peas-c e"><b>V : B → ℝ</b>Tahtaya bir <i>puan</i> verir; iyi tahtalara yüksek puan. Puan bilinirse en iyi hamle kolayca seçilir: her hamlenin sonucu tahtaya puan ver, en yükseğini seç.</div>
+      <div class="peas-c e"><b>V : B → ℝ</b>Tahtaya bir <i>puan</i> verir; iyi tahtalara yüksek puan. Puan bilinirse en iyi hamle kolayca seçilir: her hamlenin sonunda oluşan tahtaya puan ver, en yükseğini seç.</div>
     </div>
     <p>V’nin ideal değeri şöyle tanımlanır:</p>
     <div class="scroll-x"><table class="cmp">
@@ -156,7 +156,7 @@
         <tr><td>Oyun sürüyorsa</td><td>V(b) = V(b′): iki taraf da en iyi oynarsa varılacak son tahtanın değeri</td></tr>
       </tbody>
     </table></div>
-    <div class="callout idea"><b>Sorun</b>Dördüncü satır oyunun sonuna kadar aramayı gerektirir; program bunu verimli hesaplayamaz. Böyle tanıma <b>işlemsel olmayan (nonoperational)</b> tanım denir. Öğrenmenin amacı, V’nin hızlı hesaplanabilir bir <b>yaklaşımını</b> (<b>Ṽ</b>) bulmaktır. Bu yüzden öğrenmeye “fonksiyon yaklaşımı” da denir.</div>
+    <div class="callout idea"><b>Sorun</b>Dördüncü satır oyunun sonuna kadar aramayı gerektirir; program bunu verimli hesaplayamaz. Böyle bir tanıma <b>işlemsel olmayan (nonoperational)</b> tanım denir. Öğrenmenin amacı, V’nin hızlı hesaplanabilir bir <b>yaklaşımını</b> (<b>Ṽ</b>) bulmaktır. Bu yüzden öğrenmeye “fonksiyon yaklaşımı” da denir.</div>
     <div class="callout real"><b>Gerçek hayat: Ev fiyatı</b>Gerçek “değer” bilinmez (ev satılınca belli olur). Fiyat tahmin sistemi, satılmış evlerden öğrenip bu bilinmeyen fonksiyona hızlı hesaplanabilir bir yaklaşım kurar.</div>
   </div>
 </section>

@@ -1,4 +1,4 @@
-/* Yapay Zeka Temelleri · Bölüm 1 için etkileşimli araçlar:
+/* Yapay Zekâ Temelleri · Bölüm 1 için etkileşimli araçlar:
    dört tanım matrisi, tarih çizgisi, iç içe alan diyagramı, tek nöron, sonraki kelime,
    PEAS sekmeleri, ortam sınıflandırma oyunu, ters çevrilen kartlar. */
 (function () {

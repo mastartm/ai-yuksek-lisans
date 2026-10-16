@@ -1,6 +1,6 @@
 <!--
 course: yapay-zeka-temelleri
-course_title: Yapay Zeka Temelleri
+course_title: Yapay Zekâ Temelleri
 no: 2
 title: Problem Çözme
 quiz: QUIZ_YZ_2
@@ -9,7 +9,7 @@ scripts: puzzle8.js
 -->
 <section class="slide" data-title="Başlangıç">
   <div class="panel">
-    <div class="kicker">Yapay Zeka Temelleri · Bölüm 2</div>
+    <div class="kicker">Yapay Zekâ Temelleri · Bölüm 2</div>
     <h1>Problem Çözme: Önce Problemi Tarif Et</h1>
     <p class="big-quote">Bir arkadaşına “şuraya nasıl giderim?” diye sorduğunda, cevap verebilmesi için başlangıç noktanı, gidilecek yeri ve yolda neler yapabileceğini bilmesi gerekir. Yapay zekâ da öyle: algoritmayı seçmeden önce problemi doğru tarif etmek gerekir.</p>
     <h3>Bu bölümün sonunda</h3>
@@ -44,7 +44,7 @@ scripts: puzzle8.js
       <rect class="d-bad" x="454" y="20" width="140" height="120" rx="12"/><text class="d-txt d-c" x="524" y="48">4</text><text class="d-txt d-c" x="524" y="72">Hedef testi</text><text class="d-txt d-c" x="524" y="90">GOAL(s)</text><text class="d-sm d-c" x="524" y="118">Vardım mı?</text>
       <rect class="d-box" x="604" y="20" width="150" height="120" rx="12"/><text class="d-txt d-c" x="679" y="48">5</text><text class="d-txt d-c" x="679" y="72">Yol maliyeti</text><text class="d-txt d-c" x="679" y="90">toplam bedel</text><text class="d-sm d-c" x="679" y="118">Ne kadara mal oldu?</text>
     </svg>
-    <p>İlk üçü birlikte <b>durum uzayını</b> tanımlar: başlangıçtan herhangi bir aksiyon dizisiyle ulaşabileceğin tüm durumlar. Durum uzayı, düğümlerin durumlar, oklarının aksiyonlar olduğu yönlü bir graf gibi düşünülebilir. Maliyetler negatif olmamalıdır.</p>
+    <p>İlk üçü birlikte <b>durum uzayını</b> tanımlar: başlangıçtan herhangi bir aksiyon dizisiyle ulaşabileceğin tüm durumlar. Durum uzayı, düğümlerin durumlar, okların aksiyonlar olduğu yönlü bir graf gibi düşünülebilir. Maliyetler negatif olmamalıdır.</p>
     <div class="callout real"><b>Gerçek hayat: Satranç</b><b>Başlangıç:</b> taşların standart dizilişi ve sıra kimde. <b>Aksiyonlar:</b> o durumda yapılabilecek yasal hamleler (rok ve en passant dahil). <b>Geçiş:</b> hamle sonrası yeni tahta. <b>Hedef:</b> şah mat. <b>Maliyet:</b> hamle sayısı, süre ya da kazanılan taş değeri; hangisini seçtiğin “iyi”nin tanımını değiştirir.</div>
   </div>
 </section>
@@ -96,7 +96,7 @@ scripts: puzzle8.js
     <p>Problem tanımlandıktan sonra ajanın işi, başlangıçtan hedefe giden <b>aksiyon dizisini</b> bulmaktır. Arama algoritmaları bunu bir arama ağacı kurarak yapar. Bulunan çözüm ve algoritma, dört ölçütle değerlendirilir:</p>
     <div class="metrics">
       <div class="metric"><b>Tamlık</b>Çözüm varsa bulur mu? Labirentte çıkışı mutlaka bulan algoritma tamdır.</div>
-      <div class="metric"><b>Optimallik</b>Bulduğu çözüm en iyisi mi? Gidilecek yere ulaşan yol değil, en kısa yol.</div>
+      <div class="metric"><b>Optimallik</b>Bulduğu çözüm en iyisi mi? Aranan, hedefe ulaşan herhangi bir yol değil, en kısa yoldur.</div>
       <div class="metric"><b>Zaman</b>Kaç düğüm genişletti? (b dallanma, d derinlik: yaklaşık b<sup>d</sup>)</div>
       <div class="metric"><b>Bellek</b>Aynı anda kaç düğüm tuttu?</div>
     </div>
@@ -135,7 +135,7 @@ scripts: puzzle8.js
       <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Hata 3</b>Uygun olmayan maliyet fonksiyonu<span class="tip">tıkla</span></span><span class="back"><b class="k">Sonuç</b>Uçuşu yalnızca mesafeyle ölçersen aktarma sayısı ve bilet fiyatı gözden kaçar; “en iyi” rota pratikte kötü olabilir.</span></button>
       <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Hata 4</b>Gereksiz geniş durum uzayı<span class="tip">tıkla</span></span><span class="back"><b class="k">Sonuç</b>8-bulmacada taşların rengini de duruma koyarsan, aynı bulmaca için çok daha fazla durum üretirsin; arama yavaşlar, bellek tükenebilir.</span></button>
       <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Hata 5</b>Tekrar eden durumları önlememek<span class="tip">tıkla</span></span><span class="back"><b class="k">Sonuç</b>Aynı yere defalarca dönmek zaman ve belleği katlayarak harcar. Labirentte aynı koridorda dönüp durmak gibi.</span></button>
-      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Hata 6</b>Ortamı yanlış varsaymak<span class="tip">tıkla</span></span><span class="back"><b class="k">Sonuç</b>Sabit hızla gidebileceğini varsayan bir sürüş algoritması, trafik değişince başarısız olur. Statik sandığın ortam dinamik çıkmıştır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Hata 6</b>Ortamı yanlış varsaymak<span class="tip">tıkla</span></span><span class="back"><b class="k">Sonuç</b>Sabit hızla gidebileceğini varsayan bir sürüş algoritması, trafik değişince başarısız olur. Durağan sandığın ortam aslında değişkendir.</span></button>
     </div>
   </div>
 </section>

@@ -39,7 +39,7 @@ window.QUIZ_GI_3 = {
     { topic: 'Özel teknikler', q: 'Yoğunluk penceresi (intensity windowing) en çok nerede kullanılır?',
       options: ['BT ve MR’da doku türlerini ayırmak için', 'Metin düzenlemede', 'Video sıkıştırmada', 'Renk baskısında'], correct: 0,
       explain: 'Belirli bir yoğunluk aralığı öne çıkarılıp diğerleri bastırılır; bu sayede tıbbi görüntülerde doku ayrımı kolaylaşır.', ref: '3.4.4 Yoğunluk Penceresi' },
-    { topic: 'Özel teknikler', q: 'Sıkıştırma (clamping) ne yapar?',
+    { topic: 'Özel teknikler', q: 'Kırpma (clamping) ne yapar?',
       options: ['Piksel değerlerini belirli bir alt ve üst sınır arasında tutar', 'Dosyayı zip’ler', 'Görüntüyü döndürür', 'Rengi tersine çevirir'], correct: 0,
       explain: 'Aşırı parlak ya da aşırı karanlık bölgelerin etkisini azaltmak için kullanılır (ör. doygunluğa ulaşan piksellerin etkisini sınırlamak).', ref: '3.4.1 Sıkıştırma (Clamping)' },
     { topic: 'Histogram tabanlı', q: 'Histogram eşitleme hangi aracı kullanır?',

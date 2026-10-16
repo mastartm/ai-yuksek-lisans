@@ -56,7 +56,7 @@ window.QUIZ_VB_2 = {
       explain: 'Otomasyon verimlidir ama bağlama özgü kararların algoritmik olarak genellenmesi kolay değildir.', ref: '2.4.2 Bilgisayar Bilimi ve Algoritmik Yaklaşımlar' },
     { topic: 'Alan uzmanlığı', q: 'Alan uzmanının sürece erken dahil edilmesi neden önemlidir?',
       options: ['Baştan yanlış kurulmuş bir soruyu algoritma çoğu zaman düzeltemez; uzman soruyu ve toplanacak veriyi şekillendirir', 'Uzmanların yalnızca raporu okumasını sağlamak için', 'Algoritmaları yavaşlatmak için', 'Önemi yoktur'], correct: 0,
-      explain: 'Uzman yalnızca bitmiş sonucu yorumlamakla kalmayıp işin başında soruyu şekillendirir ve neyin toplanacağına karışırsa projenin her aşamasını etkiler.', ref: '2.4.3 Alan Uzmanlığı ve Bağlamsal Bilgi' },
+      explain: 'Uzman yalnızca bitmiş sonucu yorumlamakla kalmayıp işin başında soruyu şekillendirir ve neyin toplanacağına karar verirse projenin her aşamasını etkiler.', ref: '2.4.3 Alan Uzmanlığı ve Bağlamsal Bilgi' },
     { topic: 'Alan uzmanlığı', q: 'Sağlık verilerinde ilaç isimlerinin farklı yazılması örneği neyi gösterir?',
       options: ['Verinin standart hâle getirilmesi için alan (klinik) bilgisi gerektiğini', 'İlaçların hiç kaydedilmemesi gerektiğini', 'Verinin silinmesi gerektiğini', 'Bilgisayarın her şeyi bildiğini'], correct: 0,
       explain: 'Ham verinin temizlenmesi, dönüştürülmesi ve doğru özelliklerin çıkarılması teknik becerinin ötesinde alan bilgisi ister.', ref: '2.4.3 Alan Uzmanlığı ve Bağlamsal Bilgi' }

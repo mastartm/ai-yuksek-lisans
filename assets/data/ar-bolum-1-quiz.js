@@ -5,7 +5,7 @@ window.QUIZ_AR_1 = {
   questions: [
     { topic: 'Bilmenin yolları', q: 'Aşağıdakilerden hangisi bilmenin yollarından biri DEĞİLDİR?',
       options: ['Rastgele tahmin', 'Duyularla deneyim', 'Uzman görüşüne başvurma', 'Mantık'], correct: 0,
-      explain: 'Notta bilmenin yolları: duyularla deneyim, çevredekilerle görüş birliği, uzman görüşü, mantık ve bilimsel araştırma olarak sayılır.', ref: '1.1 Bilmenin Yolları' },
+      explain: 'Bilmenin yolları şunlardır: duyularla deneyim, çevredekilerle görüş birliği, uzman görüşü, mantık ve bilimsel araştırma olarak sayılır.', ref: '1.1 Bilmenin Yolları' },
     { topic: 'Bilmenin yolları', q: 'Çevredeki kişilerle görüş birliğine varmanın zayıf noktası nedir?',
       options: ['Bir olayı grubun çoğunun doğrulaması doğruluğun garantisi değildir', 'Hiç zayıf noktası yoktur', 'Her zaman yanlıştır', 'Yalnızca bilimde kullanılır'], correct: 0,
       explain: 'Görüş birliği geleneklerin oluşmasına zemin hazırlar ama çoğunluk fikri doğruluğu garanti etmez.', ref: '1.1 Bilmenin Yolları' },
@@ -35,7 +35,7 @@ window.QUIZ_AR_1 = {
       explain: 'Anlık araştırmada veriler belli bir zaman aralığında toplanır. Kesitsel araştırmada farklı zaman dilimlerini temsil eden alt gruplardan tek zamanda toplanır.', ref: '1.3 Araştırmanın Tanımı ve Sınıflandırılması' },
     { topic: 'Sınıflandırma', q: 'Eğitim programları, raporlar, gazeteler gibi kayıtlı belgelerin derlenip analiz edildiği araştırmaya ne denir?',
       options: ['Belgesel (doküman) araştırması', 'Deneysel araştırma', 'Görgül araştırma', 'Boylamsal araştırma'], correct: 0,
-      explain: 'Belgesel araştırmalarda veri toplanmaz; veriler bir yerlerde kayıtlıdır. Görgül araştırmalarda anket, gözlem, görüşme ile veri toplanır.', ref: '1.3 Araştırmanın Tanımı ve Sınıflandırılması' },
+      explain: 'Belgesel araştırmalarda veri toplanmaz; veriler zaten bir yerlerde kayıtlıdır. Görgül araştırmalarda anket, gözlem, görüşme ile veri toplanır.', ref: '1.3 Araştırmanın Tanımı ve Sınıflandırılması' },
     { topic: 'Sınıflandırma', q: 'Betimsel araştırma hangi soruya odaklanır?',
       options: ['“Nedir?” (var olan durumu tanımlama)', '“Neden oldu?”', '“Etkisi nedir?”', '“Ne olmalıdır?”'], correct: 0,
       explain: 'Betimsel araştırmalar var olan durumu tam ve dikkatli biçimde tanımlar. İlişkisel araştırma değişkenler arası ilişkiye, müdahale araştırması etkiyi test etmeye odaklanır.', ref: '1.3 Araştırmaların Düzeyleri' },

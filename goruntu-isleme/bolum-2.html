@@ -29,7 +29,7 @@
   <div class="panel">
     <div class="kicker">Görüntü İşleme · Bölüm 2</div>
     <h1>Histogramlar: Görüntünün Parlaklık Parmak İzi</h1>
-    <p class="big-quote">Fotoğraf makinelerinin ekranında çekimden önce beliren o dağlı grafik, görüntünün parlaklık dağılımını gösteren <b>histogramdır</b>. Fotoğrafın karanlık mı, fazla aydınlık mı, soluk mu olduğunu görüntüye bakmadan o grafikten anlayabilirsin.</p>
+    <p class="big-quote">Fotoğraf makinelerinin ekranında çekimden önce beliren, dağ silueti gibi görünen o grafik, görüntünün parlaklık dağılımını gösteren <b>histogramdır</b>. Fotoğrafın karanlık mı, fazla aydınlık mı, soluk mu olduğunu görüntüye bakmadan o grafikten anlayabilirsin.</p>
     <h3>Bu bölümün sonunda</h3>
     <ul>
       <li>Histogramı tanımlayıp eksenlerini yorumlayabilirsin.</li>
@@ -61,7 +61,7 @@
     <div class="peas-grid">
       <div class="peas-c p"><b>Hızlı</b>Görüntü tek taramada, O(n) sürede çıkarılır.</div>
       <div class="peas-c e"><b>Bellek dostu</b>Görüntü ne kadar büyük olursa olsun yalnızca 256 sayı saklanır.</div>
-      <div class="peas-c a"><b>Geometriden bağımsız</b>Çevirme ve döndürme histogramı değiştirmez (uzamsal düzene bakmaz).</div>
+      <div class="peas-c a"><b>Geometriden bağımsız</b>Aynalama ve döndürme histogramı değiştirmez (uzamsal düzene bakmaz).</div>
       <div class="peas-c s"><b>İstatistik verir</b>Ortalama, varyans, çarpıklık gibi ölçüler hızla hesaplanır.</div>
     </div>
     <p>İki tür histogram vardır: tek kanallı <b>gri seviye histogramı</b> ve her kanalı ayrı gösteren <b>renkli histogram</b>.</p>
@@ -95,7 +95,7 @@
       </tbody>
     </table></div>
     <p><b>Orta tonlar</b> da önemlidir: portrede ten rengi, endüstride yüzey detayı orta tonların dengesine bağlıdır. Orta kısım zayıfsa görüntü ya aşırı koyu ya aşırı açıktır.</p>
-    <div class="callout idea"><b>Dikkat: bağlam önemli</b>Düşük kontrast her zaman kötü kalite demek değildir. Her düşük kontrast bir hata değildir: bazı tıbbi ve fabrika incelemelerinde ayrıntı, daha yumuşak ton farkları içinde daha rahat seçilebilir. Histogram, görüntünün amacına göre yorumlanmalıdır.</div>
+    <div class="callout idea"><b>Dikkat: bağlam önemli</b>Düşük kontrast her zaman kötü kalite demek değildir: bazı tıbbi ve fabrika incelemelerinde ayrıntı, daha yumuşak ton farkları içinde daha rahat seçilebilir. Histogram, görüntünün amacına göre yorumlanmalıdır.</div>
   </div>
 </section>
 
@@ -118,7 +118,7 @@
     <div class="kicker">Sınırlar · kartlara tıkla</div>
     <h2>Histogram her şeyi söylemez</h2>
     <div class="flips">
-      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sınır 1</b>Uzamsal bilgi kaybı<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Pikselin <i>nerede</i> olduğunu bilmez. Tamamen farklı iki görüntünün histogramı aynı olabilir: biri homojen gri, diğeri küçük parlak nesnelerle dolu olsa da.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sınır 1</b>Uzamsal bilgi kaybı<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Pikselin <i>nerede</i> olduğunu bilmez. Tamamen farklı iki görüntünün histogramı aynı olabilir: aynı piksellerin yerlerini karıştırınca düzenli bir desen gürültüye dönüşür ama histogram birebir aynı kalır.</span></button>
       <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sınır 2</b>Tek boyutlu temsil<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Çok boyutlu veri (renkli görüntü) tek boyutlu dağılıma indirgenince kanallar arası ilişki ve uzamsal bağlantılar kaybolur.</span></button>
       <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sınır 3</b>Gürültüye duyarlılık<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Rastgele gürültü histogramda dalgalanmalar yaratır ve gerçek sinyal karakterini gizleyebilir.</span></button>
       <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sınır 4</b>Ölçek bağımlılığı<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Histogramın şekli, çözünürlüğe ve örnekleme yoğunluğuna göre değişebilir; düşük çözünürlükte bazı ayrıntılar kaybolur.</span></button>

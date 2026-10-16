@@ -32,7 +32,7 @@ window.QUIZ_GI_2 = {
       explain: 'Histogram analizi görüntünün amacına ve bağlamına göre yapılmalıdır; düşük kontrast bazen istenen bir durumdur.', ref: '2.2 Histogramın Özellikleri ve Sınırlamaları' },
     { topic: 'Sınırlar', q: 'Aynı histograma sahip iki görüntü tamamen farklı görünebilir. Bunun nedeni nedir?',
       options: ['Histogram piksellerin görüntüdeki konumu hakkında bilgi içermez', 'Histogram renk bilgisini her zaman korur', 'Histogramlar rastgele hesaplanır', 'Görüntüler farklı dosya biçimindedir'], correct: 0,
-      explain: 'Histogram yalnızca değer dağılımını gösterir. Biri homojen gri, diğeri küçük parlak nesnelerle dolu olsa da aynı dağılıma sahip olabilir.', ref: '2.2 Uzamsal Bilgi Kaybı' },
+      explain: 'Histogram yalnızca değer dağılımını gösterir. Aynı piksellerin yerlerini değiştirince görüntü bambaşka görünür ama histogram birebir aynı kalır.', ref: '2.2 Uzamsal Bilgi Kaybı' },
     { topic: 'Sınırlar', q: 'Renkli görüntüleri tek bir histogramla analiz etmek neden sorun yaratabilir?',
       options: ['Kanallar arası ilişki ve renk bilgisi kaybolabilir; kanal bazlı analiz önerilir', 'Renkli görüntüler histogram üretemez', 'Histogram renkleri bozar', 'Hiçbir sorun yoktur'], correct: 0,
       explain: 'Çok boyutlu veri tek boyutlu bir dağılıma indirgendiğinde kanal korelasyonları kaybolur; bu nedenle R, G, B kanalları ayrı incelenir.', ref: '2.2 Histogramın Özellikleri ve Sınırlamaları' },

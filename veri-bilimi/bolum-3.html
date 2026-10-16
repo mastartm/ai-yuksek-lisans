@@ -57,7 +57,7 @@
     <p>Nicel yöntemler, araştırma sorularına <b>ölçülebilir ve karşılaştırılabilir</b> yanıtlar üretir. Önce hangi değişkenlerin ölçüleceği belirlenir, sonra ölçüm araçları seçilir, sonra veriler saha ya da laboratuvarda toplanır. Amaç, sayıların farklı zaman, mekân ve gruplar arasında karşılaştırılabilmesi ve istatistiksel genellemeye imkân vermesidir.</p>
     <div class="peas-grid">
       <div class="peas-c p"><b>İki ölçüt</b><b>Geçerlilik</b> (doğru şeyi mi ölçüyor?) ve <b>güvenilirlik</b> (tutarlı ölçüyor mu?).</div>
-      <div class="peas-c e"><b>Örnekleme</b>Olasılıklı yöntemler (basit rastgele, tabakalı, küme) popülasyonu temsil gücü yüksektir; pratik kısıtlarda kolayda ya da amaçlı gibi olasılıksız yöntemler kullanılabilir.</div>
+      <div class="peas-c e"><b>Örnekleme</b>Olasılıklı yöntemler (basit rastgele, tabakalı, küme) popülasyonu temsil etme gücü yüksektir; pratik kısıtlarda kolayda ya da amaçlı gibi olasılıksız yöntemler kullanılabilir.</div>
       <div class="peas-c a"><b>Anket tasarımı</b>Soru türü, yanıt ölçeği, sıralama ve dil, ölçülen değişkenin dağılımını etkiler. Nötr bir dil ve hedef kitleye uygun terimler yanlılığı azaltır.</div>
       <div class="peas-c s"><b>Doğrulama</b>Tekrarlı ölçümler, pilot çalışmalar ve farklı kaynaklarla çapraz doğrulama (ör. log verisi ile bağımsız değerlendirme skorunu kıyaslamak).</div>
     </div>
@@ -105,7 +105,7 @@
 <section class="slide" data-title="Eksik veri teorisi">
   <div class="panel">
     <div class="kicker">Veri kalitesi</div>
-    <h2>Eksik veri: neden eksik olduğu, ne yapacağını belirler</h2>
+    <h2>Eksik veri: eksikliğin nedeni, ne yapacağını belirler</h2>
     <p>Eksikliğin <b>nasıl ortaya çıktığına</b> dair varsayımlar, nasıl ele alınacağını ve sonucun güvenilirliğini belirler. Üç temel tür:</p>
     <div class="peas-grid">
       <div class="peas-c p"><b>MCAR</b> (tamamen rastgele eksik)<br>Eksiklik hiçbir değişkene bağlı değil. En zararsız durum.</div>
@@ -138,7 +138,7 @@
     <p>Bayes yaklaşımında bir parametre sabit bir bilinmeyen değil, <b>bir olasılık dağılımına sahip rastgele değişken</b> sayılır. Önsel bilgi (<b>prior</b>) ile veri birleşerek <b>sonsal</b> dağılımı verir. Eksik ya da belirsiz verilerde tek bir “doğru” değeri tahmin etmek yerine eldeki ihtimalleri yeni veriyle sürekli düzelterek belirsizliği görünür kılar.</p>
     <div class="lab" id="bayes"></div>
     <div class="callout real"><b>Gerçek hayat: Yeni bir ürünün memnuniyet oranı</b>Piyasaya yeni çıkan ürün için önce iyimser bir ön inancın olabilir (benzer ürünler iyi gitti). İlk 10 yorumda 7 olumlu çıkarsa ön inanç güncellenir. 500 yorumdan sonra ise ön inancın etkisi neredeyse kalmaz.</div>
-    <div class="callout idea"><b>Zayıf yanlar</b>Hesaplama pahalı olabilir: çok parametreli karmaşık modellerde sonsal dağılıma ulaşmak için kullanılan MCMC (Markov Chain Monte Carlo) gibi simülasyonlar bilgisayarı ciddi biçimde yorar; parametreler güçlü korelasyonluysa yakınsama sorunları çıkabilir. Bu yüzden öncel seçimi ve algoritmanın kararlılığı kritiktir.</div>
+    <div class="callout idea"><b>Zayıf yanlar</b>Hesaplama pahalı olabilir: çok parametreli karmaşık modellerde sonsal dağılıma ulaşmak için kullanılan MCMC (Markov Chain Monte Carlo) gibi simülasyonlar bilgisayarı ciddi biçimde yorar; parametreler güçlü korelasyonluysa yakınsama sorunları çıkabilir. Bu yüzden önsel seçimi ve algoritmanın kararlılığı kritiktir.</div>
   </div>
 </section>
 
@@ -146,7 +146,7 @@
   <div class="panel">
     <div class="kicker">Belirsizlik</div>
     <h2>Duyarlılık analizi: varsayımlar sonucu ne kadar oynatıyor?</h2>
-    <p>Duyarlılık analizi, modelin girdileri ve varsayımları değiştiğinde çıktının ne kadar değiştiğini inceler. Önceki slayttaki gibi öncel değiştirip sonuca bakmak buna örnektir.</p>
+    <p>Duyarlılık analizi, modelin girdileri ve varsayımları değiştiğinde çıktının ne kadar değiştiğini inceler. Önceki slayttaki gibi önsel dağılımı değiştirip sonuca bakmak buna örnektir.</p>
     <div class="scroll-x"><table class="cmp">
       <thead><tr><th></th><th>Yerel (local)</th><th>Küresel (global)</th></tr></thead>
       <tbody>
@@ -154,7 +154,7 @@
         <tr><td><b>Bayes ile</b></td><td>—</td><td>Yalnızca belirli noktalarda değil tüm olası senaryolar altında model davranışı değerlendirilir</td></tr>
       </tbody>
     </table></div>
-    <p>Parametre değişiminin <b>bağlamsal anlamı</b> da önemlidir: sağlıkta bir katsayı doz ya da sıklığı, enerji politikasında aynı büyüklükteki değişim yatırım maliyetlerini çok daha büyük bir maliyet farkı yaratabilir. Duyarlılık analizi bu yüzden salt bir istatistik tekniği değil, <b>karar destek aracına</b> dönüşür. Büyük veride MCMC benzeri simülasyonların yükü artar; varyans azaltma ve yaklaşık çıkarım stratejileri kullanılır.</p>
+    <p>Parametre değişiminin <b>bağlamsal anlamı</b> da önemlidir: sağlıkta bir katsayı doz ya da sıklığı, enerji politikasında aynı büyüklükteki bir değişim yatırım maliyetlerinde çok daha büyük bir fark yaratabilir. Duyarlılık analizi bu yüzden salt bir istatistik tekniği değil, <b>karar destek aracına</b> dönüşür. Büyük veride MCMC benzeri simülasyonların yükü artar; varyans azaltma ve yaklaşık çıkarım stratejileri kullanılır.</p>
     <div class="callout real"><b>Gerçek hayat: Bütçe tahmini</b>Bir belediyenin gelir tahmini enflasyon varsayımına dayanıyor. “Enflasyon %5 yerine %8 olursa gelir tahmini ne kadar değişir?” sorusu duyarlılık analizidir. Cevap küçük değişim ise karar güvenlidir; büyük değişim ise tahmine temkinle yaklaşmak gerekir.</div>
   </div>
 </section>
@@ -185,7 +185,7 @@
       <div class="peas-c a"><b>Düzenleme arbitrajı</b>Çok uluslu şirketler en gevşek düzenlemeli bölgeleri merkez seçebilir; mahremiyet koruması coğrafyaya göre dramatik biçimde değişir.</div>
       <div class="peas-c s"><b>Önlemler</b>Şeffaflık raporlaması, veri minimizasyonu, algoritmik denetimler, bağımsız gözetim. Gönüllü kuralların bağlayıcılığı sınırlıdır; hukuki düzenleme gerekir.</div>
     </div>
-    <div class="callout real"><b>Gerçek hayat: Uygulama sizden ne topluyor?</b>Ücretsiz bir uygulama konumunu, kişi listeni ve davranışını toplayıp reklam ağlarına satabilir; bunun sağladığı ticari değerin neredeyse tamamı şirkette kalır. Veri üreten sensin, ama veriden doğan değeri paylaşmıyorsun. Bu, veri sömürüsünün gündelik hâlidir.</div>
+    <div class="callout real"><b>Gerçek hayat: Uygulama senden ne topluyor?</b>Ücretsiz bir uygulama konumunu, kişi listeni ve davranışını toplayıp reklam ağlarına satabilir; bunun sağladığı ticari değerin neredeyse tamamı şirkette kalır. Veri üreten sensin, ama veriden doğan değeri paylaşmıyorsun. Bu, veri sömürüsünün gündelik hâlidir.</div>
   </div>
 </section>
 
@@ -200,7 +200,7 @@
       <div class="peas-c a"><b>Mahremiyet</b>Küçük nüfuslu topluluklarda geleneksel anonimleştirme bile kimlik ifşasına yol açabilir; standardın ötesinde teknikler gerekir.</div>
       <div class="peas-c s"><b>Kapasite</b>Dış platformlara bağımlı kalan topluluk zamanla kendine yetme pratiğini kaybeder. Yerel gençlerin veri bilimi, programlama ve siber güvenlik eğitimi egemenliğin uzun vadeli şartıdır.</div>
     </div>
-    <div class="callout real"><b>Gerçek hayat: Köy ağızları arşivi</b>Bir üniversite, bir köyün geleneksel ağıtlarını kaydedip uluslararası bir arşive yüklüyor. Kayıtlar kimin için, hangi izinle, hangi bağlam bilgisiyle açık olacak? Köy meclisi bunlara karar veremiyorsa, veriden doğan değer ve kültürel kontrol topluluğun elinden çıkmış olur.</div>
+    <div class="callout real"><b>Gerçek hayat: Köy ağıtları arşivi</b>Bir üniversite, bir köyün geleneksel ağıtlarını kaydedip uluslararası bir arşive yüklüyor. Kayıtlar kimin için, hangi izinle, hangi bağlam bilgisiyle açık olacak? Köy meclisi bunlara karar veremiyorsa, veriden doğan değer ve kültürel kontrol topluluğun elinden çıkmış olur.</div>
   </div>
 </section>
 
@@ -215,7 +215,7 @@
         <tr><td>Nitel</td><td>Deneyim ve anlam; katılımcı gözlem, belgesel tarama; kodlama ve tematik analiz; refleksivite; eylem araştırması</td></tr>
         <tr><td>Karma</td><td>Bilinçli entegrasyon, “fazladan değer”, ekip yetkinliği, mahremiyet riski</td></tr>
         <tr><td>Eksik veri</td><td>MCAR, MAR, MNAR; silme yanlılık yaratır; çoklu imputasyon; MNAR’da sınırlılığı beyan et</td></tr>
-        <tr><td>Bayes</td><td>Parametre = dağılım; önsel + veri = sonsal; MCMC pahalı; öncel seçimi kritik</td></tr>
+        <tr><td>Bayes</td><td>Parametre = dağılım; önsel + veri = sonsal; MCMC pahalı; önsel seçimi kritik</td></tr>
         <tr><td>Duyarlılık analizi</td><td>Yerel ve küresel; bağlamsal anlam; karar destek aracı</td></tr>
         <tr><td>Epistemik adalet</td><td>Katılımcı = ortak; marjinalize gruplar; çeşitli örnekleme</td></tr>
         <tr><td>Dijital uçurum / veri sömürüsü</td><td>Erişim + yetkinlik + fayda eşitsizliği; şeffaflık, minimizasyon, denetim</td></tr>

@@ -95,7 +95,7 @@ scripts: imglab.js
     <div class="peas-grid">
       <div class="peas-c p"><b>Logaritmik: s = c·log(1+r)</b>Düşük değerleri <b>genişletir</b>, yüksek değerleri sıkıştırır. Karanlık bölgelerdeki ayrıntıyı görünür kılar. Astronomide zayıf sinyalleri çıkarmak için.</div>
       <div class="peas-c e"><b>Gamma: s = c·rᵞ</b>γ &lt; 1: koyu bölgeler açılır (görüntü aydınlanır, düşük ışıklı görüntü için). γ &gt; 1: parlak bölgeler bastırılır, görüntü kararır (fazla pozlanmış bölgeleri dengelemek için). Ekran kalibrasyonu ve televizyon yayıncılığında yaygın.</div>
-      <div class="peas-c a"><b>Parça parça doğrusal</b>Yoğunluk aralığının farklı bölümlerinde farklı doğrular kullanılır; belirli bir parlaklık aralığı ön plana çıkarılır. Tıpta doku farkı küçük bölgelerde sık kullanılır.</div>
+      <div class="peas-c a"><b>Parça parça doğrusal</b>Yoğunluk aralığının farklı bölümlerinde farklı doğrular kullanılır; belirli bir parlaklık aralığı ön plana çıkarılır. Tıpta, doku farkının dar bir yoğunluk aralığında kaldığı durumlarda sık kullanılır.</div>
     </div>
     <p>Laboratuvarda “Karanlık” görüntüyü seçip <b>Gamma</b>’yı γ = 0,5’e getir ve sonra “Aşırı aydınlık” görüntüde γ = 2’yi dene. Eğrinin y = x çizgisine göre eğilmesine dikkat et.</p>
     <div class="callout real"><b>Gerçek hayat: Gece modu</b>Telefonun gece modu, karanlık bölgelerin parlaklığını (gamma/log benzeri bir eğriyle) açarken parlak lambaları patlatmamaya çalışır. Hepsi aynı doğrusal olmayan fikir: karanlığı açmak için eğriyi bükmek.</div>
@@ -105,13 +105,13 @@ scripts: imglab.js
 <section class="slide" data-title="Özel teknikler">
   <div class="panel">
     <div class="kicker">Özel teknikler</div>
-    <h2>Negatif, eşikleme, sıkıştırma, pencere</h2>
+    <h2>Negatif, eşikleme, kırpma, pencere</h2>
     <div class="scroll-x"><table class="cmp">
       <thead><tr><th>Teknik</th><th>Ne yapar?</th><th>Nerede?</th></tr></thead>
       <tbody>
         <tr><td><b>Negatif</b></td><td>s = (L − 1) − r. Tonları tersine çevirir.</td><td>Röntgende doku ayrımı, film şeritlerini sayısallaştırma</td></tr>
         <tr><td><b>Eşikleme</b></td><td>Eşiğin altı 0 (siyah), üstü 1 (beyaz): ikili (binary) görüntü.</td><td>Bölütleme, nesne bulma, kalite kontrol</td></tr>
-        <tr><td><b>Sıkıştırma (clamping)</b></td><td>Değerleri bir alt-üst sınır arasına kırpar.</td><td>Aşırı parlak/koyu bölgelerin etkisini sınırlama</td></tr>
+        <tr><td><b>Kırpma (clamping)</b></td><td>Değerleri bir alt-üst sınır arasına kırpar.</td><td>Aşırı parlak/koyu bölgelerin etkisini sınırlama</td></tr>
         <tr><td><b>Yoğunluk penceresi</b></td><td>[a, b] aralığını öne çıkarır, dışını bastırır.</td><td>BT ve MR’da doku türlerini ayırma</td></tr>
         <tr><td><b>Otomatik kontrast</b></td><td>Histograma bakıp değerleri geniş aralığa yayar.</td><td>Farklı ışıkta çekilen görüntüleri tutarlı kılma</td></tr>
         <tr><td><b>Değiştirilmiş kontrast</b></td><td>Kontrastı belirli bölgelere/aralıklara uygular.</td><td>Detay korurken bozulmayı önleme</td></tr>
@@ -174,7 +174,7 @@ scripts: imglab.js
         <tr><td>Sınıflar</td><td>Homojen (aynı T her yerde) · homojen olmayan (T konuma/yerel istatistiğe bağlı; adaptif)</td></tr>
         <tr><td>Doğrusal</td><td>Parlaklık (+b: histogram kayar) · Kontrast (×a: histogram genişler/daralır)</td></tr>
         <tr><td>Doğrusal olmayan</td><td>Logaritmik (koyuyu açar) · Gamma (γ&lt;1 aydınlatır, γ&gt;1 karartır) · Parça parça doğrusal</td></tr>
-        <tr><td>Özel</td><td>Negatif · Eşikleme (ikili görüntü) · Sıkıştırma/clamping · Yoğunluk penceresi · Otomatik kontrast</td></tr>
+        <tr><td>Özel</td><td>Negatif · Eşikleme (ikili görüntü) · Kırpma/clamping · Yoğunluk penceresi · Otomatik kontrast</td></tr>
         <tr><td>Histogram tabanlı</td><td>Histogram eşitleme (CDF) · İki tepe arası eşik, Otsu</td></tr>
         <tr><td>Renk</td><td>RGB’de kanal başına işlem · HSV’de ton, doygunluk, parlaklık ayrı</td></tr>
       </tbody>

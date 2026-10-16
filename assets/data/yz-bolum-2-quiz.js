@@ -20,7 +20,7 @@ window.QUIZ_YZ_2 = {
       explain: 'Ajan iki konumdan birinde olabilir (2) ve her oda temiz ya da kirli olabilir (2×2=4). Toplam 2 × 4 = 8 durum.', ref: '2.1.2 Vakum Dünyası' },
     { topic: 'Problem örnekleri', q: 'Oyuncak (toy) problemler neden kullanılır?',
       options: ['Çünkü gerçek problemlerden daha zordurlar', 'Algoritmaların temel özelliklerini kısa ve kesin kurallarla anlamak ve test etmek için', 'Çünkü ticari değeri vardır', 'Çünkü sonuçları aynen gerçek dünyaya uygulanır'], correct: 1,
-      explain: 'Toy problemler özlü ve kesin tanımlıdır. Bu yüzden öğretim ve test için idealdir; ama gerçek dünyadan basit olduğu için sonuçlar her zaman genellenemez.', ref: '2.1.2 Hayali Problem Örnekleri' },
+      explain: 'Toy problemler özlü ve kesin tanımlıdır. Bu yüzden öğretim ve test için idealdir; ama gerçek dünyadan daha basit olduğu için sonuçlar her zaman genellenemez.', ref: '2.1.2 Hayali Problem Örnekleri' },
     { topic: 'Problem örnekleri', q: 'Aşağıdakilerden hangisi gerçek dünya problemlerinin ek zorluklarından biri değildir?',
       options: ['Belirsiz bilgi', 'Dinamik ortam', 'Çoklu hedefler', 'Kuralların tamamen belli ve sabit olması'], correct: 3,
       explain: 'Gerçek problemler belirsizlik, değişen ortam, çok hedef ve insan faktörü içerir. Kuralların tamamen belli ve sabit olması toy problemlere özgüdür.', ref: '2.1.3 Gerçek Hayattan Problem Örnekleri' },
@@ -33,9 +33,9 @@ window.QUIZ_YZ_2 = {
     { topic: 'Problem türleri', q: '“Mutlu bir yaşam sürmek” hangi tür problemdir?',
       options: ['İyi tanımlanmış', 'Kötü tanımlanmış', 'Deterministik', 'Tam gözlemlenebilir'], correct: 1,
       explain: 'Hedefi, eylemleri ve maliyeti net değildir; yoruma açıktır. Böyle problemler genellikle öğrenme ve bilgi keşfi yöntemleriyle ele alınır.', ref: '2.2 İyi Tanımlanmış vs. Kötü Tanımlanmış Problemler' },
-    { topic: 'Problem türleri', q: 'Sudoku çözmek hangi iki özelliğin ikisine birden sahiptir?',
+    { topic: 'Problem türleri', q: 'Sudoku çözmek hangi iki özelliğe birlikte sahiptir?',
       options: ['Statik ve tek ajanlı', 'Dinamik ve çok ajanlı', 'Olasılıklı ve kısmi gözlemli', 'Dinamik ve olasılıklı'], correct: 0,
-      explain: 'Sudokuda çözerken tahta kendiliğinden değişmez (statik) ve kararı yalnızca çözücü verir (tek ajan).', ref: '2.2 Statik vs. Dinamik, Tek vs. Çok Ajanlı' },
+      explain: 'Sudoku çözerken tahta kendiliğinden değişmez (statik) ve kararı yalnızca çözücü verir (tek ajan).', ref: '2.2 Statik vs. Dinamik, Tek vs. Çok Ajanlı' },
     { topic: 'Problem türleri', q: 'Bir kart oyunu neden kısmi gözlemlenebilir bir problemdir?',
       options: ['Çünkü oyun çok uzun sürer', 'Çünkü rakibin kartları görünmez, ajan eksik bilgiyle karar verir', 'Çünkü kartlar renklidir', 'Çünkü tek oyunculudur'], correct: 1,
       explain: 'Kısmi gözlemlenebilir ortamda ajan durumun tamamını göremez. Rakibin elindeki kartlar gizlidir.', ref: '2.2 Tam vs. Kısmi Gözlemlenebilir Problemler' },
@@ -61,7 +61,7 @@ window.QUIZ_YZ_2 = {
       options: ['Hash set (ziyaret edilmiş durumlar kümesi)', 'Bubble sort', 'Metin dosyası', 'Çizgi grafiği'], correct: 0,
       explain: 'Gezilen durumlar bir kümede saklanır; daha önce keşfedilen bir durumla karşılaşınca yeniden işlem yapılmaz.', ref: '2.6 Tekrar Eden Durumların Önlenmesi' },
     { topic: 'Performans', q: 'Yinelemeli derinleşme (iterative deepening) neyi birleştirir?',
-      options: ['DFS’in düşük belleği ve BFS’in tamlığını', 'A*’ın hızı ve UCS’in belleğini', 'Greedy’nin hızı ve minimax’ın doğruluğunu', 'BFS’in belleği ve DFS’in hızsızlığını'], correct: 0,
+      options: ['DFS’in düşük belleği ve BFS’in tamlığını', 'A*’ın hızı ve UCS’in belleğini', 'Greedy’nin hızı ve minimax’ın doğruluğunu', 'BFS’in yüksek belleği ve DFS’in tamsızlığını'], correct: 0,
       explain: 'Bellek dar olduğunda yinelemeli derinleşme, DFS kadar az bellek harcar ve BFS gibi çözümü kaçırmaz.', ref: '2.6 Bellek Kullanımını Optimize Eden Teknikler' }
   ]
 };

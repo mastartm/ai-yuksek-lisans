@@ -5,7 +5,7 @@ window.QUIZ_VB_1 = {
   questions: [
     { topic: 'Epistemoloji', q: 'Veri biliminin epistemolojisi temelde hangi metodolojiye dayanır?',
       options: ['İndüktif (veriden başlayıp bilgi üreten)', 'Yalnızca tümdengelimsel', 'Yalnızca sezgisel', 'Hiçbir metodolojiye'], correct: 0,
-      explain: 'Veri bilimi veriden başlayıp bilgiye varır; klasik sayma yaklaşımından daha geniş, nedensellik, olasılık ve analojiyi de içeren varyasyonel bir indüksiyon mantığı gerektirir.', ref: '1.1 Epistemolojik ve Ontolojik Temeller' },
+      explain: 'Veri bilimi veriden başlayıp bilgiye varır; klasik “say ve genelle” yaklaşımından daha geniş, nedensellik, olasılık ve analojiyi de içeren bir tümevarım mantığı gerektirir.', ref: '1.1 Epistemolojik ve Ontolojik Temeller' },
     { topic: 'Epistemoloji', q: '“Gözlemin teori yüklülüğü” ne demektir?',
       options: ['Gözlemlerin önceden var olan kategoriler ve teorik taahhütlerce biçimlendirilmesi', 'Gözlemlerin her zaman nesnel olması', 'Teorilerin gözlemden bağımsız olması', 'Gözlemlerin sayıdan oluşması'], correct: 0,
       explain: 'Veri biliminde gözlemler önceden seçilmiş kategorilere ve analiz rutinlerine göre toplanır, etiketlenir ve işlenir; bu yüzden “ham” ve tarafsız değildir.', ref: '1.1 Epistemolojik ve Ontolojik Temeller' },
@@ -13,7 +13,7 @@ window.QUIZ_VB_1 = {
       options: ['Kullanılan verinin ve algoritmaların yapısal özelliklerine', 'Yalnızca bilgisayarın hızına', 'Yalnızca veri miktarına', 'Hiçbir şeye'], correct: 0,
       explain: 'Özellikle özerk biçimde veriden türetilen bilginin güvenilirliği, hem veri kalitesine hem de yorumlama kapasitesi olan algoritmalara bağlıdır.', ref: 'Giriş' },
     { topic: 'Kara kutu', q: 'Kara kutu model ne demektir?',
-      options: ['İç işleyişi kolayca erişilebilir ya da anlaşılabilir olmayan model', 'Siyah renkli arayüzü olan model', 'Hiç veri kullanmayan model', 'Yalnızca görüntülerde çalışan model'], correct: 0,
+      options: ['İç işleyişine kolayca erişilemeyen ya da anlaşılamayan model', 'Siyah renkli arayüzü olan model', 'Hiç veri kullanmayan model', 'Yalnızca görüntülerde çalışan model'], correct: 0,
       explain: 'Kara kutu modellerde girdiden çıktıya giden sürecin nedeni anlaşılamaz. Yüksek riskli kararlarda (sağlık, adalet, finans) bu bir epistemolojik ve pratik sorundur.', ref: '1.4 Açıklanabilir Yapay Zeka ve Kara Kutu Problemi' },
     { topic: 'Kara kutu', q: 'LIME ve SHAP hangi kategoriye girer?',
       options: ['Post-hoc (sonradan) açıklama yöntemleri', 'Doğası gereği yorumlanabilir modeller', 'Veri temizleme yöntemleri', 'Sıkıştırma algoritmaları'], correct: 0,
@@ -50,7 +50,7 @@ window.QUIZ_VB_1 = {
       explain: 'Veri güveni; erişilebilirlik, şeffaflık ve güvenilirlik gibi unsurları içerir. Lineage araçları şeffaflığı artırır.', ref: '1.5 Veri Kalitesi, Güvenilirlik ve Güven' },
     { topic: 'Veri kalitesi', q: 'Gartner’ın araştırmasına göre zayıf veri kalitesi şirketlere yıllık ortalama ne kadara mal olmaktadır?',
       options: ['Yaklaşık 12,9 milyon dolar', 'Yaklaşık 1000 dolar', 'Hiçbir maliyet getirmez', 'Yaklaşık 12,9 dolar'], correct: 0,
-      explain: 'Notta bu rakam yıllık ortalama 12,9 milyon dolar olarak verilir; finansal kayıplardan kaçırılan fırsatlara ve müşteri sorunlarına uzanır.', ref: '1.5 Veri Kalitesi, Güvenilirlik ve Güven' },
+      explain: 'Araştırmanın verdiği rakam yıllık ortalama 12,9 milyon dolardır; finansal kayıplardan kaçırılan fırsatlara ve müşteri sorunlarına uzanır.', ref: '1.5 Veri Kalitesi, Güvenilirlik ve Güven' },
     { topic: 'Kapsam', q: 'Veri biliminin araştırma kapsamı neden yalnızca teknik süreçlere indirgenemez?',
       options: ['Çünkü epistemolojik, ontolojik, organizasyonel ve toplumsal boyutları da vardır', 'Çünkü teknik süreç yoktur', 'Çünkü bilgisayar gerekmez', 'Çünkü yalnızca felsefedir'], correct: 0,
       explain: 'Alan, teknik süreçle başlar ama toplumsal, kurumsal ve felsefi katmanlara da uzanır; her adımda etik soruların da sorulması gerekir.', ref: 'Giriş / 1.6 Sonuç' }

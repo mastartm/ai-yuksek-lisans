@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   var C = [
-    { slug: 'yapay-zeka-temelleri', title: 'Yapay Zeka Temelleri', blurb: 'Tanım, problem çözme, arama, mantık, karar verme, etik.', chapters: [
+    { slug: 'yapay-zeka-temelleri', title: 'Yapay Zekâ Temelleri', blurb: 'Tanım, problem çözme, arama, mantık, karar verme, etik.', chapters: [
       [1, 'Yapay Zekâ Tanımı ve Tarihsel Gelişimi', 1], [2, 'Problem Çözme', 1], [3, 'Arama Algoritmaları', 1], [4, 'Bilgi Gösterimi', 0],
       [5, 'Mantık', 0], [6, 'Akıl Yürütme', 0], [7, 'Karar Verme', 0], [8, 'Karar Ağaçları', 0],
       [9, 'Yapay Zekâ Etiği ve Toplumsal Etkileri', 0], [10, 'Yapay Zekânın Geleceği', 0]

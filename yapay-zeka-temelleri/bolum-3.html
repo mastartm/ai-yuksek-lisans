@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Arama Algoritmaları — Yapay Zeka Temelleri</title>
+<title>Arama Algoritmaları — Yapay Zekâ Temelleri</title>
 <meta name="description" content="Yapay zeka hedefe giden yolu nasıl bulur? BFS, DFS, UCS, A* ve minimax; etkileşimli görseller ve bölüm sonu quiziyle.">
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
@@ -29,8 +29,8 @@
 <!-- 1 -->
 <section class="slide" data-title="Başlangıç">
   <div class="panel">
-    <div class="kicker">Yapay Zeka Temelleri · Bölüm 3</div>
-    <h1>Arama Algoritmaları: Yapay Zeka Yolunu Nasıl Bulur?</h1>
+    <div class="kicker">Yapay Zekâ Temelleri · Bölüm 3</div>
+    <h1>Arama Algoritmaları: Yapay Zekâ Yolunu Nasıl Bulur?</h1>
     <p class="big-quote">Sınav sabahı yurttan sınav salonuna en hızlı nasıl gidersin? Telefondaki harita bunu saniyeler içinde yapar. Arkasındaki fikir: <b>arama</b>.</p>
     <div class="cols">
       <div>
@@ -45,7 +45,7 @@
       </div>
       <div>
         <h3>Nasıl kullanılır?</h3>
-        <p>Slaytlar arasında <b>← →</b> tuşlarıyla, alttaki düğmelerle ya da alttaki Önceki / Sonraki düğmeleriyle gez. Sarı kutular <b>gerçek hayat</b> örnekleridir. “Sonraki adım” düğmesi olan çizimler etkileşimlidir; kurcala.</p>
+        <p>Slaytlar arasında <b>← →</b> tuşlarıyla ya da alttaki Önceki / Sonraki düğmeleriyle gez. Sarı kutular <b>gerçek hayat</b> örnekleridir. “Sonraki adım” düğmesi olan çizimler etkileşimlidir; kurcala.</p>
       </div>
     </div>
   </div>
@@ -98,7 +98,7 @@
   <div class="panel">
     <div class="kicker">Temel</div>
     <h2>Arama, bir ağacı adım adım açmaktır</h2>
-    <p>Algoritma başlangıçtan başlar, bir durumu <b>genişletir</b> (o durumdan yapılabilecek eylemlerin gittiği yeni durumları üretir) ve bunu hedef çıkana kadar sürdürür. Aramanın çeşitleri, <i>sırada hangi düğümü genişletirim</i> sorusuna verdikleri cevapta ayrılır.</p>
+    <p>Algoritma başlangıçtan başlar, bir durumu <b>genişletir</b> (o durumdan yapılabilecek eylemlerin gittiği yeni durumları üretir) ve bunu hedef çıkana kadar sürdürür. Aramanın çeşitleri, <i>“sırada hangi düğümü genişleteyim?”</i> sorusuna verdikleri cevapta ayrılır.</p>
     <svg class="diagram" viewBox="0 0 760 270" role="img" aria-label="Arama ağacı: genişletilmiş, sınırdaki ve henüz keşfedilmemiş düğümler">
       <g class="d-line">
         <path d="M380 40 L200 110"/><path d="M380 40 L380 110"/><path d="M380 40 L560 110"/>
@@ -121,7 +121,7 @@
       <div><h3>Sınır (frontier / açık liste)</h3><p>Üretilmiş ama henüz genişletilmemiş düğümler. Algoritmanın “yapılacaklar listesi”dir. Hangi düğümü bu listeden alacağı, algoritmanın kimliğidir.</p></div>
       <div><h3>Kapalı liste</h3><p>Zaten genişletilmiş düğümler. Aynı yere ikinci kez girip döngüye düşmemek için tutulur.</p></div>
     </div>
-    <div class="callout real"><b>Gerçek hayat: Wikipedia’da link link gezmek</b>Bir maddeyi okurken ilgini çeken bağlantıları yeni sekmede açıyorsun. Henüz okumadığın açık sekmeler <b>sınırdır (frontier)</b>; okuyup kapattıkların <b>kapalı listedir</b>. Aynı maddeyi ikinci kez açmamak için neyi okuduğunu hatırlarsın. Web tarayıcılar (crawler) bağlantılara aynen böyle bakar.</div>
+    <div class="callout real"><b>Gerçek hayat: Wikipedia’da link link gezmek</b>Bir maddeyi okurken ilgini çeken bağlantıları yeni sekmede açıyorsun. Henüz okumadığın açık sekmeler <b>sınırdır (frontier)</b>; okuyup kapattıkların <b>kapalı listedir</b>. Aynı maddeyi ikinci kez açmamak için neyi okuduğunu hatırlarsın. Arama motorlarının örümcek yazılımları (crawler) bağlantılara aynen böyle bakar.</div>
   </div>
 </section>
 
@@ -213,7 +213,7 @@
     <div class="lab graphlab" data-algo="dfs"></div>
     <div class="metrics">
       <div class="metric"><b>Tam: <span class="no">hayır</span></b>Sonsuz dala ya da döngüye girerse çıkamaz.</div>
-      <div class="metric"><b>Optimal: <span class="no">hayır</span></b>Buldu diye en iyisi olmak zorunda değil. (Yukarıda 28 dk’lık yolu buldu.)</div>
+      <div class="metric"><b>Optimal: <span class="no">hayır</span></b>Bulduğu yol en iyisi olmak zorunda değil. (Yukarıda 28 dk’lık yolu buldu.)</div>
       <div class="metric"><b>Bellek: <span class="yes">O(b·m)</span></b>Yalnızca o anki yolu tutar. Çok hafiftir.</div>
     </div>
     <div class="callout idea"><b>Çözüm yolları</b><b>Derinlik sınırlı arama (DLS):</b> “En fazla L adım in” diye bir sınır koyar; sonsuz dala girmeyi önler ama sınır yanlışsa çözümü kaçırır. <b>Yinelemeli derinleşme (IDDFS):</b> sınırı 1, 2, 3… diye artırarak DLS’i tekrar tekrar çalıştırır; DFS’in belleğini, BFS’in tamlığını alır.</div>
@@ -294,7 +294,7 @@
     </table>
     </div>
     <div class="callout idea"><b>Karar akışı</b>1) Maliyetler eşit mi değil mi? Değilse UCS. &nbsp;2) Belleğin yetmiyor mu? DFS/DLS. &nbsp;3) Hedef tek ve çok derinde mi? Çift yönlü. &nbsp;4) Küçük ve eşit mi? BFS yeter.</div>
-    <div class="callout real"><b>Üç senaryo</b>Bir sosyal ağda en az aracıyla ulaşmak: BFS. Ankara metrosunda “en az süre”yi aramak ya da uçak biletlerinde en ucuz aktarmalı rotayı bulmak: UCS. İki kişiyi en kısa tanıdık zinciriyle bağlamak veya şehirler arası çok uzun bir rota hesaplamak: çift yönlü. Belleği çok kısıtlı bir cihazda çok derin bir klasör ağacını taramak: DFS/DLS.</div>
+    <div class="callout real"><b>Dört senaryo</b>Bir sosyal ağda en az aracıyla ulaşmak: BFS. Ankara metrosunda “en az süre”yi aramak ya da uçak biletlerinde en ucuz aktarmalı rotayı bulmak: UCS. İki kişiyi en kısa tanıdık zinciriyle bağlamak veya şehirler arası çok uzun bir rota hesaplamak: çift yönlü. Belleği çok kısıtlı bir cihazda çok derin bir klasör ağacını taramak: DFS/DLS.</div>
   </div>
 </section>
 
@@ -362,7 +362,7 @@
       </div>
     </div>
     <h3>Sezgisel nasıl bulunur? Kuralları gevşet.</h3>
-    <p>Problemin bazı kurallarını kaldır, kolaylaşmış problemi çöz; o çözümün maliyeti sezgiseldir. 8 bulmacada bir taş yalnızca komşu boş kareye kayabilir. Bu kuralı kaldırırsan taşı istediğin yere koyabilirsin ve her yanlış taş en az bir hamle ister.</p>
+    <p>Problemin bazı kurallarını kaldır, kolaylaşmış problemi çöz; o çözümün maliyeti sezgiseldir. 8-bulmacada bir taş yalnızca komşu boş kareye kayabilir. Bu kuralı kaldırırsan taşı istediğin yere koyabilirsin ve her yanlış taş en az bir hamle ister.</p>
     <p>Aşağıdaki durumda yanlış yerdeki taşlar kırmızı:</p>
     <div>
       <div class="puzzle" aria-label="Mevcut durum"><span class="good">1</span><span class="mis">3</span><span class="mis">6</span><span class="good">4</span><span class="bl"></span><span class="mis">2</span><span class="good">7</span><span class="mis">5</span><span class="mis">8</span></div>
@@ -411,7 +411,7 @@
       <rect class="d-plain" x="608" y="192" width="44" height="34" rx="8"/><text class="d-txt d-c" x="630" y="214">9</text>
       <text class="d-sm" x="30" y="255">Yapraklar: oyun sonu puanı (bizim açımızdan, yüksek = iyi).</text>
     </svg>
-    <p><b>Mantık:</b> Yapraklardan yukarı doğru hesapla. Rakibin sırasında o, bizim için <i>en kötü</i> yaprağı seçer (min). Bizim sırada <i>en iyiyi</i> seçeriz (max). Köke gelen değer, rakip mükemmel oynasa bile <b>garanti edebileceğimiz en iyi sonuçtur</b>. Yukarıdaki küçük ağaçta sol hamle 3, sağ hamle 2 garanti eder; sol seçilir.</p>
+    <p><b>Mantık:</b> Yapraklardan yukarı doğru hesapla. Rakibin sırasında o, bizim için <i>en kötü</i> yaprağı seçer (min). Bizim sıramızda <i>en iyiyi</i> seçeriz (max). Köke gelen değer, rakip mükemmel oynasa bile <b>garanti edebileceğimiz en iyi sonuçtur</b>. Yukarıdaki küçük ağaçta sol hamle 3, sağ hamle 2 garanti eder; sol seçilir.</p>
     <div class="callout real"><b>Gerçek hayat</b>XOX (tic-tac-toe) bilgisayarı yenilmezdir çünkü oyun ağacını sonuna kadar minimax ile tarar. Satranç ve dama motorlarının çekirdeği de budur; fark, ağacın çok büyük olması ve bu yüzden bir sonraki iki slayttaki hilelere ihtiyaç duymalarıdır.</div>
   </div>
 </section>
@@ -472,7 +472,7 @@
       </tbody>
     </table></div>
     <div class="callout idea"><b>Tek cümleyle</b>Kör arama “her yere bak”, sezgisel arama “umut verici yere bak”, rakipli arama “rakip de en iyisini yapacak” der.</div>
-    <p>Hazırsan quiz sırada. Yanlış yaptığın her soruda doğru cevap ve nedeni gösterilecek.</p>
+    <p>Hazırsan quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
   </div>
 </section>
 

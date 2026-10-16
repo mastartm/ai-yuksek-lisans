@@ -11,13 +11,13 @@ scripts: ml2.js
   <div class="panel">
     <div class="kicker">Makine Öğrenmesi · Bölüm 2</div>
     <h1>Kavram Öğrenme: Örneklerden Kural Çıkarmak</h1>
-    <p class="big-quote">Bir çocuğa “kuş” kavramını tanım yaparak öğretmezsin; güvercini, serçeyi ve martıyı gösterir, penguenle yarasayı da “bu kuş değil” diye ayırırsın. Çocuk kısa sürede genel bir fikir çıkarır. Makine bunu nasıl yapar?</p>
+    <p class="big-quote">Bir çocuğa “kuş” kavramını tanım yaparak öğretmezsin; güvercini, serçeyi ve martıyı gösterir, yarasayla kelebeği de “bu kuş değil” diye ayırırsın. Çocuk kısa sürede genel bir fikir çıkarır. Makine bunu nasıl yapar?</p>
     <h3>Bu bölümün sonunda</h3>
     <ul>
       <li>Kavram öğrenmeyi, ikili (evet/hayır) bir fonksiyonu örneklerden bulmak olarak tanımlayabilirsin.</li>
       <li>Bağlaçlı hipotezleri okuyup “daha genel” ilişkisini kurabilirsin.</li>
       <li>FIND-S ve ADAY-ELEME’yi (Candidate Elimination) bir örnek üzerinde adım adım çalıştırabilirsin.</li>
-      <li>Versiyon uzayı, S ve G sınırlarının ne anlatığını açıklayabilirsin.</li>
+      <li>Versiyon uzayı, S ve G sınırlarının ne anlattığını açıklayabilirsin.</li>
       <li>Tümevarımsal önyargının neden zorunlu olduğunu gösterebilirsin.</li>
     </ul>
   </div>
@@ -60,7 +60,7 @@ scripts: ml2.js
         <tr><td>4</td><td>Güneşli</td><td>Ilık</td><td>Kuru</td><td>Eksik</td><td class="no">Hayır</td></tr>
       </tbody>
     </table></div>
-    <p>Elde <b>pozitif</b> (c(x)=1, kavrama ait) ve <b>negatif</b> (c(x)=0) örnekler var. Eğitim kümesi D, ⟨x, c(x)⟩ çiftlerinden oluşur. Öğrencinin işi, <b>tüm x’ler için h(x) = c(x)</b> olan bir hipotez h bulmaktır.</p>
+    <p>Elde <b>pozitif</b> (c(x)=1, kavrama ait) ve <b>negatif</b> (c(x)=0) örnekler var. Eğitim kümesi D, ⟨x, c(x)⟩ çiftlerinden oluşur. Öğrenicinin işi, <b>tüm x’ler için h(x) = c(x)</b> olan bir hipotez h bulmaktır.</p>
     <div class="callout idea"><b>Not</b>Veri kümesi değişirse (yeni kayıt, silinen kayıt, değişen bir değer), öğrenme sürecini baştan çalıştırıp hipotezi yeniden üretmek gerekir.</div>
   </div>
 </section>
@@ -176,7 +176,7 @@ scripts: ml2.js
       <li>Yeni örnek <b>G’nin hiçbir üyesini</b> sağlamıyorsa: tüm hipotezler “hayır” der. Güvenli negatif.</li>
       <li>Hipotezler bölünüyorsa: belirsiz. Oylama, “evet” oranı bir güven ölçüsü olarak kullanılabilir.</li>
     </ul>
-    <div class="callout real"><b>Gerçek hayat: İki doktor aynı fikirdeyse</b>Bir hastayı muayene eden üç doktorun üçü de aynı teşhisi koyuyorsa güvenirsin. İkisi “evet”, biri “hayır” diyorsa ek tetkik (yeni bir sorgu) istersin. Versiyon uzayı da hipotezlerin oy birliğine ya da bölünmesine bakar.</div>
+    <div class="callout real"><b>Gerçek hayat: Doktorlar aynı fikirdeyse</b>Bir hastayı muayene eden üç doktor da aynı teşhisi koyuyorsa güvenirsin. İkisi “evet”, biri “hayır” diyorsa ek tetkik (yeni bir sorgu) istersin. Versiyon uzayı da hipotezlerin oy birliğine ya da bölünmesine bakar.</div>
   </div>
 </section>
 

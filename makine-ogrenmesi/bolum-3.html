@@ -129,10 +129,10 @@
   <div class="panel">
     <div class="kicker">Laboratuvar</div>
     <h2>Ağacı kendin büyüt</h2>
-    <p>Kök düğümden başla: her saf olmayan düğümde bir öznitelik seç. Yanındaki sayı o öznitelğin <b>bilgi kazancıdır</b>, ★ en yüksek olanı gösterir. İstersen “ID3 kursun” de ve ID3’ün seçtiği ağacı gör; sonra sıfırlayıp kendi seçimlerinle daha küçük bir ağaç bulabilir misin dene.</p>
+    <p>Kök düğümden başla: her saf olmayan düğümde bir öznitelik seç. Yanındaki sayı o özniteliğin <b>bilgi kazancıdır</b>, ★ en yüksek olanı gösterir. İstersen “ID3 kursun” de ve ID3’ün seçtiği ağacı gör; sonra sıfırlayıp kendi seçimlerinle daha küçük bir ağaç bulabilir misin dene.</p>
     <div class="lab" id="id3lab"></div>
     <div class="callout idea"><b>Mantık</b>ID3 ağacı <b>yukarıdan aşağıya</b>, her adımda en yüksek kazançlı özniteliği <b>açgözlüce</b> seçerek büyütür. Bir düğümdeki tüm örnekler aynı sınıfa aitse (entropi 0) dallanma durur ve yaprak oluşur. O yaprakta diğer özniteliklerin eksik ya da yanlış olması önemsizdir.</div>
-    <div class="callout real"><b>Denemeni öner</b>Kökte “Sınav”ı elle seç, sonra ★ işaretlilerle devam et: aynı veriden <b>5 yapraklı</b> bir ağaç çıkar. ID3 ise kökte kazancı en yüksek olan “Ortam”ı seçtiği için <b>7 yapraklı</b> bir ağaç kurar. Açgözlü seçim her zaman en küçük ağacı vermez.</div>
+    <div class="callout real"><b>Denemeni öneririm</b>Kökte “Sınav”ı elle seç, sonra ★ işaretlilerle devam et: aynı veriden <b>5 yapraklı</b> bir ağaç çıkar. ID3 ise kökte kazancı en yüksek olan “Ortam”ı seçtiği için <b>7 yapraklı</b> bir ağaç kurar. Açgözlü seçim her zaman en küçük ağacı vermez.</div>
   </div>
 </section>
 
@@ -208,7 +208,7 @@
       <div class="peas-c p"><b>Azaltılmış hata budaması</b>Ayrı bir <i>doğrulama kümesi</i> ayır. Her düğüm için “alt ağacı sil, yaprak yap” dene; doğrulamada kötüleşmiyorsa sil. Veri çoksa iyi; azsa doğrulama için ayırmak eğitimi zayıflatır.</div>
       <div class="peas-c e"><b>Kural budama (C4.5)</b>1) Ağacı büyüt. 2) Her yolu bir kurala çevir. 3) Doğruluğu düşürmeyen şartları sil (kuralı genelleştir). 4) Kuralları tahmini doğruluğa göre sırala.</div>
     </div>
-    <div class="callout idea"><b>Neden kurala çevirip budamak?</b>Ayrı yollar ayrı kurallara dönüşür; aynı öznitelik testi için farklı bağlamlarda farklı kararlar verilebilir. Köke yakın ve yapraklara yakın testler arasındaki karışık muhasebe ortadan kalkar. Kurallar okunması da kolaydır.</div>
+    <div class="callout idea"><b>Neden kurala çevirip budamak?</b>Ayrı yollar ayrı kurallara dönüşür; aynı öznitelik testi için farklı bağlamlarda farklı kararlar verilebilir. Köke yakın ve yapraklara yakın testler arasındaki karışık muhasebe ortadan kalkar. Kuralların okunması da kolaydır.</div>
     <div class="callout real"><b>Gerçek hayat: Ezberlenmiş çıkmış sorular</b>Tüm çıkmış soruların numarasına kadar ezberleyen biri eğitim setinde (çıkmışlarda) 100 alır, yeni sınavda düşer. Budama, “ayrıntıyı unutup asıl kuralı tut” demektir.</div>
   </div>
 </section>
