@@ -279,7 +279,7 @@
         chips.forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
         if (open) { info.innerHTML = '<b>Bir alana dokun</b>Alt alanlardan birine tıkla; ne işe yaradığını ve günlük hayattan bir örneğini gör.'; mark(-1); return; }
         c.setAttribute('aria-pressed', 'true');
-        info.innerHTML = '<b>' + c.textContent + '</b>' + c.getAttribute('data-info');
+        info.innerHTML = '<b>' + c.textContent + '</b><p><b>Ne işe yarar:</b> ' + c.getAttribute('data-info') + '</p><p><b>Günlük hayatta:</b> ' + c.getAttribute('data-ex') + '</p>';
         mark(chips.indexOf(c));
       });
     });
