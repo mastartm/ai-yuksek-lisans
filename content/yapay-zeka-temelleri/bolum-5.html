@@ -1,0 +1,193 @@
+<!--
+course: yapay-zeka-temelleri
+course_title: Yapay Zekâ Temelleri
+no: 5
+title: Mantık
+quiz: QUIZ_YZ_5
+quiz_file: yz-bolum-5-quiz.js
+scripts: yz5.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Yapay Zekâ Temelleri · Bölüm 5</div>
+    <h1>Mantık: Makine Nasıl Akıl Yürütür?</h1>
+    <p class="big-quote">“Yağmur yağıyor. Yağmur yağarsa hava ıslanır. Hava ıslaksa şemsiye al.” Bir insan bunu hemen çözer. Bir program için ise bu cümleleri <b>kesin bir dille</b> yazmak ve onlardan sonuç çıkarmak gerekir. Mantık, bu dildir.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Önerme mantığının söz dizimini ve anlamını açıklayabilirsin.</li>
+      <li>Doğruluk tablosuyla bir çıkarımın geçerli olup olmadığını sınayabilirsin.</li>
+      <li>İleri zincirleme, geri zincirleme ve çözümlemeyi karşılaştırabilirsin.</li>
+      <li>Önerme mantığının sınırlarını ve birinci derece mantığa neden geçildiğini anlatabilirsin.</li>
+      <li>Niceleyiciler ve birleştirme (unification) ile çıkarımı gösterebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Dünyayı cümlelere dök, cümlelerden yeni cümleler türet</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Mantık akışı: söz dizimi, anlam, bilgi tabanı, çıkarım, yeni bilgi"><rect class="d-brand" x="10" y="55" width="130" height="80" rx="8"/><text class="d-txt d-c" x="75" y="88">Söz dizimi</text><text class="d-sm d-c" x="75" y="108">cümle nasıl yazılır?</text><rect class="d-ok" x="160" y="55" width="130" height="80" rx="8"/><text class="d-txt d-c" x="225" y="88">Anlam</text><text class="d-sm d-c" x="225" y="108">ne zaman doğru?</text><rect class="d-warn" x="310" y="55" width="130" height="80" rx="8"/><text class="d-txt d-c" x="375" y="88">Bilgi tabanı</text><text class="d-sm d-c" x="375" y="108">cümleler kümesi</text><rect class="d-box" x="460" y="55" width="130" height="80" rx="8"/><text class="d-txt d-c" x="525" y="88">Çıkarım</text><text class="d-sm d-c" x="525" y="108">KB ⊨ α ?</text><rect class="d-ok" x="610" y="55" width="130" height="80" rx="8"/><text class="d-txt d-c" x="675" y="88">Yeni bilgi</text><text class="d-sm d-c" x="675" y="108">karar, plan, açıklama</text><path class="d-line-brand" d="M140 95 L160 95"/><path class="d-line-brand" d="M290 95 L310 95"/><path class="d-line-brand" d="M440 95 L460 95"/><path class="d-line-brand" d="M590 95 L610 95"/><text class="d-sm d-c" x="380" y="170">iki mantık: önerme (basit) ve birinci derece (nesne ve ilişki)</text></svg>
+    <p>Önerme mantığı kolaydır ama dar kalır; birinci derece mantık nesneleri, ilişkileri ve “her/bazı” ifadelerini de yazabilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Mantığın rolü">
+  <div class="panel">
+    <div class="kicker">Mantığın rolü · kartlara tıkla</div>
+    <h2>Yapay zekâda mantık ne işe yarar?</h2>
+    <p>Mantığın iki amacı vardır: bilginin <b>biçimsel temsili</b> ve <b>akıl yürütme</b> (var olandan yeni bilgi çıkarmak, çıkarımın doğruluğunu sınamak). Belirsizliğin düşük, doğruluğun önemli olduğu yerlerde özellikle değerlidir.</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">1</b>Bilgi tabanlı ajanlar<span class="tip">tıkla</span></span><span class="back"><b class="k">Nasıl?</b>Bilgiyi mantıksal cümlelerle tutar, onlardan akıl yürütür, yeni bilgi çıkarır ve eylem planını günceller.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">2</b>Karar ve planlama<span class="tip">tıkla</span></span><span class="back"><b class="k">Nasıl?</b>Belirsizliksiz, deterministik ortamlarda “eğer-ise” yapılarıyla hangi eylemin ne zaman yapılacağı yazılır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">3</b>Problem çözme<span class="tip">tıkla</span></span><span class="back"><b class="k">Nasıl?</b>Durumlar mantıksal ifadelerle gösterilir; çıkarımlarla hedefe giden yol bulunur (labirentte “duvar varsa sağa dön”).</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">4</b>Açıklama<span class="tip">tıkla</span></span><span class="back"><b class="k">Nasıl?</b>Karar gerekçeyle sunulabilir: “Şemsiye al dedim çünkü yağmur yağıyor ve yağmur hava ıslanmasına yol açar.” Açıklanabilir yapay zekânın (XAI) temelidir.</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Programlama</b>if-else, AND/OR/NOT ve veritabanı sorguları mantığın günlük kullanımıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Önerme mantığı">
+  <div class="panel">
+    <div class="kicker">Önerme mantığı</div>
+    <h2>Önermeler ve bağlaçlar</h2>
+    <p>Önerme, doğru ya da yanlış olan bir cümledir (“Yağmur yağıyor”). <b>Atomik önermeler</b> P, Q gibi harflerle yazılır; <b>bağlaçlarla</b> birleştirilerek karmaşık cümleler kurulur.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Bağlaç</th><th>Okunuş</th><th>Ne zaman doğru?</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">¬P</td><td>değil</td><td>P yanlışsa</td></tr>
+        <tr><td class="mono">P ∧ Q</td><td>ve</td><td>İkisi de doğruysa</td></tr>
+        <tr><td class="mono">P ∨ Q</td><td>veya</td><td>En az biri doğruysa</td></tr>
+        <tr><td class="mono">P ⇒ Q</td><td>ise (gerektirme)</td><td>P doğru ve Q yanlış <b>değilse</b></td></tr>
+        <tr><td class="mono">P ⇔ Q</td><td>ancak ve ancak</td><td>İkisi aynı değerdeyse</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Anlam (semantik)</h3>
+    <ul>
+      <li><b>Model:</b> her atomik önermeye D (doğru) ya da Y (yanlış) atayan bir dünya durumu.</li>
+      <li><b>Gerektirme (⊨):</b> KB ⊨ α, KB’nin doğru olduğu <i>her</i> modelde α’nın da doğru olması demektir.</li>
+      <li><b>Totoloji:</b> her modelde doğru olan cümle.</li>
+    </ul>
+    <div class="callout idea"><b>Sık hata</b>“P ⇒ Q” yalnızca P doğruyken Q’yu zorlar. P yanlışsa cümle, Q ne olursa olsun doğrudur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Doğruluk tablosu">
+  <div class="panel">
+    <div class="kicker">Çıkarım sınaması · dene</div>
+    <h2>Doğruluk tablosuyla çıkarımı sına</h2>
+    <p>Yöntem basit: tüm olası D/Y atamalarını yaz, <b>KB’nin doğru olduğu satırlara</b> bak. Sorgu bu satırların hepsinde doğruysa KB ⊨ α geçerlidir. Dört örneği dene; sonuncusu tipik bir mantık hatasıdır:</p>
+    <div class="lab" id="ttlab"></div>
+    <div class="callout idea"><b>Bedel</b>n atomik önerme için 2ⁿ satır gerekir. Küçük bilgi tabanlarında öğreticidir; büyüklerde pratik değildir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Çıkarım algoritmaları">
+  <div class="panel">
+    <div class="kicker">Çıkarım algoritmaları</div>
+    <h2>Dört yöntem, dört bakış</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Yaklaşım</th><th>Avantaj</th><th>Dezavantaj</th><th>Kullanım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Doğruluk tablosu</b></td><td>Tüm modelleri tara</td><td>Basit, öğretici</td><td>2ⁿ satır; çok pahalı</td><td>Eğitim, küçük KB</td></tr>
+        <tr><td><b>İleri zincirleme</b></td><td>Veri güdümlü: gerçeklerden başla, kuralları uygula</td><td>Tüm sonuçları bulur</td><td>Hedefle ilgisiz çıkarımlar yapabilir</td><td>Uzman sistemler (ör. MYCIN), üretim kuralları</td></tr>
+        <tr><td><b>Geri zincirleme</b></td><td>Hedef güdümlü: hedeften başla, öncülleri ara</td><td>Hedefe odaklı</td><td>Derin zincirlerde yavaşlayabilir</td><td>Sorgulama, danışman sistemler, Prolog</td></tr>
+        <tr><td><b>Çözümleme (resolution)</b></td><td>Çürütme tabanlı; cümleler CNF’ye çevrilir</td><td>Güçlü ve eksiksiz</td><td>CNF dönüşümü zor olabilir</td><td>Teorem ispatı</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Doktor ve arıza servisi</b>Önce bulguları toplayıp olası tüm teşhisleri çıkarmak ileri zincirlemedir. “Bu hastalık olsa hangi bulgular olurdu, bakayım” demek geri zincirlemedir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Zincirleme laboratuvarı">
+  <div class="panel">
+    <div class="kicker">İleri ve geri zincirleme · dene</div>
+    <h2>Aynı kurallar, iki yön</h2>
+    <p>Hedefi seç; iki yöntemin attığı adımları karşılaştır:</p>
+    <div class="lab" id="chainlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Önerme mantığının sınırları">
+  <div class="panel">
+    <div class="kicker">Sınırlar</div>
+    <h2>Önerme mantığı neden yetmez?</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">1</b>Genelleme yok<span class="tip">tıkla</span></span><span class="back"><b class="k">Sorun</b>“Tüm insanlar ölümlüdür”ü tek cümleyle yazamazsın; her kişi için ayrı önerme gerekir (AliÖlümlü, AyşeÖlümlü…).</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">2</b>İlişki yok<span class="tip">tıkla</span></span><span class="back"><b class="k">Sorun</b>anne(X, Y) ya da komşu(Ev1, Ev2) gibi ilişkiler, her çift için ayrı atomik önermeye dönüşür.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">3</b>Değişken ve niceleyici yok<span class="tip">tıkla</span></span><span class="back"><b class="k">Sorun</b>“Kapının kilidi açıksa kapı açılabilir” gibi genel bir kural değişken olmadan yazılamaz.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">4</b>Zaman yok<span class="tip">tıkla</span></span><span class="back"><b class="k">Sorun</b>Bilgi statik varsayılır; “yarın yağmur yağacak” ya da “5 dakikada duracak” gibi zamana bağlı ifadeler temsil edilemez.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">5</b>Belirsizlik yok<span class="tip">tıkla</span></span><span class="back"><b class="k">Sorun</b>Her ifade ya doğru ya yanlıştır. “Hasta olma ihtimali %70” söylenemez.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">6</b>Ölçek<span class="tip">tıkla</span></span><span class="back"><b class="k">Sorun</b>Gerçek uygulamalarda bilgi tabanı çok hızla büyür; depolama ve çıkarım maliyeti artar.</span></button>
+    </div>
+    <p>Bu sınırlar, nesneleri, özellikleri ve ilişkileri de ifade eden <b>birinci derece mantığa</b> ihtiyacı doğurdu.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Birinci derece mantık">
+  <div class="panel">
+    <div class="kicker">Birinci derece mantık (FOL)</div>
+    <h2>Nesneler, ilişkiler ve niceleyiciler</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Bileşen</th><th>Görevi</th><th>Örnek</th></tr></thead>
+      <tbody>
+        <tr><td><b>Sabit</b></td><td>Belirli bir nesne</td><td class="mono">Sokrates, Ali</td></tr>
+        <tr><td><b>Yüklem</b></td><td>Özellik ya da ilişki</td><td class="mono">İnsan(x), Anne(x, y)</td></tr>
+        <tr><td><b>Fonksiyon</b></td><td>Girdiden bir nesne üretir</td><td class="mono">AnneSi(Ali)</td></tr>
+        <tr><td><b>Değişken</b></td><td>Herhangi bir nesne</td><td class="mono">x, y, z</td></tr>
+        <tr><td><b>Niceleyici</b></td><td>Kapsamı belirtir</td><td class="mono">∀ (her), ∃ (bazı)</td></tr>
+        <tr><td><b>Bağlaç</b></td><td>Önerme mantığındakiler</td><td class="mono">¬ ∧ ∨ ⇒ ⇔</td></tr>
+      </tbody>
+    </table></div>
+    <h3>İki klasik kalıp</h3>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>∀ ile ⇒</b><span class="mono">∀x İnsan(x) ⇒ Ölümlü(x)</span><br>“Her insan ölümlüdür.”</div>
+      <div class="peas-c e"><b>∃ ile ∧</b><span class="mono">∃x Kedi(x) ∧ Siyah(x)</span><br>“Siyah bir kedi vardır.”</div>
+    </div>
+    <div class="callout idea"><b>Yaygın hata</b>∀x İnsan(x) <b>∧</b> Ölümlü(x) yazarsan “her şey hem insan hem ölümlüdür” demiş olursun. ∀ ile ⇒, ∃ ile ∧ eşleşir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Çıkarım ve birleştirme">
+  <div class="panel">
+    <div class="kicker">FOL çıkarımı</div>
+    <h2>Birleştirme (unification): değişkeni nesneyle eşle</h2>
+    <p>FOL’de çıkarım için de ileri zincirleme, geri zincirleme ve çözümleme kullanılır. Kuralın değişkenleri gerçeklerle eşleştirilebilmelidir; bu işleme <b>birleştirme</b> denir: iki ifadeyi, değişkenlere nesne atayarak aynı hâle getirmek.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Adım</th><th>İçerik</th></tr></thead>
+      <tbody>
+        <tr><td>Bilgi tabanı</td><td class="mono">1. İnsan(Sokrates) &nbsp;&nbsp; 2. ∀x İnsan(x) ⇒ Ölümlü(x)</td></tr>
+        <tr><td>Sorgu</td><td class="mono">Ölümlü(Sokrates) ?</td></tr>
+        <tr><td>Birleştirme</td><td class="mono">x = Sokrates (kuraldaki x, gerçekteki Sokrates ile eşlenir)</td></tr>
+        <tr><td>Sonuç</td><td class="mono">İnsan(Sokrates) ve kural ⇒ Ölümlü(Sokrates) ✓</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Zorluklar</h3>
+    <ul>
+      <li><b>Karmaşıklık:</b> büyük bilgi tabanlarında çıkarım pahalıdır.</li>
+      <li><b>Çelişki:</b> çelişkili bilgi, yanlış çıkarımlara yol açar.</li>
+      <li><b>Eksiklik:</b> bilgi eksikse doğru sonuç çıkmayabilir.</li>
+      <li><b>Belirsizlik:</b> FOL kesin mantıktır; olasılıksal bilgiyi doğrudan temsil edemez.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Akrabalık kuralı</b>“Anne(x, y) ∧ Anne(y, z) ⇒ Büyükanne(x, z)” kuralını bir kez yazarsın; birleştirme, bilgi tabanındaki her aile için doğru kişileri eşler.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 5</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Mantığın amacı</td><td>Biçimsel temsil ve akıl yürütme; bilgi tabanlı ajan, planlama, açıklama</td></tr>
+        <tr><td>Önerme mantığı</td><td>Önermeler, ¬ ∧ ∨ ⇒ ⇔; model; KB ⊨ α; totoloji</td></tr>
+        <tr><td>Çıkarım</td><td>Doğruluk tablosu (2ⁿ), ileri (veri güdümlü), geri (hedef güdümlü), çözümleme (eksiksiz)</td></tr>
+        <tr><td>Sınırlar</td><td>Genelleme, ilişki, değişken, zaman, belirsizlik, ölçek yok</td></tr>
+        <tr><td>FOL</td><td>Sabit, yüklem, fonksiyon, değişken, niceleyici; ∀ ile ⇒, ∃ ile ∧</td></tr>
+        <tr><td>Birleştirme</td><td>Değişkenleri nesnelerle eşleyerek kuralları uygulamak</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
