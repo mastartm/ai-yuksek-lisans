@@ -12,4 +12,17 @@
     hint.textContent = 'Çizimi yana kaydırabilirsin →';
     wrap.parentNode.insertBefore(hint, wrap.nextSibling);
   });
+
+  /* Geniş tablolar: panelden taşmasın, yana kaydırılabilsin */
+  Array.prototype.forEach.call(document.querySelectorAll('table.cmp'), function (t) {
+    if (t.parentNode.classList.contains('tblscroll')) return;
+    var wrap = document.createElement('div');
+    wrap.className = 'tblscroll';
+    t.parentNode.insertBefore(wrap, t);
+    wrap.appendChild(t);
+    var hint = document.createElement('div');
+    hint.className = 'swipehint';
+    hint.textContent = 'Tabloyu yana kaydırabilirsin →';
+    wrap.parentNode.insertBefore(hint, wrap.nextSibling);
+  });
 })();

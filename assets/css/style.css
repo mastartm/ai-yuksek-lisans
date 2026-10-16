@@ -556,3 +556,23 @@ span.chip { cursor: default; }
 .nest-c.sel { stroke-width: 5; filter: drop-shadow(0 0 7px var(--brand)); }
 .nest-c:focus-visible { stroke-dasharray: 9 5; stroke-width: 4; }
 .nest-c.sel:focus-visible { stroke-dasharray: none; }
+
+/* ---------- Telefon cilası: tablolar, form öğeleri, onay kutuları ---------- */
+.tblscroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 12px 0; max-width: 100%; }
+.tblscroll > table.cmp { margin: 0; min-width: 480px; }
+.lab input:not([type=range]):not([type=checkbox]):not([type=radio]), .lab select, .lab textarea {
+  font: inherit; font-size: 1rem; padding: 8px 10px; min-height: 40px; border-radius: 8px;
+  border: 2px solid var(--line); background: var(--surface); color: var(--text); max-width: 100%;
+}
+label.hyp-s:has(> input[type=checkbox]) { flex-direction: row; align-items: center; gap: 10px; font-size: .95rem; cursor: pointer; }
+label.hyp-s > input[type=checkbox] { width: 22px; height: 22px; flex: none; accent-color: var(--brand); margin: 0; }
+.gl-legend .sw { font-size: .72rem; }
+@media (max-width: 700px) {
+  input[type=range] { height: 32px; }
+  .tblscroll > table.cmp { font-size: .88rem; }
+  table.cmp th, table.cmp td { padding: 7px 8px; }
+}
+@media (max-width: 480px) {
+  .chips { display: grid; grid-template-columns: 1fr 1fr; }
+  .chips > .chip { text-align: center; white-space: normal; }
+}
