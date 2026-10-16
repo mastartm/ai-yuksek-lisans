@@ -1,0 +1,158 @@
+<!--
+course: goruntu-isleme
+course_title: Görüntü İşleme
+no: 4
+title: Piksel İlişkileri
+quiz: QUIZ_GI_4
+quiz_file: gi-bolum-4-quiz.js
+scripts: gi4.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 4</div>
+    <h1>Piksel İlişkileri: Tek Piksel Yetmez</h1>
+    <p class="big-quote">Tek başına bir piksel yalnızca bir sayıdır. Bir pikselin kenarda mı, bir nesnenin içinde mi, bir lekenin parçası mı olduğunu <b>komşuları</b> söyler. Bu bölümde pikselleri birbirine nasıl bağlayacağımızı ve aralarındaki uzaklığı nasıl ölçeceğimizi öğreniyoruz.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>4-, 8- ve m-komşuluğu ayırt edebilirsin.</li>
+      <li>Bitişiklik, yol ve bağlılık kavramlarını açıklayabilirsin.</li>
+      <li>Bir ikili görüntüdeki bağlı bileşenleri bulabilirsin.</li>
+      <li>Bölge ve sınır kavramlarını ve kullanım alanlarını anlatabilirsin.</li>
+      <li>D₄, D₈ ve Öklid uzaklıklarını hesaplayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Pikselden nesneye: komşuluk → bağlılık → bölge → sınır</h2>
+    <svg class="diagram" viewBox="0 0 760 190" role="img" aria-label="Piksel ilişkileri: komşuluk, bitişiklik, yol, bağlı bileşen, bölge, sınır"><rect class="d-brand" x="10" y="55" width="130" height="76" rx="8"/><text class="d-txt d-c" x="75" y="88">Komşuluk</text><text class="d-sm d-c" x="75" y="108">kim yakın?</text><rect class="d-ok" x="160" y="55" width="130" height="76" rx="8"/><text class="d-txt d-c" x="225" y="88">Bitişiklik</text><text class="d-sm d-c" x="225" y="108">kim bağlı sayılır?</text><rect class="d-warn" x="310" y="55" width="130" height="76" rx="8"/><text class="d-txt d-c" x="375" y="88">Yol</text><text class="d-sm d-c" x="375" y="108">adım adım ulaşım</text><rect class="d-box" x="460" y="55" width="130" height="76" rx="8"/><text class="d-txt d-c" x="525" y="88">Bileşen / bölge</text><text class="d-sm d-c" x="525" y="108">bağlı piksel kümesi</text><rect class="d-ok" x="610" y="55" width="130" height="76" rx="8"/><text class="d-txt d-c" x="675" y="88">Sınır</text><text class="d-sm d-c" x="675" y="108">bölgenin çevresi</text><path class="d-line-brand" d="M140 93 L160 93"/><path class="d-line-brand" d="M290 93 L310 93"/><path class="d-line-brand" d="M440 93 L460 93"/><path class="d-line-brand" d="M590 93 L610 93"/><path class="d-dash" d="M75 131 C75 175 675 175 675 136"/><text class="d-sm d-c" x="375" y="182">uzaklık ölçüleri (D₄, D₈, Dₑ) hepsini besler</text></svg>
+    <p>Her kavram bir öncekinin üstüne kurulur. Önce “kim komşu?” kararını veririz; sonra bu karara göre nesneleri, sınırlarını ve uzaklıkları buluruz.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Komşuluk türleri">
+  <div class="panel">
+    <div class="kicker">Komşuluk · kartlara tıkla</div>
+    <h2>Bir pikselin komşusu kimdir?</h2>
+    <p>Merkez piksel p = (x, y) olsun. Komşuluk seçimi algoritmanın davranışını doğrudan değiştirir: dar komşuluk yerel değişime duyarlıdır ama gürültüye de duyarlıdır; geniş komşuluk daha çok bağlam verir ama ince ayrıntıyı yutabilir.</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">N₄(p)</b>4-komşuluk<span class="tip">tıkla</span></span><span class="back"><b class="k">Kimler?</b>Yalnızca üst, alt, sol, sağ: (x±1, y) ve (x, y±1). Basittir, sınırlı bilgi alır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">N_D(p)</b>Çapraz komşular<span class="tip">tıkla</span></span><span class="back"><b class="k">Kimler?</b>Dört köşegen piksel: (x±1, y±1).</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">N₈(p)</b>8-komşuluk<span class="tip">tıkla</span></span><span class="back"><b class="k">Kimler?</b>N₄ ile çapraz komşuların birleşimi: etrafındaki tüm 8 piksel. Daha çok bağlam verir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">m</b>Karma komşuluk<span class="tip">tıkla</span></span><span class="back"><b class="k">Kural</b>Ana bağ 4-komşuluktur. Çapraz komşu ancak ortak bir 4-komşu piksel nesneye ait değilse kabul edilir. Çift yol ve yanlış çapraz bağ önlenir.</span></button>
+    </div>
+    <div class="callout idea"><b>D-komşuluk</b>Yarıçapa dayalı geniş pencereler de (örneğin 5×5) kullanılır: gürültü bastırma, bulanıklaştırma ve filtre çekirdekleri için.</div>
+    <div class="callout real"><b>Gerçek hayat: Apartman komşuluğu</b>Yalnızca yan duvarı ve üst/alt katı sayarsan 4-komşuluk, çapraz katları da sayarsan 8-komşuluk elde edersin.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bitişiklik">
+  <div class="panel">
+    <div class="kicker">Bitişiklik</div>
+    <h2>İki piksel “bitişik” sayılır mı?</h2>
+    <p>Komşu olmak yetmez. İki pikselin bitişik sayılması için ikisinin de <b>aynı değer kümesinden</b> olması (örneğin ikili görüntüde ikisi de 1) ve seçilen komşuluk tanımını sağlaması gerekir.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Tür</th><th>Ne zaman bitişik?</th><th>Sorun / avantaj</th></tr></thead>
+      <tbody>
+        <tr><td><b>4-bitişiklik</b></td><td>q, p’nin N₄ kümesindeyse.</td><td>Katıdır; köşeden dokunan parçalar kopuk sayılır.</td></tr>
+        <tr><td><b>8-bitişiklik</b></td><td>q, p’nin N₈ kümesindeyse.</td><td>Esnektir; ama yalnızca köşeden değen şekilleri yanlışlıkla birleştirebilir, bir pikselden diğerine birden çok yol çıkabilir.</td></tr>
+        <tr><td><b>m-bitişiklik</b></td><td>q, N₄(p)’de; ya da q çapraz komşu ve N₄(p) ∩ N₄(q) kümesinde nesne pikseli yok.</td><td>İkisinin iyi yanını birleştirir: çift yolu ve yanlış birleşmeyi önler.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Satranç tahtasında kaçış</b>Taş yalnızca düz gidebiliyorsa 4, çapraz da gidebiliyorsa 8-bitişiklik gibi düşün. m ise “çapraz geçiş için iki yanındaki yol da kapalı olmalı” kuralıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Yol ve bağlı bileşen">
+  <div class="panel">
+    <div class="kicker">Bağlılık · dene</div>
+    <h2>Yol, bağlılık ve bağlı bileşen</h2>
+    <p>Bir <b>yol</b>, iki piksel arasında seçilen bitişiklik tanımına uyan ardışık piksellerin dizisidir. Dört bitişiklikte yol yalnızca yatay-dikey adımlardan oluşur; sekizde çapraz adım da vardır ve çoğu zaman daha kısa yol çıkar. İki piksel arasında geçerli bir yol varsa <b>bağlıdırlar</b>.</p>
+    <p>Aynı sınıftan (örneğin hepsi 1) ve birbirine bağlı piksel kümesine <b>bağlı bileşen</b> denir. Segmentasyon, nesne sayma ve tanıma bu fikre dayanır. Aşağıdaki ızgarada hücrelere tıklayarak şekli değiştir; bitişiklik türünü seçince bileşen sayısının nasıl değiştiğini izle:</p>
+    <div class="lab" id="cclab"></div>
+    <div class="callout real"><b>Gerçek hayat: Hücre sayma</b>Mikroskop görüntüsünde hücreleri sayarken iki hücre yalnızca köşeden değiyorsa 8-bitişiklik onları tek hücre sayar, 4-bitişiklik iki hücre sayar. Yöntem seçimi sonucu değiştirir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölge ve sınır">
+  <div class="panel">
+    <div class="kicker">Bölge ve sınır</div>
+    <h2>Bölge: içi dolu küme. Sınır: onun çevresi</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Bölge</b>Bağlı bir piksel kümesidir; ortak bir özelliği (parlaklık, renk, doku) paylaşır. Alan, ortalama parlaklık, ağırlık merkezi gibi özelliklerle tanımlanır; nesne tanıma ve analizde kullanılır.</div>
+      <div class="peas-c e"><b>Sınır</b>Bölgenin, bölge dışında en az bir komşusu olan pikselleridir; yani çevresini çizen hattır. Hem şekil hem de konum bilgisi taşır.</div>
+    </div>
+    <h3>Sınırın özellik grupları</h3>
+    <ul>
+      <li><b>Geometrik:</b> uzunluk (çevre), alan, sıkılık gibi ölçüler.</li>
+      <li><b>Eğrisel:</b> eğrilik, köşe ve girinti sayısı gibi şekil bilgisi.</li>
+      <li><b>İstatistiksel:</b> sınır boyunca parlaklık ya da renk dağılımı.</li>
+    </ul>
+    <h3>Kullanım alanları</h3>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Alan</th><th>Sınır ne işe yarar?</th></tr></thead>
+      <tbody>
+        <tr><td>Nesne tanıma</td><td>Şekil imzasıyla nesneleri ayırt etmek.</td></tr>
+        <tr><td>Tıbbi görüntüleme</td><td>Tümör ve organ konturunu çıkarmak, boyutunu ölçmek.</td></tr>
+        <tr><td>Harita ve CBS</td><td>Göl, orman ya da bina sınırlarını çıkarmak.</td></tr>
+        <tr><td>Endüstriyel kalite kontrol</td><td>Parçanın şeklini ve kusurlu kenarları denetlemek.</td></tr>
+        <tr><td>Robotik ve otonom araç</td><td>Engel ve yol kenarı belirlemek.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Uzaklık ölçüleri">
+  <div class="panel">
+    <div class="kicker">Uzaklık · dene</div>
+    <h2>Pikseller arası uzaklık: üç yol</h2>
+    <p>p = (x, y) ve q = (s, t) için üç temel ölçü kullanılır. Izgarada iki noktaya sırayla tıkla ve değerleri karşılaştır:</p>
+    <div class="lab" id="distlab"></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Ölçü</th><th>Formül</th><th>Anlamı</th></tr></thead>
+      <tbody>
+        <tr><td><b>D₄ (city-block, Manhattan)</b></td><td class="mono">|x−s| + |y−t|</td><td>Yalnızca yatay-dikey adımlar; 4-bitişiklikle uyumlu. Hızlıdır ama gerçek mesafeyi tam yansıtmaz.</td></tr>
+        <tr><td><b>D₈ (chessboard, satranç)</b></td><td class="mono">max(|x−s|, |y−t|)</td><td>Çapraz adım da 1 sayılır; 8-bitişiklikle uyumlu.</td></tr>
+        <tr><td><b>Dₑ (Öklid)</b></td><td class="mono">√((x−s)² + (y−t)²)</td><td>Gerçek kuş uçuşu uzaklık; kare kök gerektirdiği için biraz daha maliyetlidir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Taksi ve kuş</b>Taksi şehir bloklarında yalnızca dik yürür (D₄). Kuş doğrudan uçar (Dₑ). Satranç şahı her yöne bir adım gider (D₈).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Özel durumlar">
+  <div class="panel">
+    <div class="kicker">Özel durumlar · kartlara tıkla</div>
+    <h2>Standart tanımların yetmediği yerler</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">1</b>Çakışan bölgeler<span class="tip">tıkla</span></span><span class="back"><b class="k">Sorun</b>İki bölge benzer parlaklıktaysa (düşük kontrastlı tıbbi görüntüde tümör ve çevresi) yalnızca yoğunluk yetmez; doku ve spektral özellik de gerekir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">2</b>Gürültü kaynaklı bağlar<span class="tip">tıkla</span></span><span class="back"><b class="k">Sorun</b>Gürültü pikseli, 8-bağlılıkta iki ayrı bölgeyi yapay olarak birleştirebilir. Morfolojik filtre ya da uyarlamalı eşikleme önce uygulanır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">3</b>İnce yapılar<span class="tip">tıkla</span></span><span class="back"><b class="k">Sorun</b>Dar bir köprü ya da ince damar 4-bağlılıkta kopuk görünebilir; 8-bağlılık bağlantıyı korur. Algoritma seçimi buna göre yapılmalıdır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">4</b>Farklı ölçekler<span class="tip">tıkla</span></span><span class="back"><b class="k">Sorun</b>Yüksek çözünürlükte ayrı görünen bölgeler düşük çözünürlükte birleşebilir; bu yüzden çok ölçekli analiz gerekir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">5</b>Zamanla değişim<span class="tip">tıkla</span></span><span class="back"><b class="k">Sorun</b>Videoda nesne hareket eder; bağlılık ve sınır kareden kareye değişir. Zamansal bağlılık ve hareket kestirimi devreye girer.</span></button>
+    </div>
+    <div class="callout idea"><b>Bedeli</b>Bu özel durumları hesaba katmak doğruluğu artırır, ama ek adımlar işlem süresini ve maliyeti de artırır. Çözümler: uyarlamalı komşuluk, morfolojik işlemler, çok ölçekli analiz, karma bağlılık modelleri.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 4</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Komşuluk</td><td>N₄ (yatay-dikey), N_D (çapraz), N₈ (hepsi), m (karma)</td></tr>
+        <tr><td>Bitişiklik</td><td>Komşu + aynı değer kümesi; m çift yolu önler</td></tr>
+        <tr><td>Yol</td><td>Bitişiklik kurallarına uyan ardışık piksel dizisi</td></tr>
+        <tr><td>Bağlı bileşen</td><td>Aralarında yol olan aynı sınıf piksel kümesi; sayma ve segmentasyon</td></tr>
+        <tr><td>Bölge / sınır</td><td>Bağlı küme / onun çevresini oluşturan pikseller</td></tr>
+        <tr><td>Uzaklık</td><td>D₄ = |Δ|+|Δ|, D₈ = max, Dₑ = Öklid; D₈ ≤ Dₑ ≤ D₄</td></tr>
+        <tr><td>Özel durumlar</td><td>Gürültü, ince yapı, ölçek ve zaman bağlılığı bozabilir</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

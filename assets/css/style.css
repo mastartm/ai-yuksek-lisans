@@ -589,3 +589,9 @@ ul.dayflow li .dtag { display: inline-block; margin-left: 4px; font-size: .78rem
 ul.dayflow li.on { background: var(--brand-soft); border-color: var(--brand); font-weight: 600; }
 ul.dayflow li.on .dtag { background: var(--brand); color: #fff; }
 ul.dayflow li.dim { opacity: .45; }
+
+/* Görüntü İşleme 4: piksel ızgarası */
+.gi-grid { display: grid; gap: 3px; max-width: 360px; margin: 12px auto; }
+.gi-cell { aspect-ratio: 1; min-width: 0; padding: 0; border: 1px solid var(--line); border-radius: 4px; background: var(--surface-2); color: #fff; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
+.gi-cell.on { border-color: transparent; }
+.gi-cell:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
