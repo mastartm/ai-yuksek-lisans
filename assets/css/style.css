@@ -546,3 +546,6 @@ span.chip { cursor: default; }
 .topbar a.back.home { border: 1px solid var(--brand); background: var(--brand-soft); color: var(--brand); padding: 7px 12px; border-radius: 10px; font-size: 1rem; margin-right: 0; white-space: nowrap; }
 .topbar a.back.home:hover { background: var(--brand); color: #fff; }
 @media (max-width: 480px) { .topbar a.back.home .ht { display: none; } .topbar a.back.home { padding: 7px 11px; } }
+
+.topbar a.back.home { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
+.topbar a.back.home .hico { display: block; }
