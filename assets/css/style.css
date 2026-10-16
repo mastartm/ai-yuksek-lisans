@@ -549,3 +549,10 @@ span.chip { cursor: default; }
 
 .topbar a.back.home { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
 .topbar a.back.home .hico { display: block; }
+
+/* İç içe daireler: kare odak çerçevesi yerine daireye uygun vurgu */
+.nest-c { outline: none; transition: stroke-width .15s ease, filter .15s ease; -webkit-tap-highlight-color: transparent; }
+.nest-c:hover { filter: brightness(1.25); }
+.nest-c.sel { stroke-width: 5; filter: drop-shadow(0 0 7px var(--brand)); }
+.nest-c:focus-visible { stroke-dasharray: 9 5; stroke-width: 4; }
+.nest-c.sel:focus-visible { stroke-dasharray: none; }

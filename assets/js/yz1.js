@@ -94,13 +94,13 @@
     N.forEach(function (n, i) {
       var c = svgEl('circle', { cx: 170, cy: 305 - n.r, r: n.r, 'class': cls[i] + ' nest-c', tabindex: 0, role: 'button', 'aria-label': n.n }, svg);
       c.addEventListener('click', function () { pick(i); }); c.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(i); } });
-      var t = svgEl('text', { x: 170, y: 305 - 2 * n.r + 16 + (i === 3 ? 20 : 0), 'class': 'd-txt d-c', 'pointer-events': 'none' }, svg); t.textContent = i === 3 ? 'Üretken' : n.n;
+      var t = svgEl('text', { x: 170, y: 305 - 2 * n.r + 22 + (i === 3 ? 16 : 0), 'class': 'd-txt d-c', 'pointer-events': 'none' }, svg); t.textContent = i === 3 ? 'Üretken' : n.n;
       circles.push(c);
     });
     var wrap = el('div', 'nest-wrap'); wrap.appendChild(svg); box.appendChild(wrap);
     var info = el('div', 'quad-info'); wrap.appendChild(info);
     function pick(i) {
-      circles.forEach(function (c, k) { c.style.strokeWidth = k === i ? '5' : ''; });
+      circles.forEach(function (c, k) { c.classList.toggle('sel', k === i); c.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
       info.innerHTML = '<div class="kicker">Dairelere tıkla</div><h3>' + N[i].n + '</h3><p>' + N[i].d + '</p><p><b>Örnekler:</b> ' + N[i].ex + '</p>';
     }
     pick(0);
