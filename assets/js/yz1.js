@@ -269,13 +269,18 @@
   (function () {
     var box = document.getElementById('fields'), info = document.getElementById('field-info'); if (!box || !info) return;
     var chips = Array.prototype.slice.call(box.querySelectorAll('.chip'));
+    var steps = Array.prototype.slice.call(document.querySelectorAll('#dayflow li'));
+    function mark(k) {
+      steps.forEach(function (li) { var on = +li.getAttribute('data-i') === k; li.classList.toggle('on', on); li.classList.toggle('dim', k >= 0 && !on); });
+    }
     chips.forEach(function (c) {
       c.addEventListener('click', function () {
         var open = c.getAttribute('aria-pressed') === 'true';
         chips.forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
-        if (open) { info.innerHTML = '<b>Bir alana dokun</b>Alt alanlardan birine tıkla; ne işe yaradığını ve günlük hayattan bir örneğini göster.'; return; }
+        if (open) { info.innerHTML = '<b>Bir alana dokun</b>Alt alanlardan birine tıkla; ne işe yaradığını ve günlük hayattan bir örneğini gör.'; mark(-1); return; }
         c.setAttribute('aria-pressed', 'true');
         info.innerHTML = '<b>' + c.textContent + '</b>' + c.getAttribute('data-info');
+        mark(chips.indexOf(c));
       });
     });
   })();

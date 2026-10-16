@@ -581,3 +581,11 @@ label.hyp-s > input[type=checkbox] { width: 22px; height: 22px; flex: none; acce
 .tilegrid { grid-template-columns: repeat(4, 1fr); }
 .tilegrid .tile { min-height: 60px; display: flex; align-items: center; justify-content: center; text-align: center; }
 @media (max-width: 700px) { .tilegrid { grid-template-columns: repeat(2, 1fr); } }
+
+/* Sabah rutini listesi: seçilen alan işaretlenir */
+ul.dayflow { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+ul.dayflow li { padding: 8px 12px; border-radius: 10px; border: 1px solid transparent; transition: background .15s, opacity .15s, border-color .15s; }
+ul.dayflow li .dtag { display: inline-block; margin-left: 4px; font-size: .78rem; padding: 1px 9px; border-radius: 99px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }
+ul.dayflow li.on { background: var(--brand-soft); border-color: var(--brand); font-weight: 600; }
+ul.dayflow li.on .dtag { background: var(--brand); color: #fff; }
+ul.dayflow li.dim { opacity: .45; }
