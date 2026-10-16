@@ -533,9 +533,16 @@ body { overflow-x: clip; }
 .neu-row > * { min-width: 0; }
 .neu-row input[type="range"] { width: 100%; }
 @media (max-width: 700px) {
-  .neu-row { grid-template-columns: 3.4em 3.4em 1fr 3em !important; }
-  .neu-row > span:first-child { grid-column: 1 / -1; }
+  .neu-row[style] { grid-template-columns: 3.4em 3.4em 1fr 3em !important; }
+  .neu-row[style] > span:first-child { grid-column: 1 / -1; }
+  .neu-row:not([style]) { grid-template-columns: 8.5em 1fr 3em; }
 }
 
 /* Tıklanmayan etiketler imleci değiştirmesin */
 span.chip { cursor: default; }
+
+.neu-row .hint { min-width: 9.5em; font-size: .8rem; }
+/* Ana sayfa düğmesi belirgin */
+.topbar a.back.home { border: 1px solid var(--brand); background: var(--brand-soft); color: var(--brand); padding: 7px 12px; border-radius: 10px; font-size: 1rem; margin-right: 0; white-space: nowrap; }
+.topbar a.back.home:hover { background: var(--brand); color: #fff; }
+@media (max-width: 480px) { .topbar a.back.home .ht { display: none; } .topbar a.back.home { padding: 7px 11px; } }

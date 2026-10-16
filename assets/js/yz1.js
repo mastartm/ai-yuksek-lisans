@@ -106,32 +106,36 @@
     pick(0);
   })();
 
-  /* ---------- 4) Tek yapay nöron ---------- */
+  /* ---------- 4) Tek yapay nöron: spam mi? ---------- */
   (function () {
     var box = $('neuron'); if (!box) return;
-    var X = [['Hava güzel', 1], ['Arkadaşım çağırdı', 1], ['Yarın sınavım var', 0]];
-    var W = [1, 2, -2], bias = -1.5, ws = [], xs = [];
+    var X = [['Gönderici tanımadığım biri', 1], ['Konuda “ÇOK KAZAN!” yazıyor', 1], ['Şüpheli bir bağlantı var', 0], ['Gönderici rehberimde kayıtlı', 0]];
+    var W = [1.5, 2, 2, -3], bias = -2, ws = [], xs = [];
+    function sg(v) { return (v > 0 ? '+' : '') + v; }
+    function hint(v) { return v > 0 ? '▲ spam’e doğru iter' : v < 0 ? '▼ spam’den uzaklaştırır' : 'etkisiz'; }
     var rows = el('div', 'neu-rows'); box.appendChild(rows);
     X.forEach(function (x, i) {
       var r = el('div', 'neu-row');
       var tg = el('button', 'chip', x[0]); tg.type = 'button'; tg.setAttribute('aria-pressed', x[1] ? 'true' : 'false');
       tg.addEventListener('click', function () { X[i][1] = X[i][1] ? 0 : 1; tg.setAttribute('aria-pressed', X[i][1] ? 'true' : 'false'); calc(); });
+      var hn = el('span', 'mm-note hint', hint(W[i]));
       var sl = el('input'); sl.type = 'range'; sl.min = -3; sl.max = 3; sl.step = 0.5; sl.value = W[i]; sl.setAttribute('aria-label', x[0] + ' ağırlığı');
-      var out = el('output'); sl.addEventListener('input', function () { W[i] = +sl.value; out.textContent = (W[i] > 0 ? '+' : '') + W[i]; calc(); }); out.textContent = (W[i] > 0 ? '+' : '') + W[i];
-      r.appendChild(tg); r.appendChild(el('span', 'mm-note', 'etki (ağırlık):')); r.appendChild(sl); r.appendChild(out); rows.appendChild(r);
+      var out = el('output'); out.textContent = sg(W[i]);
+      sl.addEventListener('input', function () { W[i] = +sl.value; out.textContent = sg(W[i]); hn.textContent = hint(W[i]); calc(); });
+      r.appendChild(tg); r.appendChild(hn); r.appendChild(sl); r.appendChild(out); rows.appendChild(r);
     });
-    var rb = el('div', 'neu-row'); rb.appendChild(el('span', '', '<b>Tembellik payı</b> (bias)')); rb.appendChild(el('span', 'mm-note', ''));
-    var sb = el('input'); sb.type = 'range'; sb.min = -4; sb.max = 2; sb.step = 0.5; sb.value = bias; sb.setAttribute('aria-label', 'Eşik değeri');
-    var ob = el('output'); ob.textContent = bias; sb.addEventListener('input', function () { bias = +sb.value; ob.textContent = bias; calc(); });
+    var rb = el('div', 'neu-row'); rb.appendChild(el('span', '', '<b>Başlangıç eğilimi</b> (bias)')); rb.appendChild(el('span', 'mm-note hint', 'kanıt yoksa spam sayma'));
+    var sb = el('input'); sb.type = 'range'; sb.min = -4; sb.max = 2; sb.step = 0.5; sb.value = bias; sb.setAttribute('aria-label', 'Başlangıç eğilimi');
+    var ob = el('output'); ob.textContent = sg(bias); sb.addEventListener('input', function () { bias = +sb.value; ob.textContent = sg(bias); calc(); });
     rb.appendChild(sb); rb.appendChild(ob); rows.appendChild(rb);
     var res = el('div', 'neu-res'); box.appendChild(res);
     function calc() {
       var s = bias, parts = [];
-      X.forEach(function (x, i) { s += x[1] * W[i]; if (x[1]) parts.push((W[i] > 0 ? '+' : '') + W[i]); });
-      var go = s > 0;
-      res.className = 'neu-res ' + (go ? 'go' : 'stay');
-      res.innerHTML = '<div><span class="mm-note">toplam = tembellik payı ' + (bias > 0 ? '+' : '') + bias + (parts.length ? ' ' + parts.join(' ') : '') + ' =</span> <b>' + (Math.round(s * 10) / 10) + '</b></div>' +
-        '<div class="neu-out">' + (go ? '✅ Karar: Dışarı çık' : '🛋 Karar: Evde kal') + '</div><div class="mm-note">Toplam 0’dan büyükse nöron “ateşler”.</div>';
+      X.forEach(function (x, i) { if (x[1]) { s += W[i]; parts.push(sg(W[i])); } });
+      var spam = s > 0;
+      res.className = 'neu-res ' + (spam ? 'stay' : 'go');
+      res.innerHTML = '<div><span class="mm-note">toplam = eğilim ' + sg(bias) + (parts.length ? ' ' + parts.join(' ') : '') + ' =</span> <b>' + (Math.round(s * 10) / 10) + '</b></div>' +
+        '<div class="neu-out">' + (spam ? '🚫 Karar: Spam' : '✅ Karar: Normal e-posta') + '</div><div class="mm-note">Toplam 0’dan büyükse nöron “ateşler”, yani spam der. Açık olmayan girdiler toplama katılmaz.</div>';
     }
     calc();
   })();

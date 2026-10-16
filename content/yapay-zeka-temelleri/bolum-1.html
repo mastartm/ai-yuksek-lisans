@@ -123,9 +123,9 @@ scripts: yz1.js
     <div class="kicker">Disiplinler · dene</div>
     <h2>Derin öğrenmenin yapı taşı: yapay nöron</h2>
     <p>Yapay sinir ağları beyindeki nöronlardan esinlenir. Bir nöron girdilerini <b>etkilerine (ağırlıklarına)</b> göre toplar; toplam eşiği geçerse “ateşler”. Derin öğrenme, böyle nöronları katman katman üst üste koymaktır. <b>Öğrenmek</b>, bu ağırlıkları ayarlamaktır.</p>
-    <p>Aşağıdaki nöron “Bugün dışarı çıkayım mı?” kararını veriyor. Girdileri aç-kapat, etkileri değiştir. <b>Artı (+)</b> değer o girdiyi “dışarı çık” yönüne iter, <b>eksi (−)</b> değer “evde kal” yönüne çeker, <b>0</b> ise o girdiyi önemsiz yapar. Ağırlığın büyüklüğü ne kadar güçlü olduğunu, işareti hangi yöne çektiğini söyler.</p>
+    <p>Aşağıdaki nöron “Bu e-posta spam mı?” kararını veriyor. Her düğme bir ipucu: açarsan o ipucu e-postada var demektir. Kaydırıcı, ipucunun kararı <b>hangi yöne</b> ve <b>ne kadar güçle</b> çektiğini belirler (satırdaki ok bunu yazıyor).</p>
     <div class="lab" id="neuron"></div>
-    <div class="callout idea"><b>Dene</b>“Yarın sınavım var” etkisini −3 yap; arkadaş daveti ve güzel hava açıkken karar değişir mi? Sonra sınav etkisini 0’a getir: artık görmezden gelinir.: karar değişir mi? Bir ağın “öğrenmesi” bu ağırlıkları kendi kendine doğru değerlere getirmesidir; milyarlarca ağırlıklı ağlar bu sayede dil ve görüntü anlar.</div>
+    <div class="callout idea"><b>Dene</b>“Gönderici rehberimde kayıtlı” düğmesini aç: bu ipucu e-postanın spam olma ihtimalini <b>düşürdüğü</b> için ağırlığı eksidir (−3) ve karar “Normal”e döner. Kaydırıcıyı +3 yaparsan aynı ipucu bu kez spam’e iter; 0 yaparsan hiç etkisi kalmaz. Yani ağırlığın <b>işareti yönü</b>, <b>büyüklüğü gücü</b> belirler. Bir ağın “öğrenmesi”, bu ağırlıkları kendi kendine doğru değerlere getirmesidir; milyarlarca ağırlıklı ağlar bu sayede dil ve görüntü anlar.</div>
   </div>
 </section>
 
