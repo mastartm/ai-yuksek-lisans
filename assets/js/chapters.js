@@ -25,7 +25,7 @@
       [8, 'Makine Öğrenmesi ve Yapay Zekâ', 0], [9, 'Veri Biliminin Geleceği', 0], [10, 'Metodolojiler ve Teknik Uygulamalar', 0]
     ] },
     { slug: 'arastirma-yontemleri', title: 'Araştırma Yöntemleri', blurb: 'Bilimsel yöntem, problem, nicel ve nitel araştırma, örnekleme, veri toplama.', chapters: [
-      [1, 'Giriş', 1], [2, 'Araştırma Problemini Tanımlama', 1], [3, 'Nicel Araştırmalar', 1], [4, 'Nitel Araştırmalar', 1], [5, 'Örnekleme Yöntemleri', 0], [6, 'Verilerin Toplanması', 0]
+      [1, 'Giriş', 1], [2, 'Araştırma Problemini Tanımlama', 1], [3, 'Nicel Araştırmalar', 1], [4, 'Nitel Araştırmalar', 1], [5, 'Örnekleme Yöntemleri', 1], [6, 'Verilerin Toplanması', 0]
     ] }
   ];
   window.COURSES = C;

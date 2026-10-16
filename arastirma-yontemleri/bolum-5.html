@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Örnekleme Yöntemleri — Araştırma Yöntemleri</title>
+<meta name="description" content="Araştırma Yöntemleri, Bölüm 5: Örnekleme Yöntemleri. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 5 · Örnekleme Yöntemleri</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Araştırma Yöntemleri · Bölüm 5</div>
+    <h1>Örnekleme: Hepsine Sormadan Nasıl Anlarız?</h1>
+    <p class="big-quote">Bir çorbanın tuzunu anlamak için tencerenin hepsini içmezsin; karıştırır, bir kaşık alırsın. Araştırmada da evrenin tamamına ulaşmak çoğu zaman mümkün değildir. Önemli olan, o “kaşığın” evreni iyi temsil etmesidir.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Evren, örneklem, parametre ve istatistik kavramlarını ayırt edebilirsin.</li>
+      <li>Seçkisiz örnekleme yöntemlerini (basit, tabakalı) anlatabilirsin.</li>
+      <li>Seçkisiz olmayan yöntemleri (sistematik, amaçsal, uygun) karşılaştırabilirsin.</li>
+      <li>Örneklem büyüklüğünün neye bağlı olduğunu açıklayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Evrenden örnekleme, örneklemden evrene</h2>
+    <svg class="diagram" viewBox="0 0 760 210" role="img" aria-label="Evrenden örneklem çekilir, örneklemden hesaplanan istatistikle evren parametresi tahmin edilir"><rect class="d-brand" x="20" y="40" width="250" height="130" rx="14"/><text class="d-txt d-c" x="145" y="70">EVREN</text><text class="d-sm d-c" x="145" y="92">sonuçların geçerli olacağı büyük grup</text><text class="d-sm d-c" x="145" y="150">parametre (bilinmeyen)</text><rect class="d-ok" x="490" y="60" width="250" height="90" rx="14"/><text class="d-txt d-c" x="615" y="92">ÖRNEKLEM</text><text class="d-sm d-c" x="615" y="114">evrenden seçilen sınırlı parça</text><text class="d-sm d-c" x="615" y="136">istatistik (hesaplanan)</text><path class="d-line-brand" d="M270 90 L490 90"/><path class="d-line-brand" d="M482 84 L490 90 L482 96"/><text class="d-sm d-c" x="380" y="80">örnekleme</text><path class="d-dash" d="M490 125 L270 125"/><text class="d-sm d-c" x="380" y="145">tahmin / genelleme</text></svg>
+    <p>Yöntem iyi seçilirse örneklemden hesapladığın değer, ulaşamadığın evren değerine yaklaşır. Kötü seçilirse sonuç yalnızca o küçük grup için geçerli kalır.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Temel kavramlar">
+  <div class="panel">
+    <div class="kicker">Temel kavramlar · kartlara tıkla</div>
+    <h2>Evren, örneklem ve arkadaşları</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">1</b>Evren<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Sorulara cevap için verinin alınacağı ve sonuçların geçerli olacağı büyük grup. Sınırlandırılmış parçasına “evren birimi” denir (örneğin bir ilin liseleri).</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">2</b>Örneklem<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Evrenden seçilen, bilgi toplanan sınırlı parça. Örnekleme, bu parçayı seçme sürecidir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">3</b>Parametre ve istatistik<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Evrenin gerçek değeri parametre; örneklemden hesaplanan değer istatistiktir. İstatistikle parametre tahmin edilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">4</b>Örnekleme birimi<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Örneklemi oluştururken temel alınan birim. Tek tek elemansa “eleman örnekleme”, küme (okul, sınıf) ise “küme örnekleme” olur.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">5</b>Gözlem birimi<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Hakkında veri toplanan, evrenin en küçük parçası. Küme örneklemede okul seçilir ama gözlem birimi öğrencidir.</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Seçim anketi</b>Evren: oy kullanacak herkes. Örneklem: aranan 1.500 kişi. Parametre: gerçek oy oranı (seçimden önce bilinmez). İstatistik: ankette çıkan oran.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="İki aile">
+  <div class="panel">
+    <div class="kicker">Sınıflama</div>
+    <h2>Yöntemler iki aileye ayrılır</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Seçkisiz (olasılıklı)</b>Her birimin seçilme şansı bilinir. Evrene geçerli genelleme yapılabilen, temsil gücü yüksek örneklemler üretir. Basit seçkisiz, tabakalı…</div>
+      <div class="peas-c a"><b>Seçkisiz olmayan</b>Seçim araştırmacının amacına ya da kolaylığına göre yapılır. Genelleme sınırlıdır ama derinlik ve pratiklik sağlar. Sistematik, amaçsal, uygun.</div>
+    </div>
+    <div class="callout idea"><b>Hangisi daha iyi?</b>Sorunun türüne bağlı. Nicel genelleme için seçkisiz, nitel derinlik için amaçsal örnekleme uygun düşer (Bölüm 4’teki nitel araştırma örneklemi amaçlıydı).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Seçkisiz örnekleme">
+  <div class="panel">
+    <div class="kicker">Seçkisiz yöntemler · dene</div>
+    <h2>Basit seçkisiz ve tabakalı örnekleme</h2>
+    <p><b>Basit seçkisiz:</b> her birime eşit ve bağımsız seçilme şansı verilir. Bunun için evren birimlerinin bilinmesi ve listelenmesi gerekir. <b>Tabakalı:</b> evren, birbirine benzeyen alt gruplara (tabakalara) bölünür ve her tabakadan ayrı ayrı çekiliş yapılır; böylece her alt grubun örneklemde bulunması güvence altına alınır.</p>
+    <p>Aşağıda evrende 100 okul var: 70 tanesi A grubu (mavi), 30 tanesi B grubu (turuncu zeminli). 10’luk örneklem çek, yöntemleri değiştir ve B payına bak:</p>
+    <div class="lab" id="samplab"></div>
+    <div class="callout real"><b>Gerçek hayat: Anket</b>Okulda öğrencilerin %30’u yurtta kalıyorsa ve basit seçkisiz çekilişte hiç yurt öğrencisi denk gelmezse sonuç yanıltır. Tabakalı örnekleme bunu önler.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Seçkisiz olmayan yöntemler">
+  <div class="panel">
+    <div class="kicker">Seçkisiz olmayan yöntemler</div>
+    <h2>Sistematik, amaçsal ve uygun örnekleme</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Nasıl?</th><th>Dikkat</th></tr></thead>
+      <tbody>
+        <tr><td><b>Sistematik</b></td><td>Evren sıralanır; aralık k = N / n bulunur. İlk k birimden biri rastgele seçilir, sonra her k’ıncı birim alınır.</td><td>Listede düzenli bir desen varsa yanıltabilir.</td></tr>
+        <tr><td><b>Amaçsal</b></td><td>Bilgi açısından zengin durumlar, çalışmanın amacına göre bilerek seçilir. Derinlemesine araştırma için uygundur.</td><td>Genelleme amaçlanmaz.</td></tr>
+        <tr><td><b>Uygun (kolayda)</b></td><td>Araştırmacı, kolay ulaşılan kişilerle gerekli büyüklüğe ulaşana kadar devam eder. Zaman, para ve iş gücü kazandırır.</td><td>Sonuçlarına en az güvenilen yöntemdir; zorunlu kalmadıkça önerilmez.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Sokak röportajı</b>Kameranın önünden geçenlerle konuşmak uygun örneklemedir: hızlıdır, ama o gün o sokaktan geçen insanlar kenti temsil etmez.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Amaçsal örnekleme türleri">
+  <div class="panel">
+    <div class="kicker">Amaçsal örnekleme · kartlara tıkla</div>
+    <h2>Amaçsal örneklemenin altı türü</h2>
+    <p>Örnek konu: liselerdeki şiddet. Hangi okullarla çalışılacağı amaca göre seçilir:</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">1</b>Aykırı durum<span class="tip">tıkla</span></span><span class="back"><b class="k">Fikir</b>Uç durumları seç (şiddetin en çok ve en az olduğu okullar). Değişkenliğin doğasını genelleme kaygısı olmadan ayrıntılı görmek içindir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">2</b>Maksimum çeşitlilik<span class="tip">tıkla</span></span><span class="back"><b class="k">Fikir</b>Birbirinden farklı durumları seç. Amaç, farklılığa rağmen ortak çıkan örüntüleri ve her duruma özgü ayrıntıları görmek.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">3</b>Benzeşik<span class="tip">tıkla</span></span><span class="back"><b class="k">Fikir</b>Benzer bir alt grubu seç (yalnızca şiddetin sık yaşandığı okullar). Odak grup görüşmesi başlıca veri toplama aracıdır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">4</b>Tipik durum<span class="tip">tıkla</span></span><span class="back"><b class="k">Fikir</b>Ortalama, tipik bir durumu seç. Geniş bir kitleye açıklama yapmak için ‘sıradan’ örneğin derinliğine bakılır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">5</b>Tabakalı amaçsal<span class="tip">tıkla</span></span><span class="back"><b class="k">Fikir</b>İlgilenilen alt grupları betimlemek ve karşılaştırmak için. Seçkisiz olmadığından tabakalı örneklemeden ayrılır; “kota örnekleme” de denir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">6</b>Ölçüt<span class="tip">tıkla</span></span><span class="back"><b class="k">Fikir</b>Önceden belirlenen ölçütü karşılayanları seç (resmî kayıtlarda en az iki şiddet olayına karışmış okullar).</span></button>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="Örneklem büyüklüğü">
+  <div class="panel">
+    <div class="kicker">Örneklem büyüklüğü · dene</div>
+    <h2>Kaç kişiye ulaşmalıyım?</h2>
+    <p>Gereken büyüklük üç şeye bağlıdır: <b>kabul edilen sapma (d)</b>, evrenin <b>değişkenliği</b> (sürekli değişkenlerde varyans S², süreksiz değişkenlerde PQ) ve istenen <b>güven düzeyi</b> (t değeri). Kaydırıcıları oynat:</p>
+    <div class="lab" id="nlab"></div>
+    <h3>Hesaplama adımları</h3>
+    <ol>
+      <li>Kabul edilen sapma d, güven düzeyi ve ona karşılık gelen t değeri kararlaştırılır.</li>
+      <li>Evren parametresi (S² ya da PQ) bilinmiyorsa tahmin edilir: önceki araştırmadan, iki aşamalı örneklemeden (küçük ön örneklemle) ya da P = Q = 0,5 alınarak.</li>
+      <li>Değerler formülde yerine konur ve n bulunur.</li>
+    </ol>
+    <div class="callout idea"><b>İpucu</b>Evren homojen alt evrenlerden oluşuyorsa ve her biri için farklı sapma öngörülüyorsa n her alt evren için ayrı hesaplanıp toplanır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 5</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Kavramlar</td><td>Evren, örneklem, parametre (evren), istatistik (örneklem), örnekleme birimi, gözlem birimi</td></tr>
+        <tr><td>Seçkisiz</td><td>Basit seçkisiz (eşit şans, liste gerekir), tabakalı (her alt gruptan ayrı çekiliş)</td></tr>
+        <tr><td>Sistematik</td><td>Her k’ıncı birim, k = N / n; rastgele başlangıç</td></tr>
+        <tr><td>Amaçsal</td><td>Aykırı, maksimum çeşitlilik, benzeşik, tipik, tabakalı amaçsal (kota), ölçüt</td></tr>
+        <tr><td>Uygun</td><td>Kolay ulaşılan; en az güvenilen yöntem</td></tr>
+        <tr><td>Büyüklük</td><td>Sapma d, değişkenlik (S² ya da PQ), güven düzeyi; P bilinmiyorsa 0,5</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_AR_5"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/ar-bolum-5-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/ar5.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>
