@@ -154,8 +154,8 @@
   /* ---------- 5) Sonraki kelime tahmini ---------- */
   (function () {
     var box = $('nextword'); if (!box) return;
-    var words = ['uykuluydum', 'yorgundum', 'soğuktu', 'açtım', 'sıkılmıştım'], base = [0.46, 0.31, 0.11, 0.07, 0.05];
-    var row = el('div', 'slider-row'); row.innerHTML = '<label for="nwt">Sıcaklık (rastgelelik)</label><input id="nwt" type="range" min="0.2" max="2.5" step="0.1" value="1"><output id="nwo">1.0</output>';
+    var words = ['uykuluydum', 'yorgundum', 'erkendi', 'dalgındım', 'sıkılmıştım'], base = [0.46, 0.31, 0.11, 0.07, 0.05];
+    var row = el('div', 'slider-row'); row.innerHTML = '<label for="nwt">Rastgelelik (teknik adı: “sıcaklık”)</label><input id="nwt" type="range" min="0.2" max="2.5" step="0.1" value="1"><output id="nwo">1.0</output>';
     box.appendChild(row);
     box.insertBefore(el('p', 'big-quote', '“Kahveyi içtim, çünkü çok <b>…</b>”'), row);
     var bars = el('div', 'bars'); box.appendChild(bars);
