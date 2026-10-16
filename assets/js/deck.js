@@ -52,16 +52,7 @@
     else if (e.key === 'Escape') { toc.classList.remove('open'); }
   });
 
-  /* Dokunmatik kaydırma: yatay jest, dikey kaydırmayı bozmaz */
-  var sx = 0, sy = 0;
-  document.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
-  document.addEventListener('touchend', function (e) {
-    var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
-    if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 2) {
-      if (e.target.closest && e.target.closest('svg, .scroll-x, input')) return;
-      go(cur + (dx < 0 ? 1 : -1));
-    }
-  }, { passive: true });
+  /* Telefonda yana kaydırarak sayfa değiştirme bilerek yok: kaydırıcılara dokunurken yanlışlıkla slayt değişiyordu. Geçiş yalnızca alttaki düğmelerle. */
 
   /* Tema */
   var themeBtn = document.getElementById('theme');
