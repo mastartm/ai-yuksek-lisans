@@ -1,6 +1,6 @@
 # Yüksek Lisans Görsel Ders Notları
 
-Yüksek lisans derslerinin slayt tarzı, görsel ve etkileşimli anlatımı. Her bölümün sonunda quiz vardır; yanlış cevapta doğru cevap ve nedeni gösterilir.
+Yüksek lisans derslerinin slayt tarzı, görsel ve etkileşimli anlatımı. Her bölümün sonunda quiz mevcuttur; yanlış cevapta doğru cevap ve nedeni gösterilir.
 
 Saf HTML, CSS ve JavaScript. Derleme adımı ve sunucu yoktur.
 
