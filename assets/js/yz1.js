@@ -110,24 +110,35 @@
   (function () {
     var box = $('neuron'); if (!box) return;
     var X = [['Gönderici tanımadığım biri', 1], ['Konuda “ÇOK KAZAN!” yazıyor', 1], ['Şüpheli bir bağlantı var', 0], ['Gönderici rehberimde kayıtlı', 0]];
-    var W = [1.5, 2, 2, -3], bias = -2, ws = [], xs = [];
+    var W0 = [1.5, 2, 2, -3], W = W0.slice(), bias = -2, ws = [], xs = [];
     function sg(v) { return (v > 0 ? '+' : '') + v; }
-    function hint(v) { return v > 0 ? '▲ spam’e doğru iter' : v < 0 ? '▼ spam’den uzaklaştırır' : 'etkisiz'; }
-    var rows = el('div', 'neu-rows'); box.appendChild(rows);
+    function hint(v, i) {
+      var t = v > 0 ? '▲ spam’e doğru iter' : v < 0 ? '▼ spam’den uzaklaştırır' : 'etkisiz';
+      if (v !== 0 && (v > 0) !== (W0[i] > 0)) t += ' ⚠ mantıksız ayar';
+      return t;
+    }
+    var rows = el('div', 'neu-rows'); box.appendChild(rows); var hs = [], sls = [], tgs = [];
     X.forEach(function (x, i) {
       var r = el('div', 'neu-row');
-      var tg = el('button', 'chip', x[0]); tg.type = 'button'; tg.setAttribute('aria-pressed', x[1] ? 'true' : 'false');
+      var tg = el('button', 'chip', x[0]); tg.type = 'button'; tg.setAttribute('aria-pressed', x[1] ? 'true' : 'false'); tgs.push(tg);
       tg.addEventListener('click', function () { X[i][1] = X[i][1] ? 0 : 1; tg.setAttribute('aria-pressed', X[i][1] ? 'true' : 'false'); calc(); });
-      var hn = el('span', 'mm-note hint', hint(W[i]));
+      var hn = el('span', 'mm-note hint', hint(W[i], i)); hs.push(function () { hn.textContent = hint(W[i], i); });
       var sl = el('input'); sl.type = 'range'; sl.min = -3; sl.max = 3; sl.step = 0.5; sl.value = W[i]; sl.setAttribute('aria-label', x[0] + ' ağırlığı');
       var out = el('output'); out.textContent = sg(W[i]);
-      sl.addEventListener('input', function () { W[i] = +sl.value; out.textContent = sg(W[i]); hn.textContent = hint(W[i]); calc(); });
+      sls.push([sl, out]); sl.addEventListener('input', function () { W[i] = +sl.value; out.textContent = sg(W[i]); hn.textContent = hint(W[i], i); calc(); });
       r.appendChild(tg); r.appendChild(hn); r.appendChild(sl); r.appendChild(out); rows.appendChild(r);
     });
     var rb = el('div', 'neu-row'); rb.appendChild(el('span', '', '<b>Başlangıç eğilimi</b> (bias)')); rb.appendChild(el('span', 'mm-note hint', 'kanıt yoksa spam sayma'));
     var sb = el('input'); sb.type = 'range'; sb.min = -4; sb.max = 2; sb.step = 0.5; sb.value = bias; sb.setAttribute('aria-label', 'Başlangıç eğilimi');
     var ob = el('output'); ob.textContent = sg(bias); sb.addEventListener('input', function () { bias = +sb.value; ob.textContent = sg(bias); calc(); });
     rb.appendChild(sb); rb.appendChild(ob); rows.appendChild(rb);
+    var rs = el('button', 'btn', '↺ Mantıklı değerlere dön'); rs.type = 'button'; rs.style.marginTop = '10px';
+    rs.addEventListener('click', function () {
+      W = W0.slice(); bias = -2; sb.value = bias; ob.textContent = sg(bias);
+      X.forEach(function (x, i) { x[1] = i < 2 ? 1 : 0; tgs[i].setAttribute('aria-pressed', x[1] ? 'true' : 'false'); sls[i][0].value = W[i]; sls[i][1].textContent = sg(W[i]); hs[i](); });
+      calc();
+    });
+    box.appendChild(rs);
     var res = el('div', 'neu-res'); box.appendChild(res);
     function calc() {
       var s = bias, parts = [];

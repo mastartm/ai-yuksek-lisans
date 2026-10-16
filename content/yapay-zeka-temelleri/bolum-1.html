@@ -125,7 +125,7 @@ scripts: yz1.js
     <p>Yapay sinir ağları beyindeki nöronlardan esinlenir. Bir nöron girdilerini <b>etkilerine (ağırlıklarına)</b> göre toplar; toplam eşiği geçerse “ateşler”. Derin öğrenme, böyle nöronları katman katman üst üste koymaktır. <b>Öğrenmek</b>, bu ağırlıkları ayarlamaktır.</p>
     <p>Aşağıdaki nöron “Bu e-posta spam mı?” kararını veriyor. Her düğme bir ipucu: açarsan o ipucu e-postada var demektir. Kaydırıcı, ipucunun kararı <b>hangi yöne</b> ve <b>ne kadar güçle</b> çektiğini belirler (satırdaki ok bunu yazıyor).</p>
     <div class="lab" id="neuron"></div>
-    <div class="callout idea"><b>Dene</b>“Gönderici rehberimde kayıtlı” düğmesini aç: bu ipucu e-postanın spam olma ihtimalini <b>düşürdüğü</b> için ağırlığı eksidir (−3) ve karar “Normal”e döner. Kaydırıcıyı +3 yaparsan aynı ipucu bu kez spam’e iter; 0 yaparsan hiç etkisi kalmaz. Yani ağırlığın <b>işareti yönü</b>, <b>büyüklüğü gücü</b> belirler. Bir ağın “öğrenmesi”, bu ağırlıkları kendi kendine doğru değerlere getirmesidir; milyarlarca ağırlıklı ağlar bu sayede dil ve görüntü anlar.</div>
+    <div class="callout idea"><b>Dene</b>“Gönderici rehberimde kayıtlı” düğmesini aç: bu ipucu e-postanın spam olma ihtimalini <b>düşürdüğü</b> için ağırlığı eksidir (−3) ve karar “Normal”e döner. Kaydırıcıyı bilerek +3 yaparsan (mantıksız bir ayar: rehberindeki kişi spam göndermez, satırda ⚠ uyarısı çıkar) aynı ipucu bu kez spam’e iter; 0 yaparsan hiç etkisi kalmaz. “Mantıklı değerlere dön” düğmesi her şeyi başa alır. Yani ağırlığın <b>işareti yönü</b>, <b>büyüklüğü gücü</b> belirler. Bir ağın “öğrenmesi”, bu ağırlıkları kendi kendine doğru değerlere getirmesidir; milyarlarca ağırlıklı ağlar bu sayede dil ve görüntü anlar.</div>
   </div>
 </section>
 
