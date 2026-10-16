@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>İstatistiksel Analiz ve Çıkarım Temelleri — Veri Bilimi</title>
+<meta name="description" content="Veri Bilimi, Bölüm 5: İstatistiksel Analiz ve Çıkarım Temelleri. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 5 · İstatistiksel Analiz ve Çıkarım Temelleri</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Veri Bilimi · Bölüm 5</div>
+    <h1>İstatistiksel Çıkarım: Veriden Karara</h1>
+    <p class="big-quote">Yeni tasarımlı butonu görenlerin %6’sı, eskisini görenlerin %5’i tıkladı. Bu fark gerçek mi, şans mı? İstatistiksel çıkarım, veriye bakıp “ne kadar emin olabilirim?” sorusuna disiplinli bir cevap arar. Bu bölümde iki olasılık anlayışı, hipotez testleri ve nedensellik bir arada.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Frekansist ve Bayesçi olasılığı karşılaştırabilirsin.</li>
+      <li>p-değerini ve hipotez testinin mantığını açıklayabilirsin.</li>
+      <li>Regresyonla nedensellik arasındaki farkı ve eksik değişken yanlılığını anlatabilirsin.</li>
+      <li>Parametrik olmayan, çok değişkenli ve zaman serisi yöntemlerinin ne zaman gerektiğini söyleyebilirsin.</li>
+      <li>Rubin modelini ve doğal deneyleri açıklayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Betimle → çıkarım yap → nedenini sor</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="İstatistiksel analiz basamakları: olasılık, çıkarım, ileri yöntemler, nedensellik"><rect class="d-brand" x="10" y="55" width="165" height="80" rx="8"/><text class="d-txt d-c" x="92" y="88">Olasılık</text><text class="d-sm d-c" x="92" y="108">frekansist, Bayesçi</text><rect class="d-ok" x="200" y="55" width="165" height="80" rx="8"/><text class="d-txt d-c" x="282" y="88">Çıkarım</text><text class="d-sm d-c" x="282" y="108">hipotez testi, regresyon</text><rect class="d-warn" x="390" y="55" width="165" height="80" rx="8"/><text class="d-txt d-c" x="472" y="88">İleri yöntemler</text><text class="d-sm d-c" x="472" y="108">parametrik olmayan, çok değişkenli, zaman</text><rect class="d-box" x="580" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="665" y="88">Nedensellik</text><text class="d-sm d-c" x="665" y="108">Rubin, doğal deney</text><path class="d-line-brand" d="M175 95 L200 95"/><path class="d-line-brand" d="M365 95 L390 95"/><path class="d-line-brand" d="M555 95 L580 95"/><text class="d-sm d-c" x="380" y="170">soru ilerledikçe varsayımlar ağırlaşır</text></svg>
+    <p>İstatistiksel anlamlılık bir kapıdır, cevap değil: iyi çıkarım, doğru yöntemi seçmeyi ve varsayımlarını açıkça söylemeyi de içerir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Olasılığa iki bakış">
+  <div class="panel">
+    <div class="kicker">Olasılık teorisi</div>
+    <h2>Frekansist ve Bayesçi yaklaşım</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Frekansist</th><th>Bayesçi</th></tr></thead>
+      <tbody>
+        <tr><td><b>Olasılık</b></td><td>Uzun dönemde tekrarlanan deneylerde olayın gerçekleşme oranı.</td><td>Bilgi ve inanç derecesi; koşullu olasılıkla güncellenir.</td></tr>
+        <tr><td><b>Parametre</b></td><td>Sabit ama bilinmeyen sayı. Pr(θ | veri) anlamsızdır; Pr(veri | θ) ile çalışılır.</td><td>Olasılık dağılımı olan rastgele değişken.</td></tr>
+        <tr><td><b>Araçlar</b></td><td>H₀, p-değeri, α, güven aralığı</td><td>Önsel, olabilirlik, ardıl dağılım, Bayes faktörü</td></tr>
+        <tr><td><b>Alan bilgisi</b></td><td>Modele doğrudan girmez.</td><td>Önsel dağılımla modele katılır.</td></tr>
+        <tr><td><b>Güçlü yanı</b></td><td>Doğrulayıcı analizde yaygın, nesnel prosedür.</td><td>Az veriyle, eksik veriyle ve akan veriyle çalışmaya uygun.</td></tr>
+        <tr><td><b>Dikkat</b></td><td>Çoklu karşılaştırmada yanlış pozitif artar (Bonferroni gibi düzeltmeler gerekir).</td><td>Önsel seçimine duyarlılık analizi gerekir; hesaplama maliyeti olabilir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Bayes teoremi</b>p(θ | D) ∝ p(D | θ) · p(θ): <i>ardıl</i> ∝ <i>olabilirlik</i> × <i>önsel</i>.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bayes güncellemesi">
+  <div class="panel">
+    <div class="kicker">Bayes güncellemesi · dene</div>
+    <h2>İnançlarını veriyle güncelle</h2>
+    <p>Bir paranın tura gelme olasılığı θ bilinmiyor. Önsel inancını seç, sonra atış ekle. <b>Kesikli çizgi önsel</b>, <b>kalın çizgi ardıl</b> dağılımdır. Güçlü bir “adil” önsel, az veriyle ne kadar direniyor?</p>
+    <div class="lab" id="bayeslab"></div>
+    <div class="callout real"><b>Gerçek hayat: Spam filtresi</b>Önsel: gelen postaların %30’u spam. Her yeni kelime (“kazandınız”) bu inancı günceller. Dünkü ardıl, bugünün önseli olur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Hipotez testi">
+  <div class="panel">
+    <div class="kicker">Hipotez testleri · dene</div>
+    <h2>Şans mı, gerçek mi? p-değeri</h2>
+    <p>Hipotez testinde önce bir <b>sıfır hipotezi H₀</b> (“etki yok / para adil”) kurulur. Veri toplanır, test istatistiği ve <b>p-değeri</b> hesaplanır: H₀ doğruyken gözlediğin kadar ya da daha uç bir sonucu bulma olasılığı. p, önceden seçilen <b>α</b> düzeyinin (ör. 0,05) altındaysa H₀ reddedilir.</p>
+    <p>Para adil mi? Atış sayısını ve gelen tura sayısını değiştir:</p>
+    <div class="lab" id="plab"></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Durum</th><th>Test</th></tr></thead>
+      <tbody>
+        <tr><td>İki grubun ortalamasını karşılaştır</td><td>t-testi</td></tr>
+        <tr><td>Üç ya da daha çok grup</td><td>Tek ya da çok yönlü ANOVA</td></tr>
+        <tr><td>İki kategorik değişken ilişkili mi?</td><td>χ² testi</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Dikkat</b>Test varsayımlarını (varyans homojenliği gibi) önce sına. Aynı veride hem hipotez kurup hem sınamak aşırı uyuma davet eder: veriyi ayır ya da çapraz doğrulama kullan. Güven aralığı yorumu: %95’lik aralıklar, deney sonsuz kez tekrarlansa, %95’inin gerçek parametreyi içereceği anlamındadır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Regresyon ve nedensellik">
+  <div class="panel">
+    <div class="kicker">Regresyon analizi</div>
+    <h2>İlişki kurmak kolay, neden-sonuç kurmak zor</h2>
+    <p>Regresyon, bağımlı değişken ile bir ya da daha çok bağımsız değişken arasındaki ilişkinin yönünü, büyüklüğünü ve anlamlılığını modeller. Ama bir katsayının anlamlı olması, nedensel olduğunu göstermez.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Eksik değişken yanlılığı</b>Modele konmayan ama hem X’le hem Y’yle ilişkili bir değişken, katsayıyı saptırır ve sahte nedensellik yaratır.</div>
+      <div class="peas-c e"><b>Model biçimi</b>Yanlış fonksiyonel biçim (ilişki doğrusal değilken doğrusal kurmak) tahmini bozar.</div>
+      <div class="peas-c a"><b>Büyük veri</b>Gözlem sayısı arttıkça önemsiz farklar bile “anlamlı” çıkar; istatistiksel anlamlılık ile pratik önem karıştırılmamalı.</div>
+    </div>
+    <div class="callout idea"><b>Nedensel yorum için</b>Üç koşul aranır: değişkenler istatistiksel olarak ilişkili olmalı, neden sonuçtan önce gelmeli ve başka açıklamalar (karıştırıcılar) dışlanmalı.</div>
+    <div class="callout real"><b>Gerçek hayat: Eğitim ve gelir</b>Okuyanların geliri yüksek çıkıyor. Ama aile geliri hem eğitimi hem geliri etkiliyorsa katsayının bir kısmı eğitimin değil, aile imkânlarının yansımasıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Parametrik olmayan yöntemler">
+  <div class="panel">
+    <div class="kicker">İleri yöntemler 1</div>
+    <h2>Dağılım varsayımı kurmadan analiz</h2>
+    <p>Veri normal dağılmıyorsa, örneklem küçükse ya da sıralı (ordinal) ise parametrik testlerin varsayımları bozulur. Parametrik olmayan alternatifler sıra ve sayımlara dayanır:</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Parametrik</th><th>Parametrik olmayan karşılığı</th></tr></thead>
+      <tbody>
+        <tr><td>Bağımsız iki grup t-testi</td><td>Mann–Whitney U testi</td></tr>
+        <tr><td>Eşleşmiş t-testi</td><td>Wilcoxon işaretli sıra testi</td></tr>
+        <tr><td>Tek yönlü ANOVA</td><td>Kruskal–Wallis testi</td></tr>
+        <tr><td>Pearson korelasyonu</td><td>Spearman sıra korelasyonu, Kendall tau</td></tr>
+        <tr><td>Parametrik regresyon</td><td>Çekirdek (kernel) regresyon; bant genişliği yanlılık-varyans dengesini belirler</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Permütasyon testi:</b> H₀ altında etiketler karıştırılarak test istatistiğinin dağılımı elde edilir; gözlenen değer bu dağılımda nerede duruyor diye bakılarak p-değeri bulunur.</p>
+    <div class="callout idea"><b>Bedel</b>Esneklik ücretsiz değildir: tahmin varyansı genellikle daha yüksektir ve büyük örneklem gerekebilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Çok değişkenli ve zaman serileri">
+  <div class="panel">
+    <div class="kicker">İleri yöntemler 2 ve 3</div>
+    <h2>Çok değişkenli istatistik ve zaman serileri</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Çok değişkenli</b>Birden çok değişken birlikte ele alınır: çok boyutlu ölçekleme (MDS), diskriminant analizi, kanonik korelasyon (CCA, iki değişken seti arasındaki en yüksek korelasyon), MANOVA (grup farklarını çoklu bağımlı değişken üzerinden sınar; Hotelling T² iki grup içindir). Kümelemede uzaklık seçimi önemlidir: Mahalanobis kovaryansı hesaba katar.</div>
+      <div class="peas-c e"><b>Zaman serileri</b>Gözlemler zamana bağımlıdır. ARIMA modelleri geçmiş değerler (AR), fark alma (I) ve hata hareketli ortalaması (MA) birleştirir; <b>durağanlık</b> (ortalama ve varyansın zamanla sabit olması) genellikle ön koşuldur. Derin yöntemlerden LSTM bağlamı kapı mekanizmalarıyla saklar.</div>
+    </div>
+    <ul>
+      <li><b>Eksik veri:</b> MAR (eksiklik gözlenen değişkenlere bağlı) ise yardımcı değişkenlerle düzeltilebilir; MNAR (eksiklik eksik değerin kendisine bağlı) ise varsayımlar kritikleşir.</li>
+      <li><b>Başarı ölçütleri:</b> RMSE, MAE, MAPE; ek olarak yönlü doğruluk (düşüş mü yükseliş mi tahmin edildi) finansta kullanılır.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Satış tahmini</b>Yılbaşı gibi mevsimsel dalgalar ve trend, zaman serisinin yapısıdır; rastgele bölünmüş bir veriyle değil, zaman sırasını koruyarak test edilmelidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Rubin nedensel modeli">
+  <div class="panel">
+    <div class="kicker">Nedensel çıkarım · dene</div>
+    <h2>Rubin modeli: her birimin iki potansiyel sonucu vardır</h2>
+    <p>Her birim için iki potansiyel sonuç düşünülür: tedavi alırsa Y(1), almazsa Y(0). Birey düzeyinde etki Y(1) − Y(0)’dır ama ikisi <b>aynı anda gözlenemez</b> (karşı-olgusallık sorunu). Hedef çoğunlukla ortalama etkidir: <b>ATE = E[Y(1) − Y(0)]</b>. Belirli alt gruplar için koşullu hâli <b>CATE</b>’dir.</p>
+    <p>Anahtar varsayım: potansiyel sonuçların tedavi atamasından bağımsız olması: {Y(1), Y(0)} ⊥ T. <b>Seçkisiz atama</b> bunu sağlar. Gözlemsel veride tedaviye kimin girdiği sonucu da etkiliyorsa yanlılık oluşur.</p>
+    <p>Aşağıda herkesin gerçek etkisi +5. Tedaviye gönüllüler mi girsin, seçkisiz mi atansın?</p>
+    <div class="lab" id="rubinlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Doğal deneyler">
+  <div class="panel">
+    <div class="kicker">Nedensel çıkarım</div>
+    <h2>Doğal deney: hayatın kendiliğinden yaptığı rastgele atama</h2>
+    <p>Araştırmacı müdahale etmez; ama bir politika, doğal olay ya da kural, birilerini “tedavi”, birilerini “kontrol” konumuna araştırmacıdan bağımsız olarak koyar.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Örnek</th><th>Neden “doğal deney”?</th></tr></thead>
+      <tbody>
+        <tr><td>Elektrifikasyon programı yalnızca belirli bölgelerde başlıyor.</td><td>Bölge farkı, etkiyi ölçmek için dışsal varyasyon sağlar.</td></tr>
+        <tr><td>Gelir eşiğinin altındaki hanelere sübvansiyon.</td><td>Eşiğin hemen altı ve hemen üstü benzerdir; eşik temelli (RDD benzeri) karşılaştırma yapılır.</td></tr>
+        <tr><td>Bir platformun algoritma değişikliği.</td><td>Büyük veri çağında dijital olaylar hızlıca izlenir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Dikkat</b>Varyasyonun gerçekten “doğal” (araştırılan sonuçtan bağımsız) olduğu ayrıca gösterilmelidir. Tek bir bağlamdan çıkan sonucun başka yerlere genellenip genellenemeyeceği tartışmalıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 5</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Frekansist</td><td>Olasılık = uzun dönem oranı; H₀, p-değeri, α; parametre sabit</td></tr>
+        <tr><td>Bayesçi</td><td>Önsel × olabilirlik → ardıl; parametre dağılımlı; alan bilgisi önselle girer</td></tr>
+        <tr><td>Hipotez testi</td><td>t, ANOVA, χ²; varsayımları sına; çoklu karşılaştırma düzelt; veriyi ayır</td></tr>
+        <tr><td>Regresyon</td><td>İlişki ≠ neden; eksik değişken yanlılığı; büyük veride anlamlılık ≠ önem</td></tr>
+        <tr><td>Parametrik olmayan</td><td>Mann–Whitney, Wilcoxon, Kruskal–Wallis, Spearman, permütasyon; varyans yüksek</td></tr>
+        <tr><td>Çok değişkenli / zaman</td><td>MANOVA, CCA, Mahalanobis; ARIMA, durağanlık, LSTM; MAR/MNAR</td></tr>
+        <tr><td>Rubin modeli</td><td>Y(1), Y(0), ATE; seçkisiz atama bağımsızlığı sağlar</td></tr>
+        <tr><td>Doğal deney</td><td>Dışsal varyasyon; “doğallık” kanıtlanmalı</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_VB_5"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/vb-bolum-5-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/vb5.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>
