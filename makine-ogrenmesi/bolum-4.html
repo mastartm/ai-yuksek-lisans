@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doğrusal Modeller ve Regresyon — Makine Öğrenmesi</title>
+<meta name="description" content="Makine Öğrenmesi, Bölüm 4: Doğrusal Modeller ve Regresyon. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 4 · Doğrusal Modeller ve Regresyon</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 4</div>
+    <h1>Doğrusal Modeller ve Regresyon: Sayıyı Tahmin Et</h1>
+    <p class="big-quote">Kiralık bir dairenin kirasını tahmin etmek istiyorsun. Elinde birkaç dairenin metrekaresi ve kirası var. Karar ağacı “yüksek / düşük” der; sen ise <b>tam bir sayı</b> istiyorsun. Bunun için en basit yol, noktaların arasından bir doğru çizmektir.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Sınıflandırma ile regresyonu birbirinden ayırabilirsin.</li>
+      <li>Doğrusal regresyonda maliyet ve en küçük kareler fikrini açıklayabilirsin.</li>
+      <li>Bayır inişinin (LMS kuralı) nasıl çalıştığını ve öğrenme oranının rolünü anlatabilirsin.</li>
+      <li>Yığın ve stokastik bayır inişini karşılaştırabilirsin.</li>
+      <li>Az uyum ve aşırı uyumu tanıyabilirsin.</li>
+      <li>Yerel ağırlıklı regresyonu ve lojistik regresyonu açıklayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Regresyon: model seç, hatayı ölç, hatayı küçült</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Regresyon akışı: veri, model, hata, bayır inişi, tahmin"><rect class="d-brand" x="10" y="60" width="130" height="80" rx="8"/><text class="d-txt d-c" x="75" y="94">Eğitim verisi</text><text class="d-sm d-c" x="75" y="114">(x, y) çiftleri</text><rect class="d-ok" x="160" y="60" width="130" height="80" rx="8"/><text class="d-txt d-c" x="225" y="94">Model</text><text class="d-sm d-c" x="225" y="114">h(x) = θᵀx</text><rect class="d-warn" x="310" y="60" width="130" height="80" rx="8"/><text class="d-txt d-c" x="375" y="94">Maliyet J(θ)</text><text class="d-sm d-c" x="375" y="114">hata kareleri toplamı</text><rect class="d-box" x="460" y="60" width="130" height="80" rx="8"/><text class="d-txt d-c" x="525" y="94">Bayır inişi</text><text class="d-sm d-c" x="525" y="114">θ’yı güncelle</text><rect class="d-ok" x="610" y="60" width="130" height="80" rx="8"/><text class="d-txt d-c" x="675" y="94">Tahmin</text><text class="d-sm d-c" x="675" y="114">yeni x için ŷ</text><path class="d-line-brand" d="M140 100 L160 100"/><path class="d-line-brand" d="M290 100 L310 100"/><path class="d-line-brand" d="M440 100 L460 100"/><path class="d-line-brand" d="M590 100 L610 100"/><path class="d-dash" d="M525 140 C525 185 225 185 225 145"/><text class="d-sm d-c" x="375" y="190">J küçülene kadar yinele</text></svg>
+    <p>Bu bölümdeki her yöntem aynı döngüyü izler. Fark, modelin biçiminde ve tahminin sayı mı yoksa sınıf mı olduğundadır.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Sınıflandırma ve regresyon">
+  <div class="panel">
+    <div class="kicker">Temel ayrım</div>
+    <h2>Etiket mi tahmin ediyorsun, sayı mı?</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Sınıflandırma</b>Hedef <i>kategorik</i> (ayrık, sırasız): “spam / spam değil”, “hasta / sağlıklı”. Çıktı bir sınıf etiketidir.</div>
+      <div class="peas-c e"><b>Regresyon</b>Hedef <i>sürekli sayı</i>: kira, sıcaklık, satış adedi. Çıktı eksik ya da bilinmeyen bir sayısal değerdir.</div>
+    </div>
+    <p>Regresyonda <b>bağımsız (öngörücü) değişkenlerden</b> bir <b>bağımlı (yanıt) değişkenin</b> değeri tahmin edilir. Doğrusal, çoklu, ağırlıklı, polinomsal, parametrik olmayan ve sağlam (aykırı değerlere dayanıklı) gibi çeşitleri vardır. “Tahmin” sözcüğü hem sayı hem sınıf tahmini için kullanılır.</p>
+    <div class="callout idea"><b>Not</b>Hedefin yalnızca birkaç ayrık değeri varsa (ör. 0 ve 1) problem sınıflandırmadır; hedef sürekliyse regresyondur. Bu bölümün sonunda göreceğin <b>lojistik regresyon</b> adında regresyon geçse de sınıflandırma yapar.</div>
+    <div class="callout real"><b>Gerçek hayat: Hava durumu uygulaması</b>“Yarın yağmur yağacak mı?” sınıflandırmadır. “Yarın kaç derece olacak?” regresyondur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Doğrusal regresyon">
+  <div class="panel">
+    <div class="kicker">Doğrusal regresyon</div>
+    <h2>Noktalardan geçen en iyi doğru</h2>
+    <p>En basit modelde y, x’in doğrusal bir fonksiyonu sayılır:</p>
+    <p class="big-quote" style="font-size:1.15rem">h(x) = θ₀ + θ₁·x</p>
+    <p>θ₁ doğrunun <b>eğimi</b>, θ₀ ise <b>kesişimidir</b>. Bu iki sayıya <i>regresyon katsayıları</i> (parametreler) denir. Birden çok girdi varsa model <b>çoklu doğrusal regresyon</b> olur: h(x) = θ₀ + θ₁x₁ + θ₂x₂ + …</p>
+    <h3>“En iyi” doğru nedir?</h3>
+    <p>Her nokta için <b>hata</b> = gerçek değer − tahmin. Hataların <b>karelerinin toplamı</b> (maliyet fonksiyonu J) en küçük olan doğru seçilir. Buna <b>en küçük kareler</b> yaklaşımı denir. Kare almak iki işe yarar: negatif ve pozitif hatalar birbirini götürmez, büyük hatalar daha çok cezalandırılır.</p>
+    <div class="callout real"><b>Gerçek hayat: Kira tahmini</b>12 dairenin metrekare–kira çiftlerine bir doğru uydurursun. Yeni bir dairenin metrekaresini yazınca doğrunun üstündeki karşılığı, tahmin edilen kiradır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bayır inişi">
+  <div class="panel">
+    <div class="kicker">Bayır inişi · dene</div>
+    <h2>θ’yı nasıl buluruz? Yokuş aşağı yürüyerek</h2>
+    <p>Başlangıçta θ rastgele (burada sıfır) seçilir. Sonra her adımda J’yi en çok azaltan yönde küçük bir adım atılır. Buna <b>bayır inişi</b> (gradient descent) denir. Adım uzunluğunu <b>öğrenme oranı α</b> belirler.</p>
+    <p>Tek bir örnek için güncelleme kuralı, <b>LMS</b> (least mean squares) kuralı olarak bilinir:</p>
+    <p class="big-quote" style="font-size:1.05rem">θⱼ ← θⱼ + α · (y − h(x)) · xⱼ</p>
+    <p>Güncelleme miktarı <b>hatayla orantılıdır</b>: hata küçükse adım küçük, hata büyükse adım büyük. Tahmin gerçeğin altındaysa (pozitif hata) θ artar, üstündeyse azalır. Aşağıda α’yı değiştirip adım at; çok büyük α’nın ne yaptığını da gör:</p>
+    <div class="lab" id="gdlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Yığın ve stokastik">
+  <div class="panel">
+    <div class="kicker">İki bayır inişi</div>
+    <h2>Yığın mı, stokastik mi?</h2>
+    <p>Elinde m tane örnek varsa LMS kuralını iki yolla uygulayabilirsin:</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Yığın bayır inişi</th><th>Stokastik bayır inişi</th></tr></thead>
+      <tbody>
+        <tr><td><b>Bir güncelleme için</b></td><td>Tüm m örneğin hatası toplanır, sonra θ bir kez güncellenir.</td><td>Her örnekten hemen sonra θ güncellenir.</td></tr>
+        <tr><td><b>Bir tur boyunca</b></td><td>1 güncelleme.</td><td>En fazla m güncelleme.</td></tr>
+        <tr><td><b>Veri büyükken</b></td><td>Her adımda tüm veriyi taradığı için yavaştır.</td><td>Genellikle çok daha hızlı yaklaşır.</td></tr>
+        <tr><td><b>Yaklaşım biçimi</b></td><td>Düzgün, doğrudan en küçüğe iner.</td><td>Minimum çevresinde zıplayıp durabilir; kesin oturmayabilir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Yakınsama ölçütü</b>Algoritmaya “ne zaman duracağı” söylenmelidir. Ölçüt çok sıkı seçilirse çalışma süresi uzar; çok gevşek seçilirse model henüz iyi değilken durur.</div>
+    <div class="callout real"><b>Gerçek hayat: Yol tarifi</b>Yığın: tüm mahalleye sorup bir kez yön değiştirirsin. Stokastik: bir kişiye sorar sorar yönünü hemen değiştirirsin; hızlısın ama bazen yanlış kişiye sorup sallanırsın.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Az ve aşırı uyum">
+  <div class="panel">
+    <div class="kicker">Model karmaşıklığı · dene</div>
+    <h2>Çok basit de kötü, çok esnek de</h2>
+    <p>Doğru yetmezse x² gibi ekstra özellikler eklenir (karesel regresyon), sonra x³… Eğri noktalara daha çok oturur. Peki hep daha yüksek derece mi iyi? Kaydırıcıyı oynat; <b>eğitim hatası</b> ile <b>test hatasını</b> birlikte izle:</p>
+    <div class="lab" id="polylab"></div>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Az uyum (underfit)</b>Model veriyi yeterince yakalayamaz. Eğitimde de testte de hata yüksektir.</div>
+      <div class="peas-c a"><b>Aşırı uyum (overfit)</b>Model eğitim noktalarını ezberler (eğitim hatası ≈ 0) ama başka verilerde kötü tahmin yapar.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Sınava hazırlık</b>Yalnızca çıkmış sorunun cevabını ezberleyen öğrenci (aşırı uyum), konuyu hiç çalışmayan gibi (az uyum) yeni soruda yanılır. Amaç ezber değil, genelleme.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Yerel ağırlıklı regresyon">
+  <div class="panel">
+    <div class="kicker">Yerel ağırlıklı doğrusal regresyon</div>
+    <h2>Tahmin noktasına yakın örnekler daha çok söz sahibi</h2>
+    <p>Sıradan regresyonda her örneğin hatası eşit sayılır. <b>Yerel ağırlıklı</b> regresyonda her hatanın bir <b>ağırlığı (w)</b> vardır: tahmin etmek istediğin x noktasına yakın örneklerin ağırlığı 1’e yakın, uzaktakilerin ağırlığı küçüktür. Böylece her tahmin için <i>kendi çevresine uyan</i> bir doğru elde edilir.</p>
+    <p>Ağırlığın uzaklıkla ne kadar çabuk düşeceğini <b>bant genişliği</b> parametresi belirler.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Doğrusal regresyon</th><th>Yerel ağırlıklı regresyon</th></tr></thead>
+      <tbody>
+        <tr><td><b>Tür</b></td><td>Parametrik: sabit sayıda θ var.</td><td>Parametrik olmayan: hipotezi taşımak için veri boyutuyla büyüyen bilgi gerekir.</td></tr>
+        <tr><td><b>Eğitimden sonra</b></td><td>Eğitim verisi atılabilir; yalnızca θ yeter.</td><td>Her tahminde tüm eğitim verisi saklanmalıdır.</td></tr>
+        <tr><td><b>Tahmin</b></td><td>Tek bir θ ile yapılır.</td><td>Her yeni x için θ yeniden hesaplanır.</td></tr>
+        <tr><td><b>Esneklik</b></td><td>Tek doğru; eğri veriye uymaz.</td><td>Yerel doğrularla eğriyi izler.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Mahalleye göre kira</b>Merkezdeki bir daireyi değerlendirirken şehrin her yerindeki kiraları eşit saymazsın; aynı mahalledeki daireleri daha çok dikkate alırsın.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Lojistik regresyon">
+  <div class="panel">
+    <div class="kicker">Lojistik regresyon · dene</div>
+    <h2>Regresyon adı var, ama sınıflandırır</h2>
+    <p>Hedef y yalnızca 0 ya da 1 ise doğrusal regresyon iyi sonuç vermez: çıktı 0–1 aralığının dışına taşar. Çözüm, doğrusal çıktıyı <b>sigmoid (lojistik) fonksiyonuyla</b> 0 ile 1 arasına sıkıştırmaktır:</p>
+    <p class="big-quote" style="font-size:1.05rem">h(x) = g(θᵀx), &nbsp; g(z) = 1 / (1 + e⁻ᶻ)</p>
+    <p>z çok büyükse g(z) 1’e, çok küçükse 0’a gider; z = 0’da tam 0,5’tir. Çıktı 1’e yakınsa model “sınıf 1”, 0’a yakınsa “sınıf 0” der. Kaydırıcıyla dene:</p>
+    <div class="lab" id="siglab"></div>
+    <div class="callout real"><b>Gerçek hayat: Kredi onayı</b>Gelir, borç gibi sayılardan “onay olasılığı” üretilir. Olasılık 0,5’i aşarsa onay, aşmazsa ret.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Lojistik regresyon eğitimi">
+  <div class="panel">
+    <div class="kicker">Lojistik regresyon</div>
+    <h2>θ nasıl bulunur? Olabilirliği büyüterek</h2>
+    <ul>
+      <li>Örneklerin bağımsız üretildiği varsayılır; θ’nın <b>olabilirliği</b> (likelihood), her örneğin gözlenen etiketi verme olasılıklarının çarpımıdır.</li>
+      <li>Çarpım yerine logaritması ile çalışmak kolaydır: <b>log-olabilirlik</b> en büyük yapılır.</li>
+      <li>En büyütme için bayır <i>çıkışı</i> kullanılır (yön artı).</li>
+      <li>Sigmoidin türevi <b>g′(z) = g(z)(1 − g(z))</b> olduğundan güncelleme kuralı sade çıkar.</li>
+    </ul>
+    <div class="callout idea"><b>Aynı görünür ama aynı değildir</b>Elde edilen kural LMS kuralına benzer: θⱼ ← θⱼ + α(y − h(x))xⱼ. Ancak lojistikte h(x), θᵀx’in <b>doğrusal olmayan</b> bir fonksiyonudur (sigmoid). Yani iki algoritma farklıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Hangi yöntem?">
+  <div class="panel">
+    <div class="kicker">Karşılaştırma</div>
+    <h2>Üç yöntem yan yana</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Çıktı</th><th>Anahtar fikir</th><th>Dikkat</th></tr></thead>
+      <tbody>
+        <tr><td><b>Doğrusal regresyon</b></td><td>Sürekli sayı</td><td>Hata kareleri toplamını küçült</td><td>Veri doğrusal değilse az uyum</td></tr>
+        <tr><td><b>Yerel ağırlıklı</b></td><td>Sürekli sayı</td><td>Yakın örneklere daha çok ağırlık ver</td><td>Tüm veri saklanır; bant genişliği seçimi</td></tr>
+        <tr><td><b>Lojistik</b></td><td>0 / 1 sınıfı (olasılık)</td><td>Sigmoid + olabilirlik büyütme</td><td>Aslında sınıflandırıcıdır</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 4</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Sınıflandırma / regresyon</td><td>Kategori mi sayı mı tahmin ediliyor</td></tr>
+        <tr><td>Doğrusal regresyon</td><td>h(x) = θ₀ + θ₁x; en küçük kareler</td></tr>
+        <tr><td>Bayır inişi / LMS</td><td>Güncelleme hatayla orantılı; α öğrenme oranı</td></tr>
+        <tr><td>Yığın / stokastik</td><td>Tüm veri bir güncelleme / her örnek bir güncelleme</td></tr>
+        <tr><td>Az / aşırı uyum</td><td>Çok basit ya da çok esnek model; amaç genelleme</td></tr>
+        <tr><td>Yerel ağırlıklı</td><td>Parametrik olmayan; yakın örneklerin ağırlığı yüksek</td></tr>
+        <tr><td>Lojistik regresyon</td><td>Sigmoid ile 0–1 çıktı; sınıflandırma; log-olabilirlik</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_ML_4"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/ml-bolum-4-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/ml4.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>
