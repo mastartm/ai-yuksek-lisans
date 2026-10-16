@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Destek Vektör Makineleri ve Sinir Ağları — Makine Öğrenmesi</title>
+<meta name="description" content="Makine Öğrenmesi, Bölüm 5: Destek Vektör Makineleri ve Sinir Ağları. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 5 · Destek Vektör Makineleri ve Sinir Ağları</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 5</div>
+    <h1>Destek Vektör Makineleri ve Sinir Ağları</h1>
+    <p class="big-quote">İki sınıfı ayıran sonsuz sayıda doğru çizebilirsin. Hangisi en iyisi? Destek vektör makinesi “iki sınıfa da en uzak olan” der. Sinir ağı ise başka bir yol seçer: küçük birimleri katman katman üst üste koyup karmaşık sınırları <b>öğrenir</b>.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Maksimum marjlı hiperdüzlemi ve destek vektörlerini açıklayabilirsin.</li>
+      <li>Çekirdek hilesinin ne işe yaradığını anlatabilirsin.</li>
+      <li>Çok katmanlı ileri beslemeli sinir ağının yapısını ve geriyayılımı özetleyebilirsin.</li>
+      <li>Ağ topolojisi seçerken nelere karar verildiğini sayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>İki farklı yoldan doğrusal olmayan sınıflandırma</h2>
+    <svg class="diagram" viewBox="0 0 760 210" role="img" aria-label="Destek vektör makinesi ve yapay sinir ağı karşılaştırması"><rect class="d-brand" x="15" y="20" width="350" height="170" rx="12"/><text class="d-txt d-c" x="190" y="48">Destek vektör makinesi</text><text class="d-sm d-c" x="190" y="76">en geniş aralıklı ayırıcıyı bul</text><text class="d-sm d-c" x="190" y="100">yalnızca destek vektörleri belirler</text><text class="d-sm d-c" x="190" y="124">çekirdekle yüksek boyuta geç</text><text class="d-sm d-c" x="190" y="160">sonuç: tek, en iyi çözüm</text><rect class="d-ok" x="395" y="20" width="350" height="170" rx="12"/><text class="d-txt d-c" x="570" y="48">Yapay sinir ağı</text><text class="d-sm d-c" x="570" y="76">giriş → gizli katman(lar) → çıkış</text><text class="d-sm d-c" x="570" y="100">her birim: ağırlıklı toplam + aktivasyon</text><text class="d-sm d-c" x="570" y="124">geriyayılımla ağırlıkları öğren</text><text class="d-sm d-c" x="570" y="160">sonuç: esnek, deneme-yanılma ister</text></svg>
+    <p>İkisi de iki sınıfı ayırma problemine bakar; farkı, “ayırıcı sınırı nasıl bulduklarında”dır.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Optimal aralık">
+  <div class="panel">
+    <div class="kicker">SVM · dene</div>
+    <h2>En iyi ayırıcı, iki sınıfa da en uzak olandır</h2>
+    <p>Doğrusal ayrılabilen iki sınıf arasına sonsuz sayıda doğru çizilebilir. Hedef, <b>daha önce görülmemiş</b> örneklerde en az hata yapacak olanı bulmaktır. Üç boyutta bu bir düzlem, çok boyutta bir <b>hiperdüzlemdir</b>. Destek vektör makinesi, iki sınıf arasındaki boşluğu (<b>marj</b>) en büyük yapan hiperdüzlemi arar. Karar sınırına en yakın noktalara <b>destek vektörleri</b> denir.</p>
+    <p>Çizgiyi çevir ve kaydır. Önce sınıfları ayır, sonra aralığı büyütmeye çalış; en sonda düğmeyle en iyisini gör:</p>
+    <div class="lab" id="svmlab"></div>
+    <div class="callout real"><b>Gerçek hayat: Yol çizgisi</b>İki şerit arasına çizgiyi iki kenara eşit uzaklıkta çekersin; ne bir yana kaçarsın ne öbürüne. Marj bu emniyet payıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Optimizasyon">
+  <div class="panel">
+    <div class="kicker">SVM · nasıl çözülür?</div>
+    <h2>Güzel fikir, çözülebilir bir probleme dönüşür</h2>
+    <ul>
+      <li>Marjı en büyütmek, ‖w‖ = 1 kısıtıyla yazılırsa kısıt <b>konveks olmayan</b> bir kısıttır; standart optimizasyon yazılımları çözemez.</li>
+      <li>Çözüm: kısıtı değiştirip eşdeğer bir <b>konveks</b> probleme çevirmek. Bu problem hızla çözülür ve optimal aralık sınıflandırıcıyı verir.</li>
+      <li>Lagrange çarpanlarıyla bakınca problem yalnızca örneklerin <b>iç çarpımlarına</b> ⟨x⁽ⁱ⁾, x⁽ʲ⁾⟩ dayanır. Bu özellik çekirdek hilesinin kapısını açar.</li>
+      <li>Karar sınırı yalnızca destek vektörlerine bağlıdır; uzaktaki noktalar çizgiyi etkilemez.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Çekirdek hilesi">
+  <div class="panel">
+    <div class="kicker">Çekirdek hilesi · kartlara tıkla</div>
+    <h2>Yüksek boyuta geçmeden yüksek boyutta çalış</h2>
+    <p>Veri doğrusal ayrılamıyorsa yeni özellikler türetilir (x, x², x³…). Bu <b>özellik eşlemesi</b> φ(x) ile gösterilir. SVM’nin iç çarpımları yerine φ(x)·φ(z) kullanılır. Bu çarpımın karşılığı bir <b>çekirdek fonksiyonudur</b>: K(x, z) = φ(x)ᵀφ(z).</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sorun</b>φ(x) çok büyük olabilir<span class="tip">tıkla</span></span><span class="back"><b class="k">Neden?</b>Eşleme sonucu vektör çok boyutlu (hatta sonsuz) olabilir; φ(x)’i açıkça hesaplamak çok pahalıdır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Hile</b>K(x, z)’yi doğrudan hesapla<span class="tip">tıkla</span></span><span class="back"><b class="k">Nasıl?</b>Bazı çekirdekler φ’yi hiç hesaplamadan değeri doğrudan verir. Algoritmada iç çarpım geçen her yere K yazılır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Matris</b>Çekirdek (Gram) matrisi<span class="tip">tıkla</span></span><span class="back"><b class="k">Nedir?</b>Eğitim örneklerinin tüm çiftleri için K(x, z) değerlerini içeren matris.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Kural</b>Mercer şartı<span class="tip">tıkla</span></span><span class="back"><b class="k">Nedir?</b>K’nın geçerli çekirdek olması için gerek ve yeter şart: çekirdek matrisi simetrik ve pozitif yarı-kesin olmalı (hiçbir özdeğeri negatif olmamalı).</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Haritada kestirme</b>Her yolu tek tek ölçmek yerine hazır bir formülle iki nokta arası mesafeyi doğrudan almak gibi: sonucu bilirsin, ara adımları üretmezsin.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Sinir ağı yapısı">
+  <div class="panel">
+    <div class="kicker">Yapay sinir ağı</div>
+    <h2>Çok katmanlı ileri beslemeli sinir ağı</h2>
+    <svg class="diagram" viewBox="0 0 760 230" role="img" aria-label="Giriş katmanı, gizli katman ve çıkış katmanından oluşan ağ"><g><circle class="d-brand" cx="110" cy="55" r="22"/><circle class="d-brand" cx="110" cy="115" r="22"/><circle class="d-brand" cx="110" cy="175" r="22"/><circle class="d-ok" cx="380" cy="40" r="22"/><circle class="d-ok" cx="380" cy="100" r="22"/><circle class="d-ok" cx="380" cy="160" r="22"/><circle class="d-ok" cx="380" cy="210" r="0"/><circle class="d-warn" cx="650" cy="85" r="22"/><circle class="d-warn" cx="650" cy="145" r="22"/></g><g class="d-dash"><path d="M132 55 L358 40"/><path d="M132 55 L358 100"/><path d="M132 55 L358 160"/><path d="M132 115 L358 40"/><path d="M132 115 L358 100"/><path d="M132 115 L358 160"/><path d="M132 175 L358 40"/><path d="M132 175 L358 100"/><path d="M132 175 L358 160"/><path d="M402 40 L628 85"/><path d="M402 40 L628 145"/><path d="M402 100 L628 85"/><path d="M402 100 L628 145"/><path d="M402 160 L628 85"/><path d="M402 160 L628 145"/></g><text class="d-sm d-c" x="110" y="222">giriş katmanı</text><text class="d-sm d-c" x="380" y="14">gizli katman</text><text class="d-sm d-c" x="650" y="222">çıkış katmanı</text></svg>
+    <ul>
+      <li><b>Giriş katmanı:</b> her eğitim örneğinin özellikleri; yalnızca değerleri sonraki katmana iletir.</li>
+      <li><b>Gizli katman(lar):</b> sayısı değişkendir, pratikte çoğu zaman bir tanedir.</li>
+      <li><b>Çıkış katmanı:</b> sınıf tahmini. Ağırlıklı toplamlar doğrusal olmayan bir <b>aktivasyon fonksiyonundan</b> geçer.</li>
+      <li><b>Katman sayma:</b> giriş katmanı sayılmaz. Bir gizli + bir çıkış katmanı = <b>iki katmanlı</b> ağ.</li>
+    </ul>
+    <div class="callout idea"><b>Neden doğrusal olmayan aktivasyon?</b>Aktivasyon yoksa katmanlar arka arkaya dizilse de sonuç tek bir doğrusal model olur. Aktivasyon ağa doğrusal olmayan regresyon yapma gücü verir; yeterli gizli birim ve veriyle neredeyse her fonksiyona yaklaşabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="XOR denemesi">
+  <div class="panel">
+    <div class="kicker">Neden gizli katman? · dene</div>
+    <h2>XOR: tek doğruyla çözülemeyen problem</h2>
+    <p>XOR, iki girdi farklıysa 1, aynıysa 0 verir. Dört noktayı tek doğruyla ayıramazsın. Önce tek birimin ağırlıklarını oynat: en iyi ihtimalle 3 / 4 doğru alırsın. Sonra gizli katman ekle:</p>
+    <div class="lab" id="xorlab"></div>
+    <div class="callout real"><b>Gerçek hayat: İki anahtarlı lamba</b>Koridorun iki ucundaki anahtarlardan yalnızca biri açıksa lamba yanar: XOR. Tek bir eşik kuralı bunu yazamaz; ara bir “kim açık?” katmanı gerekir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Geriyayılım">
+  <div class="panel">
+    <div class="kicker">Geriyayılım (backpropagation)</div>
+    <h2>Ağırlıklar hataya bakılarak, geriye doğru düzeltilir</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">1</b>İleri geçiş<span class="tip">tıkla</span></span><span class="back"><b class="k">Ne olur?</b>Eğitim örneğinin özellikleri giriş katmanına verilir; katman katman ilerleyip çıkış tahmini üretilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">2</b>Hata hesabı<span class="tip">tıkla</span></span><span class="back"><b class="k">Ne olur?</b>Çıkış, bilinen gerçek sınıfla karşılaştırılır; fark hata olur.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">3</b>Geri yayma<span class="tip">tıkla</span></span><span class="back"><b class="k">Ne olur?</b>Hata çıkıştan girişe doğru katman katman geri yayılır; her ağırlığın hatadaki payı hesaplanır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">4</b>Güncelleme<span class="tip">tıkla</span></span><span class="back"><b class="k">Ne olur?</b>Ağırlıklar, bayır inişi gibi, hatayı azaltacak yönde küçük adımlarla değiştirilir. Süreç yinelenir.</span></button>
+    </div>
+    <p>Bu döngü örnekler üzerinde tekrar tekrar yapılır; ağırlıklar yinelemeli olarak öğrenilir. Geçen bölümdeki bayır inişinin çok katmanlı hâlidir.</p>
+    <div class="callout real"><b>Gerçek hayat: Dart atışı</b>Atarsın (ileri geçiş), hedeften ne kadar saptığına bakarsın (hata), kolunu hangi yönde düzelteceğini bulursun (geri yayma), bir sonraki atışta ayarlarsın (güncelleme).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Ağ topolojisi">
+  <div class="panel">
+    <div class="kicker">Topoloji</div>
+    <h2>Eğitime başlamadan önce ağın biçimine karar ver</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Karar</th><th>Nasıl?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Giriş birimi sayısı</b></td><td>Özellik sayısı kadar. Girdiler genellikle 0,0–1,0 aralığına normalleştirilir; öğrenme hızlanır. Ayrık özellikler, değer başına bir giriş birimiyle kodlanır.</td></tr>
+        <tr><td><b>Gizli katman sayısı</b></td><td>Çoğu zaman bir; birden fazla da olabilir.</td></tr>
+        <tr><td><b>Gizli birim sayısı</b></td><td>“En iyi” için net kural yoktur; deneme-yanılma ile bulunur ve doğruluğu etkiler.</td></tr>
+        <tr><td><b>Çıkış birimi sayısı</b></td><td>İki sınıf için bir birim (1 / 0). İkiden fazla sınıf için sınıf başına bir birim. Sayısal tahmin için de kullanılabilir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Not</b>Ağ tasarımı ve ağırlıkların başlangıç değeri eğitim sonucunu etkiler; iyi bir sonuç için farklı topolojiler denenir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="SVM ve sinir ağı">
+  <div class="panel">
+    <div class="kicker">Karşılaştırma</div>
+    <h2>İkisi yan yana</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Destek vektör makinesi</th><th>Yapay sinir ağı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ana fikir</b></td><td>Marjı en büyük hiperdüzlem; çekirdekle yüksek boyut</td><td>Katmanlı birimler, aktivasyon, geriyayılım</td></tr>
+        <tr><td><b>Çözüm</b></td><td>Konveks problem; tek en iyi çözüm</td><td>Başlangıca ve topolojiye bağlı çözüm</td></tr>
+        <tr><td><b>Belirleyici</b></td><td>Yalnızca destek vektörleri</td><td>Tüm ağırlıklar</td></tr>
+        <tr><td><b>Ayar</b></td><td>Çekirdek seçimi</td><td>Katman ve birim sayısı, deneme-yanılma</td></tr>
+        <tr><td><b>Doğrusal olmama</b></td><td>Çekirdek hilesi</td><td>Aktivasyon + gizli katman</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 5</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>SVM</td><td>Maksimum marjlı hiperdüzlem; destek vektörleri sınırı belirler</td></tr>
+        <tr><td>Optimizasyon</td><td>Konveks olmayan kısıt → konveks problem; iç çarpımlara dayanır</td></tr>
+        <tr><td>Çekirdek</td><td>φ’yi hesaplamadan K(x, z); Gram matrisi; Mercer şartı (simetrik, pozitif yarı-kesin)</td></tr>
+        <tr><td>Sinir ağı</td><td>Giriş, gizli, çıkış; aktivasyon doğrusal olmayanlığı getirir; giriş katmanı sayılmaz</td></tr>
+        <tr><td>Geriyayılım</td><td>İleri geçiş → hata → geri yayma → ağırlık güncelleme</td></tr>
+        <tr><td>Topoloji</td><td>Girdi normalleştir; sınıf başına çıkış; gizli birim sayısı deneme-yanılma</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_ML_5"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/ml-bolum-5-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/ml5.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>
