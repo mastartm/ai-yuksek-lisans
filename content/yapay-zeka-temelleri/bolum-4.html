@@ -1,0 +1,224 @@
+<!--
+course: yapay-zeka-temelleri
+course_title: Yapay Zekâ Temelleri
+no: 4
+title: Bilgi Gösterimi
+quiz: QUIZ_YZ_4
+quiz_file: yz-bolum-4-quiz.js
+scripts: yz4.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Yapay Zekâ Temelleri · Bölüm 4</div>
+    <h1>Bilgi Gösterimi: Makineye Dünyayı Nasıl Anlatırız?</h1>
+    <p class="big-quote">“Yarasa memelidir. Memeliler sıcakkanlıdır.” Bunu bir insana söylesen “yarasa sıcakkanlı” sonucunu kendisi çıkarır. Bir bilgisayar için ise bilgiyi <b>öyle bir biçimde yazmak</b> gerekir ki bu sonuç çıkarılabilsin. Bu bölüm o biçimleri anlatır.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>İyi bir bilgi gösteriminin beş ölçütünü sayabilirsin.</li>
+      <li>Sembolik ve istatistiksel gösterimi karşılaştırabilirsin.</li>
+      <li>Ontoloji kavramını ve geliştirme adımlarını açıklayabilirsin.</li>
+      <li>Kategori ve nesneleri mantıkla gösterebilir, kategori ilişkilerini ayırt edebilirsin.</li>
+      <li>Kalıtım ve istisnanın nasıl çalıştığını gösterebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Dünya → gösterim → çıkarım → karar</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Bilgi gösterimi akışı: dünya, gösterim, bilgi tabanı, çıkarım, karar"><rect class="d-brand" x="10" y="55" width="130" height="80" rx="8"/><text class="d-txt d-c" x="75" y="88">Gerçek dünya</text><text class="d-sm d-c" x="75" y="108">karmaşık, belirsiz</text><rect class="d-ok" x="160" y="55" width="130" height="80" rx="8"/><text class="d-txt d-c" x="225" y="88">Gösterim</text><text class="d-sm d-c" x="225" y="108">mantık, ontoloji, olasılık</text><rect class="d-warn" x="310" y="55" width="130" height="80" rx="8"/><text class="d-txt d-c" x="375" y="88">Bilgi tabanı</text><text class="d-sm d-c" x="375" y="108">kategoriler, kurallar</text><rect class="d-box" x="460" y="55" width="130" height="80" rx="8"/><text class="d-txt d-c" x="525" y="88">Çıkarım</text><text class="d-sm d-c" x="525" y="108">yeni bilgi türet</text><rect class="d-ok" x="610" y="55" width="130" height="80" rx="8"/><text class="d-txt d-c" x="675" y="88">Karar / eylem</text><text class="d-sm d-c" x="675" y="108">plan, yanıt</text><path class="d-line-brand" d="M140 95 L160 95"/><path class="d-line-brand" d="M290 95 L310 95"/><path class="d-line-brand" d="M440 95 L460 95"/><path class="d-line-brand" d="M590 95 L610 95"/><path class="d-dash" d="M675 135 C675 180 225 180 225 140"/><text class="d-sm d-c" x="450" y="190">yeni bilgi geldikçe gösterim güncellenir</text></svg>
+    <p>Gösterimin kalitesi, sistemin ne kadar akıllı davranabileceğini belirler: ne yazdıysan yalnızca onu çıkarabilirsin.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Bilgi gösterimi nedir?">
+  <div class="panel">
+    <div class="kicker">Giriş</div>
+    <h2>Depolamak yetmez: anlam çıkarmak gerekir</h2>
+    <p>Bilgi gösterimi yalnızca depolama değil, <b>anlam çıkarma</b> ve <b>mantıksal sonuç üretme</b> sürecinin merkezidir. Dört yerde kritik rol oynar:</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Belirsizlik yönetimi</b>Eksik ya da muğlak bilgiden anlam çıkarmak: “büyük ihtimalle domates”.</div>
+      <div class="peas-c e"><b>Planlama ve karar</b>Hedefe ulaşmak için uygun adımları seçmek.</div>
+      <div class="peas-c a"><b>Doğal dil işleme</b>Kelime ve cümle anlamını modellemek.</div>
+      <div class="peas-c s"><b>Robotik</b>Çevreyi modellemek, nesne tanımak, görev planlamak.</div>
+    </div>
+    <h3>Kısa tarihçe</h3>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Dönem</th><th>Ana fikir</th></tr></thead>
+      <tbody>
+        <tr><td><b>1950–60’lar</b></td><td>Sembolik mantık dönemi.</td></tr>
+        <tr><td><b>1970–80’ler</b></td><td>Anlamsal ağlar ve çerçeveler.</td></tr>
+        <tr><td><b>1990’lar</b></td><td>Ontolojiler ve uzman sistemler.</td></tr>
+        <tr><td><b>2000’ler</b></td><td>Anlamsal web ve standartlar.</td></tr>
+        <tr><td><b>2010 sonrası</b></td><td>Hibrit yaklaşımlar: sembolik + istatistiksel.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Beş ölçüt">
+  <div class="panel">
+    <div class="kicker">İyi gösterim ölçütleri · kartlara tıkla</div>
+    <h2>İyi bir bilgi gösteriminde ne aranır?</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">1</b>İfade gücü<span class="tip">tıkla</span></span><span class="back"><b class="k">Soru</b>Zaman, mekân, nedensellik, belirsizlik gibi gerçek dünyadaki karmaşık durumları ne kadar ayrıntılı anlatabiliyor?</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">2</b>Çıkarım yeteneği<span class="tip">tıkla</span></span><span class="back"><b class="k">Soru</b>Depolanandan yeni bilgi türetebiliyor mu? “Memeliler sıcakkanlı” + “Yarasa memeli” → “Yarasa sıcakkanlı”.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">3</b>Çıkarım verimliliği<span class="tip">tıkla</span></span><span class="back"><b class="k">Soru</b>Çıkarımı makul sürede yapabiliyor mu? Her şey teoride çıkarılabilir; pratikte hesap maliyeti belirleyicidir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">4</b>Güncellenebilirlik<span class="tip">tıkla</span></span><span class="back"><b class="k">Soru</b>Yeni bilgi eklemek, eskisini değiştirmek ya da silmek kolay mı? “Bugün yağmur yağacak” bilgisi güncellenebilmeli.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">5</b>Belirsizlik yönetimi<span class="tip">tıkla</span></span><span class="back"><b class="k">Soru</b>Kesin olmayan bilgiyi (“%80 kedi”) ifade edebiliyor mu? Olasılık, bulanık mantık, istatistik bu işe yarar.</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Navigasyon uygulaması</b>Yol bilgisini harita (gösterim) olarak tutar; “en kısa yol” çıkarımını hızlı yapar (verimlilik); kapalı yol haberi gelince haritayı günceller; trafiğin “muhtemelen” yoğun olduğunu olasılıkla ifade eder.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Sembolik ve istatistiksel">
+  <div class="panel">
+    <div class="kicker">İki ana yaklaşım</div>
+    <h2>Kurallarla mı, olasılıklarla mı?</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Sembolik (mantık temelli)</th><th>İstatistiksel (olasılıksal)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Biçim</b></td><td>Açık kurallar, aksiyomlar: ∀x Kedi(x) ⇒ Memeli(x)</td><td>Olasılık dağılımları, öğrenilmiş parametreler</td></tr>
+        <tr><td><b>Güçlü yanı</b></td><td>Açıklanabilirlik, kesin çıkarım</td><td>Belirsiz, gürültülü, eksik veriyle başa çıkma</td></tr>
+        <tr><td><b>Zayıf yanı</b></td><td>Belirsizlikte ve eksik bilgide zorlanır</td><td>Yorumlanabilirlik düşüktür</td></tr>
+        <tr><td><b>Kullanım</b></td><td>Uzman sistemler, ontolojiler</td><td>Görüntü ve konuşma tanıma</td></tr>
+        <tr><td><b>Örnek</b></td><td>Prolog, Betimleme Mantıkları</td><td>Bayes ağları, Markov mantık ağları</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Hibrit yaklaşım</b>Bugünkü sistemlerin çoğu ikisini birlikte kullanır. Örnek: Google Bilgi Grafiği, büyük ölçekli istatistiksel veriyi mantıksal yapıyla düzenlenmiş ontolojilerle birleştirir. Sesli asistanlar hem yapılandırılmış bilgi tabanına hem dil işleme modellerine dayanır.</div>
+    <div class="callout real"><b>Gerçek hayat: Tıp</b>“Ateş grip belirtisidir” kuralı sembolik bilgidir, gerekçesi açıktır. “Bu röntgende %80 zatürre” çıktısı istatistikseldir; neden öyle dediğini anlamak zordur. İkisi birlikte güvenilir bir destek sistemi kurar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Ontolojik mühendislik">
+  <div class="panel">
+    <div class="kicker">Ontolojik mühendislik</div>
+    <h2>Dünyayı kategorilerin hiyerarşisi olarak düzenlemek</h2>
+    <p>Ontoloji, bir alandaki kavramları ve aralarındaki ilişkileri düzenli biçimde tanımlar. Üç ihtiyaca cevap verir:</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Bilgi paylaşımı</b>Farklı sistemler aynı kavramlarla anlaşır.</div>
+      <div class="peas-c e"><b>Çıkarım</b>“Ateş, grip belirtisidir” + “Ahmet’in ateşi var” → “Ahmet grip olabilir”.</div>
+      <div class="peas-c a"><b>Tutarlılık</b>Bilgi tabanındaki çelişkileri bulur.</div>
+    </div>
+    <h3>Dört düzey</h3>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Düzey</th><th>Kapsam</th></tr></thead>
+      <tbody>
+        <tr><td><b>Üst ontoloji</b></td><td>En genel kavramlar (nesne, olay, zaman); her alana uygulanabilir.</td></tr>
+        <tr><td><b>Alan ontolojisi</b></td><td>Tek bir alan: tıp, hukuk, finans.</td></tr>
+        <tr><td><b>Görev ontolojisi</b></td><td>Belirli bir görev: tanı koyma, planlama.</td></tr>
+        <tr><td><b>Uygulama ontolojisi</b></td><td>Tek bir uygulamaya özgü.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Geliştirme adımları</h3>
+    <ol>
+      <li>Amaç ve kapsamı tanımla.</li>
+      <li>Kavramları çıkar.</li>
+      <li>İlişkileri tanımla.</li>
+      <li>Aksiyomları yaz.</li>
+      <li>Doğrula ve test et.</li>
+      <li>Bakım ve güncelleme yap.</li>
+    </ol>
+    <div class="callout idea"><b>Gerçekçi bir not</b>Her şeyi kapsayan genel bir ontoloji girişimi sınırlı başarı elde etti. Bugünkü önde gelen yapay zekâ uygulamaları ortak bir ontoloji yerine özel amaçlı bilgi mühendisliği kullanır. Ontolojiler doğal dil işleme, robotik, bilgi grafları ve uzman sistemlerde işe yarar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kategoriler ve nesneler">
+  <div class="panel">
+    <div class="kicker">Kategoriler ve nesneler</div>
+    <h2>Kategori bir yüklem mi, bir nesne mi?</h2>
+    <p>Birinci derece mantıkta bir kategoriyi iki biçimde yazabilirsin:</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Yüklem olarak</b>Basketbol(b): “b bir basketboldur.”</div>
+      <div class="peas-c e"><b>Nesne (küme) olarak</b>b ∈ Basketbollar: kategori somut bir topluluktur.</div>
+    </div>
+    <p>İki yol aynı fikri anlatır. Kategori nesne olunca onun hakkında da konuşabilirsin: “Basketbollar bir alt kümesidir Toplar’ın”.</p>
+    <h3>Mantıkla beş tür iddia</h3>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>İddia</th><th>Örnek</th></tr></thead>
+      <tbody>
+        <tr><td>Nesne bir kategorinin üyesi</td><td class="mono">Üye(Pamuk, Kediler)</td></tr>
+        <tr><td>Kategori başka kategorinin alt sınıfı</td><td class="mono">Altküme(Kediler, Memeliler)</td></tr>
+        <tr><td>Kategorinin tüm üyeleri bir özelliğe sahip</td><td class="mono">∀x Üye(x, Kediler) ⇒ DörtAyaklı(x)</td></tr>
+        <tr><td>Üyeler bazı özelliklerle tanınır</td><td class="mono">Turuncu(x) ∧ Yuvarlak(x) ∧ … ⇒ Üye(x, Portakallar)</td></tr>
+        <tr><td>Kategori bütün olarak bir özelliğe sahip</td><td class="mono">OrtalamaBoy(Kediler) = 25 cm</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Kütüphane rafı</b>“Roman” bir kategori, “Suç ve Ceza” onun üyesi, “Romanlar ⊂ Kitaplar” alt sınıf ilişkisidir. “Kitapların ortalama sayfa sayısı” ise kategorinin bütününe ait bir özelliktir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kategori ilişkileri">
+  <div class="panel">
+    <div class="kicker">Kategori ilişkileri · kartlara tıkla</div>
+    <h2>Kategoriler arası ilişkiler</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">1</b>Alt sınıf ve üyelik<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Alt sınıf: bir kategorinin tamamı bir başkasının içinde (Kediler ⊂ Memeliler). Üyelik: tek bir nesnenin kategoriye aitliği. Üyelik alt sınıf zinciri boyunca yukarı taşınır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">2</b>Ayrık kategoriler<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Ortak üyesi olmayan kategoriler. Bir şey hem Erkek hem Kadın kategorisinde olamaz (bu tanım için).</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">3</b>Kapsamlı ayrıştırma<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Alt kategorilerin birleşimi üst kategorinin tamamını kaplar. Ayrık olmaları gerekmez: bazı üyeler birden çok alt kategoriye girebilir (iki kıtada yer alan bir ülke gibi).</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">4</b>Bölümleme<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Hem ayrık hem kapsamlı ayrıştırma. Her nesne, alt kategorilerden <b>tam olarak birine</b> düşer.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">5</b>Gerek ve yeter koşul<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Gerek koşul olmadan kategori olmaz. Yeter koşul sağlanınca kategori kesinleşir. İkisi birlikte tam tanımı verir (bekâr = evli olmayan erkek).</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Kan grubu</b>A, B, AB, 0 grupları birbirine ayrıktır ve birlikte tüm insanları kapsar: bir bölümleme. “Öğrenci” ve “Çalışan” ise ayrık değildir; biri aynı anda ikisi olabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kalıtım ve istisna">
+  <div class="panel">
+    <div class="kicker">Kalıtım · dene</div>
+    <h2>Özellikler hiyerarşide yukarıdan aşağı akar</h2>
+    <p>Kategoriler hiyerarşik olunca bir özellik üst kategoride bir kez yazılır, alt kategoriler onu <b>kalıtım</b> yoluyla alır. Soruyu <b>en özel kategoriden</b> başlayıp köke doğru ararız; ilk bulunan cevap kazanır. Bu yüzden alt kategori, üstteki bilgiye <b>istisna</b> koyabilir.</p>
+    <p>Bir kategori ve bir özellik seç; sistemin hangi yolu izlediğine bak. “Penguen uçar mı?”, “Kedi uçar mı?”, “Yarasa kanatlı mı?” dene:</p>
+    <div class="lab" id="inhlab"></div>
+    <div class="callout idea"><b>Dikkat: bilinmiyor ≠ hayır</b>Bilgi tabanında bir özellik hiç yazılmamışsa doğru cevap “bilmiyorum”dur. “Hayır” demek ayrıca yazılmış bir bilgi gerektirir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Doğal türler, bileşim, ölçüm">
+  <div class="panel">
+    <div class="kicker">Kategorilerde ince noktalar</div>
+    <h2>Doğal türler, parça–bütün ve ölçümler</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Fikir</th><th>Örnek</th></tr></thead>
+      <tbody>
+        <tr><td><b>Doğal türler</b></td><td>Çoğu gerçek kategorinin kesin tanımı yoktur; tipik örnekleri ve istisnaları vardır. Prototip ve olasılık, bulanık mantık gerekir.</td><td>Serçe tipik kuştur; devekuşu az tipiktir. Yeşil domates “domates” mi?</td></tr>
+        <tr><td><b>Fiziksel bileşim</b></td><td>“Parçasıdır” ilişkisi geçişlidir ve yansımalıdır.</td><td>Burun ⊂ Baş ⊂ Vücut ⇒ Burun, Vücut’un parçasıdır.</td></tr>
+        <tr><td><b>Ölçümler</b></td><td>Nicel özellikler birimleriyle birlikte temsil edilir; karşılaştırma ve karar için gerekir.</td><td>Uzunluk(Masa) = 1,2 m; “25 kg’dan ağır bavul alınmaz.”</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Kargo kuralı</b>“Ağırlığı 30 kg’ı aşan koli ek ücretlidir” kuralını yazabilmek için ağırlığın bir ölçü olarak gösterilmesi gerekir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Karmaşıklık ve belirsizlik">
+  <div class="panel">
+    <div class="kicker">İki büyük zorluk</div>
+    <h2>Ölçek büyüdükçe çıkarım yavaşlar, sınırlar bulanıklaşır</h2>
+    <div class="peas-grid">
+      <div class="peas-c a"><b>Hesaplamalı karmaşıklık</b>Milyonlarca kategori ve ilişki içeren bilgi grafı üzerinde kalıtım ve çıkarım pahalıdır. Kaynakları: çok kategori, yoğun ilişki, sürekli güncelleme. Çözümler: indeksleme ve ağaç/graf yapıları, yaklaşık çıkarım, dağıtık hesaplama.</div>
+      <div class="peas-c s"><b>Belirsizlik</b>Nesne bir kategoriye kesin olarak ait olmayabilir: yeşil domates, hem evcil hem vahşi davranan hayvan, aynı anda hem öğrenci hem çalışan olan kişi. Kaynakları: eksik, çelişkili bilgi ve sınır durumlar.</div>
+    </div>
+    <div class="callout idea"><b>Sonuç</b>Tek bir gösterim her şeye yetmez. Kesin ve açıklanabilir kısım için mantık, belirsiz ve gürültülü kısım için olasılık: iyi sistemler ikisini birleştirir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 4</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Beş ölçüt</td><td>İfade gücü, çıkarım yeteneği, çıkarım verimliliği, güncellenebilirlik, belirsizlik yönetimi</td></tr>
+        <tr><td>Sembolik / istatistiksel</td><td>Açıklanabilir ama kırılgan / belirsizliğe dayanıklı ama kapalı kutu; çoğu sistem hibrit</td></tr>
+        <tr><td>Ontoloji</td><td>Üst, alan, görev, uygulama düzeyleri; amaç → kavram → ilişki → aksiyom → test → bakım</td></tr>
+        <tr><td>Kategoriler</td><td>Yüklem ya da nesne; üyelik, alt sınıf, ayrık, kapsamlı ayrıştırma, bölümleme</td></tr>
+        <tr><td>Kalıtım</td><td>Özellik yukarıdan miras; en özel kategori kazanır (istisna); yazılmayan = bilinmiyor</td></tr>
+        <tr><td>Doğal türler</td><td>Tipiklik dereceleri; bulanık mantık ve olasılık</td></tr>
+        <tr><td>Zorluklar</td><td>Ölçekte karmaşıklık, sınırda belirsizlik</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

@@ -595,3 +595,10 @@ ul.dayflow li.dim { opacity: .45; }
 .gi-cell { aspect-ratio: 1; min-width: 0; padding: 0; border: 1px solid var(--line); border-radius: 4px; background: var(--surface-2); color: #fff; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
 .gi-cell.on { border-color: transparent; }
 .gi-cell:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+
+/* Yapay Zekâ 4: kategori hiyerarşisi */
+.inh-tree { list-style: none; padding: 0; margin: 10px 0; }
+.inh-n { padding: 4px 10px; border-left: 3px solid var(--line); margin-bottom: 3px; border-radius: 0 8px 8px 0; }
+.inh-n small { color: var(--muted); }
+.inh-n.path { border-left-color: var(--brand); background: var(--brand-soft); }
+.inh-n.hit { border-left-color: var(--ok); outline: 2px solid var(--ok); }
