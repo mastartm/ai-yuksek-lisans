@@ -576,3 +576,8 @@ label.hyp-s > input[type=checkbox] { width: 22px; height: 22px; flex: none; acce
   .chips { display: grid; grid-template-columns: 1fr 1fr; }
   .chips > .chip { text-align: center; white-space: normal; }
 }
+
+/* Disiplin kutuları: sekiz kutu düzgün 4x2 ızgara, eşit yükseklik */
+.tilegrid { grid-template-columns: repeat(4, 1fr); }
+.tilegrid .tile { min-height: 60px; display: flex; align-items: center; justify-content: center; text-align: center; }
+@media (max-width: 700px) { .tilegrid { grid-template-columns: repeat(2, 1fr); } }

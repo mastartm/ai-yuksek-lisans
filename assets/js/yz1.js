@@ -255,7 +255,7 @@
       ['Ekonomi', 'Fayda ve karar kuramı: belirsizlikte en iyi seçim nasıl yapılır?', 'Oyun kuramı, takviyeli öğrenme, algoritmik ticaret.'],
       ['Nörobilim', 'Beynin nöronlarla bilgi işlediğini gösterdi.', 'Yapay sinir ağları, derin öğrenme.'],
       ['Psikoloji', 'İnsanın nasıl öğrendiği ve problem çözdüğü üzerine modeller.', 'Bellek yapılarına ilham, planlama algoritmaları.'],
-      ['Bilgisayar müh.', 'Yeterince hızlı donanım: yapay zekâyı mümkün kılan makineler.', 'GPU ve TPU’lar, bulut bilişim.'],
+      ['Bilgisayar mühendisliği', 'Yeterince hızlı donanım: yapay zekâyı mümkün kılan makineler.', 'GPU ve TPU’lar, bulut bilişim.'],
       ['Kontrol kuramı', 'Geri bildirimle bir sistemi hedefte tutmak.', 'Robot kolları, dronlar, otonom araçlar.'],
       ['Dilbilim', 'Dilin yapısı ve yaratıcılığı üzerine kuramlar.', 'Doğal dil işleme, büyük dil modelleri.']
     ];
