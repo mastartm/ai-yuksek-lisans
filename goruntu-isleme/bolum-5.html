@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Görüntü İyileştirme — Görüntü İşleme</title>
+<meta name="description" content="Görüntü İşleme, Bölüm 5: Görüntü İyileştirme. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 5 · Görüntü İyileştirme</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 5</div>
+    <h1>Görüntü İyileştirme: Gürültüyü At, Ayrıntıyı Kurtar</h1>
+    <p class="big-quote">Gece çektiğin fotoğrafta karıncalanma var; üstelik yüzler yumuşak ve silik. Gürültüyü silmek ayrıntıyı da silebilir, ayrıntıyı öne çıkarmak gürültüyü de büyütebilir. Görüntü iyileştirme, bu iki isteği dengelemenin sanatıdır.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>İyileştirmenin amaçlarını ve noktasal işlemlerin neden yetmediğini açıklayabilirsin.</li>
+      <li>Konvolüsyonun nasıl çalıştığını anlatabilirsin.</li>
+      <li>Ortalama, Gauss ve medyan filtresini karşılaştırabilirsin.</li>
+      <li>Keskinleştirme yöntemlerini (Laplasyen, unsharp, high-boost) ayırt edebilirsin.</li>
+      <li>CLAHE ve morfolojik iyileştirmenin ne işe yaradığını söyleyebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>İyileştirme araç kutusu: hangi sorun, hangi araç?</h2>
+    <svg class="diagram" viewBox="0 0 760 220" role="img" aria-label="Sorunlara göre iyileştirme araçları"><rect class="d-brand" x="10" y="20" width="230" height="80" rx="10"/><text class="d-txt d-c" x="125" y="52">Gürültü var</text><text class="d-sm d-c" x="125" y="76">ortalama, Gauss, medyan, bilateral</text><rect class="d-ok" x="265" y="20" width="230" height="80" rx="10"/><text class="d-txt d-c" x="380" y="52">Görüntü yumuşak</text><text class="d-sm d-c" x="380" y="76">Laplasyen, unsharp, high-boost</text><rect class="d-warn" x="520" y="20" width="230" height="80" rx="10"/><text class="d-txt d-c" x="635" y="52">Kontrast düşük</text><text class="d-sm d-c" x="635" y="76">histogram, AHE / CLAHE</text><rect class="d-box" x="130" y="125" width="230" height="80" rx="10"/><text class="d-txt d-c" x="245" y="157">Küçük parlak/koyu ayrıntı</text><text class="d-sm d-c" x="245" y="181">top-hat, bottom-hat</text><rect class="d-box" x="400" y="125" width="230" height="80" rx="10"/><text class="d-txt d-c" x="515" y="157">Sınırları vurgula</text><text class="d-sm d-c" x="515" y="181">morfolojik gradyan</text></svg>
+    <p>Her sorunun bedeli vardır: yumuşatma kenarı bulandırır, keskinleştirme gürültüyü büyütür, yerel kontrast artışı mozaik yapar. İyi iyileştirme, doğru takası seçmektir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="İyileştirme nedir?">
+  <div class="panel">
+    <div class="kicker">Tanım ve amaçlar</div>
+    <h2>Görüntüyü insan gözü ve algoritma için daha kullanışlı yapmak</h2>
+    <p>İyileştirme, gizli kalmış ayrıntıyı görünür kılar ve görüntüyü insan algısına uygun hâle getirir. Dört temel hedef:</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Kontrast iyileştirme</b>Koyu ve açık bölgeler arasındaki farkı belirginleştirmek.</div>
+      <div class="peas-c e"><b>Kenar netliği</b>Nesne sınırlarını daha keskin göstermek.</div>
+      <div class="peas-c a"><b>Renk doğruluğu</b>Renklerin gerçeğe yakın görünmesi.</div>
+      <div class="peas-c s"><b>Parlaklık dengesi</b>Aşırı koyu ya da yanık bölgeleri dengelemek.</div>
+    </div>
+    <div class="callout idea"><b>Gürültü ile ayrıntı</b>Gürültü, görüntüde olmaması gereken rastgele piksellerdir. Gürültü gidermek “düzensizliği silmek” değil, faydalı yüksek frekanslı ayrıntıyı gürültüden ayırmaktır. Gauss tipi gürültüde doğrusal yumuşatma iyi çalışır; tuz-biber, Poisson (düşük ışık) ya da speckle gürültüsünde başka yöntemler gerekir.</div>
+    <div class="callout real"><b>Gerçek hayat: Tıp ve uydu</b>Röntgende yerel kontrast artışı şüpheli bölgenin erken fark edilmesine yardım eder. Uydu görüntüsünde sis ve duman nedeniyle düşük kontrast, iyileştirmeyle okunabilir olur. Yani iyileştirme yalnızca güzellik değil, karar desteğidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Noktasal işlemlerin sınırı">
+  <div class="panel">
+    <div class="kicker">Neden komşuluk?</div>
+    <h2>Noktasal işlem tek pikseli görür, bağlamı görmez</h2>
+    <p>Parlaklık/kontrast ayarı, gama ve logaritma gibi <b>noktasal işlemler</b> her pikseli yalnızca kendi değerine göre dönüştürür. Hızlıdırlar ama kenar, doku gibi <b>komşuluk ilişkilerini</b> bilmezler. Gürültülü bir pikseli “gürültü” diye tanıyamaz, kenarı korumayı bilemezler.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Noktasal işlem</th><th>Uzamsal filtre</th></tr></thead>
+      <tbody>
+        <tr><td><b>Girdi</b></td><td>Tek pikselin değeri</td><td>Pikselin ve komşularının değerleri</td></tr>
+        <tr><td><b>Hız</b></td><td>Çok hızlı</td><td>Çekirdek boyutuyla yavaşlar</td></tr>
+        <tr><td><b>Yapabildiği</b></td><td>Kontrast, parlaklık, ton eğrisi</td><td>Yumuşatma, keskinleştirme, kenar</td></tr>
+      </tbody>
+    </table></div>
+    <p>Yerel yöntemler (AHE/CLAHE) bu boşluğu kısmen doldurur; ama gürültünün kontrastını da yükseltebilir. Bu yüzden iyileştirmede çoğu zaman uzamsal filtrelere geçilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Konvolüsyon">
+  <div class="panel">
+    <div class="kicker">Konvolüsyon</div>
+    <h2>Küçük bir pencereyi (çekirdek) görüntü üzerinde kaydır</h2>
+    <p>Çekirdek (kernel), küçük bir ağırlık tablosudur (örneğin 3×3). Her pikselde çekirdek o pikselin çevresine yerleştirilir, karşılıklı değerler <b>çarpılır</b>, sonuçlar <b>toplanır</b> ve yeni pikselin değeri olur. Çekirdeğin ağırlıkları filtrenin ne yapacağını belirler.</p>
+    <svg class="diagram" viewBox="0 0 760 170" role="img" aria-label="Çekirdek görüntü üzerinde kayar; çarpılıp toplanarak yeni piksel üretilir"><g><rect class="d-box" x="40" y="25" width="140" height="120" rx="6"/><text class="d-sm d-c" x="110" y="160">girdi görüntüsü</text><rect class="d-warn" x="80" y="55" width="60" height="60" rx="4"/><text class="d-sm d-c" x="110" y="90">3×3</text><path class="d-line-brand" d="M180 85 L260 85"/><rect class="d-ok" x="260" y="55" width="150" height="60" rx="6"/><text class="d-txt d-c" x="335" y="82">çarp ve topla</text><text class="d-sm d-c" x="335" y="102">çekirdek ağırlıkları</text><path class="d-line-brand" d="M410 85 L490 85"/><rect class="d-box" x="490" y="25" width="140" height="120" rx="6"/><rect class="d-brand" x="540" y="70" width="30" height="30" rx="3"/><text class="d-sm d-c" x="560" y="160">çıktı: yeni piksel</text></g></svg>
+    <ul>
+      <li><b>Toplam 1:</b> çekirdek ağırlıkları toplamı 1 ise genel parlaklık değişmez (normalleştirme).</li>
+      <li><b>Kenar koşulları:</b> görüntü kenarında çekirdeğin taşan kısmı için seçim gerekir. Sıfır dolgu kenarı koyulaştırır; yansıtma (reflect) daha doğal süreklilik verir.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Mahalle ortalaması</b>Bir evin değerini, çevredeki evlerin ağırlıklı ortalamasıyla yumuşatmak gibi: yakın komşular daha çok sayılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Yumuşatma filtreleri">
+  <div class="panel">
+    <div class="kicker">Yumuşatma</div>
+    <h2>Ortalama ve Gauss filtresi</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Ortalama (mean)</th><th>Gauss</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ağırlıklar</b></td><td>Hepsi eşit (3×3’te her biri 1/9)</td><td>Merkez en ağır, uzaklaştıkça çan eğrisi gibi azalır</td></tr>
+        <tr><td><b>Etki</b></td><td>Basit ama blok benzeri, daha sert bulanıklık</td><td>Daha doğal, yumuşak bulanıklık</td></tr>
+        <tr><td><b>Ayar</b></td><td>Çekirdek boyutu</td><td>Çekirdek boyutu ve σ (yayılım)</td></tr>
+        <tr><td><b>Bedeli</b></td><td colspan="2">Gürültüyle birlikte kenar ve ince ayrıntı da zayıflar.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Ayar ipuçları</h3>
+    <ul>
+      <li>Homojen bölgelerde büyük pencere gürültüyü iyi bastırır; kenar yakınında aynı pencere ayrıntıyı geri dönüşsüz siler.</li>
+      <li>Sabit parametre yerine içeriğe uyan (kenarın yakınında zayıflayan) yaklaşımlar tercih edilir.</li>
+      <li>Çekirdek toplamı 1 olmalı; kenar koşulu tutarlı seçilmeli.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Filtre laboratuvarı">
+  <div class="panel">
+    <div class="kicker">Filtre laboratuvarı · dene</div>
+    <h2>Gürültüyü seç, filtreyi seç, sonucu gör</h2>
+    <p>Sahnede iki kenar bölgesi, parlak ve koyu birer kare var. Gürültü türünü ve filtreyi değiştir; <b>hata (MSE)</b> ile <b>kenar dikliğini</b> birlikte izle. Önemli soru: gürültü düşerken kenar da bozuluyor mu?</p>
+    <div class="lab" id="filtlab"></div>
+    <div class="callout idea"><b>Dene</b>Tuz-biber gürültüsünde ortalama ile medyanı karşılaştır. Sonra “Yok” gürültüde keskinleştirmeyi, Gauss gürültüsünde keskinleştirmeyi dene.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kenar-koruyucu yumuşatma">
+  <div class="panel">
+    <div class="kicker">Kenar-koruyucu yumuşatma · kartlara tıkla</div>
+    <h2>Gürültüyü bastır ama kenarı koru</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">1</b>Medyan filtresi<span class="tip">tıkla</span></span><span class="back"><b class="k">Fikir</b>Penceredeki değerleri sıralar, ortancayı alır. Tuz-biber gibi uç değerleri atar, kenarı büyük ölçüde korur. Doğrusal değildir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">2</b>Bilateral filtre<span class="tip">tıkla</span></span><span class="back"><b class="k">Fikir</b>Ağırlık iki şeye bağlıdır: konumsal yakınlık ve parlaklık benzerliği. Kenarın karşı tarafındaki farklı parlaklıktaki piksellere az ağırlık verilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">3</b>Yönlendirilmiş filtre<span class="tip">tıkla</span></span><span class="back"><b class="k">Fikir</b>Bir kılavuz görüntü (guide) kullanır; çıktı, yerel olarak kılavuzun doğrusal bir fonksiyonudur. Kenarları kılavuzdan öğrenir, hızlıdır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">4</b>Anizotropik difüzyon<span class="tip">tıkla</span></span><span class="back"><b class="k">Fikir</b>Yumuşatma bir ısı yayılımı gibi yinelemeli yapılır; yayılma katsayısı gradyan büyüdükçe küçülür. Yani kenarlarda difüzyon durur, düz bölgelerde sürer.</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Portre rötuşu</b>Cildi yumuşatırken göz ve dudak çizgilerini bulandırmamak gerekir. Bilateral ve benzeri filtreler bu tür “cilt yumuşat, kenarı koru” uygulamalarının temelidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Keskinleştirme">
+  <div class="panel">
+    <div class="kicker">Keskinleştirme</div>
+    <h2>Gradyan, Laplasyen, unsharp ve high-boost</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Ne yapar?</th><th>Dikkat</th></tr></thead>
+      <tbody>
+        <tr><td><b>Gradyan tabanlı</b></td><td>Birinci türevle (parlaklık değişim hızı) kenarları vurgular, yönü ve gücü verir.</td><td>Gürültüye duyarlıdır.</td></tr>
+        <tr><td><b>Laplasyen</b></td><td>İkinci türevle ince çizgi ve ayrıntıları öne çıkarır; özgün görüntüye eklenerek keskinleştirme yapılır.</td><td>Gürültüyü çok güçlendirir; ön yumuşatma gerekir.</td></tr>
+        <tr><td><b>Unsharp masking</b></td><td>Görüntüden bulanık hâlini çıkarıp farkı (ayrıntı) özgün görüntüye ekler: g = f + k·(f − bulanık).</td><td>Büyük k ile hale (kenarda parlak/koyu halka) oluşur.</td></tr>
+        <tr><td><b>High-boost</b></td><td>Unsharp’ın genellemesi: özgün görüntüyü A &gt; 1 katsayısıyla güçlendirip bulanığı çıkarır. Yüksek frekansı daha çok artırır.</td><td>Kazanç yükseldikçe artefakt riski artar.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Artefakt denetimi</b>Artefaktların iki ana nedeni: gürültünün ayrıntı sanılıp güçlendirilmesi ve büyük ölçekli farkların yüksek kazançla eklenmesi (hale). Çözüm: önce yumuşat, eşikli güçlendir, kazancı sınırla.</div>
+    <div class="callout real"><b>Gerçek hayat: Fotoğraf uygulaması</b>“Netlik” kaydırıcısını sonuna çekince kenarlarda beyaz halka ve gürültü görürsün. Unsharp masking’in sınırı budur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Morfolojik iyileştirme">
+  <div class="panel">
+    <div class="kicker">Morfolojik iyileştirme</div>
+    <h2>Top-hat, bottom-hat ve morfolojik gradyan</h2>
+    <p>Morfolojik işlemler, görüntüyü bir <b>yapı elemanı</b> (küçük şablon) ile inceler. Aşınma (erozyon) parlak bölgeyi küçültür, genişleme (dilasyon) büyütür; açma = aşınma sonra genişleme, kapama = genişleme sonra aşınma.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Dönüşüm</th><th>Formül</th><th>Ne çıkarır?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Top-hat</b></td><td class="mono">f − açma(f)</td><td>Yapı elemanından küçük <b>parlak</b> ayrıntılar (düzensiz arka planda parlak lekeler).</td></tr>
+        <tr><td><b>Bottom-hat</b></td><td class="mono">kapama(f) − f</td><td>Yapı elemanından küçük <b>koyu</b> ayrıntılar.</td></tr>
+        <tr><td><b>Morfolojik gradyan</b></td><td class="mono">genişleme(f) − aşınma(f)</td><td>Nesne sınırlarını vurgular (kenar kalınlığı yapı elemanına bağlı).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Belge taraması</b>Eşit olmayan aydınlatmada silik yazıyı bottom-hat ile arka plandan ayırabilirsin: yazı, yapı elemanından küçük koyu bir ayrıntıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="AHE ve CLAHE">
+  <div class="panel">
+    <div class="kicker">Yerel kontrast</div>
+    <h2>AHE ve CLAHE: her bölgeye kendi histogramı</h2>
+    <p>Global histogram eşitleme tüm görüntüyü tek dönüşümle değiştirir; bölgelerin kontrast ihtiyacı farklıysa yetmez. <b>AHE</b> görüntüyü döşemelere (tile) bölüp her döşemede yerel eşitleme yapar. <b>CLAHE</b> buna kontrast üst sınırı (<b>klip limiti</b>) ekler; böylece gürültü aşırı büyümez.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Üç parametre</b>Döşeme boyutu (küçük: çok yerel kontrast, mozaik riski), klip limiti (küçük: aşırı tepe engellenir), enterpolasyon şeması (döşeme sınırlarını yumuşatır).</div>
+      <div class="peas-c e"><b>Avantaj</b>Düzensiz aydınlatmada yerel ayrıntıyı açar; CLAHE ile gürültü artışı denetlenir.</div>
+      <div class="peas-c a"><b>Dezavantaj</b>Yanlış parametre mozaik, bantlama ve yapay doku yaratır; düşük SNR’de gürültü kısmen artar.</div>
+    </div>
+    <div class="callout idea"><b>İpucu</b>CLAHE çoğu zaman hafif yumuşatma ya da kenar-koruyucu bir filtreyle birlikte kullanılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Uygulama notları">
+  <div class="panel">
+    <div class="kicker">Uygulama notları</div>
+    <h2>Çekirdek boyutu, kenar koşulları ve parametre seçimi</h2>
+    <ul>
+      <li><b>Çekirdek boyutu:</b> büyük çekirdek gürültüyü iyi bastırır ama ince ayrıntıyı siler ve maliyeti artırır. Görüntünün ölçeğine göre seç.</li>
+      <li><b>Kenar koşulları:</b> sıfır dolgu kenarı koyulaştırır; yansıtma ya da çoğaltma daha doğal sonuç verir.</li>
+      <li><b>Sayısal kararlılık:</b> tam sayılarla yuvarlama hataları birikir; işlem zincirinde kayan noktalı hesap ve sonda kırpma tercih edilir. Çıktı 0–255 aralığına kırpılır.</li>
+      <li><b>Veriye göre ayar:</b> tıbbi görüntüde düşük SNR ve hassas doku geçişleri, uzaktan algılamada atmosfer etkisi, belgede arka plan deseni gibi görüntü türüne özgü sorunlar parametre seçimini belirler.</li>
+      <li><b>Açıklanabilirlik:</b> özellikle kritik uygulamalarda hangi işlemin neden uygulandığı izlenebilmeli; klasik filtrelerde parametreler görece şeffaftır, öğrenme tabanlı yöntemlerde karar mekanizması ayrıca açıklanmalıdır.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 5</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Amaç</td><td>Kontrast, kenar netliği, renk doğruluğu, parlaklık dengesi; gürültü–ayrıntı takası</td></tr>
+        <tr><td>Noktasal işlem</td><td>Bağlamı görmez; bu yüzden uzamsal filtre gerekir</td></tr>
+        <tr><td>Konvolüsyon</td><td>Çekirdek kaydır, çarp, topla; toplam 1; kenar koşulu seç</td></tr>
+        <tr><td>Yumuşatma</td><td>Ortalama, Gauss: gürültü azalır, kenar bulanır</td></tr>
+        <tr><td>Kenar-koruyucu</td><td>Medyan (tuz-biber), bilateral, yönlendirilmiş, anizotropik difüzyon</td></tr>
+        <tr><td>Keskinleştirme</td><td>Gradyan, Laplasyen, unsharp (f + k·fark), high-boost; gürültü ve hale riski</td></tr>
+        <tr><td>Morfolojik</td><td>Top-hat (parlak ayrıntı), bottom-hat (koyu ayrıntı), gradyan (sınır)</td></tr>
+        <tr><td>AHE / CLAHE</td><td>Döşeme başına eşitleme; klip limiti gürültüyü sınırlar</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_GI_5"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/gi-bolum-5-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/gi5.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>
