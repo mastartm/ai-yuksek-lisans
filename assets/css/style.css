@@ -608,3 +608,10 @@ ul.dayflow li.dim { opacity: .45; }
 .filt-fig { margin: 0; text-align: center; font-size: .85rem; color: var(--muted); }
 .filt-fig canvas { display: block; width: 160px; height: 160px; max-width: 28vw; max-height: 28vw; image-rendering: pixelated; border: 1px solid var(--line); border-radius: 6px; }
 @media (max-width: 480px) { .filt-fig canvas { max-width: 40vw; max-height: 40vw; } }
+
+/* Makine Öğrenmesi 6: 1000 kişilik nokta ızgarası */
+.dx-grid { display: grid; grid-template-columns: repeat(50, 1fr); gap: 2px; max-width: 520px; margin: 12px auto; }
+.dx-grid i { aspect-ratio: 1; border-radius: 50%; background: var(--line); }
+.dx-grid i.tp { background: var(--bad); }
+.dx-grid i.fn { background: var(--warn); }
+.dx-grid i.fp { background: var(--brand); }

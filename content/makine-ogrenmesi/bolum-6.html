@@ -1,0 +1,146 @@
+<!--
+course: makine-ogrenmesi
+course_title: Makine Öğrenmesi
+no: 6
+title: Bayes Öğrenmesi
+quiz: QUIZ_ML_6
+quiz_file: ml-bolum-6-quiz.js
+scripts: ml6.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 6</div>
+    <h1>Bayes Öğrenmesi: Kanıtla İnancı Güncelle</h1>
+    <p class="big-quote">Nadir bir hastalık için yapılan test %98 doğru diyor ve sonucun pozitif çıktı. Hasta mısın? Çoğu insan “büyük ihtimalle evet” der. Bayes teoremi, cevabın hastalığın <b>ne kadar nadir olduğuna</b> da bağlı olduğunu gösterir. Bu bölümde makine öğrenmesinin olasılıkla düşünme biçimi var.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Bayes öğrenmesinin genel özelliklerini ve pratik zorluklarını sayabilirsin.</li>
+      <li>Bayes teoremini önsel, olabilirlik ve ardıl olasılıkla yorumlayabilirsin.</li>
+      <li>MAP hipotezini hesaplayabilirsin.</li>
+      <li>Kaba-kuvvet Bayes kavram öğrenmesinin nasıl çalıştığını gösterebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Önsel inanç + veri = ardıl inanç</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Önsel olasılık ve olabilirlik birleşerek ardıl olasılığı verir"><rect class="d-brand" x="20" y="50" width="190" height="90" rx="10"/><text class="d-txt d-c" x="115" y="85">Önsel P(h)</text><text class="d-sm d-c" x="115" y="108">veriden önceki inanç</text><rect class="d-ok" x="285" y="50" width="190" height="90" rx="10"/><text class="d-txt d-c" x="380" y="85">Olabilirlik P(D|h)</text><text class="d-sm d-c" x="380" y="108">h doğruysa bu veri ne olası?</text><rect class="d-warn" x="550" y="50" width="190" height="90" rx="10"/><text class="d-txt d-c" x="645" y="85">Ardıl P(h|D)</text><text class="d-sm d-c" x="645" y="108">veriden sonraki inanç</text><text class="d-txt d-c" x="248" y="100">×</text><text class="d-txt d-c" x="513" y="100">→</text><text class="d-sm d-c" x="380" y="175">P(h|D) = P(D|h) · P(h) / P(D)</text></svg>
+    <p>Her yeni örnek, bir hipotezin doğruluk olasılığını <b>kademeli</b> olarak yükseltir ya da düşürür; hipotezi tek bir aykırı örnekle tamamen silmek zorunda değildir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Neden Bayes?">
+  <div class="panel">
+    <div class="kicker">Bayes öğrenmesi · genel özellikler</div>
+    <h2>Neden makine öğrenmesinde Bayes?</h2>
+    <p>İki nedenle önemlidir: naive Bayes gibi hipotez olasılıklarını açıkça hesaplayan algoritmalar bazı problemlerde en pratik yaklaşımlardandır; ayrıca başka algoritmaları anlamak için teorik bir çerçeve sunar.</p>
+    <ul>
+      <li>Her eğitim örneği, bir hipotezin olasılığını <b>kademeli</b> artırır ya da azaltır (esnek öğrenme).</li>
+      <li><b>Ön bilgi</b> gözlenen veriyle birleşir: her aday hipotez için bir önsel olasılık ve veri dağılımı varsayılır.</li>
+      <li>Olasılıklı tahminler üretebilir (“tamamen iyileşme şansı %93”).</li>
+      <li>Yeni örnekler, birden çok hipotezin tahminleri olasılıklarına göre <b>ağırlıklandırılarak</b> sınıflandırılabilir.</li>
+      <li>Hesaplanması zor olduğunda bile, diğer yöntemlerin ölçüleceği <b>optimum karar standardı</b> sağlar.</li>
+    </ul>
+    <div class="peas-grid">
+      <div class="peas-c a"><b>Zorluk 1</b>Birçok olasılığın önceden bilinmesi gerekir. Bilinmiyorsa arka plan bilgisinden, önceki verilerden ya da dağılım biçimi varsayımlarından tahmin edilir.</div>
+      <div class="peas-c s"><b>Zorluk 2</b>En iyi Bayes hipotezini belirlemek, genel durumda hesaplama açısından pahalıdır.</div>
+    </div>
+    <div class="callout idea"><b>Teorik katkı</b>Belirli varsayımlar altında birçok yapay sinir ağı ve eğri uydurma algoritması, en olası (MAP) hipotezi bulmaya çalışır; yani Bayes dili onların da nedenini açıklar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bayes teoremi">
+  <div class="panel">
+    <div class="kicker">Bayes teoremi</div>
+    <h2>Dört terim, bir formül</h2>
+    <p class="big-quote" style="font-size:1.15rem">P(h | D) = P(D | h) · P(h) / P(D)</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Terim</th><th>Adı</th><th>Anlamı</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">P(h)</td><td>Önsel olasılık</td><td>Veriyi görmeden hipoteze duyulan güven.</td></tr>
+        <tr><td class="mono">P(D | h)</td><td>Olabilirlik</td><td>h doğruysa D verisini gözleme olasılığı.</td></tr>
+        <tr><td class="mono">P(D)</td><td>Kanıt</td><td>Verinin genel olasılığı; ardılları 1’e normalleştirir.</td></tr>
+        <tr><td class="mono">P(h | D)</td><td>Ardıl (koşullu) olasılık</td><td>Veri görüldükten sonra h’ye duyulan güven.</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li><b>Çarpım kuralı:</b> P(A ∩ B) = P(A | B)·P(B) = P(B | A)·P(A).</li>
+      <li><b>Toplam kuralı:</b> P(A ∪ B) = P(A) + P(B) − P(A ∩ B).</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Tanı testi örneği">
+  <div class="panel">
+    <div class="kicker">Örnek · dene</div>
+    <h2>Test pozitif çıktı: gerçekten hasta mısın?</h2>
+    <p>İki hipotez: <b>h₁ = hasta</b>, <b>h₂ = hasta değil</b>. Test “pozitif” (⊕) ya da “negatif” (⊖) verir. Derste işlenen örnekte hastalık sıklığı %0,8, test hastaları %98 yakalar, sağlamları %3 yanlışlıkla pozitif gösterir. En olası hipotez (MAP) hangisi? Aşağıda sayıları değiştir. Noktalar: <b style="color:var(--bad)">kırmızı</b> gerçek pozitif, <b style="color:var(--warn)">sarı</b> kaçırılan hasta, <b style="color:var(--brand)">mavi</b> yanlış pozitif, gri sağlıklı negatif.</p>
+    <div class="lab" id="dxlab"></div>
+    <div class="callout real"><b>Gerçek hayat: Alarm sistemi</b>Çok nadir olan bir arızada, doğruluğu yüksek bir alarm bile çoğunlukla yanlış alarm verir. Bu yüzden önsel (arızanın ne kadar sık olduğu) görmezden gelinmemelidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="MAP hipotezi">
+  <div class="panel">
+    <div class="kicker">MAP hipotezi</div>
+    <h2>Veri verildiğinde en olası hipotezi seç</h2>
+    <p><b>Maksimum ardıl (MAP)</b> hipotezi, ardıl olasılığı en büyük olan hipotezdir. P(D) tüm hipotezlerde aynı olduğundan karşılaştırmak için paydayı hesaplamak gerekmez:</p>
+    <p class="big-quote" style="font-size:1.05rem">h_MAP = argmax P(D | h) · P(h)</p>
+    <p>Örnekte: P(⊕|kanser)·P(kanser) = 0,98 × 0,008 = <b>0,0078</b>; P(⊕|¬kanser)·P(¬kanser) = 0,03 × 0,992 = <b>0,0298</b>. Büyük olan ¬kanser, yani <b>h_MAP = kanser değil</b>. Gerçek ardıl olasılık için normalize edilir: 0,0078 / (0,0078 + 0,0298) ≈ <b>0,21</b>.</p>
+    <div class="callout idea"><b>İki sonuç</b>1) Bayes çıkarımı önsel olasılıklara güçlü biçimde bağlıdır. 2) Hipotezler tamamen kabul ya da reddedilmez; veri biriktikçe olasılıkları yükselir ya da düşer.</div>
+    <div class="callout idea"><b>ML ile fark</b>Tüm hipotezler eşit önsele sahipse MAP, <b>maksimum olabilirlik (ML)</b> hipotezine, yani P(D | h)’yi büyüten hipoteze dönüşür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kaba-kuvvet MAP">
+  <div class="panel">
+    <div class="kicker">Bayes ve kavram öğrenme</div>
+    <h2>Kaba-kuvvet MAP öğrenme algoritması</h2>
+    <p>Bölüm 2’deki kavram öğrenmeyi Bayes gözüyle yeniden düşünelim: sonlu bir hipotez uzayı H var ve hedef kavram c: X → {0, 1} öğrenilecek. Basit bir algoritma:</p>
+    <ol>
+      <li>H’deki <b>her</b> h hipotezi için ardılı hesapla: P(h | D) = P(D | h)·P(h) / P(D).</li>
+      <li>En yüksek ardıllı hipotezi, h_MAP’i, çıktı ver.</li>
+    </ol>
+    <p>Büyük hipotez uzaylarında çok pahalıdır. Ama pratik bir algoritma olmasa da diğer kavram öğrenme algoritmalarını <b>kıyaslamak için bir standart</b> sunar.</p>
+    <h3>P(h) ve P(D | h) nasıl seçilir?</h3>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Varsayım</th><th>Sonuç</th></tr></thead>
+      <tbody>
+        <tr><td>Eğitim verisi gürültüsüzdür (dᵢ = c(xᵢ)); H hedef kavramı içerir; bir hipotezin diğerinden olası olduğuna dair önsel neden yoktur</td><td><b>P(h) = 1 / |H|</b> (eşit önsel)</td></tr>
+        <tr><td>D, h ile tutarlıysa</td><td><b>P(D | h) = 1</b></td></tr>
+        <tr><td>D, h ile tutarsızsa</td><td><b>P(D | h) = 0</b></td></tr>
+      </tbody>
+    </table></div>
+    <p>Sonuç: tutarsız h için P(h | D) = 0; tutarlı h için P(h | D) = <b>1 / |VS<sub>H,D</sub>|</b> (VS: D ile tutarlı hipotezlerin sürüm uzayı). Her tutarlı hipotez bir MAP hipotezidir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Hipotez ayıklama">
+  <div class="panel">
+    <div class="kicker">Kaba-kuvvet MAP · dene</div>
+    <h2>Örnek geldikçe olasılıklar nasıl değişir?</h2>
+    <p>12 eşik hipotezi var: h_t(x) = (x ≥ t). Gizli hedef kavram h5. Örnek x’i seçip etiketli eklediğinde (etiketi hedef kavram verir) uyumsuz hipotezlerin olasılığı 0’a düşer, kalanlar eşit paylaşır:</p>
+    <div class="lab" id="maplab"></div>
+    <div class="callout real"><b>Gerçek hayat: Dedektif yöntemi</b>Başta herkes eşit şüpheli. Her ifade çelişen kişiyi listeden çıkarır; geriye kalanların şüphesi artar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 6</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Bayes öğrenmesi</td><td>Kademeli güncelleme, ön bilgi, olasılıklı tahmin, optimum karar standardı</td></tr>
+        <tr><td>Zorluklar</td><td>Çok olasılığın bilinmesi gerekir; hesaplama maliyeti</td></tr>
+        <tr><td>Bayes teoremi</td><td>P(h|D) = P(D|h)·P(h) / P(D): önsel, olabilirlik, kanıt, ardıl</td></tr>
+        <tr><td>MAP</td><td>argmax P(D|h)·P(h); önsel olasılığa duyarlı; eşit önselde ML</td></tr>
+        <tr><td>Kaba-kuvvet MAP</td><td>Tüm hipotezleri tara; P(h)=1/|H|; tutarlı ise 1/|VS|, tutarsızsa 0</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
