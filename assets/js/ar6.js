@@ -43,8 +43,8 @@
     for (var p = 0; p < 5; p++) { h += '<tr><td>' + (p + 1) + '</td>'; for (j = 0; j < show; j++) h += '<td>' + data[p][j] + '</td>'; h += (items > show ? '<td>…</td>' : '') + '<td><b>' + tot[p] + '</b></td></tr>'; }
     wrap.innerHTML = h + '</tbody></table><p style="font-size:.85rem;color:var(--muted)">İlk 5 kişi gösteriliyor; alfa 30 kişiyle hesaplanır.</p>';
     info.innerHTML = '<div class="metric"><b>' + f2(a) + '</b>Cronbach α</div><div class="metric"><b>' + f1(sd) + '</b>toplam puan sapması</div><div class="metric"><b>±' + f1(sem) + '</b>ölçmenin standart hatası</div>';
-    note.innerHTML = (a >= 0.8 ? '<b>Yüksek güvenirlik.</b>' : a >= 0.7 ? '<b>Kabul edilebilir güvenirlik</b> (yaygın ölçüt α ≥ 0,70).' : '<b>Düşük güvenirlik.</b>') +
-      ' Maddeler aynı özelliği ölçtükçe birlikte değişir ve α yükselir. Madde sayısını artırmak ya da gürültüyü azaltmak α’yı yükseltir; α yükselince ölçmenin standart hatası düşer: puandaki “şans payı” küçülür. SEm = SD·√(1 − α).';
+    note.innerHTML = (a >= 0.8 ? '<b>Yüksek tutarlılık.</b>' : a >= 0.6 ? '<b>Orta tutarlılık.</b>' : '<b>Düşük tutarlılık.</b>') +
+      ' Maddeler aynı özelliği ölçtükçe birlikte değişir ve α yükselir. Madde sayısını artırmak ya da gürültüyü azaltmak α’yı yükseltir; α yükselince ölçmenin standart hatası düşer: puandaki “şans payı” küçülür. SEm = SD·√(1 − α). (Bu üçlü sınıflama bu sitenin kabaca ayrımıdır; ders notunda kesin bir eşik verilmez.)';
   }
   [iK, iN].forEach(function (i) { i.addEventListener('input', draw); });
   regen(); draw();

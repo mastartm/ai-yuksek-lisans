@@ -85,6 +85,7 @@ scripts: gi6.js
       <li><b>Butterworth:</b> yumuşak geçiş; düzen arttıkça geçiş keskinleşir, halkalanma artar.</li>
       <li><b>Gauss:</b> hem uzayda hem frekansta Gauss; halkalanma üretmez.</li>
     </ul>
+    <div class="callout real"><b>Gerçek hayat: Tarama çizgileri ve şebeke bantları (ders notundaki örnek)</b>Periyodik parazitler, örneğin tarayıcı çizgileri ya da 50/60 Hz şebeke kaynaklı bantlar, spektrumda parlak noktalar olarak görünür. Notch (çentik) filtre yalnızca bu noktaları bastırır.</div>
   </div>
 </section>
 
@@ -93,6 +94,16 @@ scripts: gi6.js
     <div class="kicker">Frekans laboratuvarı · dene</div>
     <h2>Spektrumda çalış, sonucu gör</h2>
     <p>Sahneye düzenli bir şerit paraziti eklendi: spektrumda yatay eksende iki parlak nokta olarak görünür. Filtre türünü ve biçimini değiştir; kesim yarıçapını kaydır. Mavi alanlar bastırılan frekanslar:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Filtre türünü (alçak/yüksek geçiren, notch) ve biçimini (ideal, Butterworth, Gauss) seç. Kesim kaydırıcısını oynat.</li>
+        <li><b>Ne göreceksin:</b> Sol: şerit parazitli girdi. Orta: spektrum (parlak nokta = o frekansta çok enerji; mavi = filtrenin bastırdığı yer). Sağ: sonuç. Altta hata (MSE).</li>
+        <li><b>Ne anlamalısın:</b> Şerit paraziti spektrumda yatayda iki parlak nokta olarak görünür; notch yalnızca onları siler. İdeal alçak geçiren kenarda halkalanma yapar, Gauss yapmaz.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Spektrum</dt><dd>Görüntünün frekans bileşenlerinin haritası; merkez düşük frekanstır.</dd><dt>D₀ (kesim)</dt><dd>Filtrenin geçirdiği/bastırdığı frekans yarıçapı.</dd><dt>Halkalanma</dt><dd>Keskin kesimli filtrenin kenar çevresinde yarattığı dalgalanma.</dd><dt>MSE</dt><dd>Sonucun temiz görüntüden ortalama kare sapması.</dd></dl></details>
+      <p class="lab-src">Veri: sanal 32×32 sahne + eklenmiş şerit paraziti. Notundaki “tarama çizgileri, bantlar” örneğine denk gelir (Bölüm 6.2).</p>
+    </div>
     <div class="lab" id="freqlab"></div>
     <div class="callout idea"><b>Dene</b>İdeal alçak geçirenle halkalanmayı bul. Sonra Notch seç: kenarlar neredeyse bozulmadan şeritler silinir mi?</div>
   </div>
@@ -168,10 +179,11 @@ scripts: gi6.js
     <div class="kicker">Artefakt ve ölçüt</div>
     <h2>Neyi bozmadan, nasıl ölçeriz?</h2>
     <div class="peas-grid">
-      <div class="peas-c a"><b>Artefaktlar</b><b>Halkalanma</b>: ideal ve yüksek düzenli filtrelerde; yumuşak geçiş ve pencereleme azaltır. <b>Bantlama</b> (banding): düşük bit derinliğinde ve agresif yerel kontrastta; yüksek bit derinliği, küçük titreşim (dithering) çözer. <b>Sarmalanma</b>: dolgu ve kenar yumuşatma. Önce küçük bir test yamasında dene.</div>
+      <div class="peas-c a"><b>Artefaktlar</b><b>Halkalanma</b>: ideal ve yüksek düzenli filtrelerde; yumuşak geçiş ve pencereleme azaltır. <b>Bantlama</b> (banding): düşük bit derinliğinde ve agresif yerel kontrastta görülür; çözüm daha yüksek bit derinliği ya da küçük genlikli ve çok-ölçekli ayarlardır. <b>Sarmalanma</b>: dolgu ve kenar yumuşatma. Önce küçük bir test yamasında dene.</div>
       <div class="peas-c e"><b>Değerlendirme</b><b>PSNR</b> gürültü düzeyine kaba bir fikir verir ama algıyla birebir örtüşmez. <b>SSIM</b> ailesi parlaklık, kontrast ve yapıyı birlikte ölçer. Görev temelli ölçütler (kontrast-gürültü oranı, kenar netliği) ve öznel (insan) değerlendirme birlikte kullanılır.</div>
     </div>
     <div class="callout real"><b>Gerçek hayat: Fotoğraf yarışması</b>Bir sayı (PSNR) “daha az gürültü” der; jüri (öznel) “daha doğal” der. İkisini birlikte okumak gerekir.</div>
+    <div class="callout real"><b>Gerçek hayat: Tıbbi ve endüstriyel görüntüler (ders notundaki örnek)</b>Sayısal ölçütler yetmez: bu alanlarda uzman değerlendirmesi ve kontrollü görsel testler (çift kör karşılaştırma, sıralama deneyleri) vazgeçilmezdir.</div>
   </div>
 </section>
 

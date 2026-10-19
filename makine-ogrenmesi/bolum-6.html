@@ -66,6 +66,7 @@
       <div class="peas-c s"><b>Zorluk 2</b>En iyi Bayes hipotezini belirlemek, genel durumda hesaplama açısından pahalıdır.</div>
     </div>
     <div class="callout idea"><b>Teorik katkı</b>Belirli varsayımlar altında birçok yapay sinir ağı ve eğri uydurma algoritması, en olası (MAP) hipotezi bulmaya çalışır; yani Bayes dili onların da nedenini açıklar.</div>
+    <div class="callout real"><b>Gerçek hayat: Zatürre hastasının iyileşme şansı (ders notundaki örnek)</b>“Bu zatürre hastasının tamamen iyileşme şansı %93’tür” gibi olasılıklı hipotezler Bayes yöntemleriyle desteklenir. Kesin “iyileşir / iyileşmez” yerine inanç derecesi verilir.</div>
   </div>
 </section>
 
@@ -95,8 +96,19 @@
     <div class="kicker">Örnek · dene</div>
     <h2>Test pozitif çıktı: gerçekten hasta mısın?</h2>
     <p>İki hipotez: <b>h₁ = hasta</b>, <b>h₂ = hasta değil</b>. Test “pozitif” (⊕) ya da “negatif” (⊖) verir. Derste işlenen örnekte hastalık sıklığı %0,8, test hastaları %98 yakalar, sağlamları %3 yanlışlıkla pozitif gösterir. En olası hipotez (MAP) hangisi? Aşağıda sayıları değiştir. Noktalar: <b style="color:var(--bad)">kırmızı</b> gerçek pozitif, <b style="color:var(--warn)">sarı</b> kaçırılan hasta, <b style="color:var(--brand)">mavi</b> yanlış pozitif, gri sağlıklı negatif.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> “Derste işlenen örnek” düğmesine bas; sonra hastalık sıklığını, duyarlılığı ve yanlış alarmı değiştir.</li>
+        <li><b>Ne göreceksin:</b> 1000 kişilik nokta ızgarası ve altta P(h | pozitif) yazar.</li>
+        <li><b>Ne anlamalısın:</b> Hastalık nadirse test %98 doğru olsa bile pozitif çıkanların çoğu sağlamdır (derste örnekte yalnızca %21 hasta). Sonuç önsele güçlü biçimde bağlıdır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Önsel P(h)</dt><dd>Hastalık sıklığı: teste bakmadan önceki olasılık.</dd><dt>Duyarlılık P(+|h)</dt><dd>Hasta olanlarda testin pozitif çıkma oranı.</dd><dt>Yanlış alarm P(+|¬h)</dt><dd>Sağlam olanlarda testin pozitif çıkma oranı.</dd><dt>Ardıl P(h|+)</dt><dd>Test pozitif çıktıktan sonra hasta olma olasılığı.</dd><dt>MAP</dt><dd>Ardıl olasılığı en büyük olan hipotez.</dd></dl></details>
+      <p class="lab-src">Sayılar notundaki kanser örneğinden (0,008 / 0,98 / 0,03). Ekrandaki nokta ızgarası görselleştirme için eklendi.</p>
+    </div>
     <div class="lab" id="dxlab"></div>
     <div class="callout real"><b>Gerçek hayat: Alarm sistemi</b>Çok nadir olan bir arızada, doğruluğu yüksek bir alarm bile çoğunlukla yanlış alarm verir. Bu yüzden önsel (arızanın ne kadar sık olduğu) görmezden gelinmemelidir.</div>
+    <div class="callout real"><b>Gerçek hayat: Kanser testi, sayılarla (ders notundaki örnek)</b>1000 kişinin yaklaşık 8’i kanserdir. Test bunların 8’ine yakınını yakalar (%98), ama sağlam 992 kişinin yaklaşık 30’unu da yanlışlıkla pozitif gösterir (%3). Pozitif çıkanların yalnızca yaklaşık %21’i gerçekten hastadır; bu yüzden MAP hipotezi “kanser değil”dir.</div>
   </div>
 </section>
 
@@ -108,7 +120,6 @@
     <p class="big-quote" style="font-size:1.05rem">h_MAP = argmax P(D | h) · P(h)</p>
     <p>Örnekte: P(⊕|kanser)·P(kanser) = 0,98 × 0,008 = <b>0,0078</b>; P(⊕|¬kanser)·P(¬kanser) = 0,03 × 0,992 = <b>0,0298</b>. Büyük olan ¬kanser, yani <b>h_MAP = kanser değil</b>. Gerçek ardıl olasılık için normalize edilir: 0,0078 / (0,0078 + 0,0298) ≈ <b>0,21</b>.</p>
     <div class="callout idea"><b>İki sonuç</b>1) Bayes çıkarımı önsel olasılıklara güçlü biçimde bağlıdır. 2) Hipotezler tamamen kabul ya da reddedilmez; veri biriktikçe olasılıkları yükselir ya da düşer.</div>
-    <div class="callout idea"><b>ML ile fark</b>Tüm hipotezler eşit önsele sahipse MAP, <b>maksimum olabilirlik (ML)</b> hipotezine, yani P(D | h)’yi büyüten hipoteze dönüşür.</div>
   </div>
 </section>
 
@@ -140,8 +151,19 @@
     <div class="kicker">Kaba-kuvvet MAP · dene</div>
     <h2>Örnek geldikçe olasılıklar nasıl değişir?</h2>
     <p>12 eşik hipotezi var: h_t(x) = (x ≥ t). Gizli hedef kavram h5. Örnek x’i seçip etiketli eklediğinde (etiketi hedef kavram verir) uyumsuz hipotezlerin olasılığı 0’a düşer, kalanlar eşit paylaşır:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> x kaydırıcısıyla bir değer seç, “Etiketli örnek ekle”ye bas. Birkaç farklı x ile tekrarla.</li>
+        <li><b>Ne göreceksin:</b> Her hipotezin çubuğu: tutarsız olanlar silikleşir (olasılık 0), tutarlı olanlar eşit pay alır.</li>
+        <li><b>Ne anlamalısın:</b> Her örnek, ona aykırı hipotezleri eler; geriye kalanların her biri 1/|VS| olasılık taşır. Hedef kavrama yaklaştıkça tek hipotez kalır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>h_t</dt><dd>“x ≥ t ise 1” kuralı; toplam 12 aday hipotez.</dd><dt>VS (sürüm uzayı)</dt><dd>Verilerle tutarlı hipotezler kümesi.</dd><dt>Ardıl P(h|D)</dt><dd>Veri görüldükten sonra hipotezin olasılığı.</dd></dl></details>
+      <p class="lab-src">Eşik hipotezleri bu site için seçildi; mantık notundaki “kaba-kuvvet MAP” anlatımına (Bölüm 6.3.1) dayanır.</p>
+    </div>
     <div class="lab" id="maplab"></div>
     <div class="callout real"><b>Gerçek hayat: Dedektif yöntemi</b>Başta herkes eşit şüpheli. Her ifade çelişen kişiyi listeden çıkarır; geriye kalanların şüphesi artar.</div>
+    <div class="callout real"><b>Gerçek hayat: Şekil 6.1: olasılıkların gelişimi (ders notundaki örnek)</b>Başta tüm hipotezler eşit olasılıklıdır. Önce D₁, sonra D₂ gelince verilerle tutarsız hipotezlerin olasılığı sıfıra iner, kalanlarınki artar. Bir doktorun şüphelendiği hastalıkları bulgular geldikçe listeden çıkarması gibi.</div>
   </div>
 </section>
 

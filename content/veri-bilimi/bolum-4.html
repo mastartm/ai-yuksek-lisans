@@ -75,6 +75,16 @@ scripts: vb4.js
     <h2>Grafik yalnızca ayna değil, bir karardır</h2>
     <p>Bir grafik çizerken hangi değişkenin, hangi ölçekle, hangi renk ve düzenle gösterileceğine karar verirsin. Her karar, izleyicinin <b>neyi göreceğini</b> belirler. Bu yüzden grafik, bilginin üretiminde etkin bir parçadır; ayrıca ikna aracıdır.</p>
     <p>Kaydırıcıyla eksenin başlangıcını yukarı çek: aynı veri nasıl farklı görünüyor?</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Eksen başlangıcı kaydırıcısını 0’dan yukarı çek.</li>
+        <li><b>Ne göreceksin:</b> Dört çubuğun yüksekliği değişir; altta son çubuğun ilkinin kaç katı göründüğü yazar.</li>
+        <li><b>Ne anlamalısın:</b> Veri aynı (96→104, gerçek artış %8). Eksen kırpıldıkça fark çok büyük görünür: grafik izleyiciyi yanıltabilir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Eksen başlangıcı</dt><dd>Dikey eksenin gösterdiği en küçük değer. 0’dan başlamıyorsa çubuk oranları gerçeği yansıtmaz.</dd></dl></details>
+      <p class="lab-src">Sayılar sanal. Uyarı notundaki “ölçek manipülasyonu, eksen kırpma” bölümüne dayanır (Bölüm 4.3.1).</p>
+    </div>
     <div class="lab" id="axislab"></div>
     <div class="callout idea"><b>Etik uyarı</b>Eksen kırpma, ölçek oynama ve renk seçimi izleyiciyi yanıltabilir. Dürüst grafik, veriyi büyütmez ya da küçültmez; seçimlerini gizlemez.</div>
     <h3>Başka rolleri</h3>
@@ -84,6 +94,7 @@ scripts: vb4.js
       <li>Aynı grafik farklı alan uzmanlarına farklı şeyler söyler.</li>
       <li>Boyut indirgemeyle çizilen grafikte bilgi kaybı vardır; gösterilmeyen eksenlerde önemli varyans saklı kalabilir.</li>
     </ul>
+    <div class="callout real"><b>Gerçek hayat: Aynı ısı haritası, iki uzman (ders notundaki örnek)</b>Bir sağlık araştırmasında risk grubu ısı haritası, epidemiyologun hastalık yayılımı kuramlarını sınamasını sağlar. Aynı veri bir finans uzmanı için başka korelasyon fırsatlarını görünür kılar. Grafik, bakana göre farklı bilgi üretir.</div>
   </div>
 </section>
 
@@ -99,6 +110,7 @@ scripts: vb4.js
     </div>
     <div class="callout idea"><b>Odak + bağlam</b>İlgilenilen alt kümeyi öne çıkar, genel yapıyı arka planda tut. Ayrıntıyı ipucu penceresiyle ya da katmanlı görünümle kademeli ver.</div>
     <div class="callout real"><b>Gerçek hayat: Yönetim paneli</b>Bir panoda 30 grafik aynı parlaklıkta duruyorsa göz neye bakacağını bilemez. Tek bir ana metriği büyütmek dışsal yükü düşürür.</div>
+    <div class="callout real"><b>Gerçek hayat: Öğrenci performans panelleri (ders notundaki örnek)</b>Tüm göstergeleri aynı anda göstermek yerine öğrenme görevlerine göre kademeli sunmak, öğrencinin çalışma belleğini yormaz; bilişsel yükü azaltır.</div>
   </div>
 </section>
 
@@ -117,6 +129,16 @@ scripts: vb4.js
     <h2>PCA: en çok yayılan yönü bul</h2>
     <p>PCA, değişkenlerin doğrusal birleşimlerinden birbirinden bağımsız yeni eksenler üretir ve bunları <b>varyansı en büyük olandan küçüğe</b> sıralar. İlk eksen (PC1) verinin en çok yayıldığı yöndür. Veri, ilk birkaç eksene yansıtılınca boyut azalır ama bilginin çoğu korunur.</p>
     <p>Aşağıda noktaları bir doğruya yansıt. Eksenin açısını çevir ve izdüşümlerin (kırmızı) ne kadar yayıldığına bak:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Eksenin açısını kaydır; sonunda “En iyi eksene getir”e bas.</li>
+        <li><b>Ne göreceksin:</b> Kırmızı noktalar, mavi noktaların eksene izdüşümüdür. Altta eksenin açıkladığı varyans yüzdesi yazar.</li>
+        <li><b>Ne anlamalısın:</b> PCA, noktaların en çok yayıldığı yönü (PC1) bulur: izdüşümler birbirinden en uzak kalır, bilgi kaybı en az olur.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Varyans</dt><dd>Noktaların bir eksende ne kadar yayıldığı.</dd><dt>İzdüşüm</dt><dd>Bir noktanın eksene dik düşürülmüş karşılığı.</dd><dt>PC1</dt><dd>İlk temel bileşen: en büyük varyanslı eksen.</dd></dl></details>
+      <p class="lab-src">Veri: sanal 36 nokta. Fikir notundaki Bölüm 4.4.1’e dayanır.</p>
+    </div>
     <div class="lab" id="pcalab"></div>
     <ul>
       <li>Veri genellikle <b>ortalamadan merkezlenir</b> ve gerekirse ölçeklenir; yoksa büyük ölçekli değişken baskın çıkar.</li>

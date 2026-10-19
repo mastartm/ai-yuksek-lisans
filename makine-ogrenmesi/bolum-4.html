@@ -86,6 +86,16 @@
     <p>Tek bir örnek için güncelleme kuralı, <b>LMS</b> (least mean squares) kuralı olarak bilinir:</p>
     <p class="big-quote" style="font-size:1.05rem">θⱼ ← θⱼ + α · (y − h(x)) · xⱼ</p>
     <p>Güncelleme miktarı <b>hatayla orantılıdır</b>: hata küçükse adım küçük, hata büyükse adım büyük. Tahmin gerçeğin altındaysa (pozitif hata) θ artar, üstündeyse azalır. Aşağıda α’yı değiştirip adım at; çok büyük α’nın ne yaptığını da gör:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> α (öğrenme oranı) kaydırıcısını seç. “1 adım” ya da “20 adım”a bas; “Sıfırla” ile baştan başla.</li>
+        <li><b>Ne göreceksin:</b> Mavi çizgi noktalara yaklaşır; maliyet J düşer, eğim θ₁ oturur.</li>
+        <li><b>Ne anlamalısın:</b> Hata büyükken adım büyük, küçükken küçüktür. α çok büyükse adımlar çözümü aşar ve çizgi “patlar” (ıraksar).</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>α (öğrenme oranı)</dt><dd>Her adımın büyüklüğü.</dd><dt>Maliyet J</dt><dd>Tahminlerin gerçek değerlerden hata kareleri ortalaması (yarısı); ne kadar küçükse o kadar iyi.</dd><dt>θ₁</dt><dd>Doğrunun eğimi.</dd></dl></details>
+      <p class="lab-src">Veri: sanal 12 daire (alan → kira). Fikir, notundaki ev fiyatı örneğine ve LMS kuralına dayanır (Bölüm 4.2).</p>
+    </div>
     <div class="lab" id="gdlab"></div>
   </div>
 </section>
@@ -114,6 +124,16 @@
     <div class="kicker">Model karmaşıklığı · dene</div>
     <h2>Çok basit de kötü, çok esnek de</h2>
     <p>Doğru yetmezse x² gibi ekstra özellikler eklenir (karesel regresyon), sonra x³… Eğri noktalara daha çok oturur. Peki hep daha yüksek derece mi iyi? Kaydırıcıyı oynat; <b>eğitim hatası</b> ile <b>test hatasını</b> birlikte izle:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Polinom derecesi kaydırıcısını 1’den 8’e çıkar.</li>
+        <li><b>Ne göreceksin:</b> Eğri noktalara uyar. Dolu daireler eğitim, boş daireler test noktalarıdır; altta iki hata yazar.</li>
+        <li><b>Ne anlamalısın:</b> Derece 1’de eğri veriyi yakalayamaz (az uyum). 2–3’te iyi. 8’de eğitim hatası ≈ 0 olur ama test hatası büyür (aşırı uyum).</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Eğitim hatası</dt><dd>Modelin öğrenirken gördüğü noktalardaki hata.</dd><dt>Test hatası</dt><dd>Modelin görmediği noktalardaki hata; asıl önemli olan budur.</dd><dt>Derece</dt><dd>Eğrinin esnekliği (x, x², x³ …).</dd></dl></details>
+      <p class="lab-src">Veri: sanal 9 eğitim + 6 test noktası. Az/aşırı uyum fikri notundaki Şekil 4.1 anlatımına dayanır.</p>
+    </div>
     <div class="lab" id="polylab"></div>
     <div class="peas-grid">
       <div class="peas-c p"><b>Az uyum (underfit)</b>Model veriyi yeterince yakalayamaz. Eğitimde de testte de hata yüksektir.</div>
@@ -149,6 +169,16 @@
     <p>Hedef y yalnızca 0 ya da 1 ise doğrusal regresyon iyi sonuç vermez: çıktı 0–1 aralığının dışına taşar. Çözüm, doğrusal çıktıyı <b>sigmoid (lojistik) fonksiyonuyla</b> 0 ile 1 arasına sıkıştırmaktır:</p>
     <p class="big-quote" style="font-size:1.05rem">h(x) = g(θᵀx), &nbsp; g(z) = 1 / (1 + e⁻ᶻ)</p>
     <p>z çok büyükse g(z) 1’e, çok küçükse 0’a gider; z = 0’da tam 0,5’tir. Çıktı 1’e yakınsa model “sınıf 1”, 0’a yakınsa “sınıf 0” der. Kaydırıcıyla dene:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> z kaydırıcısını −8 ile +8 arasında gezdir.</li>
+        <li><b>Ne göreceksin:</b> Nokta sigmoid eğrisi üzerinde kayar; altta g(z) değeri ve model kararı yazar.</li>
+        <li><b>Ne anlamalısın:</b> g(z) hiçbir zaman 0’ın altına, 1’in üstüne çıkmaz; z = 0’da 0,5’tir. 0,5’in üstü “sınıf 1”, altı “sınıf 0” demektir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>z</dt><dd>Girdilerin ağırlıklı toplamı (θᵀx).</dd><dt>Sigmoid g(z)</dt><dd>z’yi 0–1 arasına sıkıştıran eğri: 1/(1+e⁻ᶻ).</dd></dl></details>
+      <p class="lab-src">Sigmoid tanımı notundaki Bölüm 4.3’ten alındı.</p>
+    </div>
     <div class="lab" id="siglab"></div>
     <div class="callout real"><b>Gerçek hayat: Kredi onayı</b>Gelir, borç gibi sayılardan “onay olasılığı” üretilir. Olasılık 0,5’i aşarsa onay, aşmazsa ret.</div>
   </div>

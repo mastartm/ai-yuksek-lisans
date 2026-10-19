@@ -77,6 +77,7 @@
       <li>Bilimsel verinin paylaşımında evrensel ya da alana özgü metadata standartları, verinin disiplinler arası dolaşımını kolaylaştırır.</li>
       <li>Kurumsal düzeyde yönetişim politikalarına gömülü etik ilkeler (mahremiyet, onay) bilgi organizasyonunun parçasıdır.</li>
     </ul>
+    <div class="callout real"><b>Gerçek hayat: Sağlık ve coğrafya standartları (ders notundaki örnek)</b>Sağlıkta HL7 FHIR gibi standartların, coğrafi bilgi sistemlerinde ISO 19115’e uygun açıklamaların meta-veriye işlenmesi, farklı sistemlerin verisini birlikte kullanabilmeyi kolaylaştırır.</div>
   </div>
 </section>
 
@@ -85,6 +86,16 @@
     <div class="kicker">Data lake · schema-on-read · dene</div>
     <h2>Önce sakla, sonra yorumla</h2>
     <p><b>Schema-on-write</b> (ambar): veri yüklenirken şemaya uydurulur; okuma hızlı ve tutarlı. <b>Schema-on-read</b> (göl): ham veri olduğu gibi saklanır, şema okuma ya da sorgu sırasında uygulanır; yeni alanlar depolamayı değiştirmeden okunabilir. Aşağıdaki aynı altı ham kaydı iki yaklaşımla oku:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Önce “Ambar” ya da “Göl” seç. Sonra “e-posta”, “telefon” gibi alanları açıp kapat.</li>
+        <li><b>Ne göreceksin:</b> Üstte ham kayıtlar, altında seçtiğin yaklaşımla okunmuş tablo görünür. Ambarda uymayan kayıtlar elenir, göl hepsini tutar.</li>
+        <li><b>Ne anlamalısın:</b> Ambar (schema-on-write) düzenli ve hızlıdır ama yeni alan eklemek şema değişikliği ister. Göl (schema-on-read) esnektir, ama her okumada dönüşüm ve temizlik gerekir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Şema</dt><dd>Verinin hangi alanlardan ve hangi türden oluştuğunun tanımı.</dd><dt>Ham kayıt</dt><dd>Yüklenirken hiç dönüştürülmemiş veri.</dd><dt>Reddedilen kayıt</dt><dd>Şemaya uymadığı için ambara alınmayan kayıt.</dd></dl></details>
+      <p class="lab-src">Veri: sanal 6 kayıt. Kavramlar notundaki Bölüm 6.2.1’e dayanır.</p>
+    </div>
     <div class="lab" id="schemalab"></div>
     <ul>
       <li><b>Esneklik ve bedel:</b> her sorguda dönüşüm ve yorumlama yükü oluşur; Spark SQL ya da Presto gibi motorlar HDFS gibi dağıtık sistemlerde bu yükü paralel işleyerek ölçekler ama bellek, ağ ve işlemci yönetimi gerektirir.</li>
@@ -109,6 +120,7 @@
       </tbody>
     </table></div>
     <div class="callout real"><b>Gerçek hayat: Kütüphane kataloğu</b>Kitapların rafta durması yetmez; hangi rafta, kim yazdı, hangi konu bilgisi (katalog) olmadan aradığını bulamazsın.</div>
+    <div class="callout real"><b>Gerçek hayat: Coğrafi ve finansal kayıtlar (ders notundaki örnek)</b>Coğrafi veri kümesinin meta-verisinde koordinat sistemi (CRS), çözünürlük ve mekânsal kapsam bulunmalıdır; finansal kayıtlarda ise para birimi gibi bağlama özgü bilgiler.</div>
   </div>
 </section>
 
@@ -122,8 +134,19 @@
       <li><b>Çok katmanlı erişim:</b> rol tabanlı erişim (RBAC) yanında bağlamsal politikalar (coğrafya) ve sorgu çıktısının dinamik maskelenmesi.</li>
       <li>Hassas kategoriler (köken, siyasi görüş) için değişkeni tümden atmak yerine sentetik veri ya da <b>diferansiyel gizlilik</b> gibi teknikler kullanılabilir.</li>
     </ul>
-    <p><b>k-anonimlik</b> fikri: her kayıt, yaş ve posta kodu gibi yarı tanımlayıcılar bakımından en az k−1 başka kişiyle ayırt edilemez olmalı. Genelleştirmeyi artırıp k’nin nasıl yükseldiğini izle:</p>
+    <p>Laboratuvar bu riski gösterir: yaş ve posta kodu gibi “yarı tanımlayıcılar” birleşince kaç kişi aynı görünüyor? Bu sayıya burada <b>k</b> diyoruz (<i>ders notunda k’nin adı geçmez; yeniden tanımlama riskini ölçmek için eklenen bir göstergedir</i>). Genelleştirmeyi artırıp k’nin nasıl yükseldiğini izle:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Yaşı genelleştir ve posta kodunu maskele kaydırıcılarını artır.</li>
+        <li><b>Ne göreceksin:</b> Tabloda her kişi için “aynı görünen kişi sayısı” yazar. Kırmızı satır, o özelliklerle tek başına kalan, yani kolayca tanınabilen kişidir.</li>
+        <li><b>Ne anlamalısın:</b> Ad silinse bile yaş ve posta kodu birlikte kişiyi ortaya çıkarabilir. Genelleştirdikçe grup büyür, yeniden tanımlama riski düşer; ama ayrıntı kaybolur.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Yarı tanımlayıcı</dt><dd>Tek başına kimliği vermeyen ama birleşince veren özellik (yaş, posta kodu).</dd><dt>k</dt><dd>Aynı özelliklere sahip en küçük grubun kişi sayısı. Ders notunda k’nın adı geçmez; yeniden tanımlama riskini ölçmek için eklenen bir göstergedir.</dd></dl></details>
+      <p class="lab-src">Veri: sanal 9 kişi. Fikir, notundaki “anonimleştirme tek başına yeterli değil, küçük nüfuslarda yeniden tanımlama” uyarısına dayanır (Bölüm 6.3.1).</p>
+    </div>
     <div class="lab" id="anonlab"></div>
+    <div class="callout real"><b>Gerçek hayat: Küçük nüfuslu topluluklar (ders notundaki örnek)</b>Sağlık kayıtları, biyometrik veriler ya da kültürel miras envanterleri gibi alanlarda anonimleştirme tek başına yeterli görülmeyebilir. Küçük nüfuslarda demografik değişkenlerin birleşimi kişiyi hâlâ ortaya çıkarabilir.</div>
   </div>
 </section>
 
@@ -142,6 +165,7 @@
       </tbody>
     </table></div>
     <div class="callout idea"><b>Gerilim</b>Sınırlar içinde tutulan veri korunaklıdır ama bilimsel iş birliği ve ekonomik entegrasyon paylaşım ister. Etik açıdan hareket, yerel bilginin izinsiz alınıp ticari ya da politik kazanç için kullanılmasına (bilgi sömürüsü) karşı bariyerdir.</div>
+    <div class="callout real"><b>Gerçek hayat: Ulusal veri merkezleri (ders notundaki örnek)</b>Bazı ülkeler kamu kurumlarının verilerini yalnızca ulusal veri merkezlerinde tutma zorunluluğu getirerek yerelleşme politikalarını uygulamıştır.</div>
   </div>
 </section>
 
@@ -156,7 +180,7 @@
       <div class="peas-c a"><b>Akıllı blockchain</b>Yapay zekâ ile birleşerek risk analizi, dolandırıcılık tespiti ve olağandışı işlem işaretleme.</div>
       <div class="peas-c s"><b>Egemenlikle bağ</b>Topluluklar kendi verileri üzerinde kontrolü yerel erişim protokollerini zincire kodlayarak güçlendirebilir.</div>
     </div>
-    <div class="callout idea"><b>Dikkat</b>Değiştirilmezlik “silinme hakkı” gibi GDPR yükümlülükleriyle gerilim yaratabilir; kişisel veriyi zincirin kendisine yazmak yerine yalnızca doğrulama bilgisini yazmak yaygın çözümdür.</div>
+    <div class="callout idea"><b>Dikkat</b>Bir kez yazılan kaydın silinememesi “unutulma hakkı” gibi yasal haklarla çelişebilir. Ders notunun önerisi: zincire doğrudan kişisel bilgi yazmamak, bunun yerine referans/hak iddia eden hash’leri saklamak; böylece asıl veri gerektiğinde silinebilir ama doğrulama ilişkisi korunur.</div>
   </div>
 </section>
 
@@ -171,7 +195,7 @@
         <tr><td>Bilgi organizasyonu</td><td>Ontoloji ve sözlüklerle anlam; semantik zenginlik = daha geniş madencilik</td></tr>
         <tr><td>Veri gölü</td><td>Ham saklama, şema okurken (schema-on-read); esnek ama sorgu başına maliyet ve “bataklık” riski</td></tr>
         <tr><td>Metadata</td><td>Merkezi havuz, denetim kaydı, veri keşfi, birlikte çalışabilirlik</td></tr>
-        <tr><td>GDPR</td><td>Kimliksizleştirme yetmez; RBAC + bağlamsal erişim + maskeleme; sentetik veri, diferansiyel gizlilik, k-anonimlik</td></tr>
+        <tr><td>GDPR</td><td>Kimliksizleştirme yetmez; RBAC + bağlamsal erişim + maskeleme; sentetik veri, diferansiyel gizlilik</td></tr>
         <tr><td>Veri egemenliği</td><td>Kontrol topluluğunda; yerelleşme, kapasite, federatif model</td></tr>
         <tr><td>Blockchain</td><td>Mutabakat, değiştirilmezlik, akıllı sözleşme; GDPR ile gerilim</td></tr>
       </tbody>

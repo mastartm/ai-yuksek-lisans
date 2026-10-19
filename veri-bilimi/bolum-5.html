@@ -74,6 +74,16 @@
     <div class="kicker">Bayes güncellemesi · dene</div>
     <h2>İnançlarını veriyle güncelle</h2>
     <p>Bir paranın tura gelme olasılığı θ bilinmiyor. Önsel inancını seç, sonra atış ekle. <b>Kesikli çizgi önsel</b>, <b>kalın çizgi ardıl</b> dağılımdır. Güçlü bir “adil” önsel, az veriyle ne kadar direniyor?</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Bir önsel seç (bilgisiz, “adil”, yanlı). “+1 tura”, “+1 yazı” ya da “+10 atış”la veri ekle.</li>
+        <li><b>Ne göreceksin:</b> Kesikli çizgi önsel inancı, kalın çizgi güncellenmiş inancı (ardıl) gösterir. Altta ardıl ortalama ve %95 aralık yazar.</li>
+        <li><b>Ne anlamalısın:</b> Az veride önsel baskındır (güçlü “adil” önsel kolay oynamaz). Veri çoğaldıkça ardıl veriye yaklaşır; farklı önsellerle başlayanlar birleşir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>θ</dt><dd>Paranın tura gelme olasılığı (bilinmeyen).</dd><dt>Önsel</dt><dd>Veriyi görmeden önceki inanç.</dd><dt>Ardıl</dt><dd>Veri sonrası inanç: önsel × olabilirlik.</dd><dt>Güvenilir aralık</dt><dd>Ardıl olasılığın %95’inin içinde kaldığı aralık.</dd></dl></details>
+      <p class="lab-src">Notunda para atışı örneği yoktur; Bayes güncellemesini (Bölüm 5.1.2) göstermek için ders örneği olarak eklendi.</p>
+    </div>
     <div class="lab" id="bayeslab"></div>
     <div class="callout real"><b>Gerçek hayat: Spam filtresi</b>Önsel: gelen postaların %30’u spam. Her yeni kelime (“kazandınız”) bu inancı günceller. Dünkü ardıl, bugünün önseli olur.</div>
   </div>
@@ -85,6 +95,16 @@
     <h2>Şans mı, gerçek mi? p-değeri</h2>
     <p>Hipotez testinde önce bir <b>sıfır hipotezi H₀</b> (“etki yok / para adil”) kurulur. Veri toplanır, test istatistiği ve <b>p-değeri</b> hesaplanır: H₀ doğruyken gözlediğin kadar ya da daha uç bir sonucu bulma olasılığı. p, önceden seçilen <b>α</b> düzeyinin (ör. 0,05) altındaysa H₀ reddedilir.</p>
     <p>Para adil mi? Atış sayısını ve gelen tura sayısını değiştir:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Atış sayısını (n) ve gelen tura sayısını (k) kaydır.</li>
+        <li><b>Ne göreceksin:</b> Grafik, para adilse (H₀) tura sayısının dağılımını gösterir; kırmızı çubuklar gözlenen kadar ya da daha uç sonuçlardır. Altta p-değeri ve karar yazar.</li>
+        <li><b>Ne anlamalısın:</b> p < 0,05 ise H₀ reddedilir. Aynı oran (%65) küçük örneklemde anlamsız, büyük örneklemde anlamlı çıkar: anlamlılık ≠ önem.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>H₀</dt><dd>Sıfır hipotezi: “para adil”, yani etki yok.</dd><dt>p-değeri</dt><dd>H₀ doğruyken gözlenen ya da daha uç sonucu bulma olasılığı.</dd><dt>α</dt><dd>Reddetme eşiği (burada 0,05).</dd></dl></details>
+      <p class="lab-src">Notunda para atışı örneği yoktur; p-değeri ve hipotez testi mantığını (Bölüm 5.2.1) göstermek için ders örneği olarak eklendi.</p>
+    </div>
     <div class="lab" id="plab"></div>
     <div class="scroll-x"><table class="cmp">
       <thead><tr><th>Durum</th><th>Test</th></tr></thead>
@@ -146,6 +166,7 @@
       <li><b>Başarı ölçütleri:</b> RMSE, MAE, MAPE; ek olarak yönlü doğruluk (düşüş mü yükseliş mi tahmin edildi) finansta kullanılır.</li>
     </ul>
     <div class="callout real"><b>Gerçek hayat: Satış tahmini</b>Yılbaşı gibi mevsimsel dalgalar ve trend, zaman serisinin yapısıdır; rastgele bölünmüş bir veriyle değil, zaman sırasını koruyarak test edilmelidir.</div>
+    <div class="callout real"><b>Gerçek hayat: Hisse senedi ve kripto fiyatları (ders notundaki örnek)</b>LSTM gibi mimariler, finansta hisse fiyatlarının sonraki adımlarını ya da kripto paraların oynak hareketlerini tahmin etmede ARIMA’ya göre daha iyi performans gösterdiğine dair çalışmalara konu olmuştur.</div>
   </div>
 </section>
 
@@ -156,7 +177,18 @@
     <p>Her birim için iki potansiyel sonuç düşünülür: tedavi alırsa Y(1), almazsa Y(0). Birey düzeyinde etki Y(1) − Y(0)’dır ama ikisi <b>aynı anda gözlenemez</b> (karşı-olgusallık sorunu). Hedef çoğunlukla ortalama etkidir: <b>ATE = E[Y(1) − Y(0)]</b>. Belirli alt gruplar için koşullu hâli <b>CATE</b>’dir.</p>
     <p>Anahtar varsayım: potansiyel sonuçların tedavi atamasından bağımsız olması: {Y(1), Y(0)} ⊥ T. <b>Seçkisiz atama</b> bunu sağlar. Gözlemsel veride tedaviye kimin girdiği sonucu da etkiliyorsa yanlılık oluşur.</p>
     <p>Aşağıda herkesin gerçek etkisi +5. Tedaviye gönüllüler mi girsin, seçkisiz mi atansın?</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> “Gönüllü katılım” ve “Seçkisiz atama” arasında geçiş yap; “Yeniden çalıştır”a birkaç kez bas.</li>
+        <li><b>Ne göreceksin:</b> Tedavi ve kontrol grubu ortalamaları ve aralarındaki fark yazar. Gerçek etki herkes için +5’tir.</li>
+        <li><b>Ne anlamalısın:</b> Gönüllü katılımda motivasyonu yüksek olanlar tedaviyi seçer; fark 5’ten çok büyük çıkar (seçim yanlılığı). Seçkisiz atamada fark 5’e yaklaşır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Tedavi / kontrol</dt><dd>Uygulamayı alan ve almayan grup.</dd><dt>ATE</dt><dd>Ortalama tedavi etkisi: E[Y(1) − Y(0)].</dd><dt>Seçim yanlılığı</dt><dd>Gruplar baştan farklı olduğu için farkın tedaviden gelmemesi.</dd></dl></details>
+      <p class="lab-src">Veri: sanal 600 kişi. Fikir notundaki Rubin modeli ve “atamanın bağımsızlığı” varsayımına dayanır (Bölüm 5.4.1).</p>
+    </div>
     <div class="lab" id="rubinlab"></div>
+    <div class="callout real"><b>Gerçek hayat: Takipten çıkan hastalar (ders notundaki örnek)</b>Tıbbi bir çalışmada bazı hastalar takipten çıkıyor ve iyileşme durumları bilinmiyor. Bu kayıplar uygun modellenmezse etki boyutu çarpıtılır (eksiklik MNAR ise standart yöntemler yanlı olur).</div>
   </div>
 </section>
 
@@ -174,6 +206,7 @@
       </tbody>
     </table></div>
     <div class="callout idea"><b>Dikkat</b>Varyasyonun gerçekten “doğal” (araştırılan sonuçtan bağımsız) olduğu ayrıca gösterilmelidir. Tek bir bağlamdan çıkan sonucun başka yerlere genellenip genellenemeyeceği tartışmalıdır.</div>
+    <div class="callout real"><b>Gerçek hayat: Kırsal elektrifikasyon (ders notundaki örnek)</b>Elektrifikasyon programı yalnızca belirli bölgelerde başlatılıyorsa, programın etkisini ölçmek için dışsal bir varyasyon doğar. Kıtlık gibi yalnızca bazı toplulukları etkileyen olaylar da aynı işi görür.</div>
   </div>
 </section>
 

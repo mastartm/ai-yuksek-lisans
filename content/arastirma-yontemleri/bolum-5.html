@@ -43,6 +43,7 @@ scripts: ar5.js
       <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">5</b>Gözlem birimi<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Hakkında veri toplanan, evrenin en küçük parçası. Küme örneklemede okul seçilir ama gözlem birimi öğrencidir.</span></button>
     </div>
     <div class="callout real"><b>Gerçek hayat: Seçim anketi</b>Evren: oy kullanacak herkes. Örneklem: aranan 1.500 kişi. Parametre: gerçek oy oranı (seçimden önce bilinmez). İstatistik: ankette çıkan oran.</div>
+    <div class="callout real"><b>Gerçek hayat: Hedef evren ve ulaşılabilir evren (ders notundaki örnek)</b>Çocuk haklarını konu alan bir tezde Türkiye’deki ilkokul çocukları <b>hedef evren</b>, Ankara ilindeki ilkokul öğrencileri ise <b>ulaşılabilir evrendir</b>. Örneklem ulaşılabilir evrenden çekilir; sonuçların hedef evrene taşınması ayrıca yorum gerektirir.</div>
   </div>
 </section>
 
@@ -64,8 +65,20 @@ scripts: ar5.js
     <h2>Basit seçkisiz ve tabakalı örnekleme</h2>
     <p><b>Basit seçkisiz:</b> her birime eşit ve bağımsız seçilme şansı verilir. Bunun için evren birimlerinin bilinmesi ve listelenmesi gerekir. <b>Tabakalı:</b> evren, birbirine benzeyen alt gruplara (tabakalara) bölünür ve her tabakadan ayrı ayrı çekiliş yapılır; böylece her alt grubun örneklemde bulunması güvence altına alınır.</p>
     <p>Aşağıda evrende 100 okul var: 70 tanesi A grubu (mavi), 30 tanesi B grubu (turuncu zeminli). 10’luk örneklem çek, yöntemleri değiştir ve B payına bak:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Bir yöntem seç (basit seçkisiz, sistematik, tabakalı, uygun), sonra “Yeni örneklem çek”e birkaç kez bas.</li>
+        <li><b>Ne göreceksin:</b> Seçilen birimler renkli görünür. Üstte, 10’luk örneklemde kaç birimin B grubundan geldiği yazar.</li>
+        <li><b>Ne anlamalısın:</b> Evrenin %30’u B grubu olduğundan 10’luk örnekte ideal sayı 3’tür. Tabakalı yöntem hep 3 verir; basit seçkisiz yöntem her çekilişte oynar; uygun örnekleme (ilk 10 birim) B grubunu hiç yakalamaz.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Evren</dt><dd>Sonuçların geçerli olacağı büyük grup (burada 100 birim).</dd><dt>Örneklem</dt><dd>Evrenden seçilen 10 birim.</dd><dt>B grubu</dt><dd>Evrenin %30’unu oluşturan alt grup; notundaki “lise türlerine göre değişen sorun” fikrinin sadeleştirilmiş hâli.</dd></dl></details>
+      <p class="lab-src">Veri: bu site için üretilmiş sanal 100 birimlik evren. Yöntemler notundaki Bölüm 5.3’e dayanır.</p>
+    </div>
     <div class="lab" id="samplab"></div>
     <div class="callout real"><b>Gerçek hayat: Anket</b>Okulda öğrencilerin %30’u yurtta kalıyorsa ve basit seçkisiz çekilişte hiç yurt öğrencisi denk gelmezse sonuç yanıltır. Tabakalı örnekleme bunu önler.</div>
+    <div class="callout real"><b>Gerçek hayat: Ankara’da lise devamsızlığı (ders notundaki örnek)</b>Liselerde okula devamsızlık araştırılıyor. Öğrenci listesine ulaşılabiliyorsa listeden <b>öğrenci</b> çekilir (örnekleme birimi eleman). Liste verilmezse önce <b>liseler</b> listelenip okul çekilir (örnekleme birimi küme). İkisi de basit seçkisiz örneklemedir.</div>
+    <div class="callout real"><b>Gerçek hayat: Lise türlerine göre tabakalama (ders notundaki örnek)</b>Devamsızlık sorunu lise türüne göre değişiyorsa her lise türü bir <b>tabaka</b> olur ve her türden ayrı örneklem çekilir. Böylece hiçbir lise türü örneklemde eksik kalmaz.</div>
   </div>
 </section>
 
@@ -106,6 +119,16 @@ scripts: ar5.js
     <div class="kicker">Örneklem büyüklüğü · dene</div>
     <h2>Kaç kişiye ulaşmalıyım?</h2>
     <p>Gereken büyüklük üç şeye bağlıdır: <b>kabul edilen sapma (d)</b>, evrenin <b>değişkenliği</b> (sürekli değişkenlerde varyans S², süreksiz değişkenlerde PQ) ve istenen <b>güven düzeyi</b> (t değeri). Kaydırıcıları oynat:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Evren büyüklüğünü (N), sapma miktarını (d), oranı (P) kaydır; güven düzeyini seç.</li>
+        <li><b>Ne göreceksin:</b> Gereken örneklem büyüklüğü ve evrenin kaçta kaçı olduğu hesaplanır.</li>
+        <li><b>Ne anlamalısın:</b> Sapma miktarı küçüldükçe gereken örneklem hızla büyür. Evren çok büyüyünce gereken sayı sabitlenmeye başlar. P = %50 en büyük (en güvenli) örneklemi verir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>d (sapma miktarı)</dt><dd>Tahminde kabul ettiğin en büyük hata payı; ±5 puan gibi.</dd><dt>Güven düzeyi</dt><dd>Tahminin doğru aralıkta kalma güveni; %95 için t = 1,96.</dd><dt>P</dt><dd>Bir özelliğe sahip olanların evren oranı. Bilinmiyorsa 0,5 alınır.</dd></dl></details>
+      <p class="lab-src">Formül ve değerler notundaki Bölüm 5.4 ve Tablo 3.1’den alındı (N = 500, d = 0,05 için 218).</p>
+    </div>
     <div class="lab" id="nlab"></div>
     <h3>Hesaplama adımları</h3>
     <ol>

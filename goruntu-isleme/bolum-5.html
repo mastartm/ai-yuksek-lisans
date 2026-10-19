@@ -124,6 +124,16 @@
     <div class="kicker">Filtre laboratuvarı · dene</div>
     <h2>Gürültüyü seç, filtreyi seç, sonucu gör</h2>
     <p>Sahnede iki kenar bölgesi, parlak ve koyu birer kare var. Gürültü türünü ve filtreyi değiştir; <b>hata (MSE)</b> ile <b>kenar dikliğini</b> birlikte izle. Önemli soru: gürültü düşerken kenar da bozuluyor mu?</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Gürültü türünü, filtreyi ve çekirdek boyutunu seç. “Yeni gürültü çek” ile gürültüyü yenile.</li>
+        <li><b>Ne göreceksin:</b> Üç görüntü yan yana: temiz sahne, gürültülü girdi, filtre sonucu. Altında girdi hatası, sonuç hatası ve kenar dikliği yazar.</li>
+        <li><b>Ne anlamalısın:</b> İyi filtre sonuç hatasını (MSE) düşürürken kenar dikliğini 100’e yakın tutar. Tuz-biberde medyan bunu başarır; ortalama ve Gauss gürültüyü azaltır ama kenarı bulanıklaştırır; keskinleştirme gürültüyü büyütür.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>MSE</dt><dd>Sonucun temiz görüntüden ortalama kare sapması. Küçük olması iyidir.</dd><dt>Kenar dikliği</dt><dd>Koyu–parlak geçişin ne kadar keskin kaldığı (temiz görüntüde 100).</dd><dt>Gauss gürültüsü</dt><dd>Her piksele rastgele küçük sapma eklenir.</dd><dt>Tuz-biber gürültüsü</dt><dd>Rastgele siyah ve beyaz noktalar.</dd><dt>Çekirdek</dt><dd>Filtrenin bir pikselde baktığı küçük pencere (3×3 gibi).</dd></dl></details>
+      <p class="lab-src">Veri: kodla üretilmiş sanal 32×32 sahne. Filtrelerin tanımı notundaki Bölüm 5.4–5.6’ya dayanır.</p>
+    </div>
     <div class="lab" id="filtlab"></div>
     <div class="callout idea"><b>Dene</b>Tuz-biber gürültüsünde ortalama ile medyanı karşılaştır. Sonra “Yok” gürültüde keskinleştirmeyi, Gauss gürültüsünde keskinleştirmeyi dene.</div>
   </div>
@@ -184,7 +194,7 @@
     <h2>AHE ve CLAHE: her bölgeye kendi histogramı</h2>
     <p>Global histogram eşitleme tüm görüntüyü tek dönüşümle değiştirir; bölgelerin kontrast ihtiyacı farklıysa yetmez. <b>AHE</b> görüntüyü döşemelere (tile) bölüp her döşemede yerel eşitleme yapar. <b>CLAHE</b> buna kontrast üst sınırı (<b>klip limiti</b>) ekler; böylece gürültü aşırı büyümez.</p>
     <div class="peas-grid">
-      <div class="peas-c p"><b>Üç parametre</b>Döşeme boyutu (küçük: çok yerel kontrast, mozaik riski), klip limiti (küçük: aşırı tepe engellenir), enterpolasyon şeması (döşeme sınırlarını yumuşatır).</div>
+      <div class="peas-c p"><b>Üç parametre</b>Döşeme boyutu (küçük: çok yerel kontrast, mozaik riski), klip limiti (küçük: aşırı tepe engellenir), interpolasyon şeması (döşeme sınırlarını yumuşatır).</div>
       <div class="peas-c e"><b>Avantaj</b>Düzensiz aydınlatmada yerel ayrıntıyı açar; CLAHE ile gürültü artışı denetlenir.</div>
       <div class="peas-c a"><b>Dezavantaj</b>Yanlış parametre mozaik, bantlama ve yapay doku yaratır; düşük SNR’de gürültü kısmen artar.</div>
     </div>

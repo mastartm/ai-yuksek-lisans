@@ -77,7 +77,7 @@ window.QUIZ_GI_6 = {
       explain: 'Karmaşık sahnelerde öğrenme tabanlı yöntemler daha tutarlıdır.', ref: '6.7' },
     { topic: 'Artefakt', q: 'Banding (ton basamakları) en çok ne zaman görülür?',
       options: ['Düşük bit derinliğinde ve agresif yerel kontrast artırımında', 'Yüksek bit derinliğinde', 'Hiç görülmez', 'Yalnızca notch filtrede'], correct: 0,
-      explain: 'Çözüm daha yüksek bit derinliği ya da küçük titreşim eklemektir.', ref: '6.9 Artefaktlar ve Önleme' },
+      explain: 'Çözüm daha yüksek bit derinliği ya da küçük genlikli ve çok-ölçekli ayarlardır.', ref: '6.9 Artefaktlar ve Önleme' },
     { topic: 'Değerlendirme', q: 'PSNR için hangisi doğrudur?',
       options: ['Gürültü düzeyi hakkında kaba bir fikir verir ama algısal kaliteyle birebir örtüşmeyebilir', 'Algıyla mükemmel örtüşür', 'Yalnızca renk ölçer', 'Kullanılmaz'], correct: 0,
       explain: 'SSIM ailesi parlaklık, kontrast ve yapıyı birlikte değerlendirerek algıya daha yakındır.', ref: '6.10 Değerlendirme' },

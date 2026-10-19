@@ -55,6 +55,16 @@
     <h2>En iyi ayırıcı, iki sınıfa da en uzak olandır</h2>
     <p>Doğrusal ayrılabilen iki sınıf arasına sonsuz sayıda doğru çizilebilir. Hedef, <b>daha önce görülmemiş</b> örneklerde en az hata yapacak olanı bulmaktır. Üç boyutta bu bir düzlem, çok boyutta bir <b>hiperdüzlemdir</b>. Destek vektör makinesi, iki sınıf arasındaki boşluğu (<b>marj</b>) en büyük yapan hiperdüzlemi arar. Karar sınırına en yakın noktalara <b>destek vektörleri</b> denir.</p>
     <p>Çizgiyi çevir ve kaydır. Önce sınıfları ayır, sonra aralığı büyütmeye çalış; en sonda düğmeyle en iyisini gör:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Önce açı ve konum kaydırıcılarıyla çizgiyi iki sınıfı ayıracak biçimde getir. Sonra aralığı büyütmeye çalış; en sonda “En geniş aralığı bul”a bas.</li>
+        <li><b>Ne göreceksin:</b> Çizgiyle birlikte kesikli iki marj çizgisi görünür. Altta aralık genişliği ve destek vektörü sayısı yazar; yeşil halka destek vektörünü gösterir.</li>
+        <li><b>Ne anlamalısın:</b> Birçok çizgi sınıfları ayırır, ama iki sınıfa da en uzak olan (en geniş aralıklı) seçilir. Çizgiyi yalnızca ona en yakın noktalar (destek vektörleri) belirler.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Marj</dt><dd>Ayırıcı çizgiyle en yakın noktalar arasındaki boşluk.</dd><dt>Destek vektörü</dt><dd>Marj sınırında duran, çizgiyi belirleyen noktalar.</dd><dt>Hiperdüzlem</dt><dd>İki boyutta bir doğru; üç boyutta bir düzlem.</dd></dl></details>
+      <p class="lab-src">Veri: sanal 12 nokta. Fikir notundaki Bölüm 5.1.1 ve Şekil 5.3’e dayanır.</p>
+    </div>
     <div class="lab" id="svmlab"></div>
     <div class="callout real"><b>Gerçek hayat: Yol çizgisi</b>İki şerit arasına çizgiyi iki kenara eşit uzaklıkta çekersin; ne bir yana kaçarsın ne öbürüne. Marj bu emniyet payıdır.</div>
   </div>
@@ -85,6 +95,7 @@
       <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Kural</b>Mercer şartı<span class="tip">tıkla</span></span><span class="back"><b class="k">Nedir?</b>K’nın geçerli çekirdek olması için gerek ve yeter şart: çekirdek matrisi simetrik ve pozitif yarı-kesin olmalı (hiçbir özdeğeri negatif olmamalı).</span></button>
     </div>
     <div class="callout real"><b>Gerçek hayat: Haritada kestirme</b>Her yolu tek tek ölçmek yerine hazır bir formülle iki nokta arası mesafeyi doğrudan almak gibi: sonucu bilirsin, ara adımları üretmezsin.</div>
+    <div class="callout real"><b>Gerçek hayat: Ev fiyatı (ders notundaki örnek)</b>Evin yaşam alanı x ile fiyat y arasındaki ilişkiye x, x² ve x³ özellikleriyle regresyon yapılırsa x’ten yeni özellikler türetilmiş olur: özellik eşlemesi φ(x). Bu eşleme çok büyük bir vektör verirse çekirdek hilesi, φ’yi hiç hesaplamadan K(x, z)’yi doğrudan hesaplatır.</div>
   </div>
 </section>
 
@@ -99,7 +110,7 @@
       <li><b>Çıkış katmanı:</b> sınıf tahmini. Ağırlıklı toplamlar doğrusal olmayan bir <b>aktivasyon fonksiyonundan</b> geçer.</li>
       <li><b>Katman sayma:</b> giriş katmanı sayılmaz. Bir gizli + bir çıkış katmanı = <b>iki katmanlı</b> ağ.</li>
     </ul>
-    <div class="callout idea"><b>Neden doğrusal olmayan aktivasyon?</b>Aktivasyon yoksa katmanlar arka arkaya dizilse de sonuç tek bir doğrusal model olur. Aktivasyon ağa doğrusal olmayan regresyon yapma gücü verir; yeterli gizli birim ve veriyle neredeyse her fonksiyona yaklaşabilir.</div>
+    <div class="callout idea"><b>Neden doğrusal olmayan aktivasyon?</b>Aktivasyon fonksiyonu ağa doğrusal olmayan regresyon yapma gücü verir; yeterli gizli birim ve veriyle neredeyse her fonksiyona yaklaşabilir.</div>
   </div>
 </section>
 
@@ -108,6 +119,16 @@
     <div class="kicker">Neden gizli katman? · dene</div>
     <h2>XOR: tek doğruyla çözülemeyen problem</h2>
     <p>XOR, iki girdi farklıysa 1, aynıysa 0 verir. Dört noktayı tek doğruyla ayıramazsın. Önce tek birimin ağırlıklarını oynat: en iyi ihtimalle 3 / 4 doğru alırsın. Sonra gizli katman ekle:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Önce w₁, w₂ ve b kaydırıcılarıyla tek birimi XOR’a uydurmaya çalış. Sonra “Gizli katman ekle”ye bas.</li>
+        <li><b>Ne göreceksin:</b> Dört girdi için hedef, çıktı ve doğru/yanlış tablosu ve “kaç / 4 doğru” yazar.</li>
+        <li><b>Ne anlamalısın:</b> Tek birimle (tek doğru) en çok 3/4 doğru alırsın; XOR doğrusal ayrılamaz. Gizli katman eklenince 4/4 olur.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>XOR</dt><dd>İki girdi farklıysa 1, aynıysa 0.</dd><dt>w, b</dt><dd>Ağırlık ve eşik (bias): birimin girdileri nasıl toplayıp karar verdiği.</dd><dt>Gizli katman</dt><dd>Girdi ile çıkış arasındaki ara birimler.</dd></dl></details>
+      <p class="lab-src">Notunda XOR yoktur; “gizli katman doğrusal olmayan sınır öğrenir” fikrini (Bölüm 5.2.1) göstermek için ders örneği olarak eklendi.</p>
+    </div>
     <div class="lab" id="xorlab"></div>
     <div class="callout real"><b>Gerçek hayat: İki anahtarlı lamba</b>Koridorun iki ucundaki anahtarlardan yalnızca biri açıksa lamba yanar: XOR. Tek bir eşik kuralı bunu yazamaz; ara bir “kim açık?” katmanı gerekir.</div>
   </div>

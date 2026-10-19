@@ -44,6 +44,8 @@ scripts: yz5.js
       <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">4</b>Açıklama<span class="tip">tıkla</span></span><span class="back"><b class="k">Nasıl?</b>Karar gerekçeyle sunulabilir: “Şemsiye al dedim çünkü yağmur yağıyor ve yağmur hava ıslanmasına yol açar.” Açıklanabilir yapay zekânın (XAI) temelidir.</span></button>
     </div>
     <div class="callout real"><b>Gerçek hayat: Programlama</b>if-else, AND/OR/NOT ve veritabanı sorguları mantığın günlük kullanımıdır.</div>
+    <div class="callout real"><b>Gerçek hayat: Anahtar kullanan robot (ders notundaki örnek)</b>Bir robot “kapı kilitliyse anahtar kullan” gibi kuralları bilir. Yeni bir durumla karşılaşınca bu bilgiyi genişletip yeni eylem planı çıkarabilmesi mantığa dayanır.</div>
+    <div class="callout real"><b>Gerçek hayat: Labirent (ders notundaki örnek)</b>Bir labirentte “duvar varsa sağa dön” gibi mantıksal kurallar zincirlenerek hedefe ulaşılır.</div>
   </div>
 </section>
 
@@ -66,7 +68,7 @@ scripts: yz5.js
     <ul>
       <li><b>Model:</b> her atomik önermeye D (doğru) ya da Y (yanlış) atayan bir dünya durumu.</li>
       <li><b>Gerektirme (⊨):</b> KB ⊨ α, KB’nin doğru olduğu <i>her</i> modelde α’nın da doğru olması demektir.</li>
-      <li><b>Totoloji:</b> her modelde doğru olan cümle.</li>
+      <li><b>Tautoloji:</b> her modelde doğru olan cümle.</li>
     </ul>
     <div class="callout idea"><b>Sık hata</b>“P ⇒ Q” yalnızca P doğruyken Q’yu zorlar. P yanlışsa cümle, Q ne olursa olsun doğrudur.</div>
   </div>
@@ -77,6 +79,16 @@ scripts: yz5.js
     <div class="kicker">Çıkarım sınaması · dene</div>
     <h2>Doğruluk tablosuyla çıkarımı sına</h2>
     <p>Yöntem basit: tüm olası D/Y atamalarını yaz, <b>KB’nin doğru olduğu satırlara</b> bak. Sorgu bu satırların hepsinde doğruysa KB ⊨ α geçerlidir. Dört örneği dene; sonuncusu tipik bir mantık hatasıdır:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Dört örnekten birini seç ve tablodaki satırları incele.</li>
+        <li><b>Ne göreceksin:</b> Her satır bir dünya durumudur. Mavi satırlar KB’nin doğru olduğu durumlardır; sorgu bunların hepsinde doğruysa çıkarım geçerlidir.</li>
+        <li><b>Ne anlamalısın:</b> Çıkarım, KB’nin doğru olduğu her satırda sorgu da doğruysa geçerlidir. Son örnekte KB doğruyken sorgu yanlış olduğu bir satır var: çıkarım geçersizdir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>KB</dt><dd>Bilgi tabanı: elindeki cümleler kümesi.</dd><dt>KB ⊨ α</dt><dd>KB’nin doğru olduğu her durumda α da doğrudur.</dd><dt>D / Y</dt><dd>Doğru / yanlış.</dd></dl></details>
+      <p class="lab-src">Notundaki doğruluk tablosu örneği 1. örnektir (P, P ⇒ Q ⊨ Q). Diğer üçü karşılaştırma için eklendi (modus tollens notunda geçmez).</p>
+    </div>
     <div class="lab" id="ttlab"></div>
     <div class="callout idea"><b>Bedel</b>n atomik önerme için 2ⁿ satır gerekir. Küçük bilgi tabanlarında öğreticidir; büyüklerde pratik değildir.</div>
   </div>
@@ -96,6 +108,7 @@ scripts: yz5.js
       </tbody>
     </table></div>
     <div class="callout real"><b>Gerçek hayat: Doktor ve arıza servisi</b>Önce bulguları toplayıp olası tüm teşhisleri çıkarmak ileri zincirlemedir. “Bu hastalık olsa hangi bulgular olurdu, bakayım” demek geri zincirlemedir.</div>
+    <div class="callout real"><b>Gerçek hayat: MYCIN ve Prolog (ders notundaki örnek)</b>MYCIN gibi tıbbi teşhis sistemleri ileri zincirlemeyle çalışan uzman sistem örneğidir. Prolog programlama dili ise tamamen geri zincirleme mantığına dayanır.</div>
   </div>
 </section>
 
@@ -104,6 +117,16 @@ scripts: yz5.js
     <div class="kicker">İleri ve geri zincirleme · dene</div>
     <h2>Aynı kurallar, iki yön</h2>
     <p>Hedefi seç; iki yöntemin attığı adımları karşılaştır:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Bir hedef seç (ŞemsiyeAl, MontGiy ya da GözlükTak).</li>
+        <li><b>Ne göreceksin:</b> Solda ileri zincirleme (tüm sonuçlar), sağda geri zincirleme (yalnızca hedefin kanıtı) adım adım yazar.</li>
+        <li><b>Ne anlamalısın:</b> İleri zincirleme hedeften bağımsız her sonucu üretir; geri zincirleme yalnızca hedefi destekleyen kurallara bakar. Gerçeklerde olmayan hedef (GözlükTak) hiçbirinde kanıtlanamaz.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Gerçek</dt><dd>Bilgi tabanında doğru kabul edilen bilgi (Yağmur).</dd><dt>Kural</dt><dd>A ⇒ B biçiminde bilgi.</dd><dt>Hedef</dt><dd>Kanıtlamak istediğin sonuç.</dd></dl></details>
+      <p class="lab-src">Örnek, notundaki Yağmur → HavaIslak → ŞemsiyeAl zincirinin genişletilmiş hâlidir (Bölüm 5.1.3.1).</p>
+    </div>
     <div class="lab" id="chainlab"></div>
   </div>
 </section>
@@ -181,7 +204,7 @@ scripts: yz5.js
       <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
       <tbody>
         <tr><td>Mantığın amacı</td><td>Biçimsel temsil ve akıl yürütme; bilgi tabanlı ajan, planlama, açıklama</td></tr>
-        <tr><td>Önerme mantığı</td><td>Önermeler, ¬ ∧ ∨ ⇒ ⇔; model; KB ⊨ α; totoloji</td></tr>
+        <tr><td>Önerme mantığı</td><td>Önermeler, ¬ ∧ ∨ ⇒ ⇔; model; KB ⊨ α; tautoloji</td></tr>
         <tr><td>Çıkarım</td><td>Doğruluk tablosu (2ⁿ), ileri (veri güdümlü), geri (hedef güdümlü), çözümleme (eksiksiz)</td></tr>
         <tr><td>Sınırlar</td><td>Genelleme, ilişki, değişken, zaman, belirsizlik, ölçek yok</td></tr>
         <tr><td>FOL</td><td>Sabit, yüklem, fonksiyon, değişken, niceleyici; ∀ ile ⇒, ∃ ile ∧</td></tr>

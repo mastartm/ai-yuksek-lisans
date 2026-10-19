@@ -74,12 +74,13 @@
     <div class="scroll-x"><table class="cmp">
       <thead><tr><th>İfade 1</th><th>İfade 2</th><th>θ</th></tr></thead>
       <tbody>
-        <tr><td class="mono">Biliyor(Ali, x)</td><td class="mono">Biliyor(Ali, Ayşe)</td><td class="mono">{x / Ayşe}</td></tr>
-        <tr><td class="mono">Biliyor(Ali, x)</td><td class="mono">Biliyor(y, Anne(y))</td><td class="mono">{y / Ali, x / Anne(Ali)}</td></tr>
-        <tr><td class="mono">Biliyor(Ali, x)</td><td class="mono">Biliyor(x, Ayşe)</td><td><b>başarısız</b> (iki ayrı x aynı anda Ali ve Ayşe olamaz); değişkenleri <i>standartlaştırınca</i> çözülür</td></tr>
+        <tr><td class="mono">Biliyor(John, x)</td><td class="mono">Biliyor(John, Jane)</td><td class="mono">{x / Jane}</td></tr>
+        <tr><td class="mono">Biliyor(John, x)</td><td class="mono">Biliyor(y, Bill)</td><td class="mono">{x / Bill, y / John}</td></tr>
+        <tr><td class="mono">Biliyor(John, x)</td><td class="mono">Biliyor(y, Anne(y))</td><td class="mono">{y / John, x / Anne(John)}</td></tr>
+        <tr><td class="mono">Biliyor(John, x)</td><td class="mono">Biliyor(x, Elizabeth)</td><td><b>başarısız</b>: x aynı anda hem John hem Elizabeth olamaz; değişkenleri <i>yeniden adlandırınca</i> (standardizing apart) çözülür</td></tr>
       </tbody>
     </table></div>
-    <div class="callout idea"><b>En genel birleştirici</b>Birden çok birleştirici varsa, en az kısıt koyan “en genel birleştirici” (MGU) tercih edilir. Birleştirme sırasında “x, kendisini içeren bir terime eşlenemez” kontrolü (occur check) yapılır.</div>
+    <div class="callout idea"><b>En genel birleştirici</b>Birden çok birleştirici varsa değişkenlere en az kısıt koyan “en genel birleştirici” (MGU) kullanılır. Oluşum kontrolü (occur check) de gerekir: S(x) ile S(S(x)) birleştirilemez.</div>
   </div>
 </section>
 
@@ -89,7 +90,7 @@
     <h2>Genelleştirilmiş modus ponens</h2>
     <p>Önermelerde modus ponens “P ve P ⇒ Q varsa Q”dur. Birinci derecede, birleştirme ile genelleştirilir:</p>
     <p class="big-quote" style="font-size:1.05rem">p₁′, …, pₙ′ ve (p₁ ∧ … ∧ pₙ ⇒ q) ile UNIFY(pᵢ′, pᵢ) = θ ise SUBST(θ, q) çıkar.</p>
-    <p>Bu kural yalnızca <b>kesin yan bağlaçlarla</b> (definite clause: tam bir pozitif literal içeren cümleler) çalışır. Örnek kural: <span class="mono">Amerikalı(x) ∧ Silah(y) ∧ Satar(x, y, z) ∧ Düşman(z) ⇒ Suçlu(x)</span>. Önceden önermeye çevirmeden doğrudan <b>değişkenli</b> çıkarım yaptığı için buna <b>yükseltilmiş</b> (lifted) çıkarım denir.</p>
+    <p>Bu kural yalnızca <b>kesin yan bağlaçlarla</b> (definite clause: tam bir pozitif literal içeren cümleler) çalışır. Örnek: <span class="mono">Kral(x) ∧ Açgözlü(x) ⇒ Kötü(x)</span>; gerçekler: <span class="mono">Kral(John)</span> ve <span class="mono">Açgözlü(y)</span> (herkes açgözlüdür). Birleştirme θ = {x/John, y/John} ile sonuç <span class="mono">Kötü(John)</span> çıkar (ders notundaki örnek). Önceden önermeye çevirmeden doğrudan <b>değişkenli</b> çıkarım yaptığı için buna <b>yükseltilmiş</b> (lifted) çıkarım denir.</p>
     <div class="callout real"><b>Gerçek hayat: Şablon eşleştirme</b>“Bir kişi bir ürünü satın aldıysa, o ürünün sahibidir” kuralı tek bir kez yazılır; sistem her yeni satın alma kaydında değişkenleri (kişi, ürün) eşleyerek kuralı uygular.</div>
   </div>
 </section>
@@ -99,13 +100,13 @@
     <div class="kicker">İleriye zincirleme</div>
     <h2>Gerçeklerden başla, yeni gerçekler üret</h2>
     <p>Algoritma, <b>kesin yan bağlaçlar</b> içeren bir bilgi tabanında, öncülleri bilinen bir kural bulundukça sonucunu bilgi tabanına ekler. Yeni gerçek gelmeyene kadar sürer. Veri güdümlüdür; bu yüzden uzman sistemlerde ve üretim kurallarında sık kullanılır.</p>
-    <h3>Verimlilik için üç fikir</h3>
+    <h3>Verimlilik zorlukları (ders notu)</h3>
     <ul>
-      <li><b>Artımlı eşleme:</b> yalnızca <i>yeni</i> gerçekten tetiklenen kurallar kontrol edilir.</li>
-      <li><b>Kural öncüllerini sıralama:</b> en kısıtlayıcı öncül önce eşlenir (örneğin en az eşleşme veren).</li>
-      <li><b>Rete ağı gibi dizinleme:</b> kuralların öncülleri ortak yapı olarak saklanıp tekrar hesaplama önlenir.</li>
+      <li><b>Örüntü eşleştirme:</b> bir kuralın öncüllerini çok sayıda gerçekle eşlemek yoğun hesap gerektirebilir.</li>
+      <li><b>Tekrarlayan hesaplamalar:</b> saf bir uygulama her adımda her kuralı ve her gerçek kombinasyonunu yeniden kontrol edebilir.</li>
+      <li><b>Alakasız gerçekler:</b> sorgudan bağımsız tüm yeni gerçekler üretilir; geniş bilgi tabanlarında çok gereksiz çıkarım doğar.</li>
     </ul>
-    <div class="callout idea"><b>Kısıt ve uyarı</b>Fonksiyon sembolü yoksa (Datalog) algoritma <b>sonlanır</b>; fonksiyon varsa sonsuz sayıda gerçek üretilebilir. Hedefle ilgisiz çok sonuç da üretebilir.</div>
+    <div class="callout idea"><b>Ne zaman uygun?</b>Yeni bilgi geldikçe bilgi tabanını güncelleyen ya da bir durumun tüm sonuçlarını keşfetmesi gereken sistemlerde etkilidir; üretim sistemleri ve bazı dedüktif veritabanları bu yaklaşımı kullanır. Algoritma, hiçbir yeni gerçek eklenemediğinde ya da hedefe ulaşıldığında durur.</div>
   </div>
 </section>
 
@@ -124,8 +125,8 @@
     </table></div>
     <p><b>Prolog</b>, mantık programlamanın temsilcisidir: program kesin yan bağlaçlardan oluşur, çalışma <b>geriye zincirleme + derinlik öncelikli arama</b>dır. Örnek: <span class="mono">ölümlü(X) :- insan(X).</span></p>
     <ul>
-      <li><b>Verimlilik sorunları:</b> sonsuz döngü (özyinelemeli kurallar), tekrarlanan alt hedefler (önbellekleme / tablolama ile çözülür).</li>
-      <li>Prolog sorgu sırasını ve kural sırasını kullandığından yazım sırası sonucu ve hızı etkiler.</li>
+      <li><b>Verimlilik sorunları (ders notu):</b> aynı alt hedefin tekrar tekrar ispatlanmaya çalışılması; döngüsel kurallarda (A ⇒ B ve B ⇒ A) sonsuz döngü; kısıtların (x &gt; 5 gibi) mümkün olduğunca <b>erken</b> kontrol edilmemesi.</li>
+      <li>Prolog bir yol başarısız olunca önceki seçim noktalarına geri döner (geri izleme / backtracking) ve alternatifleri dener.</li>
     </ul>
   </div>
 </section>
@@ -141,6 +142,16 @@
       <div class="peas-c a"><b>3 · Boş yan bağlaç?</b>Çıkarsa KB ⊨ α. Yeni çözümleyici üretilemiyorsa ve boş yan bağlaç yoksa KB, α’yı gerektirmez.</div>
     </div>
     <p>İkili çözümleme + <b>faktörleme</b> (birleştirilebilir fazla literalleri bire indirme) birlikte eksiksizdir. Sorgu seçip adım adım ilerle:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Bir sorgu seç, “Bir çözümleme adımı”na bas; ya da “Sonuna kadar”.</li>
+        <li><b>Ne göreceksin:</b> Tabloda yan bağlaçlar eklenir; her yeni satırın hangi iki satırdan çıktığı yazar. Boş yan bağlaç (□) çıkarsa ispat tamamdır.</li>
+        <li><b>Ne anlamalısın:</b> Sorguyu ispatlamak için olumsuzunu KB’ye eklersin; çelişki (□) çıkarsa sorgu doğrudur. Çıkmıyorsa KB sorguyu gerektirmez.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Yan bağlaç</dt><dd>Literallerin “veya”sı (¬Yağmur ∨ HavaIslak).</dd><dt>Literal</dt><dd>Bir önerme ya da olumsuzu.</dd><dt>□ (boş yan bağlaç)</dt><dd>Çelişki işareti.</dd><dt>Çürütme</dt><dd>Sonucun olumsuzunu ekleyip çelişki bularak ispatlama.</dd></dl></details>
+      <p class="lab-src">Çürütme yöntemi notundaki Bölüm 6.1.4’e dayanır. Şemsiye kuralları, önceki bölümlerle bağ kurmak için seçildi.</p>
+    </div>
     <div class="lab" id="resolab"></div>
   </div>
 </section>
@@ -160,6 +171,7 @@
       </tbody>
     </table></div>
     <div class="callout real"><b>Gerçek hayat: Havalimanına çıkış zamanı</b>“90 dakika önce çıkarsam yetişirim” kesin kural değildir; olasılığı vardır. Kaçırmanın bedeli ile erken beklemenin bedelini tartarak karar verirsin.</div>
+    <div class="callout real"><b>Gerçek hayat: Diş ağrısı ve çürük (ders notundaki örnek)</b>Belirli bir hastanın dişi ağrıyorsa %80 olasılıkla çürüğü olduğuna inanırız. Bu inanç, bu durumdaki hastaların %80’inde çürük olacağı beklentisine dayanır; istatistiksel veriden ya da diş hekimliği bilgisinden gelebilir.</div>
   </div>
 </section>
 
@@ -209,6 +221,16 @@
     <p>Çok sayıda kanıtla çalışmak için P(x₁, …, xₙ | C) ifadesi basitleştirilir: <b>P(x₁ … xₙ | C) ≈ P(x₁|C) · … · P(xₙ|C)</b>. Böylece sınıflandırıcı:</p>
     <p class="big-quote" style="font-size:1.05rem">seç: argmax P(C) · Π P(xᵢ | C)</p>
     <p>Adımlar: (1) sınıfların önselini say, (2) her sınıf için özellik olasılıklarını hesapla, (3) yeni örnekte skoru her sınıf için çarpıp en büyüğünü seç. Bir e-postada geçen kelimeleri seç:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Önsel kaydırıcısını ayarla; e-postada geçen kelimelere (bedava, kredi, toplantı, rapor) tıkla.</li>
+        <li><b>Ne göreceksin:</b> Seçtiğin kelimelerin olasılıkları tabloya girer; altta iki sınıfın skoru ve P(spam | kelimeler) yazar.</li>
+        <li><b>Ne anlamalısın:</b> Naive Bayes her kelimeyi bağımsız sayıp olasılıkları çarpar ve büyük skoru seçer. Önsel ve her kelime kararı çevirebilir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Önsel P(spam)</dt><dd>Kelimelere bakmadan önce bir e-postanın spam olma oranı.</dd><dt>P(kelime | sınıf)</dt><dd>O sınıfta kelimenin geçme olasılığı.</dd><dt>Naif varsayım</dt><dd>Kelimeler sınıf verilince birbirinden bağımsızdır.</dd></dl></details>
+      <p class="lab-src">Kelime örnekleri notundaki spam örneğinden (kredi, şimdi kazan, bedava). Olasılık sayıları sanaldır.</p>
+    </div>
     <div class="lab" id="nblab"></div>
     <div class="scroll-x"><table class="cmp">
       <thead><tr><th>Avantaj</th><th>Dezavantaj</th></tr></thead>
@@ -217,6 +239,8 @@
       </tbody>
     </table></div>
     <p>Kullanım: metin sınıflandırma, spam tespiti, tıbbi teşhis, duygu analizi.</p>
+    <div class="callout real"><b>Gerçek hayat: Spam kelimeleri (ders notundaki örnek)</b>Bir e-postada “kredi”, “şimdi kazan”, “bedava” gibi kelimeler geçiyorsa, bu kelimelerin spam e-postalarda ne sıklıkla geçtiğinden e-postanın spam olma olasılığı hesaplanır.</div>
+    <div class="callout real"><b>Gerçek hayat: Naif varsayımın zayıflığı (ders notundaki örnek)</b>Diş ağrısı ve diş hassasiyeti, çürük verildiğinde bağımsız sayılır. Oysa gerçekte çürükle birlikte iki belirti de birbiriyle ilişkili olabilir. Varsayım kusurlu ama modeli basit ve veri ihtiyacını az tutar.</div>
   </div>
 </section>
 

@@ -619,3 +619,14 @@ ul.dayflow li.dim { opacity: .45; }
 /* Laboratuvarlarda ardışık düğme satırları arasında boşluk */
 .lab .chips { margin: 8px 0; }
 .lab .chips + .chips { margin-top: 10px; }
+
+/* Laboratuvar çerçevesi: ne yapacaksın / ne göreceksin / ne anlamalısın */
+.lab-frame { border: 1px solid var(--line); border-left: 4px solid var(--brand); border-radius: 10px; padding: 10px 14px; margin: 12px 0; background: var(--surface); }
+.lab-frame ul { margin: 6px 0; padding-left: 1.1em; }
+.lab-frame li { margin: 4px 0; }
+.lab-frame details { margin-top: 6px; }
+.lab-frame summary { cursor: pointer; font-weight: 600; color: var(--brand); }
+.lab-frame dl { margin: 6px 0 0; }
+.lab-frame dt { font-weight: 700; margin-top: 6px; }
+.lab-frame dd { margin: 0 0 0 .8em; }
+.lab-frame .lab-src { font-size: .85rem; color: var(--muted); margin: 8px 0 0; }

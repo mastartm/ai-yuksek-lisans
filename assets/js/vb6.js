@@ -74,7 +74,7 @@
       kinfo.innerHTML = '<div class="metric"><b>k = ' + k + '</b>her kayıt en az k kişiyle aynı görünür</div><div class="metric"><b>' + risky + '</b>benzersiz (yeniden tanımlanabilir) kayıt</div>';
       knote.innerHTML = k === 1 ? '<b>Risk yüksek.</b>Yaş ve posta kodu gibi “yarı tanımlayıcılar” birleşince bazı kayıtlar tek kişiye indirgeniyor (kırmızı). Adı silmek yetmez: komşuluk bilgisi biliniyorsa kişi ve hastalığı bulunur. Genelleştirmeyi artır.' :
         k < 3 ? '<b>Kısmen korumalı.</b>Her kayıt en az ' + k + ' kişiyle ortak; daha güvenli için k’yi büyüt (ama ayrıntı kaybolur).' :
-        '<b>k = ' + k + ':</b>her kayıt en az ' + k + ' kişiyle aynı görünüyor. Bedeli bilgi kaybı: yaş ve konum ayrıntısı azaldı; analiz değeri ile mahremiyet arasında denge kurulur. k-anonimlik tek başına yeterli değildir; diferansiyel gizlilik gibi ek teknikler de kullanılır.';
+        '<b>k = ' + k + ':</b>her kayıt en az ' + k + ' kişiyle aynı görünüyor. Bedeli bilgi kaybı: yaş ve konum ayrıntısı azaldı; analiz değeri ile mahremiyet arasında denge kurulur. Genelleştirme tek başına yeterli değildir; notundaki gibi sentetik veri ve diferansiyel gizlilik gibi ek teknikler de kullanılır.';
     }
     [iA, iZ].forEach(function (i) { i.addEventListener('input', draw); });
     draw();

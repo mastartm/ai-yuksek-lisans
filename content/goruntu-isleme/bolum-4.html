@@ -62,6 +62,7 @@ scripts: gi4.js
       </tbody>
     </table></div>
     <div class="callout real"><b>Gerçek hayat: Satranç tahtasında kaçış</b>Taş yalnızca düz gidebiliyorsa 4, çapraz da gidebiliyorsa 8-bitişiklik gibi düşün. m ise “çapraz geçiş için iki yanındaki yol da kapalı olmalı” kuralıdır.</div>
+    <div class="callout real"><b>Gerçek hayat: OCR ve harfler (ders notundaki örnek)</b>Belge tarama ve OCR sistemlerinde harfleri birbirinden ayırmak için çoğunlukla 4-bağlılık seçilir. Latin harflerinin çoğu dikey ve yatay çizgilerden oluştuğu için çapraz bir pikselin iki harfi yanlışlıkla birleştirmesi böylece önlenir.</div>
   </div>
 </section>
 
@@ -71,8 +72,19 @@ scripts: gi4.js
     <h2>Yol, bağlılık ve bağlı bileşen</h2>
     <p>Bir <b>yol</b>, iki piksel arasında seçilen bitişiklik tanımına uyan ardışık piksellerin dizisidir. Dört bitişiklikte yol yalnızca yatay-dikey adımlardan oluşur; sekizde çapraz adım da vardır ve çoğu zaman daha kısa yol çıkar. İki piksel arasında geçerli bir yol varsa <b>bağlıdırlar</b>.</p>
     <p>Aynı sınıftan (örneğin hepsi 1) ve birbirine bağlı piksel kümesine <b>bağlı bileşen</b> denir. Segmentasyon, nesne sayma ve tanıma bu fikre dayanır. Aşağıdaki ızgarada hücrelere tıklayarak şekli değiştir; bitişiklik türünü seçince bileşen sayısının nasıl değiştiğini izle:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Üstte 4-, 8- ya da m-bitişikliği seç. İstersen hücrelere tıklayıp pikselleri aç/kapat.</li>
+        <li><b>Ne göreceksin:</b> Her bağlı bileşen ayrı renk ve numara alır; altta nesne pikseli ve bileşen sayısı yazar.</li>
+        <li><b>Ne anlamalısın:</b> Aynı şekil 4-bitişiklikte çok parçaya bölünür, 8-bitişiklikte birleşir. m-bitişiklikte bileşenler 8-bitişiklikle aynı çıkar, ama aralarındaki yol tek olur (çift yol sorunu kalkar).</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Piksel = 1</dt><dd>Nesneye ait piksel (renkli hücre).</dd><dt>Bağlı bileşen</dt><dd>Aynı sınıftan olup aralarında geçerli bir yol bulunan piksel kümesi.</dd><dt>Bitişiklik</dt><dd>İki pikselin “komşu sayılma” kuralı (yatay-dikey ya da çapraz da).</dd></dl></details>
+      <p class="lab-src">Veri: sanal 8×8 ikili görüntü. Tanımlar notundaki Bölüm 4.2–4.5’e dayanır.</p>
+    </div>
     <div class="lab" id="cclab"></div>
     <div class="callout real"><b>Gerçek hayat: Hücre sayma</b>Mikroskop görüntüsünde hücreleri sayarken iki hücre yalnızca köşeden değiyorsa 8-bitişiklik onları tek hücre sayar, 4-bitişiklik iki hücre sayar. Yöntem seçimi sonucu değiştirir.</div>
+    <div class="callout real"><b>Gerçek hayat: Damarlar ve nehirler (ders notundaki örnek)</b>Tıbbi görüntüdeki damar dallanmaları ya da uydu görüntüsündeki eğik yollar ve nehirler çapraz ilerler. 8-bağlılık bu yapıları kesintisiz çıkarır; 4-bağlılıkta parçalara ayrılırlardı.</div>
   </div>
 </section>
 
@@ -109,6 +121,16 @@ scripts: gi4.js
     <div class="kicker">Uzaklık · dene</div>
     <h2>Pikseller arası uzaklık: üç yol</h2>
     <p>p = (x, y) ve q = (s, t) için üç temel ölçü kullanılır. Izgarada iki noktaya sırayla tıkla ve değerleri karşılaştır:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Izgarada iki kez tıkla: önce p noktasını, sonra q noktasını yerleştir. Sonraki tıklamalar sırayla bunları taşır.</li>
+        <li><b>Ne göreceksin:</b> D₄, D₈ ve Öklid uzaklığı hemen güncellenir.</li>
+        <li><b>Ne anlamalısın:</b> Hep D₈ ≤ Dₑ ≤ D₄ çıkar. D₄ yalnızca dik adımları, D₈ çapraz adımı da 1 sayar.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>D₄ (city-block)</dt><dd>|Δsatır| + |Δsütun|: yalnızca yatay-dikey yürüyen taksi.</dd><dt>D₈ (satranç)</dt><dd>max(|Δsatır|, |Δsütun|): çapraz adım da 1.</dd><dt>Dₑ (Öklid)</dt><dd>Kuş uçuşu uzaklık: √(Δsatır² + Δsütun²).</dd></dl></details>
+      <p class="lab-src">Formüller notundaki Bölüm 4.8’den alındı.</p>
+    </div>
     <div class="lab" id="distlab"></div>
     <div class="scroll-x"><table class="cmp">
       <thead><tr><th>Ölçü</th><th>Formül</th><th>Anlamı</th></tr></thead>
