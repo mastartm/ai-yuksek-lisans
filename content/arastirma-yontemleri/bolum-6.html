@@ -1,0 +1,152 @@
+<!--
+course: arastirma-yontemleri
+course_title: Araştırma Yöntemleri
+no: 6
+title: Verilerin Toplanması
+quiz: QUIZ_AR_6
+quiz_file: ar-bolum-6-quiz.js
+scripts: ar6.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Araştırma Yöntemleri · Bölüm 6</div>
+    <h1>Verilerin Toplanması: Doğru Ölçüyor muyuz?</h1>
+    <p class="big-quote">Bozuk bir baskül her sabah 3 kilo fazla gösteriyorsa tutarlıdır ama doğru değildir. Her sabah farklı bir sayı gösteriyorsa ne tutarlıdır ne doğru. Araştırmada veri toplarken de iki soru sorarız: <b>tutarlı mı</b> (güvenirlik) ve <b>doğru şeyi mi ölçüyor</b> (geçerlik)?</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Ölçme, güvenirlik ve geçerlik kavramlarını ayırt edebilirsin.</li>
+      <li>Güvenirlik yöntemlerini (Cronbach α, test-tekrar test, yarılama…) karşılaştırabilirsin.</li>
+      <li>Geçerlik türlerini sayabilirsin.</li>
+      <li>Anket geliştirme adımlarını anlatabilirsin.</li>
+      <li>Gözlem ve görüşme türlerini ayırt edebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Veri toplama araçları ve iki kalite ölçütü</h2>
+    <svg class="diagram" viewBox="0 0 760 210" role="img" aria-label="Ölçme araçları: test, anket, gözlem, görüşme; kalite ölçütleri güvenirlik ve geçerlik"><rect class="d-brand" x="20" y="20" width="150" height="60" rx="8"/><text class="d-txt d-c" x="95" y="55">Ölçme / test</text><rect class="d-ok" x="190" y="20" width="150" height="60" rx="8"/><text class="d-txt d-c" x="265" y="55">Anket</text><rect class="d-warn" x="360" y="20" width="150" height="60" rx="8"/><text class="d-txt d-c" x="435" y="55">Gözlem</text><rect class="d-box" x="530" y="20" width="150" height="60" rx="8"/><text class="d-txt d-c" x="605" y="55">Görüşme</text><path class="d-line-brand" d="M95 80 L95 120 L330 120"/><path class="d-line-brand" d="M265 80 L265 120"/><path class="d-line-brand" d="M435 80 L435 120"/><path class="d-line-brand" d="M605 80 L605 120 L440 120"/><rect class="d-ok" x="150" y="130" width="200" height="60" rx="8"/><text class="d-txt d-c" x="250" y="158">Güvenirlik</text><text class="d-sm d-c" x="250" y="178">tutarlı mı?</text><rect class="d-warn" x="410" y="130" width="200" height="60" rx="8"/><text class="d-txt d-c" x="510" y="158">Geçerlik</text><text class="d-sm d-c" x="510" y="178">doğru şeyi mi ölçüyor?</text></svg>
+    <p>Hangi araç kullanılırsa kullanılsın, toplanan verinin değeri bu iki ölçüte bağlıdır.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Ölçme">
+  <div class="panel">
+    <div class="kicker">Ölçme</div>
+    <h2>Bir niteliği gözleyip sayıyla göstermek</h2>
+    <p>Ölçme, bir niteliğin gözlenip sonucun <b>sayı ya da başka sembollerle</b> gösterilmesidir. Bunun için üç şey gerekir: ölçülecek bir nitelik, onu gözleyebilecek uygun bir araç ve gözlem sonuçlarını sayıya çevirecek kurallar. Hipotezlerin sınanması gözleme dayalıdır; araştırmanın başarısı da ölçümlerin <b>tutarlılığına</b> ve ölçülen özelliği ne ölçüde <b>temsil ettiğine</b> bağlıdır.</p>
+    <div class="callout real"><b>Gerçek hayat: Zeka, mutluluk, memnuniyet</b>Boy metreyle ölçülür; “müşteri memnuniyeti” doğrudan görülmez. Bir ölçekle (ör. 5’li Likert) dolaylı ölçülür. Bu yüzden ölçek kalitesi baştan sorgulanmalıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Güvenirlik: tek uygulama">
+  <div class="panel">
+    <div class="kicker">Güvenirlik · kartlara tıkla</div>
+    <h2>Güvenirlik: ölçüm tutarlı mı?</h2>
+    <p>Güvenirlik, ölçme sonuçlarının tesadüfi hatalardan arınma, yani tutarlılık derecesidir. Araca bir kez uygulama ile hesaplananlar:</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Madde varyansı</b>Kuder-Richardson (KR-20)<span class="tip">tıkla</span></span><span class="back"><b class="k">Ne zaman?</b>Maddeler doğru/yanlış (1/0) puanlanırken. Maddeler benzer davranışları ölçtükçe güvenirlik yükselir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Madde varyansı</b>Cronbach alfa (α)<span class="tip">tıkla</span></span><span class="back"><b class="k">Ne zaman?</b>Madde puanları sürekli kabul edildiğinde; özellikle Likert tipi ölçeklerde en yaygın yöntem.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Madde varyansı</b>Hoyt varyans analizi<span class="tip">tıkla</span></span><span class="back"><b class="k">Nasıl?</b>Bireylere ait kareler ortalaması ile hata kareler ortalaması farkının, bireylere ait kareler ortalamasına bölünmesiyle bulunur.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Yarılama</b>Testi yarılama<span class="tip">tıkla</span></span><span class="back"><b class="k">Nasıl?</b>Test iki eş yarıya bölünür, yarıların puanları arasındaki korelasyon bulunur ve Spearman-Brown ya da Rulon yöntemiyle tüm test için güvenirlik tahmin edilir.</span></button>
+    </div>
+    <div class="callout idea"><b>İki uygulamayla</b>Eşdeğer (paralel) formlar yöntemi: aynı özelliği ölçen, ortalama ve standart sapması eşit iki form. <b>Test-tekrar test:</b> aynı test aynı gruba belli aralıkla iki kez uygulanır, puanlar arası korelasyon “kararlılık” göstergesidir. <b>Değerlendiriciler arası tutarlılık:</b> iki ya da daha çok bağımsız gözlemcinin puanlarının uyumu.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Cronbach alfa">
+  <div class="panel">
+    <div class="kicker">Cronbach alfa · dene</div>
+    <h2>Maddeler birlikte hareket ediyor mu?</h2>
+    <p>Sanal bir ankette 30 kişi 5’li Likert maddelerini yanıtladı. Madde sayısını ve maddelerin rastlantısal “gürültüsünü” değiştir; α ve ölçmenin standart hatasını izle:</p>
+    <div class="lab" id="alphalab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Standart hata ve etkenler">
+  <div class="panel">
+    <div class="kicker">Ölçmenin standart hatası</div>
+    <h2>Puanın “şans payı” ve onu etkileyenler</h2>
+    <p>Ölçmenin standart hatası (SEm), gözlenen puanın gerçek puandan ne kadar sapabileceğini gösterir: <b>SEm = SD · √(1 − güvenirlik)</b>. Güvenirlik katsayısı grubun homojenliğine göre değişir; SEm ise gruba daha az bağımlıdır.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Araca bağlı</b>Madde sayısı arttıkça güvenirlik yükselir. Belirsiz yönerge ve kötü yazılmış maddeler güvenirliği düşürür.</div>
+      <div class="peas-c e"><b>Bireye ve gruba bağlı</b>Motivasyon, hastalık, uykusuzluk, kaygı puanı gerçek puandan uzaklaştırır. Grup ölçülen özellik bakımından homojense güvenirlik katsayısı düşük çıkar.</div>
+      <div class="peas-c a"><b>Uygulama koşullarına bağlı</b>Standart olmayan koşullar, çok kısa süre (performans yansımaz) ya da çok uzun süre (kopya fırsatı) güvenirliği bozar.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="Geçerlik">
+  <div class="panel">
+    <div class="kicker">Geçerlik</div>
+    <h2>Geçerlik: ölçmek istediğimizi mi ölçüyoruz?</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Tür</th><th>Soru</th></tr></thead>
+      <tbody>
+        <tr><td><b>Kapsam (içerik) geçerliği</b></td><td>Maddeler, ölçülmek istenen davranışlar evrenini temsil ediyor mu? Çoğunlukla uzman görüşüyle sınanır.</td></tr>
+        <tr><td><b>Ölçüte dayalı geçerlik</b></td><td>Puanlar, ilişkili olduğu düşünülen bir ölçütle (başka bir ölçme sonucu) ne kadar ilişkili? Ölçütün kendisi geçerli ve güvenilir olmalı.</td></tr>
+        <tr><td><b>Yapı geçerliği</b></td><td>Test, psikolojik bir yapıyı (kaygı, tutum gibi) beklenen biçimde yansıtıyor mu? Genellikle faktör analiziyle incelenir.</td></tr>
+        <tr><td><b>Görünüş geçerliği</b></td><td>Araç, adı ve soruları ile ölçmek istediğini ölçüyor <i>görünüyor</i> mu? Bilimsel kanıt değil, izlenimdir.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Geçerliği düşüren etkenler</h3>
+    <ul>
+      <li>Düşük güvenirlik: tutarsız ölçüm geçerli olamaz.</li>
+      <li>Yetersiz sayıda ya da kalitesiz madde: davranış alanı iyi örneklenmez.</li>
+      <li>Puanlayıcı yanlılığı (el yazısı, davranış gibi ilgisiz etkenler).</li>
+      <li>Gürültülü ya da uygunsuz uygulama koşulları.</li>
+    </ul>
+    <div class="callout idea"><b>İlişkileri</b>Güvenirlik, geçerliğin gerek koşuludur ama yeter koşulu değildir: tutarlı ölçüm yanlış şeyi ölçüyor olabilir (hep 3 kilo fazla gösteren baskül).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Anket geliştirme">
+  <div class="panel">
+    <div class="kicker">Anket · kartlara tıkla</div>
+    <h2>Geçerli ve güvenilir anket nasıl geliştirilir?</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">1</b>Problemi tanımla<span class="tip">tıkla</span></span><span class="back"><b class="k">Ne yapılır?</b>Amaç ve alt problemler açıkça yazılır; temel ve ilgili değişkenler kuramsal çerçeveden belirlenir. Her alt problem bir madde grubuna dönüşür.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">2</b>Madde yaz<span class="tip">tıkla</span></span><span class="back"><b class="k">Ne yapılır?</b>Kavramsal çerçeve ve benzer araştırmalar taranarak madde havuzu oluşturulur; tutum ve inanç gibi kavramlarda başka kaynaklardan da yararlanılır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">3</b>Uzman görüşü, ön form<span class="tip">tıkla</span></span><span class="back"><b class="k">Ne yapılır?</b>Uzmanlar maddelerin gereken veriyi toplamaya yeterli olup olmadığını değerlendirir (kapsam geçerliği); form buna göre düzeltilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">4</b>Ön uygulama ve son hâl<span class="tip">tıkla</span></span><span class="back"><b class="k">Ne yapılır?</b>Hedef kitleye benzer küçük bir grupla denenir; geçerlik ve güvenirlik analizlenir, sorunlu maddeler düzeltilir ya da atılır, anket son şeklini alır.</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Kurs değerlendirme formu</b>“Eğitmen iyi mi?” gibi tek bir soru yerine “alan hâkimiyeti”, “iletişim”, “zaman yönetimi” maddeleri yazılır; önce 15 kişiyle denenir, belirsiz maddeler düzeltilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Gözlem ve görüşme">
+  <div class="panel">
+    <div class="kicker">Gözlem ve görüşme</div>
+    <h2>Gözlem ve görüşme türleri</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Türler</th><th>Özellik</th></tr></thead>
+      <tbody>
+        <tr><td><b>Gözlem</b></td><td>Yapılandırılmış / yapılandırılmamış<br>Katılımcı / katılımcı olmayan gözlemci</td><td>Yapılandırılmışta kodlama sistemi vardır; güvenirlik ve geçerlik kolay sağlanır. Katılımcı gözlemde nitel ve yapılandırılmamış, katılımcı olmayanda nicel ve yapılandırılmış yaklaşım yaygındır.</td></tr>
+        <tr><td><b>Görüşme</b></td><td>Yapılandırılmış / yarı yapılandırılmış / yapılandırılmamış<br>Etnografik, odak grup</td><td>Derinlemesine bilgi verir. Zor yanı güvenilir ve geçerli sonuç almaktır. Yapılandırılmamış görüşmede sorular ve sıra sabit değildir; etnografik görüşme bir grubun kültürel yapısını anlamak içindir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Kullanılabilirlik testi</b>Kullanıcı ekranda gezinirken bir kontrol listesiyle tıklamaları saymak yapılandırılmış gözlemdir. Sohbet ederek serbestçe sormak yapılandırılmamış görüşmedir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 6</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Ölçme</td><td>Niteliği gözleyip sayıyla göstermek; nitelik, araç, kural</td></tr>
+        <tr><td>Güvenirlik (bir uygulama)</td><td>KR-20 (1/0), Cronbach α (Likert), Hoyt, yarılama (Spearman-Brown)</td></tr>
+        <tr><td>Güvenirlik (iki uygulama)</td><td>Eşdeğer formlar, test-tekrar test; değerlendiriciler arası tutarlılık</td></tr>
+        <tr><td>Standart hata</td><td>SEm = SD·√(1 − r); araç, birey/grup ve uygulama etkenleri</td></tr>
+        <tr><td>Geçerlik</td><td>Kapsam, ölçüt, yapı, görünüş; güvenirlik gerek ama yeter değil</td></tr>
+        <tr><td>Anket</td><td>Problem → madde → uzman görüşü → ön uygulama → son hâl</td></tr>
+        <tr><td>Gözlem / görüşme</td><td>Yapılandırılmış mı, katılımcı mı; yapılandırma durumuna göre üç görüşme türü</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
