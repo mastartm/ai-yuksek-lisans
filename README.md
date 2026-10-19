@@ -8,20 +8,20 @@ Saf HTML, CSS ve JavaScript. Siteyi çalıştırmak için derleme ya da sunucu g
 
 ## Dersler
 
-Şimdilik her dersin ilk 5 bölümü hazır. Diğer bölümler "Yakında" olarak listelenir.
+Şimdilik her dersin ilk 6 bölümü hazır. Diğer bölümler "Yakında" olarak listelenir.
 
 | Ders | Hazır bölümler |
 |---|---|
-| Yapay Zekâ Temelleri | 1 Yapay Zekâ Tanımı ve Tarihsel Gelişimi · 2 Problem Çözme · 3 Arama Algoritmaları · 4 Bilgi Gösterimi · 5 Mantık |
-| Makine Öğrenmesi | 1 Giriş · 2 Kavram Öğrenme · 3 Karar Ağacı Öğrenme · 4 Doğrusal Modeller ve Regresyon · 5 Destek Vektör Makineleri ve Sinir Ağları |
-| Görüntü İşleme | 1 Görüntü İşlemeye Giriş · 2 Histogramlar · 3 Noktasal İşlemler · 4 Piksel İlişkileri · 5 Görüntü İyileştirme |
-| Veri Bilimi | 1 Veri Biliminin Bilimsel Temelleri · 2 Felsefi ve Epistemolojik Temeller · 3 Veri Toplama Süreçleri ve Etik Boyut · 4 Keşifçi Veri Analizi ve Görselleştirme · 5 İstatistiksel Analiz ve Çıkarım Temelleri |
-| Araştırma Yöntemleri | 1 Giriş · 2 Araştırma Problemini Tanımlama · 3 Nicel Araştırmalar · 4 Nitel Araştırmalar · 5 Örnekleme Yöntemleri |
+| Yapay Zekâ Temelleri | 1 Yapay Zekâ Tanımı ve Tarihsel Gelişimi · 2 Problem Çözme · 3 Arama Algoritmaları · 4 Bilgi Gösterimi · 5 Mantık · 6 Akıl Yürütme |
+| Makine Öğrenmesi | 1 Giriş · 2 Kavram Öğrenme · 3 Karar Ağacı Öğrenme · 4 Doğrusal Modeller ve Regresyon · 5 Destek Vektör Makineleri ve Sinir Ağları · 6 Bayes Öğrenmesi |
+| Görüntü İşleme | 1 Görüntü İşlemeye Giriş · 2 Histogramlar · 3 Noktasal İşlemler · 4 Piksel İlişkileri · 5 Görüntü İyileştirme · 6 Frekans Alanına Giriş |
+| Veri Bilimi | 1 Veri Biliminin Bilimsel Temelleri · 2 Felsefi ve Epistemolojik Temeller · 3 Veri Toplama Süreçleri ve Etik Boyut · 4 Keşifçi Veri Analizi ve Görselleştirme · 5 İstatistiksel Analiz ve Çıkarım Temelleri · 6 Veri Mimarisi ve Yönetimi |
+| Araştırma Yöntemleri | 1 Giriş · 2 Araştırma Problemini Tanımlama · 3 Nicel Araştırmalar · 4 Nitel Araştırmalar · 5 Örnekleme Yöntemleri · 6 Verilerin Toplanması |
 
 ## Özellikler
 
 - **Slaytlar:** ok tuşları, alttaki Önceki / Sonraki düğmeleri ve içindekiler menüsüyle gezilir. Her bölümün başında "Büyük resim" şeması bulunur.
-- **Etkileşimli araçlar:** kurcalanabilen laboratuvarlar, simülasyonlar ve çizimler (arama algoritmaları haritası, 8-bulmaca, FIND-S ve ADAY-ELEME, karar ağacı büyütme, bayır inişi ve polinom uyumu, histogram ve nokta işlemleri, bağlı bileşen bulma, eksik veri simülatörü, eksen kırpma ve PCA, kalıtım ve istisna, SVM aralığı ve XOR, filtre laboratuvarı, Bayes güncellemesi ve p-değeri, ileri/geri zincirleme, örnekleme ve örneklem büyüklüğü, seçkisizlik simülasyonu ve daha fazlası).
+- **Etkileşimli araçlar:** kurcalanabilen laboratuvarlar, simülasyonlar ve çizimler (arama algoritmaları haritası, 8-bulmaca, FIND-S ve ADAY-ELEME, karar ağacı büyütme, bayır inişi ve polinom uyumu, histogram ve nokta işlemleri, bağlı bileşen bulma, eksik veri simülatörü, eksen kırpma ve PCA, kalıtım ve istisna, SVM aralığı ve XOR, filtre laboratuvarı, Bayes güncellemesi ve p-değeri, ileri/geri zincirleme, çözümleme ve naive Bayes, tanı testi ve MAP, frekans filtreleri, ambar–göl ve k-anonimlik, Cronbach alfa, örnekleme ve örneklem büyüklüğü, seçkisizlik simülasyonu ve daha fazlası).
 - **Gerçek hayat örnekleri:** her kavramın yanında günlük hayattan bir örnek.
 - **Bölüm sonu quizi:** sorular ders notlarındaki konulara göre hazırlanmıştır. Her sorunun `ref` alanı, ilgili not başlığını öğrenciye gösterir. Yanlış cevapta doğru seçenek ve açıklama çıkar, yanlış yapılan sorular yeniden çözülebilir.
 - **Açık / koyu tema** ve **telefon uyumu** (320 px ve üstü). Geniş çizimler ve tablolar kendi içinde yana kaydırılır.
@@ -50,7 +50,7 @@ Sonra `http://localhost:8137` adresine git.
 | `assets/js/deck.js` | Slayt motoru (ok tuşları, içindekiler, tema) |
 | `assets/js/quiz.js` | Quiz motoru |
 | `assets/js/responsive.js` | Dar ekranda çizim ve tabloları kaydırılabilir yapar |
-| `assets/js/*.js` (diğerleri) | Konuya özel etkileşimli araçlar (`yz1`, `yz4`, `yz5`, `puzzle8`, `ml1`–`ml5`, `gi1`, `gi4`, `gi5`, `imglab`, `vb`, `vb4`, `vb5`, `ar`, `ar5`, arama araçları) |
+| `assets/js/*.js` (diğerleri) | Konuya özel etkileşimli araçlar (`yz1`, `yz4`, `yz5`, `yz6`, `puzzle8`, `ml1`–`ml6`, `gi1`, `gi4`–`gi6`, `imglab`, `vb`, `vb4`–`vb6`, `ar`, `ar5`, `ar6`, arama araçları) |
 | `assets/css/style.css` | Tüm stiller |
 | `assets/data/` | Quiz soruları |
 

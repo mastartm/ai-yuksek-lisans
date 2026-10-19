@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akıl Yürütme — Yapay Zekâ Temelleri</title>
+<meta name="description" content="Yapay Zekâ Temelleri, Bölüm 6: Akıl Yürütme. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 6 · Akıl Yürütme</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Yapay Zekâ Temelleri · Bölüm 6</div>
+    <h1>Akıl Yürütme: Kesin Kurallardan Olasılığa</h1>
+    <p class="big-quote">“Sokrates insandır, insanlar ölümlüdür” bilgisinden kesin bir sonuç çıkarabilirsin. Ama “bu e-posta spam mi?” sorusunda kesin kural yok; yalnızca ipuçları var. Bu bölümde iki akıl yürütme türünü görüyoruz: <b>kural tabanlı</b> (mantık) ve <b>olasılık tabanlı</b> (Bayes).</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Birleştirme (unification) ve genelleştirilmiş modus ponens’i açıklayabilirsin.</li>
+      <li>İleri ve geri zincirlemeyi, Prolog’un mantığını anlatabilirsin.</li>
+      <li>Çözümlemeyle çürütme yoluyla ispatı adım adım izleyebilirsin.</li>
+      <li>Belirsizlik, olasılık aksiyomları ve bağımsızlığı açıklayabilirsin.</li>
+      <li>Bayes teoremi ve naive Bayes sınıflandırıcıyı kullanabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>İki akıl yürütme dünyası</h2>
+    <svg class="diagram" viewBox="0 0 760 220" role="img" aria-label="Kural tabanlı akıl yürütme ve olasılık tabanlı akıl yürütme"><rect class="d-brand" x="15" y="20" width="350" height="180" rx="12"/><text class="d-txt d-c" x="190" y="48">Kural tabanlı (mantık)</text><text class="d-sm d-c" x="190" y="76">birleştirme · modus ponens</text><text class="d-sm d-c" x="190" y="98">ileri zincirleme (veri güdümlü)</text><text class="d-sm d-c" x="190" y="120">geri zincirleme (hedef güdümlü, Prolog)</text><text class="d-sm d-c" x="190" y="142">çözümleme (çürütme ile ispat)</text><text class="d-sm d-c" x="190" y="180">kesin ve açıklanabilir</text><rect class="d-ok" x="395" y="20" width="350" height="180" rx="12"/><text class="d-txt d-c" x="570" y="48">Olasılık tabanlı</text><text class="d-sm d-c" x="570" y="76">rassal değişkenler, olasılık aksiyomları</text><text class="d-sm d-c" x="570" y="98">bağımsızlık</text><text class="d-sm d-c" x="570" y="120">Bayes teoremi</text><text class="d-sm d-c" x="570" y="142">naive Bayes sınıflandırıcı</text><text class="d-sm d-c" x="570" y="180">belirsizlikle başa çıkar</text></svg>
+    <p>İkisi birbirinin rakibi değil, tamamlayıcısıdır: kesin bilgi için mantık, belirsiz bilgi için olasılık.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Niceleyici çıkarımı">
+  <div class="panel">
+    <div class="kicker">Birinci derece çıkarım</div>
+    <h2>Niceleyicili cümlelerden önermelere</h2>
+    <p>Birinci derece mantıkta çıkarım yapmanın bir yolu, niceleyicili cümleleri önermeli mantığa indirgemektir (önermeleştirme):</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Kural</th><th>Anlamı</th><th>Örnek</th></tr></thead>
+      <tbody>
+        <tr><td><b>Evrensel örnekleme</b></td><td>∀x P(x) cümlesinden herhangi bir sabit için P(c) türetilir.</td><td class="mono">∀x İnsan(x) ⇒ Ölümlü(x)  ⊢  İnsan(Sokrates) ⇒ Ölümlü(Sokrates)</td></tr>
+        <tr><td><b>Varoluşsal örnekleme</b></td><td>∃x P(x) cümlesinden <i>yeni</i> bir sabitle (Skolem sabiti) P(k) türetilir.</td><td class="mono">∃x Taç(x) ∧ Başta(x)  ⊢  Taç(C₁) ∧ Başta(C₁)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Bedel</b>Evrende çok sabit varsa sonsuz sayıda önerme üretilebilir. Bu yüzden akıllı yöntemler (birleştirme, yükseltilmiş çıkarım) ilgisiz örnekleri üretmeden doğrudan değişken eşler.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Birleştirme">
+  <div class="panel">
+    <div class="kicker">Birleştirme (unification)</div>
+    <h2>Değişkenlere öyle değerler ver ki iki ifade aynı olsun</h2>
+    <p>Birleştirme, iki mantıksal ifadeyi aynı yapan bir <b>yerine koyma (θ)</b> bulur. Sonuç yoksa birleştirme başarısızdır.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>İfade 1</th><th>İfade 2</th><th>θ</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">Biliyor(Ali, x)</td><td class="mono">Biliyor(Ali, Ayşe)</td><td class="mono">{x / Ayşe}</td></tr>
+        <tr><td class="mono">Biliyor(Ali, x)</td><td class="mono">Biliyor(y, Anne(y))</td><td class="mono">{y / Ali, x / Anne(Ali)}</td></tr>
+        <tr><td class="mono">Biliyor(Ali, x)</td><td class="mono">Biliyor(x, Ayşe)</td><td><b>başarısız</b> (iki ayrı x aynı anda Ali ve Ayşe olamaz); değişkenleri <i>standartlaştırınca</i> çözülür</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>En genel birleştirici</b>Birden çok birleştirici varsa, en az kısıt koyan “en genel birleştirici” (MGU) tercih edilir. Birleştirme sırasında “x, kendisini içeren bir terime eşlenemez” kontrolü (occur check) yapılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Genelleştirilmiş modus ponens">
+  <div class="panel">
+    <div class="kicker">Yükseltilmiş çıkarım</div>
+    <h2>Genelleştirilmiş modus ponens</h2>
+    <p>Önermelerde modus ponens “P ve P ⇒ Q varsa Q”dur. Birinci derecede, birleştirme ile genelleştirilir:</p>
+    <p class="big-quote" style="font-size:1.05rem">p₁′, …, pₙ′ ve (p₁ ∧ … ∧ pₙ ⇒ q) ile UNIFY(pᵢ′, pᵢ) = θ ise SUBST(θ, q) çıkar.</p>
+    <p>Bu kural yalnızca <b>kesin yan bağlaçlarla</b> (definite clause: tam bir pozitif literal içeren cümleler) çalışır. Örnek kural: <span class="mono">Amerikalı(x) ∧ Silah(y) ∧ Satar(x, y, z) ∧ Düşman(z) ⇒ Suçlu(x)</span>. Önceden önermeye çevirmeden doğrudan <b>değişkenli</b> çıkarım yaptığı için buna <b>yükseltilmiş</b> (lifted) çıkarım denir.</p>
+    <div class="callout real"><b>Gerçek hayat: Şablon eşleştirme</b>“Bir kişi bir ürünü satın aldıysa, o ürünün sahibidir” kuralı tek bir kez yazılır; sistem her yeni satın alma kaydında değişkenleri (kişi, ürün) eşleyerek kuralı uygular.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="İleri zincirleme">
+  <div class="panel">
+    <div class="kicker">İleriye zincirleme</div>
+    <h2>Gerçeklerden başla, yeni gerçekler üret</h2>
+    <p>Algoritma, <b>kesin yan bağlaçlar</b> içeren bir bilgi tabanında, öncülleri bilinen bir kural bulundukça sonucunu bilgi tabanına ekler. Yeni gerçek gelmeyene kadar sürer. Veri güdümlüdür; bu yüzden uzman sistemlerde ve üretim kurallarında sık kullanılır.</p>
+    <h3>Verimlilik için üç fikir</h3>
+    <ul>
+      <li><b>Artımlı eşleme:</b> yalnızca <i>yeni</i> gerçekten tetiklenen kurallar kontrol edilir.</li>
+      <li><b>Kural öncüllerini sıralama:</b> en kısıtlayıcı öncül önce eşlenir (örneğin en az eşleşme veren).</li>
+      <li><b>Rete ağı gibi dizinleme:</b> kuralların öncülleri ortak yapı olarak saklanıp tekrar hesaplama önlenir.</li>
+    </ul>
+    <div class="callout idea"><b>Kısıt ve uyarı</b>Fonksiyon sembolü yoksa (Datalog) algoritma <b>sonlanır</b>; fonksiyon varsa sonsuz sayıda gerçek üretilebilir. Hedefle ilgisiz çok sonuç da üretebilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Geri zincirleme ve Prolog">
+  <div class="panel">
+    <div class="kicker">Geriye zincirleme ve Prolog</div>
+    <h2>Hedeften başla, alt hedeflere böl</h2>
+    <p>Geriye zincirleme, bir sorguyu cevaplamak için sonucu o sorgu olan kuralları bulur ve öncüllerini <b>alt hedef</b> yaparak derinlemesine arama yapar. Birleştirmeden gelen değişken eşleri alt hedeflere taşınır.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>İleri zincirleme</th><th>Geri zincirleme</th></tr></thead>
+      <tbody>
+        <tr><td>Veri güdümlü</td><td>Hedef güdümlü</td></tr>
+        <tr><td>Tüm sonuçları üretir; ilgisiz sonuç riski</td><td>Yalnızca hedefle ilgili kuralları dolaşır</td></tr>
+        <tr><td>Yeni bilgi gelince tetiklenir</td><td>Bir soru sorulunca çalışır</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Prolog</b>, mantık programlamanın temsilcisidir: program kesin yan bağlaçlardan oluşur, çalışma <b>geriye zincirleme + derinlik öncelikli arama</b>dır. Örnek: <span class="mono">ölümlü(X) :- insan(X).</span></p>
+    <ul>
+      <li><b>Verimlilik sorunları:</b> sonsuz döngü (özyinelemeli kurallar), tekrarlanan alt hedefler (önbellekleme / tablolama ile çözülür).</li>
+      <li>Prolog sorgu sırasını ve kural sırasını kullandığından yazım sırası sonucu ve hızı etkiler.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Çözümleme">
+  <div class="panel">
+    <div class="kicker">Çözümleme (resolution) · dene</div>
+    <h2>Çelişki bularak ispat: çürütme</h2>
+    <p>Çözümleme eksiksiz bir çıkarım kuralıdır. Bir α sonucunu kanıtlamak için <b>KB ∧ ¬α</b> ifadesinin <b>doyurulamaz</b> olduğu gösterilir: tamamlayıcı literal içeren iki yan bağlaç çözümlenir, <b>boş yan bağlaç (□)</b> çıkarsa çelişki bulunmuştur.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>1 · CNF’ye çevir</b>İmplikasyonları kaldır (α ⇒ β ≡ ¬α ∨ β), ¬’leri içeri taşı, değişkenleri standartlaştır, ∃’ları <b>Skolemizasyonla</b> at, ∀’ları at, ∨’yi ∧ üzerine dağıt.</div>
+      <div class="peas-c e"><b>2 · Çözümle</b>(l₁ ∨ … ∨ lₖ) ve (m₁ ∨ … ∨ mₙ) yan bağlaçlarında UNIFY(lᵢ, ¬mⱼ) = θ ise kalan literallere θ uygulanıp birleştirilir.</div>
+      <div class="peas-c a"><b>3 · Boş yan bağlaç?</b>Çıkarsa KB ⊨ α. Yeni çözümleyici üretilemiyorsa ve boş yan bağlaç yoksa KB, α’yı gerektirmez.</div>
+    </div>
+    <p>İkili çözümleme + <b>faktörleme</b> (birleştirilebilir fazla literalleri bire indirme) birlikte eksiksizdir. Sorgu seçip adım adım ilerle:</p>
+    <div class="lab" id="resolab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Belirsizlik">
+  <div class="panel">
+    <div class="kicker">Olasılık tabanlı akıl yürütme</div>
+    <h2>Dünya kesin değil: belirsizlik altında karar</h2>
+    <p>Mantıksal ajan, bir cümleyi ya doğru ya yanlış ya da bilinmeyen sayar. Gerçekte bilgi eksik, gürültülü ya da çelişkilidir; kural “diş ağrısı ⇒ çürük” tam doğru değildir (başka nedenler de var).</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Mantıksal ajan</th><th>Olasılıksal ajan</th></tr></thead>
+      <tbody>
+        <tr><td>Cümleler doğru / yanlış / bilinmiyor</td><td>Cümlelere <b>inanç derecesi</b> (olasılık) verir</td></tr>
+        <tr><td>Tüm istisnaları listelemek zorunda</td><td>Belirsizliği olasılıkla <b>özetler</b></td></tr>
+        <tr><td>—</td><td><b>Bilgi durumuna</b> bağlı (olasılık, ajanın bildiğine göre değişir)</td></tr>
+        <tr><td>Kural sağlanıyorsa kesin sonuç</td><td><b>Rasyonel karar</b>: olasılık ve fayda birleştirilerek en yüksek beklenen fayda seçilir</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Havalimanına çıkış zamanı</b>“90 dakika önce çıkarsam yetişirim” kesin kural değildir; olasılığı vardır. Kaçırmanın bedeli ile erken beklemenin bedelini tartarak karar verirsin.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Olasılık temelleri">
+  <div class="panel">
+    <div class="kicker">Olasılık temelleri</div>
+    <h2>Örneklem uzayı, rassal değişken, aksiyomlar</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Örneklem uzayı Ω</b>Tüm olası “dünya durumları”. Bir zarın atışında {1,…,6}.</div>
+      <div class="peas-c e"><b>Rassal değişken</b>Ω’dan bir değere eşleme (Hava ∈ {güneşli, yağmurlu}, Çürük ∈ {doğru, yanlış}).</div>
+      <div class="peas-c a"><b>Olasılık modeli</b>Her duruma 0–1 arasında bir sayı atar; toplam 1.</div>
+    </div>
+    <h3>Olasılığın aksiyomları</h3>
+    <ul>
+      <li>0 ≤ P(a) ≤ 1</li>
+      <li>P(doğru) = 1, P(yanlış) = 0</li>
+      <li>P(a ∨ b) = P(a) + P(b) − P(a ∧ b)</li>
+    </ul>
+    <p><b>Bağımsızlık:</b> P(a ∧ b) = P(a)·P(b). Bağımsız değişkenler birbiri hakkında bilgi taşımaz (bozuk para atışı ile yarınki hava). Koşullu bağımsızlık, bir üçüncü değişken verildiğinde bağımsızlıktır; naive Bayes tam olarak buna dayanır.</p>
+    <div class="callout idea"><b>Olasılık nereden gelir?</b>Frekansçılar uzun dönem oranlarından, nesnelciler fiziksel eğilimlerden, öznelciler ise inanç derecelerinden bahseder. Pratikte her üçü de kullanılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bayes teoremi">
+  <div class="panel">
+    <div class="kicker">Bayes teoremi</div>
+    <h2>Nedenden sonuca olasılığı, sonuçtan nedene çevir</h2>
+    <p class="big-quote" style="font-size:1.1rem">P(B | A) = P(A | B) · P(B) / P(A)</p>
+    <p>Çarpım kuralı P(A ∧ B) = P(A | B)P(B) = P(B | A)P(A) iki tarafı eşitler. Genellikle <b>nedenden belirtiye</b> olasılık (P(belirti | hastalık)) bilinir, ama bize <b>belirtiden nedene</b> olasılık (P(hastalık | belirti)) lazımdır. Teorem bu dönüşümü yapar.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Terim</th><th>Rol</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">P(B)</td><td>Önsel: kanıt görmeden önceki inanç</td></tr>
+        <tr><td class="mono">P(A | B)</td><td>Olabilirlik: B doğruysa A’yı gözleme olasılığı</td></tr>
+        <tr><td class="mono">P(A)</td><td>Kanıt: normalleştirme</td></tr>
+        <tr><td class="mono">P(B | A)</td><td>Ardıl: kanıttan sonraki inanç</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat</b>Tıbbi teşhis (belirtiden hastalık), spam tespiti (kelimeden spam) ve sınıflandırma problemleri Bayes teoremine dayanır. Birden fazla kanıt varsa A₁ ∧ … ∧ Aₙ birlikte kanıt olarak alınır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Naive Bayes">
+  <div class="panel">
+    <div class="kicker">Naive Bayes · dene</div>
+    <h2>Naif varsayım: ipuçları sınıf verilince bağımsız</h2>
+    <p>Çok sayıda kanıtla çalışmak için P(x₁, …, xₙ | C) ifadesi basitleştirilir: <b>P(x₁ … xₙ | C) ≈ P(x₁|C) · … · P(xₙ|C)</b>. Böylece sınıflandırıcı:</p>
+    <p class="big-quote" style="font-size:1.05rem">seç: argmax P(C) · Π P(xᵢ | C)</p>
+    <p>Adımlar: (1) sınıfların önselini say, (2) her sınıf için özellik olasılıklarını hesapla, (3) yeni örnekte skoru her sınıf için çarpıp en büyüğünü seç. Bir e-postada geçen kelimeleri seç:</p>
+    <div class="lab" id="nblab"></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Avantaj</th><th>Dezavantaj</th></tr></thead>
+      <tbody>
+        <tr><td>Basit; eğitim ve tahmin hızlı; yüksek boyutta (binlerce kelime) iyi; az veriyle makul sonuç</td><td>Bağımsızlık varsayımı genellikle doğru değildir; ilişkili özellikler aşırı güven yaratabilir; görülmemiş özellik olasılığı sıfır olursa düzeltme (smoothing) gerekir</td></tr>
+      </tbody>
+    </table></div>
+    <p>Kullanım: metin sınıflandırma, spam tespiti, tıbbi teşhis, duygu analizi.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 6</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Niceleyici çıkarımı</td><td>Evrensel / varoluşsal örnekleme (Skolem sabiti)</td></tr>
+        <tr><td>Birleştirme</td><td>θ ile iki ifadeyi eşitle; en genel birleştirici; başarısız olabilir</td></tr>
+        <tr><td>Genelleştirilmiş modus ponens</td><td>Kesin yan bağlaçlarla yükseltilmiş çıkarım</td></tr>
+        <tr><td>İleri / geri zincirleme</td><td>Veri güdümlü, tüm sonuçlar / hedef güdümlü, Prolog (derinlik öncelikli)</td></tr>
+        <tr><td>Çözümleme</td><td>CNF, Skolemizasyon, ikili çözümleme + faktörleme; çürütme: KB ∧ ¬α → □</td></tr>
+        <tr><td>Belirsizlik</td><td>Mantıksal ajan doğru/yanlış; olasılıksal ajan inanç derecesi ve beklenen fayda</td></tr>
+        <tr><td>Olasılık</td><td>Ω, rassal değişken, aksiyomlar, bağımsızlık</td></tr>
+        <tr><td>Bayes ve naive Bayes</td><td>P(B|A) = P(A|B)P(B)/P(A); argmax P(C)ΠP(xᵢ|C)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_YZ_6"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/yz-bolum-6-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/yz6.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>
