@@ -615,3 +615,7 @@ ul.dayflow li.dim { opacity: .45; }
 .dx-grid i.tp { background: var(--bad); }
 .dx-grid i.fn { background: var(--warn); }
 .dx-grid i.fp { background: var(--brand); }
+
+/* Laboratuvarlarda ardışık düğme satırları arasında boşluk */
+.lab .chips { margin: 8px 0; }
+.lab .chips + .chips { margin-top: 10px; }
