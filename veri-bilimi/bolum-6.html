@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veri Mimarisi ve Yönetimi — Veri Bilimi</title>
+<meta name="description" content="Veri Bilimi, Bölüm 6: Veri Mimarisi ve Yönetimi. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 6 · Veri Mimarisi ve Yönetimi</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Veri Bilimi · Bölüm 6</div>
+    <h1>Veri Mimarisi ve Yönetimi: Veri Nerede, Kimin, Nasıl Korunuyor?</h1>
+    <p class="big-quote">Analiz yapmadan önce veriyi bir yerde tutmak, ona yeniden ulaşabilmek ve kimin neye erişebileceğine karar vermek gerekir. Şirkette 40 farklı sistemden gelen verinin <b>tek bir düzenli yapıda</b> mı, yoksa <b>ham haliyle</b> mi saklanacağı bir mimari karardır. Bu bölüm o kararların bilimsel, hukuki ve etik yüzünü anlatıyor.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Veri ambarının tasarım ilkelerini ve bilgi organizasyonunun rolünü açıklayabilirsin.</li>
+      <li>Veri gölü ve schema-on-read yaklaşımını ambarla karşılaştırabilirsin.</li>
+      <li>Metadata yönetiminin neden kritik olduğunu anlatabilirsin.</li>
+      <li>GDPR, kimliksizleştirme ve k-anonimlik fikrini açıklayabilirsin.</li>
+      <li>Veri egemenliği ve blockchain ile merkeziyetsiz yönetimi tartışabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Kaynaklar → depolama → yönetişim → kullanım</h2>
+    <svg class="diagram" viewBox="0 0 760 210" role="img" aria-label="Veri kaynakları, ambar ve göl, metadata ile yönetişim, analiz"><rect class="d-box" x="10" y="70" width="130" height="70" rx="8"/><text class="d-txt d-c" x="75" y="100">Kaynaklar</text><text class="d-sm d-c" x="75" y="120">sistemler, sensörler</text><rect class="d-brand" x="190" y="25" width="170" height="70" rx="8"/><text class="d-txt d-c" x="275" y="55">Veri ambarı</text><text class="d-sm d-c" x="275" y="75">şema yazarken</text><rect class="d-ok" x="190" y="115" width="170" height="70" rx="8"/><text class="d-txt d-c" x="275" y="145">Veri gölü</text><text class="d-sm d-c" x="275" y="165">şema okurken</text><rect class="d-warn" x="410" y="70" width="160" height="70" rx="8"/><text class="d-txt d-c" x="490" y="100">Metadata</text><text class="d-sm d-c" x="490" y="120">kim, ne, nereden?</text><rect class="d-box" x="620" y="70" width="130" height="70" rx="8"/><text class="d-txt d-c" x="685" y="100">Analiz</text><text class="d-sm d-c" x="685" y="120">izinli kullanım</text><path class="d-line-brand" d="M140 105 L190 60"/><path class="d-line-brand" d="M140 105 L190 150"/><path class="d-line-brand" d="M360 60 L410 105"/><path class="d-line-brand" d="M360 150 L410 105"/><path class="d-line-brand" d="M570 105 L620 105"/><text class="d-sm d-c" x="380" y="204">GDPR, egemenlik ve erişim denetimi her katmanı çevreler</text></svg>
+    <p>İyi mimari yalnızca hız demek değildir: anlam (metadata), güven (denetim) ve hukuk (GDPR) mimarinin parçasıdır.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Veri ambarı">
+  <div class="panel">
+    <div class="kicker">Veri ambarları</div>
+    <h2>Tasarım ilkeleri</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Kaynak ve kalite</b>Ambarın hangi kaynaklardan, hangi biçim ve güncelleme sıklığıyla besleneceği baştan tanımlanır; entegrasyon kolaylığı ve veri kalitesi tasarımın parçasıdır.</div>
+      <div class="peas-c e"><b>Modelleme ve tarihçe</b>Veri modelleri normalleştirme ya da boyutsal modelleme gibi açık ilkelere dayanır; zamana bağlı değişiklikler izlenir ama gereksiz sürüm karmaşası önlenir.</div>
+      <div class="peas-c a"><b>Metadata desteği</b>Kaynak sistem, kalite göstergeleri, yükleme zaman damgası ve erişim yetkileri gibi bilgiler veri bütünlüğüne destek verir.</div>
+      <div class="peas-c s"><b>Performans</b>İndeks, bölümlendirme (partitioning) ve önbellek stratejileri; analitik okumalar için kolon bazlı depolama; sık raporlar için özet tablolar ve materyalize görünümler.</div>
+    </div>
+    <div class="callout idea"><b>Not</b>Bilimsel ve coğrafi sistemler gibi hem veri hem işlem yoğun alanlarda dağıtık dosya sistemleriyle çalışan paralel işlem motorları performansı güvenceye alır. Her optimizasyonun bakım maliyeti vardır.</div>
+    <div class="callout real"><b>Gerçek hayat: Perakende raporlaması</b>Mağaza, e-ticaret ve çağrı merkezi verisi geceleri tek şemada birleştirilir; yönetici sabah “geçen çeyrek bölge bazlı satış” sorgusunu saniyede alır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bilgi organizasyonu">
+  <div class="panel">
+    <div class="kicker">Bilgi organizasyonu</div>
+    <h2>Ambar yalnızca depo değil: anlam taşıyıcıdır</h2>
+    <p>Bilgi organizasyonu, veri öğelerini ve aralarındaki ilişkileri <b>kavramsal ve anlamsal düzeyde</b> tanımlar. Sözlükler, sınıflandırmalar ve ontolojiler hem insanın hem makinenin aynı şeyi aynı anlamda okumasını sağlar.</p>
+    <ul>
+      <li>Örnek: klinik kayıt terminolojileri ile laboratuvar sonuç kodlarını eşleştirmek ancak biçimsel bilgi organizasyonuyla yapılır.</li>
+      <li>Semantik zenginlik yüksekse veri daha geniş madencilik kapsamı sunar; erişilebilirlik, anlaşılabilirlik ve bütünleştirilebilirlik artar.</li>
+      <li>Disiplinler arası koordinasyon gerekir: alan uzmanları terminoloji doğruluğunu, yazılım mimarları ontolojik modellerin teknik uygulanmasını sağlar.</li>
+      <li>Bilimsel verinin paylaşımında evrensel ya da alana özgü metadata standartları, verinin disiplinler arası dolaşımını kolaylaştırır.</li>
+      <li>Kurumsal düzeyde yönetişim politikalarına gömülü etik ilkeler (mahremiyet, onay) bilgi organizasyonunun parçasıdır.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Veri gölü">
+  <div class="panel">
+    <div class="kicker">Data lake · schema-on-read · dene</div>
+    <h2>Önce sakla, sonra yorumla</h2>
+    <p><b>Schema-on-write</b> (ambar): veri yüklenirken şemaya uydurulur; okuma hızlı ve tutarlı. <b>Schema-on-read</b> (göl): ham veri olduğu gibi saklanır, şema okuma ya da sorgu sırasında uygulanır; yeni alanlar depolamayı değiştirmeden okunabilir. Aşağıdaki aynı altı ham kaydı iki yaklaşımla oku:</p>
+    <div class="lab" id="schemalab"></div>
+    <ul>
+      <li><b>Esneklik ve bedel:</b> her sorguda dönüşüm ve yorumlama yükü oluşur; Spark SQL ya da Presto gibi motorlar HDFS gibi dağıtık sistemlerde bu yükü paralel işleyerek ölçekler ama bellek, ağ ve işlemci yönetimi gerektirir.</li>
+      <li><b>Güvenlik:</b> ham verinin üstüne yetkiye göre sanal görünümler kurulabilir (kullanıcı yalnızca ihtiyacı olan kolona erişir). Risk: ham veride erişilmemesi gereken hassas bilgi bulunabilir.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Metadata yönetimi">
+  <div class="panel">
+    <div class="kicker">Metadata yönetimi</div>
+    <h2>Göl bataklığa dönmesin: veriyi tanımlayan veri</h2>
+    <p>Ham veri farklı bağlamlarda farklı şemalarla okunduğunda tutarlılığı <b>kapsamlı metadata</b> sağlar. Önerilen yapı: merkezi bir <b>metadata havuzu</b>.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Bileşen</th><th>İçerik</th></tr></thead>
+      <tbody>
+        <tr><td><b>Zorunlu alanlar</b></td><td>Her veri seti için ad, kaynak, sahip, güncelleme zamanı.</td></tr>
+        <tr><td><b>Bağlama özgü alanlar</b></td><td>Coğrafi veri için koordinat sistemi (CRS), çözünürlük, mekânsal kapsam; finansal kayıt için para birimi ve dönem gibi.</td></tr>
+        <tr><td><b>Denetim kaydı</b></td><td>Kim, ne zaman, hangi veri setine eriştiğini kaydetmek (audit log): hukuki gereklilik ve yönetişim ilkeleri.</td></tr>
+        <tr><td><b>Birlikte çalışabilirlik</b></td><td>Farklı disiplinlerin verisi ortak standartlarla eşlenir.</td></tr>
+        <tr><td><b>Veri keşfi</b></td><td>Anahtar kelime, etiket (tag), konu hiyerarşileri, benzer veri önerisi; düzenli bakım ister.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Kütüphane kataloğu</b>Kitapların rafta durması yetmez; hangi rafta, kim yazdı, hangi konu bilgisi (katalog) olmadan aradığını bulamazsın.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="GDPR ve mahremiyet">
+  <div class="panel">
+    <div class="kicker">Veri yönetişimi · GDPR · dene</div>
+    <h2>Adı silmek yetmez: yeniden tanımlama riski</h2>
+    <p>AB Genel Veri Koruma Tüzüğü (GDPR), kişisel verinin toplanması, saklanması, paylaşılması ve analizi için bağlayıcı yükümlülükler getirir. Teknik mimariyi doğrudan etkiler:</p>
+    <ul>
+      <li><b>Kimliksizleştirme</b> (pseudonymization) tek başına yetmez; küçük nüfuslarda demografik değişken kombinasyonları kişiyi hâlâ ortaya çıkarır. Yeniden tanımlamayı önleyici kısıtlar gerekir.</li>
+      <li><b>Çok katmanlı erişim:</b> rol tabanlı erişim (RBAC) yanında bağlamsal politikalar (coğrafya) ve sorgu çıktısının dinamik maskelenmesi.</li>
+      <li>Hassas kategoriler (köken, siyasi görüş) için değişkeni tümden atmak yerine sentetik veri ya da <b>diferansiyel gizlilik</b> gibi teknikler kullanılabilir.</li>
+    </ul>
+    <p><b>k-anonimlik</b> fikri: her kayıt, yaş ve posta kodu gibi yarı tanımlayıcılar bakımından en az k−1 başka kişiyle ayırt edilemez olmalı. Genelleştirmeyi artırıp k’nin nasıl yükseldiğini izle:</p>
+    <div class="lab" id="anonlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Veri egemenliği">
+  <div class="panel">
+    <div class="kicker">Veri egemenliği</div>
+    <h2>Verinin kontrolü onu üreten topluluktadır</h2>
+    <p>Veri egemenliği hareketleri, verinin üretiminden depolanmasına, analizine ve yeniden kullanımına kadar tüm yaşam döngüsünde kontrolün, veriyi üreten kişi ya da topluluklarda olması gerektiğini savunur (özellikle yerli halklar, marjinalize topluluklar, verinin toplandığı coğrafyalar).</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Boyut</th><th>Örnek</th></tr></thead>
+      <tbody>
+        <tr><td><b>Hukuki / politik</b></td><td>Kamu verisini yalnızca ulusal veri merkezlerinde tutma zorunluluğu (yerelleşme).</td></tr>
+        <tr><td><b>Teknik</b></td><td>Yerel ya da topluluk temelli veri merkezleri, açık kaynak yazılımla bağımlılık riskini azaltma, güvenliği kültürel hassasiyete uyarlama.</td></tr>
+        <tr><td><b>Kapasite</b></td><td>Yerel insan kaynağını veri bilimi, siber güvenlik ve sistem yönetiminde yetiştirme.</td></tr>
+        <tr><td><b>Federatif model</b></td><td>Veri fiziksel olarak yerelde kalır; analiz görevleri yetkilendirilmiş algoritmalarla uzaktan çalışır.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Gerilim</b>Sınırlar içinde tutulan veri korunaklıdır ama bilimsel iş birliği ve ekonomik entegrasyon paylaşım ister. Etik açıdan hareket, yerel bilginin izinsiz alınıp ticari ya da politik kazanç için kullanılmasına (bilgi sömürüsü) karşı bariyerdir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Blockchain">
+  <div class="panel">
+    <div class="kicker">Merkeziyetsiz veri yönetimi</div>
+    <h2>Blockchain: güveni merkezden dağıtıma taşımak</h2>
+    <p>Blockchain (dağıtık defter), merkezi bir otoriteye bağımlı olmadan doğrulama ve <b>mutabakat</b> mekanizmalarıyla güven, şeffaflık ve <b>değiştirilmezlik</b> sağlamayı hedefler.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Akıllı sözleşme</b>Koşullar gerçekleşince kendiliğinden çalışan kod. Erişim ve paylaşım koşulları kod düzeyinde uygulanır (hassas tıbbi veri yalnızca yetkili taraflarla).</div>
+      <div class="peas-c e"><b>Ontolojik fark</b>Veri tek bir fiziksel yerde değildir; kopyalar tüm yetkili düğümlerdedir. Her kopya diğerinin tam geçerli eşdeğeridir; bütünlük kopyalar arası mutabakatla sağlanır.</div>
+      <div class="peas-c a"><b>Akıllı blockchain</b>Yapay zekâ ile birleşerek risk analizi, dolandırıcılık tespiti ve olağandışı işlem işaretleme.</div>
+      <div class="peas-c s"><b>Egemenlikle bağ</b>Topluluklar kendi verileri üzerinde kontrolü yerel erişim protokollerini zincire kodlayarak güçlendirebilir.</div>
+    </div>
+    <div class="callout idea"><b>Dikkat</b>Değiştirilmezlik “silinme hakkı” gibi GDPR yükümlülükleriyle gerilim yaratabilir; kişisel veriyi zincirin kendisine yazmak yerine yalnızca doğrulama bilgisini yazmak yaygın çözümdür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 6</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Veri ambarı</td><td>Şema yazarken (schema-on-write); kalite, entegrasyon, tarihçe, metadata; indeks, bölümleme, kolon depolama</td></tr>
+        <tr><td>Bilgi organizasyonu</td><td>Ontoloji ve sözlüklerle anlam; semantik zenginlik = daha geniş madencilik</td></tr>
+        <tr><td>Veri gölü</td><td>Ham saklama, şema okurken (schema-on-read); esnek ama sorgu başına maliyet ve “bataklık” riski</td></tr>
+        <tr><td>Metadata</td><td>Merkezi havuz, denetim kaydı, veri keşfi, birlikte çalışabilirlik</td></tr>
+        <tr><td>GDPR</td><td>Kimliksizleştirme yetmez; RBAC + bağlamsal erişim + maskeleme; sentetik veri, diferansiyel gizlilik, k-anonimlik</td></tr>
+        <tr><td>Veri egemenliği</td><td>Kontrol topluluğunda; yerelleşme, kapasite, federatif model</td></tr>
+        <tr><td>Blockchain</td><td>Mutabakat, değiştirilmezlik, akıllı sözleşme; GDPR ile gerilim</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_VB_6"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/vb-bolum-6-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/vb6.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>
