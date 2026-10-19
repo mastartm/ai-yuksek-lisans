@@ -1,0 +1,197 @@
+<!--
+course: goruntu-isleme
+course_title: Görüntü İşleme
+no: 6
+title: Frekans Alanına Giriş
+quiz: QUIZ_GI_6
+quiz_file: gi-bolum-6-quiz.js
+scripts: gi6.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 6</div>
+    <h1>Frekans Alanı: Görüntüye Başka Gözle Bak</h1>
+    <p class="big-quote">Bir şarkıyı notalarına ayırabilirsin: bas sesler bir yanda, tiz sesler öbür yanda. Görüntü de “notalarına” ayrılabilir: yavaş değişen geniş alanlar bir yanda, hızlı değişen kenarlar ve doku öbür yanda. Bu bölümde görüntüyü frekans alanına taşıyıp orada düzenliyoruz.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>2B Fourier dönüşümünü, genlik ve faz spektrumunu açıklayabilirsin.</li>
+      <li>Alçak, yüksek geçiren ve notch filtrelerini ayırt edebilirsin.</li>
+      <li>İdeal, Butterworth ve Gauss filtrelerin farkını (halkalanma) anlatabilirsin.</li>
+      <li>Homomorfik filtreleme ve çok-ölçekli (dalgacık) fikrini özetleyebilirsin.</li>
+      <li>Retinex, ton eşleme, renk dengeleme ve değerlendirme ölçütlerini sayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Dönüştür → çarp → geri dönüştür</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Görüntü Fourier ile frekans alanına geçer, filtreyle çarpılır, ters dönüşümle geri gelir"><rect class="d-brand" x="10" y="55" width="150" height="80" rx="8"/><text class="d-txt d-c" x="85" y="88">Görüntü f(x,y)</text><text class="d-sm d-c" x="85" y="108">uzamsal alan</text><rect class="d-ok" x="190" y="55" width="150" height="80" rx="8"/><text class="d-txt d-c" x="265" y="88">F(u,v)</text><text class="d-sm d-c" x="265" y="108">2B DFT / FFT</text><rect class="d-warn" x="370" y="55" width="150" height="80" rx="8"/><text class="d-txt d-c" x="445" y="88">F · H(u,v)</text><text class="d-sm d-c" x="445" y="108">filtre ile çarp</text><rect class="d-box" x="550" y="55" width="190" height="80" rx="8"/><text class="d-txt d-c" x="645" y="88">Sonuç g(x,y)</text><text class="d-sm d-c" x="645" y="108">ters dönüşüm</text><path class="d-line-brand" d="M160 95 L190 95"/><path class="d-line-brand" d="M340 95 L370 95"/><path class="d-line-brand" d="M520 95 L550 95"/><text class="d-sm d-c" x="380" y="175">uzamsal konvolüsyon = frekans alanında çarpma</text></svg>
+    <p>İki bakış eşdeğerdir; ama “şu frekans bandını kıs, şunu güçlendir” demek frekans alanında çok daha doğal ifade edilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="2B Fourier">
+  <div class="panel">
+    <div class="kicker">2B Fourier dönüşümü</div>
+    <h2>Aynı bilgi, iki gösterim</h2>
+    <p>Uzamsal alanda görüntü, piksellerin parlaklık değişimidir. Frekans alanında aynı görüntü, <b>hangi uzamsal frekansların ne kadar bulunduğu</b> ile gösterilir. Düşük frekans: yavaş değişen geniş alanlar, aydınlatma. Yüksek frekans: kenarlar, ince doku, gürültü.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Genlik spektrumu</b>Hangi frekansta ne kadar enerji var. Görüntünün “içeriğini” özetler.</div>
+      <div class="peas-c e"><b>Faz spektrumu</b>Bu bileşenlerin sahnede <i>nerede</i> durduğu. Faz bozulursa konturların yeri bozulur; yalnızca genlikle çalışmak yetmez.</div>
+    </div>
+    <ul>
+      <li>Gerçek değerli görüntülerde DFT, karmaşık eşlenik simetriye sahiptir.</li>
+      <li>DFT, hızlı algoritma <b>FFT</b> ile hesaplanır.</li>
+      <li>Spektrumda merkez genellikle düşük frekanstır; merkezden uzaklaştıkça frekans yükselir.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Ekolayzır</b>Müzik çaların bas-tiz ayarı ses sinyaline frekans alanında yapılan filtredir. Görüntüde aynısı iki boyutta olur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Örnekleme ve sarmalanma">
+  <div class="panel">
+    <div class="kicker">Güvenli bölge</div>
+    <h2>Örnekleme, örtüşme ve sarmalanma</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Sorun</th><th>Neden?</th><th>Çözüm</th></tr></thead>
+      <tbody>
+        <tr><td><b>Örtüşme (aliasing)</b></td><td>Nyquist sınırı aşılır: örnekleme, görüntüdeki en yüksek frekansı yakalayamaz.</td><td>Küçültmeden önce alçak geçiren ön filtre uygula.</td></tr>
+        <tr><td><b>Sarmalanma (wrap-around)</b></td><td>DFT sinyali sonsuz periyodik varsayar; frekansta çarpma, uzayda <i>dairesel</i> konvolüsyon demektir. Kenarlar karşı kenarla karışır.</td><td>Sıfır doldurma (padding), pencereleme / kenar yumuşatma, sınır koşulu seçimi; sonuçta geçersiz bölgeyi kırp.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>FFT hızlıdır ama sınır dikkat ister</b>Dönüştür–çarp–ters dönüştür döngüsünde dolgu miktarı ve pencere seçimi ihmal edilmemelidir.</div>
+    <div class="callout real"><b>Gerçek hayat: Tekerlek ters dönüyor</b>Filmde hızlı dönen tekerleğin ters dönüyormuş gibi görünmesi örtüşmenin klasik örneğidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Frekans filtreleme">
+  <div class="panel">
+    <div class="kicker">Frekans alanında filtreleme</div>
+    <h2>Spektrumu transfer fonksiyonuyla çarp</h2>
+    <p>Spektrum F(u,v), bir transfer fonksiyonu <b>H(u,v)</b> ile çarpılır; ters dönüşümle sonuç alınır.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Filtre</th><th>Ne geçer?</th><th>Etki</th></tr></thead>
+      <tbody>
+        <tr><td><b>Alçak geçiren</b></td><td>Düşük frekanslar</td><td>Gürültü ve ince doku zayıflar; görüntü yumuşar.</td></tr>
+        <tr><td><b>Yüksek geçiren</b></td><td>Yüksek frekanslar</td><td>Kenar ve ayrıntı vurgulanır.</td></tr>
+        <tr><td><b>Bant geçiren / durduran (notch)</b></td><td>Belirli bir bant geçer / bastırılır</td><td>Periyodik parazitler (şerit, tarama çizgileri) spektrumda parlak noktalar olarak görünür ve çentikle silinir.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Üç biçim</h3>
+    <ul>
+      <li><b>İdeal:</b> keskin kesim; uzayda sonsuz yanıt ve belirgin <b>halkalanma</b> (ringing, Gibbs etkisi) yapar.</li>
+      <li><b>Butterworth:</b> yumuşak geçiş; düzen arttıkça geçiş keskinleşir, halkalanma artar.</li>
+      <li><b>Gauss:</b> hem uzayda hem frekansta Gauss; halkalanma üretmez.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Frekans laboratuvarı">
+  <div class="panel">
+    <div class="kicker">Frekans laboratuvarı · dene</div>
+    <h2>Spektrumda çalış, sonucu gör</h2>
+    <p>Sahneye düzenli bir şerit paraziti eklendi: spektrumda yatay eksende iki parlak nokta olarak görünür. Filtre türünü ve biçimini değiştir; kesim yarıçapını kaydır. Mavi alanlar bastırılan frekanslar:</p>
+    <div class="lab" id="freqlab"></div>
+    <div class="callout idea"><b>Dene</b>İdeal alçak geçirenle halkalanmayı bul. Sonra Notch seç: kenarlar neredeyse bozulmadan şeritler silinir mi?</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Homomorfik filtreleme">
+  <div class="panel">
+    <div class="kicker">Homomorfik filtreleme</div>
+    <h2>Aydınlatmayı ve yansımayı birbirinden ayır</h2>
+    <p>Düşük kontrastın çoğu zaman nedeni nesnenin kendisi değil, yavaş değişen <b>aydınlatma</b>dır. Görüntü bir çarpım olarak modellenir: <b>f(x,y) = i(x,y) · r(x,y)</b> (i: aydınlatma, r: yansıma). Logaritma çarpımı toplama çevirir: log f = log i + log r.</p>
+    <ol>
+      <li>Logaritma al.</li>
+      <li>Frekans alanına geç; aydınlatma (düşük frekans) bastırılır, yansıma (yüksek frekans) güçlendirilir.</li>
+      <li>Ters dönüşüm ve üstel al.</li>
+    </ol>
+    <div class="callout idea"><b>Dikkat</b>Aşırı bastırma global ton dengesini bozar; aşırı kazanç gürültüyü yükseltir. Logaritma için sıfıra yakın değerlere ofset gerekir. Renkli görüntüde işlem tercihen parlaklık (luminans) kanalında yapılır.</div>
+    <div class="callout real"><b>Gerçek hayat: Gölgeli belge</b>Yarı gölgede kalan bir sayfanın okunur hâle getirilmesi tipik homomorfik uygulamadır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Çok-ölçekli yaklaşımlar">
+  <div class="panel">
+    <div class="kicker">Çok-ölçekli ve dalgacık</div>
+    <h2>Her ölçeği kendi katmanında işle</h2>
+    <p>Tek kesim frekanslı filtre, farklı ölçeklerdeki ayrıntıları aynı anda doğru ele alamaz. Çok-ölçekli yöntemler görüntüyü bir <b>temel</b> ve bir dizi <b>ayrıntı</b> katmanına böler.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Araç</th><th>Fikir</th></tr></thead>
+      <tbody>
+        <tr><td><b>Laplace piramidi</b></td><td>Gauss piramidinin ardışık farklarıyla ayrıntı katmanları; her katman bir frekans bandı.</td></tr>
+        <tr><td><b>Dalgacık (DWT / kaydırmasız)</b></td><td>Konum ve ölçeği birlikte çözer; kaydırmasız türü kenar konumlarını kaydırmaz ama bellek ve işlem maliyeti artar.</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li><b>Gürültü giderme:</b> ayrıntı katmanlarında eşikleme (sert/yumuşak) ya da daraltma; eşik her katmanın gürültü varyansına göre seçilir.</li>
+      <li><b>İyileştirme:</b> bazı katmanlara kontrollü kazanç vererek mikro-kontrastı artır.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Derin öğrenme">
+  <div class="panel">
+    <div class="kicker">Derin öğrenme tabanlı yaklaşımlar · kartlara tıkla</div>
+    <h2>Klasik filtrelerden öğrenilen filtrelere</h2>
+    <p>Klasik yöntemler sabit çekirdeklere ve matematiksel modellere dayanır; veri koşulları değişince uyum sağlamakta sınırlı kalır. Derin öğrenme filtreleri <b>veriden öğrenir</b>.</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">CNN</b>Evrişimli ağlar<span class="tip">tıkla</span></span><span class="back"><b class="k">Rolü</b>Frekans bileşenlerini ve karmaşık yapıları görüntüden doğrudan öğrenir; artık (residual) yapılar gürültü kalıntısını öğrenir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">U-Net</b>Kodlayıcı–çözücü<span class="tip">tıkla</span></span><span class="back"><b class="k">Rolü</b>Çok-ölçekli bilgiyi atlama bağlantılarıyla birleştirir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">GAN</b>SRGAN<span class="tip">tıkla</span></span><span class="back"><b class="k">Rolü</b>Yüksek frekans bileşenlerini daha doğal geri kazanır; süper çözünürlükte yeni standart oldu.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Hibrit</b>Dalgacık + CNN<span class="tip">tıkla</span></span><span class="back"><b class="k">Rolü</b>Çok-ölçekli analiz gücünü öğrenmenin uyarlanabilirliğiyle birleştirir.</span></button>
+    </div>
+    <div class="callout idea"><b>Sonuç</b>Klasik yöntemler hâlâ öğretici bir temeldir; ama gürültü giderme, süper çözünürlük, kontrast ve detay iyileştirmede derin yöntemler baskın duruma geldi.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Düşük ışık, HDR, renk">
+  <div class="panel">
+    <div class="kicker">Özel durumlar</div>
+    <h2>Düşük ışık, HDR ve renkli görüntü</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Fikir</th><th>Dikkat</th></tr></thead>
+      <tbody>
+        <tr><td><b>Retinex</b></td><td>Aydınlatma ve yansımayı çok ölçekte ayırır; global aydınlatma hatasını düzeltir, yerel ayrıntıyı korur.</td><td>Karanlıkta sinyal gürültüye yakındır; gürültü büyüyebilir.</td></tr>
+        <tr><td><b>HDR ton eşleme</b></td><td>Geniş dinamik aralığı ekrana uygun aralığa sıkıştırır. Global operatörler (log, sigmoid) hızlı; yerel operatörler temel katmanda sıkıştırıp ayrıntıyı korur.</td><td>Yerel operatörlerde kontur yakınında hale riski.</td></tr>
+        <tr><td><b>Renkli görüntü</b></td><td>İşlemin çoğu aydınlık (luminans) kanalında yapılır (YCbCr, Lab); renk kanalları yalnızca küçük genlikle düzenlenir.</td><td>Doğrudan RGB’de işlem ton kaymasına ve doygunluk artefaktına yol açar.</td></tr>
+        <tr><td><b>Beyaz dengesi</b></td><td>Gri-dünya gibi basit varsayımlar ilk düzeltmeyi sağlar; zor sahnelerde öğrenme tabanlı yöntemler.</td><td>Aşırı kontrast doygunluğu beklenmedik yükseltir.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Artefaktlar ve değerlendirme">
+  <div class="panel">
+    <div class="kicker">Artefakt ve ölçüt</div>
+    <h2>Neyi bozmadan, nasıl ölçeriz?</h2>
+    <div class="peas-grid">
+      <div class="peas-c a"><b>Artefaktlar</b><b>Halkalanma</b>: ideal ve yüksek düzenli filtrelerde; yumuşak geçiş ve pencereleme azaltır. <b>Bantlama</b> (banding): düşük bit derinliğinde ve agresif yerel kontrastta; yüksek bit derinliği, küçük titreşim (dithering) çözer. <b>Sarmalanma</b>: dolgu ve kenar yumuşatma. Önce küçük bir test yamasında dene.</div>
+      <div class="peas-c e"><b>Değerlendirme</b><b>PSNR</b> gürültü düzeyine kaba bir fikir verir ama algıyla birebir örtüşmez. <b>SSIM</b> ailesi parlaklık, kontrast ve yapıyı birlikte ölçer. Görev temelli ölçütler (kontrast-gürültü oranı, kenar netliği) ve öznel (insan) değerlendirme birlikte kullanılır.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Fotoğraf yarışması</b>Bir sayı (PSNR) “daha az gürültü” der; jüri (öznel) “daha doğal” der. İkisini birlikte okumak gerekir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 6</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Fourier</td><td>Genlik (ne kadar) + faz (nerede); FFT; sonsuz periyodik varsayım</td></tr>
+        <tr><td>Örnekleme</td><td>Nyquist aşılırsa örtüşme; ön filtre; dolgu ile sarmalanmayı azalt</td></tr>
+        <tr><td>Filtreler</td><td>Alçak, yüksek, bant, notch; ideal (halka), Butterworth, Gauss</td></tr>
+        <tr><td>Homomorfik</td><td>log f = log i + log r; aydınlatmayı kıs, yansımayı güçlendir</td></tr>
+        <tr><td>Çok-ölçekli</td><td>Laplace piramidi, dalgacık; katman başına eşikleme ve kazanç</td></tr>
+        <tr><td>Derin öğrenme</td><td>CNN, U-Net, GAN; veriden öğrenilen uyarlanabilir filtre</td></tr>
+        <tr><td>Retinex / HDR / renk</td><td>Aydınlatma düzeltme; ton eşleme; luminans kanalında işlem</td></tr>
+        <tr><td>Ölçüt</td><td>PSNR, SSIM, görev temelli ve öznel birlikte</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
