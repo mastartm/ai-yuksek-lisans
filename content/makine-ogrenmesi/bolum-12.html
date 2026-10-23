@@ -1,0 +1,210 @@
+<!--
+course: makine-ogrenmesi
+course_title: Makine Öğrenmesi
+no: 12
+title: Hesaplamalı Öğrenme Teorisi
+quiz: QUIZ_ML_12
+quiz_file: ml-bolum-12-quiz.js
+scripts: ml12.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 12</div>
+    <h1>Hesaplamalı Öğrenme Teorisi</h1>
+    <p class="big-quote">“Bu modeli eğitmek için kaç örnek yeter?” Şimdiye dek deneme yanılmayla cevap aradık. Hesaplamalı öğrenme teorisi aynı soruyu <b>matematiksel olarak</b> sorar: hangi koşulda başarılı öğrenme mümkün, hangisinde imkânsız, ve ne kadar veri gerekir?</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Örneklem karmaşıklığı, hesaplama karmaşıklığı ve hata sınırı sorularını ayırt edebilirsin.</li>
+      <li>Gerçek hata ile eğitim hatasının farkını açıklayabilirsin.</li>
+      <li>PAC öğrenilebilirliğin ε ve δ anlamını söyleyebilirsin.</li>
+      <li>İkili değişkenlerin birleşimi için gereken örnek sayısını hesaplayabilirsin.</li>
+      <li>Bir örnek kümesini bölmeyi (shattering) ve VC boyutunu açıklayabilirsin.</li>
+      <li>Hata sınırı modelinin PAC’tan farkını anlatabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Öğrenme neye bağlı? Üç soru, iki çerçeve</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Üç soru: örneklem karmaşıklığı, hesaplama karmaşıklığı, hata sınırı. İki çerçeve: PAC ve hata sınırı"><rect class="d-brand" x="10" y="20" width="220" height="60" rx="8"/><text class="d-txt d-c" x="120" y="55">Kaç örnek gerekir?</text><rect class="d-ok" x="10" y="100" width="220" height="60" rx="8"/><text class="d-txt d-c" x="120" y="135">Ne kadar hesap gerekir?</text><rect class="d-warn" x="270" y="60" width="220" height="80" rx="8"/><text class="d-txt d-c" x="380" y="95">PAC çerçevesi</text><text class="d-sm d-c" x="380" y="115">muhtemelen yaklaşık doğru</text><rect class="d-bad" x="530" y="60" width="220" height="80" rx="8"/><text class="d-txt d-c" x="640" y="95">Hata sınırı modeli</text><text class="d-sm d-c" x="640" y="115">kaç hata yapılır?</text><path class="d-line-brand" d="M230 50 L270 90"/><path class="d-line-brand" d="M230 130 L270 110"/><path class="d-line-brand" d="M490 100 L530 100"/></svg>
+    <p>İki çerçeve de öğrenme <i>algoritmasını</i> değil, algoritmayı belirleyen <b>hipotez uzayını</b> ve <b>eğitim verisinin sunuluş biçimini</b> inceler.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Hangi sorular?">
+  <div class="panel">
+    <div class="kicker">12.1 Giriş</div>
+    <h2>Öğrenme işi hangi genel kurallara dayanıyor?</h2>
+    <p>Bu teori şu sorulara yanıt arar: “Hangi koşullar altında başarılı öğrenme mümkün ve imkânsızdır?” ve “Hangi koşullar altında belirli bir algoritmanın başarılı öğrenmesi garanti edilir?” Genel yanıtlar henüz bilinmiyor; çalışmalar sürüyor. Bölüm bilinmeyen bir hedef fonksiyonu, verilen örneklerden öğrenme problemine odaklanır.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Örneklem karmaşıklığı</b>Yüksek olasılıkla başarılı bir hipoteze ulaşmak için kaç eğitim verisi gerekir?</div>
+      <div class="peas-c e"><b>Hesaplama karmaşıklığı</b>Yüksek olasılıkla başarılı bir hipoteze ulaşmak için ne kadar hesaplama gerekir?</div>
+      <div class="peas-c a"><b>Hata sınırı</b>Başarılı hipoteze ulaşana kadar öğrenici kaç eğitim verisini yanlış sınıflandırır?</div>
+    </div>
+    <h3>Cevap neye bağlı?</h3>
+    <ul>
+      <li>Öğrenicinin hipotez uzayının büyüklüğü ya da karmaşıklığı.</li>
+      <li>Hedef kavramın ne kadar doğrulukla öğrenilmesi gerektiği.</li>
+      <li>Öğrenicinin başarılı bir hipotez bulma olasılığı.</li>
+      <li>Eğitim verisinin öğreniciye nasıl sunulduğu.</li>
+    </ul>
+    <div class="callout idea"><b>“Başarılı” ne demek?</b>Hedef kavramla birebir aynı hipotez mi, çoğunlukla uyuşan mı, çoğu zaman böyle bir hipotez mi? Eğitim örnekleri yardımsever bir danışmandan mı gelir, öğrenicinin deneyleriyle mi, öğrenicinin denetimi dışında rastgele mi? Cevaplar seçilen ortama göre değişir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="PAC problem tanımı">
+  <div class="panel">
+    <div class="kicker">12.2.1 Problem tanımı</div>
+    <h2>Kim kimdir: X, C, P, H, L</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Simge</th><th>Anlamı</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">X</td><td>Hedef fonksiyonların tanımlandığı tüm olası örnekler.</td></tr>
+        <tr><td class="mono">C</td><td>Öğrenicinin öğrenmesi istenebilecek hedef kavramlar kümesi. Her c ∈ C, X’in bir altkümesi ya da c: X → {0, 1} fonksiyonudur (pozitif örnekte c(x) = 1).</td></tr>
+        <tr><td class="mono">P</td><td>Örneklerin X’ten rastgele üretildiği olasılık dağılımı. Herhangi bir dağılım olabilir ve öğrenici tarafından bilinmez; tek gereken zamanla değişmemesidir.</td></tr>
+        <tr><td class="mono">H</td><td>Öğrenicinin dikkate aldığı olası hipotezler kümesi.</td></tr>
+        <tr><td class="mono">L</td><td>Öğrenici: hedef kavram c’ye ait eğitim verisini gözlemledikten sonra H’den bir h hipotezi döndürür. Başarısı, yine P’ye göre X’ten seçilen yeni örneklerle sınanır.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Yaş ve uzunluk (ders notundaki örnek)</b>X, yaş (genç ya da yaşlı) ve uzunluk (uzun ya da kısa) özellikleriyle anlatılan tüm kişilerin kümesi olabilir. H de bu özelliklerin birleşimiyle (conjunction) oluşturulan tüm hipotezlerin kümesi olabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Gerçek hata">
+  <div class="panel">
+    <div class="kicker">12.2.2 Bir hipotezdeki hata</div>
+    <h2>Gerçek hata ile eğitim hatası aynı şey değil</h2>
+    <p>h’nin gerçek hatası, P’ye göre rastgele seçilen bir örnekte h’nin yanlış sınıflandırma olasılığıdır:</p>
+    <p class="big-quote" style="font-size:1.05rem">hata<sub>P</sub>(h) = Pr<sub>x∈P</sub>[ c(x) ≠ h(x) ]</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Gerçek hata</b>Gelecekte P’ye göre gelecek tüm örneklerdeki beklenen hata oranıdır. Öğrenici bunu doğrudan gözleyemez.</div>
+      <div class="peas-c e"><b>Eğitim hatası</b>Yalnızca eğitim örneklerinin yanlış sınıflandırılma oranıdır. Öğrenici bunu ölçebilir.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Şekil 12.1’deki hata alanı (ders notundaki örnek)</b>c ve h kavramları X üzerinde pozitif işaretledikleri örneklerle gösterilir. h’nin hatası, rastgele bir örneğin c ile h’nin farklı değer verdiği alana düşme olasılığıdır. Dağılım düzgünse (uniform) hata, bu alanın bütün alana oranıdır; ama P bu alana daha büyük olasılık veriyorsa hata da büyür.</div>
+    <div class="callout idea"><b>Analizin ana sorusu</b>“h için eğitim hatası, hangi olasılıkla gerçek hatayı yanlış tahmin etmemize yol açar?” sorusuna cevap aramak, analizin büyük bölümünü oluşturur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="PAC öğrenilebilirlik">
+  <div class="panel">
+    <div class="kicker">12.2.3 PAC öğrenilebilirlik</div>
+    <h2>Muhtemelen (δ) yaklaşık (ε) doğru</h2>
+    <p>Hedef: makul sayıda rastgele eğitim örneği ve makul hesapla öğrenilebilen kavram sınıflarını karakterize etmek. hata<sub>P</sub>(h) = 0 isteyemeyiz, iki sebepten:</p>
+    <ol>
+      <li>Tüm olası örnekler eğitim verisinde olmadıkça, eğitim verisiyle tutarlı birden fazla hipotez olabilir; öğrenici hangisini seçeceğinden emin olamaz.</li>
+      <li>Eğitim verisi rastgele seçildiği için, her zaman yanıltıcı bir veri gelme ihtimali vardır.</li>
+    </ol>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>ε (hata sınırı)</b>Sıfır hata beklenmez; hata ε ile sınırlıdır ve ε istenildiği kadar küçültülebilir. → <i>yaklaşık doğru</i></div>
+      <div class="peas-c e"><b>δ (başarısızlık olasılığı)</b>Her rastgele eğitim kümesinde başarı beklenmez; başarısızlık olasılığı δ ile sınırlıdır. → <i>muhtemelen</i></div>
+    </div>
+    <div class="callout idea"><b>Tanım (özet)</b>C kavram sınıfı, H’yi kullanan L tarafından <b>PAC-öğrenilebilir</b>dir: 0 &lt; ε &lt; 1/2 ve 0 &lt; δ &lt; 1/2 için, L en az (1 − δ) olasılıkla hata<sub>P</sub>(h) &lt; ε olan bir h’yi, 1/ε, 1/δ, n ve c’nin büyüklüğüne göre <b>polinom zamanda</b> bulabiliyorsa. n, X’teki örneklerin boyutudur; c’nin büyüklüğü, gösterime göre kodlama uzunluğudur.</div>
+    <p>Tanım hesaplama kaynağına bakıyor gibi görünse de pratikte gereken eğitim örneği sayısıyla yakından ilgilidir: L her örnek için bir miktar işlem zamanı gerektiriyorsa, PAC-öğrenilebilir olabilmesi için polinom sayıda örnekten öğrenebilmesi gerekir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Sonlu H için örnek sayısı">
+  <div class="panel">
+    <div class="kicker">12.3 Sonlu hipotez uzayları · dene</div>
+    <h2>İkili değişkenlerin birleşimi için kaç örnek?</h2>
+    <p>Hedef kavramlar, ikili değişkenlerin (literal: bir değişken ya da değili) birleşimi olsun; örneğin <span class="mono">Old ∧ ¬Tall</span>. Her değişken için üç seçenek vardır: birleşimde olduğu gibi yer alır, değili yer alır, ya da hiç yer almaz. Bu yüzden n değişken için <b>|H| = 3ⁿ</b>.</p>
+    <p>Tutarlı bir öğrenici için gereken örnek sayısı sınırı, ε, δ ve |H|’ye bağlıdır:</p>
+    <p class="big-quote" style="font-size:1.05rem">m ≥ (1/ε) · ( ln|H| + ln(1/δ) )</p>
+    <p>(Notta bu sınır bir şekil olarak verilir; burada standart biçimiyle yazıldı.) Notun vurguladığı sonuç: <b>m, n ve 1/ε cinsinden doğrusal, 1/δ cinsinden logaritmik büyür</b>.</p>
+    <div class="callout real"><b>Gerçek hayat: 10 değişkenli birleşim (ders notundaki örnek)</b>10 değişkene kadar olan birleşimlerle anlatılan bir hedef kavramı %95 olasılıkla, 0,1 hata ile öğrenmeye çalışan öğrenici için yeterli örnek sayısı hesaplanır; notta bu, formüle sayılar konarak çözülen bir örnektir. Aynı değerleri aşağıdaki laboratuvarda sen de dene.</div>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Değişken sayısı n, hata sınırı ε ve başarısızlık olasılığı δ kaydırıcılarını değiştir; ya da “Notun örneği” düğmesine bas.</li>
+        <li><b>Ne göreceksin:</b> |H| = 3ⁿ, gereken örnek sayısı m ve üç “ya şöyle olsaydı” satırı (n’yi iki katına çıkar, ε’u yarıya indir, δ’yı yarıya indir) görünür.</li>
+        <li><b>Ne anlamalısın:</b> m, n ve 1/ε ile yaklaşık doğrusal büyür; 1/δ ile yalnızca logaritmik büyür. Yani yüksek güven (küçük δ) ucuzdur, küçük hata (küçük ε) pahalıdır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>ε</dt><dd>İzin verilen en büyük hata (yaklaşık doğru).</dd><dt>δ</dt><dd>Başarısız olma olasılığı (muhtemelen).</dd><dt>|H|</dt><dd>Hipotez uzayındaki hipotez sayısı; n değişkenli birleşimlerde 3ⁿ.</dd><dt>m</dt><dd>Yeterli eğitim örneği sayısı (üst sınır).</dd></dl></details>
+      <p class="lab-src">Sayılar sanal. Hipotez sayısı 3ⁿ ve “m, n ve 1/ε ile doğrusal, 1/δ ile logaritmik” sonucu notundaki Bölüm 12.3.1’den alındı. m ≥ (1/ε)(ln|H| + ln(1/δ)) biçimi notta şekil olarak verilir, burada standart biçimiyle hesaplandı.</p>
+    </div>
+    <div class="lab" id="paclab"></div>
+    <div class="callout idea"><b>FIND-S ile</b>Eğitim örneği başına polinom zamanlı bir algoritma da gerekir. FIND-S, her yeni pozitif örnek için n ile doğrusal zamanda, mevcut hipotezle örneğin değişkenlerinin kesişimini bulur. Bu yüzden boole değişkenlerin birleşiminden oluşan C sınıfı, H = C için <b>FIND-S tarafından PAC-öğrenilebilirdir</b>.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Örnek kümesini bölmek">
+  <div class="panel">
+    <div class="kicker">12.4.1 Shattering · dene</div>
+    <h2>H, bir örnek kümesini “böler” mi?</h2>
+    <p>Hipotez uzayı sonsuz olabilir; bu yüzden |H| yerine başka bir karmaşıklık ölçüsü gerekir. X’in bir altkümesi S için H’deki her hipotez S’i iki altkümeye böler: { x ∈ S | h(x) = 1 } ve { x ∈ S | h(x) = 0 }. Buna <b>dikotomi</b> denir. S için 2<sup>|S|</sup> olası dikotomi vardır ama H hepsini ifade edemeyebilir. S’nin her dikotomisi için H’de onunla tutarlı en az bir hipotez varsa “<b>H, S’yi böler</b>” (shatters) denir.</p>
+    <p>Aşağıda doğru üzerindeki 1–4 nokta için iki basit hipotez ailesini dene:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Bir hipotez ailesi (eşik ya da aralık) ve doğru üzerinde 1–4 nokta seç.</li>
+        <li><b>Ne göreceksin:</b> Noktaların tüm olası “+/−” bölünmeleri tabloda sıralanır; her biri için H’nin onu ifade edip edemediği yazılır. Üstte H’nin S’yi bölüp bölmediği ve bulunan en büyük bölünen küme görünür.</li>
+        <li><b>Ne anlamalısın:</b> H bir kümeyi bölüyorsa o küme üzerinde her hedef kavramı ifade edebilir. Eşik ailesi 1 noktayı, aralık ailesi 2 noktayı bölebilir; bu, onların VC boyutlarının 1 ve 2 olduğunu gösterir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Dikotomi</dt><dd>Bir noktalar kümesinin “+” ve “−” diye iki gruba ayrılması.</dd><dt>Bölmek (shatter)</dt><dd>Her dikotomiyi ifade eden bir hipotez bulunması.</dd><dt>Eşik</dt><dd>x değeri a’dan büyükse “+”, değilse “−” diyen hipotezler.</dd><dt>Aralık</dt><dd>x değeri (a, b) aralığındaysa “+”, değilse “−” diyen hipotezler.</dd></dl></details>
+      <p class="lab-src">Bu iki hipotez ailesi notta yok; bölme (shattering) ve VC boyutu tanımlarını göstermek için bu sitede eklendi. Tanımlar notundaki Bölüm 12.4’tendir.</p>
+    </div>
+    <div class="lab" id="shatlab"></div>
+    <div class="callout idea"><b>Neden önemli?</b>H’nin bir örnek kümesini bölme becerisi, o örnekler üzerindeki hedef kavramları ifade etme kapasitesinin ölçüsüdür. Bir örnek kümesi bölünemiyorsa H’de ifade edilemeyen bir dikotomi vardır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="VC boyutu">
+  <div class="panel">
+    <div class="kicker">12.4.2 Vapnik-Chervonenkis boyutu</div>
+    <h2>Hipotez uzayının ifade gücü tek bir sayıda</h2>
+    <p>Bir örnek kümesini bölme becerisi, hipotez uzayının tümevarımsal önyargısını (inductive bias) gösterir. <b>Önyargısız</b> bir hipotez uzayı, X üzerindeki olası tüm dikotomileri ifade edebilir; yani X’in kendisini böler. Peki H, X’i bölemiyor ama X’in büyük bir altkümesi S’yi bölebiliyorsa? S ne kadar büyükse H’nin ifade gücü o kadar büyüktür. Bunu ölçen sayı <b>VC boyutudur</b>.</p>
+    <div class="callout idea"><b>Tanım</b>H’nin VC boyutu VC(H), X’in H tarafından bölünebilen <b>en büyük sonlu altkümesinin büyüklüğüdür</b>. X’in istenildiği kadar büyük altkümeleri bölünebiliyorsa VC(H) sonsuzdur.</div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Ölçüt</th><th>Neye bakar?</th></tr></thead>
+      <tbody>
+        <tr><td>|H|</td><td>Hipotez sayısı (sonlu uzaylar)</td></tr>
+        <tr><td>VC(H)</td><td>H ile ayrılabilen farklı örneklerin sayısı: bölünebilen en büyük örnek kümesi (sonsuz uzaylar için de kullanılır)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Bir önceki laboratuvarda eşik ailesi 1 noktayı böler ama 2 noktayı bölemez; aralık ailesi 2 noktayı böler ama 3 noktayı bölemez. Bu sitenin örneğinde VC boyutları sırasıyla 1 ve 2’dir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Hata sınırı modeli">
+  <div class="panel">
+    <div class="kicker">12.5 Hata sınırı · dene</div>
+    <h2>Öğrenmeden önce kaç hata yapılır?</h2>
+    <p>PAC’ın yanında hesaplamalı öğrenme teorisi başka ortamları da ele alır. Ortamlar, örneklerin nasıl oluştuğuna (pasif rastgele gözlem ya da aktif sorgulama), gürültüye, başarının tanımına, öğrenicinin varsayımlarına (örneğin dağılım, C ⊆ H olup olmadığı) ve ölçüte (örnek sayısı, hata sayısı, toplam süre) göre değişir.</p>
+    <p><b>Hata sınırı</b> modelinde öğrenici her x örneğini aldığında, doğru hedef değer c(x) gösterilmeden önce c(x)’i <b>tahmin etmek zorundadır</b>. Soru: öğrenici hedef kavramı öğrenmeden önce tahminlerinde kaç hata yapar? Hedef kavramı tam öğrenmek, h(x) = c(x) olan bir hipoteze yakınsamaktır.</p>
+    <div class="callout real"><b>Gerçek hayat: Kredi kartı onayı (ders notundaki örnek)</b>Sistem, kullanım sırasında toplanan verilere dayanarak hangi satın alımların onaylanacağını, hangilerinin sahte olduğunu öğreniyorsa, doğru hedef fonksiyona yakınsamadan önce yapacağı toplam hata sayısını en aza indirmek ister. Burada toplam hata sayısı, toplam eğitim örneği sayısından bile önemli olabilir; çünkü sistem çevrimdışı eğitimde değil, fiilen kullanımdayken öğrenir.</div>
+    <p>Aşağıdaki oyunda gizli bir hedef kavramı öğrenmeye çalışan çevrimiçi bir öğrenici vardır. Yanlış tahminleri say:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> “Bir örnek gelsin” ya da “20 örnek gelsin”e bas; “Baştan başla” ile yeniden dene.</li>
+        <li><b>Ne göreceksin:</b> Her örnek için öğrenicinin tahmini ve gerçek değeri listelenir; yanlış tahminler sayılır. Öğrenicinin hipotezi pozitif örnekler geldikçe hedefe yaklaşır.</li>
+        <li><b>Ne anlamalısın:</b> Hata sınırı modelinde önemli olan, öğrenmeden önce yapılan toplam hata sayısıdır; öğrenici her örneği önce tahmin eder, sonra doğrusunu görür.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Hata</dt><dd>Öğrenicinin tahmini ile gerçek değerin farklı çıkması.</dd><dt>Hipotez</dt><dd>Öğrenicinin şimdiki tahmin kuralı: değişkenlerin birleşimi.</dd><dt>¬</dt><dd>“Değil” (olumsuz).</dd></dl></details>
+      <p class="lab-src">Hedef kavram ve örnekler bu site için üretildi (4 ikili değişken, hedef x₁ ∧ ¬x₃). Öğrenici notundaki FIND-S fikrinin (yalnızca pozitiflerden genelleme) çevrimiçi hâlidir; hata sınırı değeri bu araçla iddia edilmez.</p>
+    </div>
+    <div class="lab" id="mistlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 12</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Üç soru</td><td>Örneklem karmaşıklığı, hesaplama karmaşıklığı, hata sınırı</td></tr>
+        <tr><td>Gerçek hata</td><td>Pr[c(x) ≠ h(x)]; P’ye göre tüm örneklerde; eğitim hatasından farklı</td></tr>
+        <tr><td>PAC</td><td>(1 − δ) olasılıkla hata &lt; ε; polinom zamanda; ε ve δ istenildiği kadar küçük</td></tr>
+        <tr><td>Sonlu H</td><td>İkili birleşim için |H| = 3ⁿ; m, n ve 1/ε ile doğrusal, 1/δ ile logaritmik; FIND-S PAC-öğrenebilir</td></tr>
+        <tr><td>Agnostik öğrenme</td><td>PAC’ın C’yi önceden bilme varsayımı kısıtlayıcıdır; agnostik modelde öğrenici C hakkında varsayım yapmaz, eğitim verisinde en az hatalı H hipotezini çıkarır</td></tr>
+        <tr><td>VC boyutu</td><td>H tarafından bölünebilen en büyük örnek kümesinin büyüklüğü</td></tr>
+        <tr><td>Hata sınırı</td><td>Hedef kavramı tam öğrenmeden önce yapılan yanlış sınıflandırma sayısı</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

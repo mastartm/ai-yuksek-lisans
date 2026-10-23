@@ -90,6 +90,26 @@ add('klab', 'makine-ogrenmesi/bolum-11.html',
     [('Küme içi hata', 'Her noktanın kendi merkezine uzaklığının karelerinin toplamı.'), ('Dirsek', 'Hata eğrisinin eğiminin belirgin değiştiği nokta.'), ('Siluet katsayısı', 'Nesnenin kümesine yakınlığı ile en yakın diğer kümeden uzaklığını karşılaştırır; −1 ile 1 arasındadır.')],
     'Veri notta yok; bu site için üretilmiş 90 sanal nokta. Dirsek ve siluet fikri notundaki Bölüm 11.4.2 ve 11.4.3.2’ye dayanır; siluetin (b − a) / max{a, b} biçimi notta şekil olarak verilir, burada standart hâliyle hesaplandı.')
 
+# ---------------- Makine Öğrenmesi 12 ----------------
+add('paclab', 'makine-ogrenmesi/bolum-12.html',
+    'Değişken sayısı n, hata sınırı ε ve başarısızlık olasılığı δ kaydırıcılarını değiştir; ya da “Notun örneği” düğmesine bas.',
+    '|H| = 3ⁿ, gereken örnek sayısı m ve üç “ya şöyle olsaydı” satırı (n’yi iki katına çıkar, ε’u yarıya indir, δ’yı yarıya indir) görünür.',
+    'm, n ve 1/ε ile yaklaşık doğrusal büyür; 1/δ ile yalnızca logaritmik büyür. Yani yüksek güven (küçük δ) ucuzdur, küçük hata (küçük ε) pahalıdır.',
+    [('ε', 'İzin verilen en büyük hata (yaklaşık doğru).'), ('δ', 'Başarısız olma olasılığı (muhtemelen).'), ('|H|', 'Hipotez uzayındaki hipotez sayısı; n değişkenli birleşimlerde 3ⁿ.'), ('m', 'Yeterli eğitim örneği sayısı (üst sınır).')],
+    'Sayılar sanal. Hipotez sayısı 3ⁿ ve “m, n ve 1/ε ile doğrusal, 1/δ ile logaritmik” sonucu notundaki Bölüm 12.3.1’den alındı. m ≥ (1/ε)(ln|H| + ln(1/δ)) biçimi notta şekil olarak verilir, burada standart biçimiyle hesaplandı.')
+add('shatlab', 'makine-ogrenmesi/bolum-12.html',
+    'Bir hipotez ailesi (eşik ya da aralık) ve doğru üzerinde 1–4 nokta seç.',
+    'Noktaların tüm olası “+/−” bölünmeleri tabloda sıralanır; her biri için H’nin onu ifade edip edemediği yazılır. Üstte H’nin S’yi bölüp bölmediği ve bulunan en büyük bölünen küme görünür.',
+    'H bir kümeyi bölüyorsa o küme üzerinde her hedef kavramı ifade edebilir. Eşik ailesi 1 noktayı, aralık ailesi 2 noktayı bölebilir; bu, onların VC boyutlarının 1 ve 2 olduğunu gösterir.',
+    [('Dikotomi', 'Bir noktalar kümesinin “+” ve “−” diye iki gruba ayrılması.'), ('Bölmek (shatter)', 'Her dikotomiyi ifade eden bir hipotez bulunması.'), ('Eşik', 'x değeri a’dan büyükse “+”, değilse “−” diyen hipotezler.'), ('Aralık', 'x değeri (a, b) aralığındaysa “+”, değilse “−” diyen hipotezler.')],
+    'Bu iki hipotez ailesi notta yok; bölme (shattering) ve VC boyutu tanımlarını göstermek için bu sitede eklendi. Tanımlar notundaki Bölüm 12.4’tendir.')
+add('mistlab', 'makine-ogrenmesi/bolum-12.html',
+    '“Bir örnek gelsin” ya da “20 örnek gelsin”e bas; “Baştan başla” ile yeniden dene.',
+    'Her örnek için öğrenicinin tahmini ve gerçek değeri listelenir; yanlış tahminler sayılır. Öğrenicinin hipotezi pozitif örnekler geldikçe hedefe yaklaşır.',
+    'Hata sınırı modelinde önemli olan, öğrenmeden önce yapılan toplam hata sayısıdır; öğrenici her örneği önce tahmin eder, sonra doğrusunu görür.',
+    [('Hata', 'Öğrenicinin tahmini ile gerçek değerin farklı çıkması.'), ('Hipotez', 'Öğrenicinin şimdiki tahmin kuralı: değişkenlerin birleşimi.'), ('¬', '“Değil” (olumsuz).')],
+    'Hedef kavram ve örnekler bu site için üretildi (4 ikili değişken, hedef x₁ ∧ ¬x₃). Öğrenici notundaki FIND-S fikrinin (yalnızca pozitiflerden genelleme) çevrimiçi hâlidir; hata sınırı değeri bu araçla iddia edilmez.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
