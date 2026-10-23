@@ -1,0 +1,260 @@
+<!--
+course: makine-ogrenmesi
+course_title: Makine Öğrenmesi
+no: 7
+title: Naive Bayes, Bayes Ağları ve Model Değerlendirme
+quiz: QUIZ_ML_7
+quiz_file: ml-bolum-7-quiz.js
+scripts: ml7.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 7</div>
+    <h1>Naive Bayes, Bayes Ağları ve Model Değerlendirme</h1>
+    <p class="big-quote">Bir sınıflandırıcı kurdun: “%95 doğru” diyor. Ama nadir bir hastalığı ya da dolandırıcılığı arıyorsan, hiçbir şey bulmayan bir model de %95 doğru olabilir. Bu bölüm iki soruyu birlikte çözer: <b>olasılıkla nasıl sınıflandırırız</b> ve <b>sınıflandırıcıyı doğru nasıl ölçeriz</b>?</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Naive Bayes’i bir örnek üzerinde elle hesaplayabilirsin; m-tahminini anlatabilirsin.</li>
+      <li>Koşullu bağımsızlığı ve Bayes inanç ağının mantığını açıklayabilirsin.</li>
+      <li>Karışıklık matrisinden doğruluk, duyarlılık, özgüllük, kesinlik ve F ölçüsünü hesaplayabilirsin.</li>
+      <li>Tutma, çapraz doğrulama ve önyüklemeyi karşılaştırabilirsin.</li>
+      <li>Sınıf dengesizliğini ve iki modeli istatistiksel olarak karşılaştırmayı anlatabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Önce olasılıkla sınıflandır, sonra sonucu doğru ölç</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Naive Bayes ve Bayes ağları ile sınıflandırma, sonra değerlendirme ve model seçimi"><rect class="d-brand" x="10" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="90" y="88">Naive Bayes</text><text class="d-sm d-c" x="90" y="108">bağımsız kanıtlar</text><rect class="d-ok" x="200" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="280" y="88">Bayes ağı</text><text class="d-sm d-c" x="280" y="108">bağımlılık grafiği</text><rect class="d-warn" x="390" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="475" y="88">Değerlendirme</text><text class="d-sm d-c" x="475" y="108">metrikler, doğrulama</text><rect class="d-box" x="590" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="670" y="88">Model seçimi</text><text class="d-sm d-c" x="670" y="108">anlamlı fark var mı?</text><path class="d-line-brand" d="M170 95 L200 95"/><path class="d-line-brand" d="M360 95 L390 95"/><path class="d-line-brand" d="M560 95 L590 95"/></svg>
+    <p>Model kurmak yarı iştir. Onu hangi veriyle, hangi ölçütle sınadığın, sonucun güvenilir olup olmadığını belirler.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Naive Bayes: TenisOyna">
+  <div class="panel">
+    <div class="kicker">Naive Bayes · dene</div>
+    <h2>Tenis oynanır mı? 14 günden öğren</h2>
+    <p>Karar ağacı bölümünde gördüğün <b>TenisOyna</b> verisi: 14 gün, dört öznitelik (Gökyüzü, Sıcaklık, Nem, Rüzgar) ve “oynandı mı?” etiketi. Yeni bir gün için etiketi tahmin edeceğiz: <span class="mono">⟨Güneşli, Serin, Yüksek, Güçlü⟩</span>. Naive Bayes her öznitelik değerinin, sınıf verildiğinde birbirinden <b>bağımsız</b> olduğunu varsayar ve şunu hesaplar:</p>
+    <p class="big-quote" style="font-size:1.05rem">v_NB = argmax P(v) · Π P(aᵢ | v)</p>
+    <ul>
+      <li>Önsel olasılıklar frekanstan: P(evet) = 9/14 ≈ 0,64; P(hayır) = 5/14 ≈ 0,36.</li>
+      <li>Koşullu olasılıklar da frekanstan: örneğin P(Rüzgar = Güçlü | evet) = 3/9, P(Rüzgar = Güçlü | hayır) = 3/5.</li>
+      <li>Bu gün için skorlar: evet ≈ 0,0053; hayır ≈ 0,0206. Karar: <b>oynanmaz</b>. Normalize edince ihtimaller toplamı 1 olur.</li>
+    </ul>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Dört özniteliğin değerini seç (başlangıçta notundaki gün: Güneşli, Serin, Yüksek, Güçlü). Sonra m kaydırıcısını artır.</li>
+        <li><b>Ne göreceksin:</b> Tabloda her sınıf için kesirler (n_c/n) ve altta evet/hayır skorları ile normalize olasılık görünür.</li>
+        <li><b>Ne anlamalısın:</b> Skorlar çarpılarak bulunur; büyük olan kazanır. Bir kesir 0 olursa çarpım sıfırlanır; m-tahmini bu sıfırı yumuşatır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Önsel P(evet)</dt><dd>9 oynanan günün 14 güne oranı: 9/14.</dd><dt>Koşullu olasılık</dt><dd>Sınıf verildiğinde o öznitelik değerinin görülme oranı (örn. 3/9).</dd><dt>m</dt><dd>m-tahmininde önsel tahmine verilen ağırlık (eşdeğer örnek büyüklüğü). m = 0: klasik kesir.</dd><dt>Normalize</dt><dd>İki skoru toplamı 1 olacak biçimde oranlamak.</dd></dl></details>
+      <p class="lab-src">Veri: TenisOyna’nın 14 günü (karar ağacı bölümündeki aynı veri). Hesap yöntemi notundaki Bölüm 7.1’e dayanır.</p>
+    </div>
+    <div class="lab" id="tenislab"></div>
+    <div class="callout real"><b>Gerçek hayat: Hafta sonu planı (ders notundaki örnek)</b>“Güneşli, serin, nem yüksek, rüzgâr güçlü” bir gün için geçmiş 14 günden öğrenilen olasılıklar çarpılır; skor büyük çıkan sınıf (burada “oynanmaz”) seçilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="m-tahmini">
+  <div class="panel">
+    <div class="kicker">Olasılıkların tahmini</div>
+    <h2>Az gözlemde kesir yanıltır: m-tahmini</h2>
+    <p>Olasılığı n_c / n kesriyle (gözlenen oran) tahmin etmek çoğu zaman iyidir. Ama n_c çok küçükse zayıf bir tahmin verir; özellikle <b>n_c = 0</b> olursa tahmin 0 çıkar ve naive Bayes’te tüm çarpımı sıfırlar. Bayes yaklaşımıyla <b>m-tahmini</b> kullanılır:</p>
+    <p class="big-quote" style="font-size:1.1rem">(n_c + m·p) / (n + m)</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Simge</th><th>Anlamı</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">n</td><td>Sınıfın eğitim örneği sayısı.</td></tr>
+        <tr><td class="mono">n_c</td><td>Bunlardan o öznitelik değerini taşıyanlar.</td></tr>
+        <tr><td class="mono">p</td><td>Tahmin edilen olasılığın önsel tahmini (bilgi yoksa 1 / olası değer sayısı).</td></tr>
+        <tr><td class="mono">m</td><td>“Eşdeğer örnek büyüklüğü”: önsel tahmine, gözlenen veriye göre ne kadar ağırlık verileceğini belirler.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Yukarıdaki laboratuvarda dene</b>Gökyüzü’nü “Bulutlu” seç. “Hayır” sınıfında hiç Bulutlu gün yok: kesir 0 olur ve skor sıfırlanır. m’yi artırınca bu sıfır yumuşar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Koşullu bağımsızlık">
+  <div class="panel">
+    <div class="kicker">Bayes inanç ağları</div>
+    <h2>Koşullu bağımsızlık: üçüncü bir değişken verilince bağımsızlık</h2>
+    <p>X, Y ve Z üç ayrık rassal değişken olsun. Z’nin değeri verildiğinde X’i yöneten olasılık dağılımı Y’nin değerinden bağımsızsa, “Z verildiğinde X, Y’den koşullu bağımsızdır” denir:</p>
+    <p class="big-quote" style="font-size:1.05rem">P(X | Y, Z) = P(X | Z)</p>
+    <p>Bu, değişken kümelerine de genişletilir. <b>Naive Bayes</b> tam olarak bunu varsayar: hedef değer V verildiğinde A₁, A₂’den koşullu bağımsızdır; bu yüzden P(A₁, A₂ | V) = P(A₁ | V)·P(A₂ | V) olur.</p>
+    <div class="callout idea"><b>Fark</b>Naive Bayes <i>bütün</i> özniteliklerin birbirinden bağımsız olduğunu söyler. Bayes ağı ise hangi değişkenlerin hangilerinden bağımsız olduğunu <b>grafik üzerinde</b> belirler; yani daha az sert bir varsayımdır.</div>
+    <div class="callout real"><b>Gerçek hayat: Yıldırım ve gök gürültüsü (ders notundaki örnek)</b>“Yıldırım, gök gürültüsüne neden olur.” Yıldırımın değeri bilindiğinde gök gürültüsü, orman yangınından ve diğer değişkenlerden bağımsızdır: bilgi yıldırımdan geçerek akar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bayes ağının gösterimi">
+  <div class="panel">
+    <div class="kicker">Bayes inanç ağı</div>
+    <h2>Düğümler, oklar ve koşullu olasılık tabloları</h2>
+    <svg class="diagram" viewBox="0 0 760 250" role="img" aria-label="Fırtına ve Otobüs Tur Grubu Kamp Ateşini; Fırtına Yıldırımı; Yıldırım Gök Gürültüsünü; Yıldırım ve Kamp Ateşi Orman Yangınını etkiler"><rect class="d-brand" x="30" y="20" width="150" height="46" rx="8"/><text class="d-txt d-c" x="105" y="49">Fırtına</text><rect class="d-brand" x="30" y="170" width="150" height="46" rx="8"/><text class="d-txt d-c" x="105" y="199">OtobüsTurGrubu</text><rect class="d-ok" x="300" y="95" width="150" height="46" rx="8"/><text class="d-txt d-c" x="375" y="124">KampAteşi</text><rect class="d-ok" x="300" y="20" width="150" height="46" rx="8"/><text class="d-txt d-c" x="375" y="49">Yıldırım</text><rect class="d-warn" x="570" y="20" width="160" height="46" rx="8"/><text class="d-txt d-c" x="650" y="49">GökGürültüsü</text><rect class="d-bad" x="570" y="130" width="160" height="46" rx="8"/><text class="d-txt d-c" x="650" y="159">OrmanYangını</text><path class="d-line-brand" d="M180 43 L300 43"/><path class="d-line-brand" d="M180 55 L300 108"/><path class="d-line-brand" d="M180 190 L300 125"/><path class="d-line-brand" d="M450 43 L570 43"/><path class="d-line-brand" d="M450 66 L570 135"/><path class="d-line-brand" d="M450 118 L570 150"/></svg>
+    <ul>
+      <li>Her <b>düğüm</b> bir değişkendir; <b>ok</b> doğrudan etkiyi gösterir.</li>
+      <li>Ağ, tüm değişkenler üzerinde bir <b>ortak olasılık dağılımı</b> verir: her değişkenin olasılığı yalnızca <b>ebeveynlerine</b> bağlı koşullu olasılıkların çarpımıdır.</li>
+      <li>Her düğümün bir <b>koşullu olasılık tablosu (CPT)</b> vardır. Örneğin KampAteşi için: <span class="mono">P(KampAteşi = D | Fırtına = D, OtobüsTurGrubu = D) = 0,4</span>.</li>
+      <li>Yerel koşullu bağımsızlıklar, nedensel bilgiyi (“yıldırım gök gürültüsüne neden olur”) doğal biçimde gösterir.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Orman yangını ağı (ders notundaki örnek)</b>Fırtına ve tur grubu kamp ateşini, yıldırım ve kamp ateşi orman yangını olasılığını etkiler. Ağ, “gök gürültüsü duydum ve fırtına var; yangın ihtimali ne?” gibi soruları yanıtlamaya yarar.</div>
+    <div class="callout real"><b>Gerçek hayat: Kamp ateşi tablosu (ders notundaki örnek)</b>Hem fırtına hem tur grubu varken kamp ateşi yakılma olasılığı 0,4’tür. Diğer üç ebeveyn kombinasyonu için ayrı satırlar vardır; tablo yalnızca ebeveynler verildiğinde koşullu olasılığı verir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Çıkarım ve öğrenme">
+  <div class="panel">
+    <div class="kicker">Ağı kullanmak ve öğrenmek</div>
+    <h2>Çıkarım pahalı, ağı öğrenmek zor</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Durum</th></tr></thead>
+      <tbody>
+        <tr><td><b>Çıkarım</b></td><td>Diğer değişkenler gözlenince bir hedef değişkenin (örn. OrmanYangını) olasılık dağılımı hesaplanır. Genel bir ağ için tam çıkarım <b>NP-zor</b>dur; bu yüzden tam yöntemlerin yanında, kesinlikten feda eden <b>yaklaşık çıkarım</b> yöntemleri vardır.</td></tr>
+        <tr><td><b>Yapı verilmiş, veri tam gözlenmiş</b></td><td>CPT girdileri naive Bayes’te olduğu gibi frekanstan kolayca tahmin edilir.</td></tr>
+        <tr><td><b>Yapı verilmiş, veri kısmen gözlenmiş</b></td><td>Daha zor; sinir ağındaki gizli birimlerin ağırlıklarını öğrenmeye benzer.</td></tr>
+        <tr><td><b>Yapı bilinmiyor</b></td><td>Daha da zor. Alternatif ağlar arasından seçmek için Bayes metrik sayımı kullanılır; tam gözlenen veride K2 gibi sezgisel algoritmalar vardır. Kısıt tabanlı yaklaşımlar veriden bağımlılık/bağımsızlık çıkarıp ağı kurar.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Karışıklık matrisi">
+  <div class="panel">
+    <div class="kicker">Değerlendirme metrikleri · dene</div>
+    <h2>Sınıflandırıcı ne kadar “doğru”?</h2>
+    <p>Eğitim verisiyle ölçmek aşırı iyimser sonuç verir: öğrenme algoritması verilere fazla uzmanlaşmıştır. Bu yüzden model <b>görmediği test verisiyle</b> ölçülür. İlgilenilen ana sınıfa <b>pozitif</b>, diğerlerine <b>negatif</b> denir. Dört sayı:</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>TP</b>Doğru etiketlenen pozitifler.</div>
+      <div class="peas-c e"><b>TN</b>Doğru etiketlenen negatifler.</div>
+      <div class="peas-c a"><b>FP</b>Yanlışlıkla pozitif denen negatifler.</div>
+      <div class="peas-c s"><b>FN</b>Yanlışlıkla negatif denen pozitifler.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Bilgisayar alıyor mu? (ders notundaki örnek)</b>Pozitif sınıf “bilgisayar_alıyor = evet”. Sınıflandırıcı birine “evet” dedi ama kişi aslında almıyorsa bu bir FP; “hayır” dedi ama kişi alıyorsa FN’dir.</div>
+    <p>Sayıları kaydırıp metriklerin nasıl değiştiğini izle; özellikle “nadir pozitif” ve “hep negatif diyen model” düğmelerini dene:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Dört sayıyı (TP, FN, FP, TN) kaydır ya da düğmelerle hazır durumları dene: dengeli, nadir pozitif, “hep negatif” model.</li>
+        <li><b>Ne göreceksin:</b> Karışıklık matrisi ve beş metrik (doğruluk, duyarlılık, özgüllük, kesinlik, F ölçüsü) anında güncellenir.</li>
+        <li><b>Ne anlamalısın:</b> Nadir pozitif sınıfta doğruluk yüksek görünür ama duyarlılık düşük kalır. Sınıflar dengesizse tek metriğe değil metrik takımına bakılır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Pozitif</dt><dd>İlgilendiğin ana sınıf (hasta, dolandırıcılık, bilgisayar alıyor).</dd><dt>TP / FN / FP / TN</dt><dd>Gerçek pozitif, yanlış negatif, yanlış pozitif, gerçek negatif.</dd><dt>Duyarlılık</dt><dd>Gerçek pozitiflerin ne kadarı yakalandı (TP/P).</dd><dt>Kesinlik</dt><dd>“Pozitif” dediklerinin ne kadarı gerçekten pozitif.</dd></dl></details>
+      <p class="lab-src">Sayılar bu site için seçildi. Formüller notundaki Bölüm 7.3.1’den alındı.</p>
+    </div>
+    <div class="lab" id="conflab"></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Metrik</th><th>Formül</th><th>Anlamı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Doğruluk</b></td><td class="mono">(TP + TN) / (P + N)</td><td>Genel tanıma oranı; hata oranı = 1 − doğruluk.</td></tr>
+        <tr><td><b>Duyarlılık (hatırlama)</b></td><td class="mono">TP / P</td><td>Gerçek pozitiflerin ne kadarı yakalandı?</td></tr>
+        <tr><td><b>Özgüllük</b></td><td class="mono">TN / N</td><td>Gerçek negatiflerin ne kadarı doğru bilindi?</td></tr>
+        <tr><td><b>Kesinlik</b></td><td class="mono">TP / (TP + FP)</td><td>“Pozitif” dediklerinin ne kadarı gerçekten pozitif?</td></tr>
+        <tr><td><b>F ölçüsü</b></td><td class="mono">2·kesinlik·hatırlama / (kesinlik + hatırlama)</td><td>İkisinin harmonik ortalaması; F_β ile hatırlamaya ağırlık verilebilir.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Dengesiz sınıflar ve metrikler">
+  <div class="panel">
+    <div class="kicker">Doğruluk ne zaman yanıltır?</div>
+    <h2>Doğruluk, sınıflar dengeliyken iyidir</h2>
+    <div class="callout real"><b>Gerçek hayat: Dolandırıcılık tespiti (ders notundaki örnek)</b>Dolandırıcılık gibi uygulamalarda ilgilenilen pozitif sınıf çok nadirdir. Hiçbir işleme “dolandırıcılık” demeyen bir model bile çok yüksek doğruluk alabilir. Bu yüzden duyarlılık, özgüllük, kesinlik ve F ölçüsü birlikte okunur.</div>
+    <div class="callout real"><b>Gerçek hayat: Tıbbi test (ders notundaki örnek)</b>Hastalığı olanlar azınlıktır. Hastaları kaçırmanın (FN) maliyeti, sağlamlara yanlış alarm vermenin (FP) maliyetinden farklıdır; geleneksel sınıflandırıcılar ise iki hatanın maliyetini eşit sayar.</div>
+    <h3>Doğruluk dışında karşılaştırma ölçütleri</h3>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Ölçüt</th><th>Soru</th></tr></thead>
+      <tbody>
+        <tr><td><b>Hız</b></td><td>Modeli kurmak ve kullanmak ne kadar hesap maliyeti taşıyor?</td></tr>
+        <tr><td><b>Sağlamlık</b></td><td>Gürültülü ya da eksik değerli veride doğru tahmin edebiliyor mu?</td></tr>
+        <tr><td><b>Ölçeklenebilirlik</b></td><td>Büyük veriyle verimli kurulabiliyor mu?</td></tr>
+        <tr><td><b>Yorumlanabilirlik</b></td><td>Modelin içgörü verme düzeyi (karar ağaçları ve kurallar yorumlaması kolaydır). Özneldir, değerlendirmesi zordur.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Yeniden ikame hatası</b>Hata oranını eğitim kümesiyle ölçmek “yeniden ikame hatası”dır ve gerçek hata oranının iyimser bir tahminidir; model bu verileri zaten görmüştür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Doğrulama yöntemleri">
+  <div class="panel">
+    <div class="kicker">Veriyi nasıl böleriz? · dene</div>
+    <h2>Tutma, çapraz doğrulama ve önyükleme</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Nasıl?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Tutma (holdout)</b></td><td>Veri rastgele iki bağımsız kümeye bölünür; tipik olarak üçte ikisi eğitim, üçte biri test. <b>Rastgele alt örnekleme</b> bunu birkaç kez yineler.</td></tr>
+        <tr><td><b>k-katlı çapraz doğrulama</b></td><td>Veri k eşit katmana bölünür; her turda biri test, kalanlar eğitim olur; k tur sonunda doğruluk ortalaması alınır.</td></tr>
+        <tr><td><b>Birini dışarıda bırakma</b></td><td>k, kayıt sayısına eşit olan özel durum: her turda tek kayıt test edilir.</td></tr>
+        <tr><td><b>Katmanlı çapraz doğrulama</b></td><td>Her katmanda sınıf dağılımı, tüm verideki dağılıma yakın tutulur.</td></tr>
+        <tr><td><b>Önyükleme (bootstrap)</b></td><td>Eğitim kümesi <b>yerine koyarak</b> örnekleme ile seçilir; seçilmeyenler test kümesi olur. En yaygını <b>.632 önyükleme</b>.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Öneri</b>Doğruluğu tahmin etmek için, düşük sapma ve varyansı nedeniyle çoğunlukla <b>katmanlı 10-katlı çapraz doğrulama</b> önerilir.</div>
+    <p>%63,2 rakamı nereden geliyor? Aşağıdaki laboratuvarda kendin çek ve gör:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Veri sayısı d’yi seç ve “Bir önyükleme örneği çek”e birkaç kez bas.</li>
+        <li><b>Ne göreceksin:</b> Eğitim kümesine giren farklı kayıt sayısı, oranı ve kuramsal oran yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Yerine koyarak çekince kayıtların yaklaşık %63,2’si eğitim kümesine girer; seçilmeyen yaklaşık %36,8 test kümesi olur.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Önyükleme (bootstrap)</dt><dd>Yerine koyarak örnekleme: seçilen kayıt tekrar seçilebilir.</dd><dt>d</dt><dd>Veri kümesindeki kayıt sayısı.</dd><dt>.632</dt><dd>Eğitime giren farklı kayıtların yaklaşık oranı.</dd></dl></details>
+      <p class="lab-src">Veri yok; tamamen rastgele simülasyon. Kuram notundaki Bölüm 7.3.4’e dayanır.</p>
+    </div>
+    <div class="lab" id="bootlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Dengesiz sınıf verisi">
+  <div class="panel">
+    <div class="kicker">Sınıf dengesizliği</div>
+    <h2>Nadir sınıfı öğretmek için dört yaklaşım</h2>
+    <p>Pozitif (ana ilgi) sınıf yalnızca birkaç örnekle temsil ediliyorsa veri <b>dengesizdir</b>. Geleneksel algoritmalar hata sayısını en aza indirmeyi amaçlar ve iki hatanın maliyetini eşit varsayar; bu da çoğunluk sınıfı yanlısı bir model üretir.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Aşırı örnekleme</b>Pozitif örnekleri çoğalt (SMOTE gibi yöntemler, pozitiflere yakın yapay örnekler ekler).</div>
+      <div class="peas-c e"><b>Az örnekleme</b>Negatif örneklerin bir kısmını at.</div>
+      <div class="peas-c a"><b>Eşik taşıma</b>Örnekleme yapmaz; sürekli çıktı veren sınıflandırıcıda karar eşiğini nadir sınıf lehine kaydırır.</div>
+      <div class="peas-c s"><b>Topluluk yöntemleri</b>Birden çok sınıflandırıcıyı (bunlar da yukarıdaki yaklaşımları içerebilir) birleştirir.</div>
+    </div>
+    <div class="callout idea"><b>Deneysel gözlem</b>İki sınıflı görevlerde bu yöntemler iyi çalışır. Eşik taşıma ve topluluk yöntemlerinin, aşırı ve az örneklemeden genellikle daha iyi performans gösterdiği gözlenmiştir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Model seçimi ve anlamlılık">
+  <div class="panel">
+    <div class="kicker">İki model, hangisi daha iyi?</div>
+    <h2>En düşük hata yetmez: fark gerçek mi?</h2>
+    <p>M₁ ve M₂ modelleri için 10-katlı çapraz doğrulama yaptın ve ortalama hata oranlarını buldun. En düşük hatalıyı seçmek sezgiseldir ama risklidir: aradaki fark <b>şans eseri</b> olabilir. Gerçek bir fark olup olmadığını <b>istatistiksel anlamlılık testi</b> söyler.</p>
+    <ol>
+      <li>Her model için, her seferinde farklı bir 10-katlı bölümlemeyle 10 kez çapraz doğrulama yapılır; ortalama hata oranları bulunur.</li>
+      <li>İki modelin hata oranları arasındaki fark için <b>t istatistiği</b> hesaplanır.</li>
+      <li>Bir anlamlılık düzeyi seçilir (pratikte %5 ya da %1) ve t-dağılımı tablosuyla karşılaştırılır.</li>
+      <li>t, tablo değerini aşarsa farkın anlamlı olduğu, modellerin gerçekten farklı olduğu sonucuna varılır.</li>
+    </ol>
+    <div class="callout real"><b>Gerçek hayat: İki modeli karşılaştırmak (sayılar bu sitenin örneğidir)</b>M₁’in hatası %9,8, M₂’nin %10,1 çıktı diyelim. 10 katlı çapraz doğrulama ve t testiyle bu 0,3 puanlık farkın anlamlı olup olmadığına bakmadan M₁’i seçmek, şansı kazanç sanmaktır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 7</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Naive Bayes</td><td>argmax P(v)·ΠP(aᵢ|v); sınıf verilince öznitelikler bağımsız; kesirler frekanstan</td></tr>
+        <tr><td>m-tahmini</td><td>(n_c + m·p)/(n + m); sıfır olasılığı yumuşatır</td></tr>
+        <tr><td>Koşullu bağımsızlık</td><td>P(X|Y,Z) = P(X|Z)</td></tr>
+        <tr><td>Bayes ağı</td><td>Düğüm = değişken, ok = doğrudan etki, CPT; ortak dağılım; tam çıkarım NP-zor</td></tr>
+        <tr><td>Metrikler</td><td>TP, TN, FP, FN; doğruluk, duyarlılık, özgüllük, kesinlik, F; nadir sınıfta doğruluk yanıltır</td></tr>
+        <tr><td>Doğrulama</td><td>Tutma, k-katlı, birini dışarıda bırakma, katmanlı 10-katlı (önerilir), .632 önyükleme</td></tr>
+        <tr><td>Dengesizlik</td><td>Aşırı/az örnekleme, SMOTE, eşik taşıma, topluluk</td></tr>
+        <tr><td>Model seçimi</td><td>Ortalama hata + t testi (%5 ya da %1); fark anlamlı mı?</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
