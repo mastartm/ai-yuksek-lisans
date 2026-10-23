@@ -28,6 +28,14 @@ add('bootlab', 'makine-ogrenmesi/bolum-7.html',
     [('Önyükleme (bootstrap)', 'Yerine koyarak örnekleme: seçilen kayıt tekrar seçilebilir.'), ('d', 'Veri kümesindeki kayıt sayısı.'), ('.632', 'Eğitime giren farklı kayıtların yaklaşık oranı.')],
     'Veri yok; tamamen rastgele simülasyon. Kuram notundaki Bölüm 7.3.4’e dayanır.')
 
+# ---------------- Makine Öğrenmesi 8 ----------------
+add('kumelab', 'makine-ogrenmesi/bolum-8.html',
+    'Önce bir veri seç (yuvarlak iki küme ya da iç içe geçen iki hilal). Sonra yöntemi değiştir; yoğunluk esaslı yöntemde komşuluk yarıçapını kaydır.',
+    'Noktalar bulunan kümeye göre renklenir; altta bulunan küme sayısı, gerçek iki grupla uyum ve gri kalan nokta sayısı yazılır.',
+    'Uzaklık esaslı yöntem hilali ortadan böler; yoğunluk esaslı yöntem komşuluk zincirini izleyip şekli bulur. Ama yarıçap parametresi yanlışsa o da parçalanır ya da birleşir.',
+    [('Uzaklık esaslı', 'Nesneyi en yakın merkeze atar; küme şekli oval varsayılır.'), ('Yoğunluk/komşuluk esaslı', 'Yarıçap içindeki komşuları aynı kümeye bağlar; zincir sürdükçe küme büyür.'), ('Komşuluk yarıçapı', 'İki noktanın komşu sayılması için en çok ne kadar uzak olabileceği.'), ('Gri nokta', 'İlk iki büyük parçanın dışında kalan, kümeye girmeyen nokta.')],
+    'Veri notta yok; bu site için üretilmiş sanal noktalardır. Karşılaştırılan iki fikir (uzaklık esaslı yöntemin düzensiz şekli bölmesi, yoğunluk esaslı yöntemin şekli izlemesi) notundaki Bölüm 8.2 ve 8.3’e dayanır; buradaki yöntemler yalnızca fikri göstermek için sadeleştirilmiştir.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():

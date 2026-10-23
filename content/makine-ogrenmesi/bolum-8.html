@@ -1,0 +1,184 @@
+<!--
+course: makine-ogrenmesi
+course_title: Makine Öğrenmesi
+no: 8
+title: Kümeleme
+quiz: QUIZ_ML_8
+quiz_file: ml-bolum-8-quiz.js
+scripts: ml8.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 8</div>
+    <h1>Kümeleme</h1>
+    <p class="big-quote">Elinde binlerce müşteri var ama kimse onları önceden gruplara ayırmamış. Etiket yok, “doğru cevap” yok. Yine de benzer olanları bir araya getirmek istiyorsun. Kümeleme tam bunu yapar: <b>etiketsiz veride gruplar keşfeder</b>.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Kümelemeyi tanımlayabilir ve sınıflandırmadan farkını söyleyebilirsin.</li>
+      <li>Kümeleme için kullanım alanlarından örnek verebilirsin.</li>
+      <li>Kümeleme algoritmalarından beklenen gereksinimleri sayabilirsin.</li>
+      <li>Dört temel yöntem ailesini (bölümleme, hiyerarşik, yoğunluk, ızgara) ayırt edebilirsin.</li>
+      <li>Uzaklık esaslı yöntemlerin düzensiz şekilde neden zorlandığını açıklayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Etiketsiz veriden gruplar çıkar</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Etiketsiz veri benzerliğe göre gruplanır; gruplar tek başına incelenir ya da başka algoritmalara ön işleme olur"><rect class="d-box" x="10" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="90" y="88">Etiketsiz veri</text><text class="d-sm d-c" x="90" y="108">sınıf bilgisi yok</text><rect class="d-brand" x="200" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="280" y="88">Benzerlik ölçütü</text><text class="d-sm d-c" x="280" y="108">çoğunlukla uzaklık</text><rect class="d-ok" x="390" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="475" y="88">Kümeler</text><text class="d-sm d-c" x="475" y="108">içte benzer, dışta farklı</text><rect class="d-warn" x="590" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="670" y="88">Kullanım</text><text class="d-sm d-c" x="670" y="108">inceleme, ön işleme</text><path class="d-line-brand" d="M170 95 L200 95"/><path class="d-line-brand" d="M360 95 L390 95"/><path class="d-line-brand" d="M560 95 L590 95"/></svg>
+    <p>Kümelemede “doğru küme” önceden verilmez. Algoritma yalnızca nesnelerin <b>birbirine ne kadar benzediğine</b> bakar.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Kümeleme nedir?">
+  <div class="panel">
+    <div class="kicker">Tanım</div>
+    <h2>Benzerlere göre gruplama</h2>
+    <p><b>Kümeleme</b>, bir veri nesnesi kümesini benzerliklerine göre birden fazla gruba ayırmaktır. Bir küme içindeki nesneler birbirine yüksek benzerlik gösterir, diğer kümelerdeki nesnelerden ise çok farklıdır. Benzerlik, nesneleri tanımlayan öznitelik değerlerine bakılarak değerlendirilir; çoğunlukla mesafe ölçümleri kullanılır.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Sınıflandırma</b>Sınıf bilgisi verilir; model bunlardan öğrenir, sonra yeni örneğin sınıfını tahmin eder. Denetimli öğrenmedir.</div>
+      <div class="peas-c e"><b>Kümeleme</b>Hangi nesnenin hangi kümeye ait olduğu önceden bilinmez; danışacak bir eğitim kümesi yoktur. Danışmansız (denetimsiz) öğrenmedir.</div>
+      <div class="peas-c a"><b>Otomatik gruplama</b>Kümeleme bazen bu adla anılır: algoritma benzer nesneleri kendisi bir araya getirir.</div>
+      <div class="peas-c s"><b>Gözlemle öğrenme</b>Kümeleme, örneklerle öğrenmekten çok gözlemle öğrenmedir.</div>
+    </div>
+    <div class="callout idea"><b>Kümeyi bulmak yeni gruplar keşfetmektir</b>Kümeleme, veri matrisi içinde daha önce bilinmeyen grupları ortaya çıkarır. Aynı veri üzerinde birden fazla kümeleme yöntemi de denenebilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kullanım alanları">
+  <div class="panel">
+    <div class="kicker">Nerede kullanılır?</div>
+    <h2>Müşteriden el yazısına, arama sonuçlarından kredi kartına</h2>
+    <p>Kümeleme; kurumsal zekâ, görüntü işleme, web aramaları, biyoloji, güvenlik ve sosyal ağlar gibi geniş bir alanda kullanılır. Kutulara tıklayıp notundaki örneklere bak:</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Kurumsal zekâ</b>Çok müşterili bir kurum<span class="tip">tıkla</span></span><span class="back"><b class="k">Örnek</b>Müşteriler benzer özelliklerine göre organize edilir; böylece müşteri ilişkileri geliştirilir. Bir danışmanlık firması da çok sayıdaki projesini benzerliğine göre kategorilere ayırıp yönetimi kolaylaştırır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Görüntü işleme</b>El yazısı rakamlar<span class="tip">tıkla</span></span><span class="back"><b class="k">Örnek</b>“2” rakamı farklı yazılabilir: kuyruğu uzun, üstteki oval kısmı birleşik. Bu biçimler kümelenir ve her küme üzerinde ayrı model kullanmak tahmini iyileştirir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Web araması</b>Çok büyük cevap kümesi<span class="tip">tıkla</span></span><span class="back"><b class="k">Örnek</b>Bir kelimeyi aramak çok sayıda sonuç döndürür. Kümeleme sonuçları benzerliğine göre gruplar ve konu başlıklarına ayırıp kullanıcıya kolay sunar.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Aykırı değer tespiti</b>Kredi kartı hırsızlığı<span class="tip">tıkla</span></span><span class="back"><b class="k">Örnek</b>Kümelerin çok dışında kalan veriler incelenir. Büyük meblağlı alışverişler ya da müşteri profiline uymayan nadir alışveriş türleri olası kart hırsızlığına işaret edebilir.</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Müşterileri gruplamak (ders notundaki örnek)</b>Çok müşterisi olan bir kurum, benzer özellikli müşterileri aynı kümede toplar. Her müşteri tek bir kümededir; kümeler birbirinden bağımsız olabilir.</div>
+    <div class="callout real"><b>Gerçek hayat: El yazısı “2” (ders notundaki örnek)</b>Aynı rakamın farklı yazılış biçimleri ayrı kümeler olur. Her küme için ayrı modeller kullanmak görüntünün daha doğru tahmin edilmesini sağlar.</div>
+    <div class="callout real"><b>Gerçek hayat: Arama sonuçları (ders notundaki örnek)</b>Binlerce arama sonucu, konu başlıklarına göre kümelenerek kullanıcıya sunulur.</div>
+    <div class="callout real"><b>Gerçek hayat: Kredi kartı ekstresi (ders notundaki örnek)</b>Müşteri profiline uygun olmayan harcamalar kümelerin dışında kalan aykırı veri olarak incelenir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Ön işleme olarak kümeleme">
+  <div class="panel">
+    <div class="kicker">İki rol</div>
+    <h2>Tek başına bir araç ya da başka algoritmaların ön adımı</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Rol</th><th>Ne yapar?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Bağımsız araç</b></td><td>Veri dağılımı hakkında bilgi edinmek ve oluşan kümelerin karakteristiklerini incelemek için kullanılır.</td></tr>
+        <tr><td><b>Ön işleme: özetleme</b></td><td>Karakterize etme, alt küme seçimi ya da sınıflandırma gibi sonraki adımlardan önce veriyi kümelerle özetler.</td></tr>
+        <tr><td><b>Ön işleme: gürültü giderme</b></td><td>Bazı algoritmalar gürültüyü etiketleyebilir; bu nokta atılarak veri temizlenir.</td></tr>
+        <tr><td><b>Aykırı değer incelemesi</b></td><td>Kümenin çok dışında kalan veriler bazen normal durumlardan daha ilgi çekicidir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Veri parçalama</b>Bazı uygulamalarda kümeleme, büyük veri kümelerini benzerliklerine göre ayırdığı için “veri parçalama” (data segmentation) olarak da geçer.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Gereksinimler">
+  <div class="panel">
+    <div class="kicker">Algoritmadan ne beklenir?</div>
+    <h2>Kümeleme algoritmasının gereksinimleri</h2>
+    <p>Kümeleme zorlu bir alandır. Bir algoritmayı değerlendirirken şu gereksinimlere bakılır. Kutulara tıklayıp açıklamalarını gör:</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">1</b>Ölçeklenebilirlik<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Birçok algoritma yüzlerce nesnede çalışır ama veritabanları milyonlarca, hatta milyarlarca nesne içerebilir (özellikle web aramasında). Büyük veride zamanında sonuç için ölçeklenebilir algoritma gerekir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">2</b>Farklı veri türleri<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Çoğu algoritma sayısal veri için tasarlanmıştır. Oysa ikili, kategorik, sırasal, çizge, resim ya da döküman verisi de olabilir. Sosyal ağda görüntü, konum, zaman ve metin bir aradadır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">3</b>Düzensiz şekilli kümeler<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Öklit ya da Manhattan uzaklığına dayanan algoritmalar benzer büyüklük ve yoğunlukta oval kümeler arar. Gerçek küme şekli düzensiz olabilir; algoritma onu bölmeye çalışmamalıdır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">4</b>Az kullanıcı parametresi<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Birçok algoritma küme sayısı gibi parametreleri kullanıcıdan ister (k-ortalamalarda k). Parametre yanlış verilirse iyi sonuç bulmak zorlaşır; yüksek boyutta belirlemek daha da zordur.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">5</b>Gürültüyle başa çıkma<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Gerçek veri uç, eksik, bilinmeyen ya da hatalı değerler içerir (örneğin tutarsız sensör verisi). Algoritma bunlardan bozulmamalıdır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">6</b>Kayıt sırasına duyarsızlık<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Yeni veri geldikçe veri kümesi güncellenir. Bazı algoritmalar bunu mevcut yapıyla hesaplayamayıp baştan hesaplar. Hangi elemandan başlanırsa başlansın sonuç değişmemelidir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">7</b>Çok boyutlu veri<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Dökümanda her kelime bir boyut olur; hastanede ölçülen her parametre de. Çoğu algoritma az boyutlu veride iyi çalışır, seyrek ve asimetrik çok boyutlu veride zorlanır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">8</b>Kısıtlara göre kümeleme<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Bir bankanın ATM’lerini yerleştirirken ulaşım ağı ve doğa gibi kısıtlar altında ev sayısına göre yer seçmek gerekir. Kısıtlar altında iyi gruplar bulmak zordur.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">9</b>Yorumlanabilirlik<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Kullanıcı, sonunda anlaşılır ve işe yarayan sonuç ister. Cevapların işlevsel olması önemlidir.</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: ATM yerleşimi (ders notundaki örnek)</b>Banka belli sayıda ATM’yi şehre yerleştirecek. Ulaşım ağı ve doğa kısıtlarına uyarken ev sayısına göre kümeleme yapmak gerekir.</div>
+    <div class="callout real"><b>Gerçek hayat: Sensör verisi (ders notundaki örnek)</b>Çevre gözetleme için kurulan sensör yapısında küme şekli oval olmayabilir. Algoritma düzensiz şekilleri de kapsamalıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Karşılaştırma ölçütleri">
+  <div class="panel">
+    <div class="kicker">Yöntemleri nasıl karşılaştırırız?</div>
+    <h2>Dört bakış açısı</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Ölçüt</th><th>Seçenekler</th></tr></thead>
+      <tbody>
+        <tr><td><b>Bölümleme kriteri</b></td><td>Kümeler aynı düzeydeyse hiyerarşi yoktur (her müşterinin kendi patronu gibi). Hiyerarşik kümelemede “spor” altında “futbol” ve “basketbol” gibi alt başlıklar olur.</td></tr>
+        <tr><td><b>Kümelerin dağıtımı</b></td><td>Bazı yöntemler her nesneyi yalnızca tek kümeye koyar (müşteri örneği). Bir dökümanda ise alt başlıklar birden fazla kümenin altında olabilir.</td></tr>
+        <tr><td><b>Benzerlik ölçümü</b></td><td>Uzaklık (öklit uzayı, yol ağı, vektör uzayı) ya da bağlantı, yoğunluk, yakınlık. Uzaklık esaslı yöntemler genellikle küresel şekillere uygundur; yoğunluk ve süreklilik esaslı yöntemler karmaşık şekillerde avantajlıdır.</td></tr>
+        <tr><td><b>Kümeleme uzayı</b></td><td>Tüm veri uzayında arama ya da alt uzayda arama. Çok boyutta alakasız öznitelikler benzerliği güvensiz yapabilir.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Alt uzayın üç yorumu</h3>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Alt veri kümesi</b>Veri kümesinden bir alt küme seçip onunla çalışmak.</div>
+      <div class="peas-c e"><b>Özellik seçimi</b>Bazı öznitelikleri çıkarıp bazılarını tutmak.</div>
+      <div class="peas-c a"><b>Boyut indirgeme</b>Öznitelikleri işleyerek yeni, daha az sayıda öznitelik üretmek (örneğin temel bileşen analizi).</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Boy ve kilo yerine vücut kitle indeksi (ders notundaki örnek)</b>İki özniteliği ayrı ayrı kullanmak yerine, ikisinin yerine geçen vücut kitle indeksini kullanmak boyut indirgemenin basit bir örneğidir.</div>
+    <div class="callout real"><b>Gerçek hayat: Konu başlıkları (ders notundaki örnek)</b>“Spor” ve “politika” üst başlık, “futbol” ve “basketbol” alt başlık olduğunda hiyerarşik kümeleme söz konusudur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Dört yöntem ailesi">
+  <div class="panel">
+    <div class="kicker">Temel kümeleme yöntemleri</div>
+    <h2>Bölümleme, hiyerarşik, yoğunluk, ızgara</h2>
+    <p>Kümeleme yöntemlerinin kesin bir sınıflandırması zordur; kategoriler birbirine karışabilir ve bir algoritma birden fazla aileden özellik taşıyabilir. Yine de düzenli bir bakış için dört aile ele alınır:</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Aile</th><th>Temel fikir</th><th>Notta anılan özellik</th></tr></thead>
+      <tbody>
+        <tr><td><b>Bölümlemeli</b></td><td>n nesneden k bölüm kurar; her bölüm bir küme, her grupta en az bir nesne, genelde her nesne tek kümede.</td><td>Çoğu mesafe tabanlı; açgözlü yöntemler (k-ortalamalar, k-medoids) yerel optimuma yaklaşır; küçük ve orta veride küresel şekilli kümeler bulur.</td></tr>
+        <tr><td><b>Hiyerarşik</b></td><td>Nesnelerin hiyerarşik bir ayrıştırmasını kurar. Kümeleyici (aşağıdan yukarıya): her nesne ayrı grup, sonra birleştir. Bölücü (yukarıdan aşağıya): hepsi tek grup, sonra böl.</td><td>Bir adım (birleştirme ya da bölme) yapıldıktan sonra geri alınamaz; ucuzdur ama hatayı düzeltemez.</td></tr>
+        <tr><td><b>Yoğunluk tabanlı</b></td><td>Komşuluktaki nesne sayısı bir eşiği aştığı sürece kümeyi büyütmeye devam eder.</td><td>Gürültüyü süzer ve keyfi şekilli kümeleri keşfedebilir.</td></tr>
+        <tr><td><b>Izgara tabanlı</b></td><td>Nesne uzayını sonlu sayıda hücreye böler; kümeleme ızgara yapısı üzerinde yapılır.</td><td>Hızlıdır; süre veri sayısından bağımsız, her boyuttaki hücre sayısına bağlıdır. Diğer yöntemlerle birleştirilebilir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Gösterim</b>D, kümelenecek n nesneden oluşan veri kümesidir. Her nesne d değişkenle (öznitelik ya da boyut) tanımlanır; yani d boyutlu uzayda bir nokta olarak düşünülebilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Şekil laboratuvarı">
+  <div class="panel">
+    <div class="kicker">Uzaklık ya da yoğunluk · dene</div>
+    <h2>Düzensiz şekil neden bölünüyor?</h2>
+    <p>Notta, uzaklık esaslı algoritmaların benzer büyüklükte oval kümeler aradığı, düzensiz şekilli kümelerde ise kümeyi bölmeye çalıştığı söylenir. Yoğunluk esaslı yöntemler ise komşuluk yoğunluğu sürdükçe kümeyi büyütür. Aşağıda iki veri ve iki yaklaşımı yan yana dene:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Önce bir veri seç (yuvarlak iki küme ya da iç içe geçen iki hilal). Sonra yöntemi değiştir; yoğunluk esaslı yöntemde komşuluk yarıçapını kaydır.</li>
+        <li><b>Ne göreceksin:</b> Noktalar bulunan kümeye göre renklenir; altta bulunan küme sayısı, gerçek iki grupla uyum ve gri kalan nokta sayısı yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Uzaklık esaslı yöntem hilali ortadan böler; yoğunluk esaslı yöntem komşuluk zincirini izleyip şekli bulur. Ama yarıçap parametresi yanlışsa o da parçalanır ya da birleşir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Uzaklık esaslı</dt><dd>Nesneyi en yakın merkeze atar; küme şekli oval varsayılır.</dd><dt>Yoğunluk/komşuluk esaslı</dt><dd>Yarıçap içindeki komşuları aynı kümeye bağlar; zincir sürdükçe küme büyür.</dd><dt>Komşuluk yarıçapı</dt><dd>İki noktanın komşu sayılması için en çok ne kadar uzak olabileceği.</dd><dt>Gri nokta</dt><dd>İlk iki büyük parçanın dışında kalan, kümeye girmeyen nokta.</dd></dl></details>
+      <p class="lab-src">Veri notta yok; bu site için üretilmiş sanal noktalardır. Karşılaştırılan iki fikir (uzaklık esaslı yöntemin düzensiz şekli bölmesi, yoğunluk esaslı yöntemin şekli izlemesi) notundaki Bölüm 8.2 ve 8.3’e dayanır; buradaki yöntemler yalnızca fikri göstermek için sadeleştirilmiştir.</p>
+    </div>
+    <div class="lab" id="kumelab"></div>
+    <div class="callout idea"><b>Parametre bağımlılığı</b>Yoğunluk esaslı çizimde komşuluk yarıçapını küçültüp büyüt. Küçükse veri parçalanır, çok büyükse her şey birleşir: kullanıcının verdiği parametre sonucu değiştirir (gereksinim 4).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 8</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Tanım</td><td>Benzer nesneleri aynı kümeye, farklıları ayrı kümeye koymak; danışmansız öğrenme, otomatik gruplama</td></tr>
+        <tr><td>Kullanım</td><td>Müşteri gruplama, el yazısı, web araması, aykırı veri tespiti; tek başına inceleme ya da ön işleme (özetleme, gürültü giderme)</td></tr>
+        <tr><td>Gereksinimler</td><td>Ölçeklenebilirlik, farklı veri türleri, düzensiz şekil, az parametre, gürültü, sıra duyarsızlığı, çok boyut, kısıt, yorumlanabilirlik</td></tr>
+        <tr><td>Karşılaştırma ölçütleri</td><td>Bölümleme kriteri, kümelerin dağıtımı, benzerlik ölçümü, kümeleme uzayı</td></tr>
+        <tr><td>Yöntem aileleri</td><td>Bölümlemeli, hiyerarşik (kümeleyici/bölücü), yoğunluk tabanlı, ızgara tabanlı</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
