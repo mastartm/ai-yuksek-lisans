@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Karar Verme — Yapay Zekâ Temelleri</title>
+<meta name="description" content="Yapay Zekâ Temelleri, Bölüm 7: Karar Verme. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 7 · Karar Verme</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Yapay Zekâ Temelleri · Bölüm 7</div>
+    <h1>Karar Verme: Olasılık ile Tercihi Birleştirmek</h1>
+    <p class="big-quote">Doktora gitmek mi, gitmemek mi? Önceki bölümde olasılıkla “çürük olma ihtimali”ni hesaplamayı öğrendik. Ama karar için bir şey daha lazım: <b>sonuçların sana ne kadar iyi ya da kötü geldiği</b>. Bu bölümde olasılık ile tercihi birleştirip en iyi eylemi seçeceğiz.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Tercih aksiyomlarını (tamlık, geçişlilik, süreklilik…) ve neden gerektiklerini açıklayabilirsin.</li>
+      <li>Fayda fonksiyonunun ne olduğunu ve hangi dönüşümlerin kararı bozmadığını söyleyebilirsin.</li>
+      <li>Beklenen faydayı hesaplayıp en yüksek olanı seçebilirsin.</li>
+      <li>Paranın faydasının neden doğrusal olmadığını ve riskten kaçınmayı anlatabilirsin.</li>
+      <li>Karar ağının düğümlerini ve değerlendirilmesini açıklayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Karar = olasılık × fayda</h2>
+    <svg class="diagram" viewBox="0 0 760 230" role="img" aria-label="Olasılık ve tercih birleşerek beklenen fayda ve en iyi eylemi verir"><rect class="d-brand" x="15" y="20" width="200" height="70" rx="12"/><text class="d-txt d-c" x="115" y="50">Olasılık</text><text class="d-sm d-c" x="115" y="73">sonuç ne kadar olası?</text><rect class="d-ok" x="15" y="130" width="200" height="70" rx="12"/><text class="d-txt d-c" x="115" y="160">Fayda (tercih)</text><text class="d-sm d-c" x="115" y="183">sonuç ne kadar iyi?</text><line class="d-line" x1="215" y1="55" x2="300" y2="105"/><line class="d-line" x1="215" y1="165" x2="300" y2="125"/><rect class="d-warn" x="300" y="80" width="190" height="70" rx="12"/><text class="d-txt d-c" x="395" y="110">Beklenen fayda</text><text class="d-sm d-c" x="395" y="133">EU(a) = Σ P(s′|a)·U(s′)</text><line class="d-line" x1="490" y1="115" x2="545" y2="115"/><rect class="d-box" x="545" y="80" width="200" height="70" rx="12"/><text class="d-txt d-c" x="645" y="110">En iyi eylem</text><text class="d-sm d-c" x="645" y="133">en yüksek EU’yu seç</text></svg>
+    <p>Yalnızca olasılığa bakan ajan “en olası sonucu” görür; yalnızca faydaya bakan ajan riski görmez. Rasyonel ajan ikisini birleştirir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Tercihler ve aksiyomlar">
+  <div class="panel">
+    <div class="kicker">7.1.1 Tercihler</div>
+    <h2>Rasyonel tercih bazı kurallara uyar</h2>
+    <p>Ajan, sonuçları kendi değer sistemine göre sıralar (<b>tercih sıralaması</b>). Ders notundaki gösterim: A ≻ B “A’yı B’ye tercih eder”, A ~ B “kayıtsız”. Sıralamanın tutarlı olması için beş aksiyom (ve notta ayrıca “bileşik piyangoların ayrışımı”) istenir:</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Aksiyom</th><th>Ne diyor?</th><th>Kısa örnek</th></tr></thead>
+      <tbody>
+        <tr><td><b>Tamlık</b></td><td>İki sonuçtan biri tercih edilir ya da ikisi eşdeğerdir.</td><td>“Yüksek not” ile “arkadaşlarla vakit” kıyaslanabilir.</td></tr>
+        <tr><td><b>Geçişlilik</b></td><td>A ≻ B ve B ≻ C ise A ≻ C.</td><td>A, B’den; B, C’den iyiyse A, C’den de iyi olmalı.</td></tr>
+        <tr><td><b>Süreklilik</b></td><td>A ≻ B ≻ C ise B ile [p, A; 1−p, C] piyangosu eşdeğer olacak bir p vardır.</td><td>Kesin orta sonuç ile riskli piyango arasında bir denge noktası bulunur.</td></tr>
+        <tr><td><b>İkame edilebilirlik</b></td><td>A ~ B ise piyangoda A yerine B koymak fark yaratmaz.</td><td>Çikolatalı ve vanilyalı dondurma eşitse hangisinin sunulduğu fark etmez.</td></tr>
+        <tr><td><b>Monotonluk</b></td><td>A ≻ B ise A’yı daha olası kılan piyango daha iyidir.</td><td>%70 yüksek maaş, %50’den caziptir.</td></tr>
+        <tr><td><b>Bileşik piyango ayrışımı</b></td><td>İç içe piyangolar olasılıkları çarpılarak tek piyango olur.</td><td>Önce zar atıp sonra piyango oynamak = tek birleşik piyango.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Ders notundaki örneğe düzeltme</b>Notta “bugün çayı kahveye, yarın kahveyi çaya tercih etmek geçişlilik ihlalidir” denir. Bu aslında <b>zamanla değişen tercihtir</b>. Geçişlilik ihlali için aynı anda döngü gerekir: A ≻ B, B ≻ C ama C ≻ A. Döngüsel tercihi olan ajan, her takasta biraz ödeyerek sonsuza dek dönebilir (kaynakla doğrula).</div>
+    <div class="callout real"><b>Gerçek hayat: Robot ajanın iki amacı (ders notundaki örnek)</b>“Enerji tasarrufu” ile “hedefe hızlı ulaşmak” çatışıyorsa robot hangisini tercih edeceğini bilmelidir. Tercih sıralaması olmayan ajan karar veremez.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Fayda fonksiyonu">
+  <div class="panel">
+    <div class="kicker">7.1.2 Fayda teorisi</div>
+    <h2>Tercihleri sayıya çevir: fayda fonksiyonu</h2>
+    <p>Fayda fonksiyonu U, her duruma bir gerçel sayı verir: <b>U(A) &gt; U(B)</b> ise A tercih edilir, <b>U(A) = U(B)</b> ise ajan kayıtsızdır. Aksiyomlara uyan bir ajan, davranışını <b>beklenen faydayı en büyükleyen</b> biçimde açıklanabilir hâle getirir.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Görecelilik</b>Sayıların mutlak anlamı yoktur: 100 puan “iki kat iyi” demek değildir.</div>
+      <div class="peas-c e"><b>Ölçek dönüşümü</b>U′ = a·U + b (a &gt; 0) aynı kararları verir.</div>
+      <div class="peas-c a"><b>Bireysellik</b>Fayda ajana özgüdür: yağmur çiftçi için +50, pikniğe giden için −30 olabilir (ders notundaki örnek).</div>
+    </div>
+    <div class="callout idea"><b>Notun genellemesine dikkat</b>Notta “bu dönüşümde büyüklük değil sıralama önemli” denir. Doğrusu: <b>a·U + b dönüşümü</b> kararı korur. Sırayı koruyan ama doğrusal olmayan bir dönüşüm (örn. karekök) <b>belirsizlik içeren seçimleri değiştirebilir</b>. “Para ve fayda” slaytındaki laboratuvarda aynı para sıralaması, farklı eğrilerle farklı karar verir.</div>
+    <div class="callout real"><b>Gerçek hayat: Alışveriş robotu (ders notundaki örnek)</b>“Ürünü uygun fiyata bulmak” 80 puan, “pahalıya almak” 40 puan olsun. Bu iki sayı robotun hangi alışverişi seçeceğini belirler; sayılar 160 ve 80 yapılsa (a = 2) karar değişmez.</div>
+    <div class="callout real"><b>Gerçek hayat: Otonom araç (ders notundaki örnek)</b>Hızlı varmak +70, kaza riski −100, güvenli varmak +80. Not, olasılıklar verilmeden “araç uzun yolu seçer” der; sonuç olasılıklara bağlıdır. Not burada sayısal olasılık vermez, yani bu örnek tam bir hesap değildir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Beklenen fayda">
+  <div class="panel">
+    <div class="kicker">7.1.3 Beklenen fayda · dene</div>
+    <h2>Her sonucun faydasını olasılığıyla tart, topla</h2>
+    <p class="big-quote" style="font-size:1.1rem">EU(a) = Σ P(s′ | a) · U(s′)</p>
+    <p><b>Maksimum beklenen fayda ilkesi (MEU):</b> rasyonel ajan, beklenen faydası en yüksek eylemi seçer. Ders notundaki diş ağrısı örneğinde iki eylem var: doktora gitmek, gitmemek. Olasılık: P(çürük) = 0,4. Faydalar: git+çürük +80, git+çürük yok +40, gitme+çürük −100, gitme+çürük yok +70. Beklenen faydalar: 0,4×80 + 0,6×40 = <b>56</b> (git), 0,4×(−100) + 0,6×70 = <b>2</b> (gitme). Rasyonel karar: git.</p>
+    <p>Aşağıda çürük olasılığını ve “boşuna gitmenin” faydasını oynat. Altta ayrıca karar ağları bölümündeki <b>bilgi değeri</b> fikrine bak: çürüğün olup olmadığını önceden bilmek ne kadar değer taşır?</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Çürük olasılığını, “git + çürük yok” faydasını ve kusursuz test ücretini kaydır.</li>
+        <li><b>Ne göreceksin:</b> İki eylemin beklenen faydası (EU), kusursuz bilginin değeri ve iki eylemin eşit olduğu eşik olasılık görünür. Altta karar ve testin değip değmediği yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Karar, olasılıkla fayda birlikte değişince çevrilir: eşiğin altında gitmemek, üstünde gitmek en iyidir. Çürüğü önceden bilmek yalnızca kararı değiştirebiliyorsa değerlidir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>EU (beklenen fayda)</dt><dd>Sonuç faydalarının olasılıkla ağırlıklı toplamı.</dd><dt>Eşik olasılık</dt><dd>İki eylemin beklenen faydasının eşit olduğu P(çürük).</dd><dt>Kusursuz bilginin değeri</dt><dd>Çürüğün olup olmadığını önceden kesin bilmenin beklenen faydaya katkısı.</dd><dt>Ücret</dt><dd>Bu kusursuz testin faydadan düşen bedeli.</dd></dl></details>
+      <p class="lab-src">Faydalar ve P(çürük) = 0,4 notundaki diş ağrısı örneğinden (Bölüm 7.2.2): EU(git) = 56, EU(gitme) = 2. Eşik formülü, kusursuz bilginin değeri ve test ücreti bu sitenin hesabıdır; notta ücret ve eşik yoktur, bilgi değeri yalnızca kavram olarak anlatılır.</p>
+    </div>
+    <div class="lab" id="mulab"></div>
+    <div class="callout real"><b>Gerçek hayat: Sınavda kopya (ders notundaki örnek)</b>Not, “kopya çekmeme” için EU = 68, “kopya” için EU = 64 verir ve kopya çekmemeyi rasyonel bulur. Notta bu sayıların hangi olasılık ve faydalardan çıktığı yazmaz; yani sonuç oradan kontrol edilemez.</div>
+    <div class="callout idea"><b>İnsan ve beklenen fayda</b>Gerçek insanlar her zaman böyle seçmez. Not, <b>beklenti teorisini</b> (prospect theory) anar: kayıplar aynı büyüklükteki kazançtan daha çok ağırlık taşır (kayıptan kaçınma) ve küçük olasılıklar abartılır. Yapay zekâda ise saf rasyonellik için beklenen fayda kullanılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Para ve fayda">
+  <div class="panel">
+    <div class="kicker">7.1.4 Fayda fonksiyonları · dene</div>
+    <h2>Para doğrusal değildir: risk tutumu eğrinin şeklidir</h2>
+    <p>Hiç parası olmayan biri için 1000 TL büyük bir faydadır; 10 milyon TL’si olan için neredeyse önemsizdir. Buna <b>azalan marjinal fayda</b> denir. Eğrinin şekli risk tutumunu gösterir:</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Eğri</th><th>Tutum</th><th>Ders notundaki anlam</th></tr></thead>
+      <tbody>
+        <tr><td><b>İçbükey</b></td><td>Riskten kaçınma</td><td>Beklenen değeri aynı olan piyango yerine kesin ama daha düşük tutar tercih edilir.</td></tr>
+        <tr><td><b>Doğrusal</b></td><td>Riske nötr</td><td>Yalnızca beklenen değere bakılır.</td></tr>
+        <tr><td><b>Dışbükey</b></td><td>Riske açık</td><td>Büyük ödüllü piyangolar, beklenen değeri daha düşük olsa bile tercih edilir.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Piyango: %50 ihtimalle 1 milyon, %50 ihtimalle hiçbir şey (beklenen değer 500 bin). Karşısında kesin bir tutar var. Eğriyi ve tutarı değiştir:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Üç eğriden birini seç (içbükey, doğrusal, dışbükey) ve kesin tutar kaydırıcısını oynat.</li>
+        <li><b>Ne göreceksin:</b> Fayda eğrisi, turuncu nokta (piyangonun beklenen faydası) ve yeşil nokta (kesin tutarın faydası) görünür. Altta kesin eşdeğer ve ajanın seçimi yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Aynı para sıralaması farklı eğrilerle farklı karar verir: içbükey eğri riskli piyangodan kaçınır, doğrusal eğri yalnızca beklenen paraya bakar, dışbükey eğri piyangoyu sever.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Piyango</dt><dd>%50 ihtimalle 1 milyon dolar, %50 ihtimalle hiçbir şey.</dd><dt>Kesin eşdeğer</dt><dd>Ajanı piyangoyla kayıtsız bırakan kesin tutar.</dd><dt>İçbükey / dışbükey</dt><dd>Eğrinin biçimi; riskten kaçınma ve riske açıklığı gösterir.</dd></dl></details>
+      <p class="lab-src">Piyango (%50, 1 milyon) ve 450 bin dolar notundaki Bölüm 7.1.4 örneğinden. Eğri formülleri (√x, x, x²) ve 0–1 ölçeği bu sitenin seçimidir; notta formül verilmez.</p>
+    </div>
+    <div class="lab" id="utillab"></div>
+    <div class="callout real"><b>Gerçek hayat: Kesin 450 bin (ders notundaki örnek)</b>Not, %50 ihtimalle 1 milyon dolar piyangosu ile kesin 450 bin dolar arasında çoğu kişinin kesin tutarı seçtiğini söyler. Bu içbükey bir fayda fonksiyonudur. Laboratuvarda “içbükey” eğri ve 450 bin ile aynı sonucu görebilirsin.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Çok nitelikli fayda">
+  <div class="panel">
+    <div class="kicker">7.1.4 Çok nitelikli fayda fonksiyonları · dene</div>
+    <h2>Tek ölçüt yetmez: ağırlıklı fayda</h2>
+    <p>Araba alırken maliyet, yakıt, güvenlik, konfor ve teslimat süresine birlikte bakarsın. Ders notundaki örnek fonksiyon: <b>U(araba) = w₁·U<sub>fiyat</sub> + w₂·U<sub>güvenlik</sub> + w₃·U<sub>konfor</sub></b>. Ağırlıklar (w) niteliklerin göreli önemidir: bir aile için güvenlik, bir öğrenci için fiyat öndedir.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> w₁, w₂, w₃ ağırlıklarını kaydır ya da “Öğrenci / Aile / Konfor” düğmelerini dene.</li>
+        <li><b>Ne göreceksin:</b> Üç arabanın fiyat, güvenlik, konfor puanları ve ağırlıklı fayda (U) tabloda görünür; en yüksek olan yeşil satırdır.</li>
+        <li><b>Ne anlamalısın:</b> Araba puanları sabit kalır, yalnızca ağırlıklar değişir; ama kazanan değişir. “En iyi araba” kişinin ağırlıklarına bağlıdır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Ağırlık (w)</dt><dd>Bir niteliğin göreli önemi; burada toplamı 1 olacak şekilde normalleştirilir.</dd><dt>U</dt><dd>Ağırlıklı fayda toplamı (0–10 ölçeği).</dd><dt>Çok nitelikli fayda</dt><dd>Birden çok ölçütü tek bir sayıya toplayan fayda.</dd></dl></details>
+      <p class="lab-src">Formül notundaki Bölüm 7.1.4 (U = w₁·U_fiyat + w₂·U_güvenlik + w₃·U_konfor) ve aile/öğrenci örneğinden. Üç arabanın adı ve 0–10 puanları bu site için uydurulmuştur.</p>
+    </div>
+    <div class="lab" id="mauflab"></div>
+    <div class="callout idea"><b>Toplamsal biçim bir varsayımdır</b>Ağırlıklı toplam, niteliklerin birbirinden bağımsız değerlendirildiğini varsayar (örn. güvenliğin değeri fiyata bağlı değildir). Gerçekte nitelikler etkileşebilir; bu durumda daha karmaşık biçimler gerekir. Bu, notta yoktur; Russell &amp; Norvig’in yapay zekâ ders kitabındaki çok nitelikli fayda anlatımına dayanır (kaynakla doğrula).</div>
+    <div class="callout real"><b>Gerçek hayat: Drone teslimat ajanı (ders notundaki örnek)</b>Rota A kısa ama %20 batarya bitme riski var; rota B uzun ama güvenli. Drone teslimat süresi, batarya güvenliği ve müşteri memnuniyetine ayrı ağırlık verir ve toplam beklenen faydası yüksek rotayı seçer.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Fayda nasıl belirlenir">
+  <div class="panel">
+    <div class="kicker">7.1.5 Fayda fonksiyonlarının belirlenmesi</div>
+    <h2>Normatif ve tanımlayıcı bakış</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Normatif</th><th>Tanımlayıcı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Soru</b></td><td>Ajan <i>nasıl davranmalı</i>?</td><td>İnsanlar <i>gerçekte nasıl davranıyor</i>?</td></tr>
+        <tr><td><b>Temel</b></td><td>Beklenen fayda maksimizasyonu; tam, geçişli, tutarlı tercih varsayımı</td><td>Bilişsel önyargı, duygu, sınırlı bilgi; beklenti teorisi gibi modeller</td></tr>
+        <tr><td><b>Nerede önemli?</b></td><td>Tutarlı, öngörülebilir ajanlar (yapay zekâ)</td><td>İnsanla etkileşen sistemler: ekonomi, psikoloji, pazarlama, öneri ve sağlık karar desteği</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Fayda fonksiyonu pratikte nasıl çıkarılır?</h3>
+    <ul>
+      <li><b>Anketler ve tercih deneyleri:</b> insanlar senaryolar arasında seçer; tercihlerden fayda değerleri çıkarılır.</li>
+      <li><b>Davranışsal gözlem:</b> geçmiş kararlardan dolaylı olarak tahmin edilir.</li>
+      <li><b>Uzman görüşü ve optimizasyon ölçütleri:</b> özellikle mühendislikte uzmanlar belirler.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Farklı kişiler için “sağlık” (ders notundaki örnek)</b>Bir kişi için sağlık 100 fayda değerindeyken başkası için başka bir değerde olabilir. Fayda fonksiyonunun belirsizliği, karar ağlarının sınırlamalarından biridir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Karar ağı yapısı">
+  <div class="panel">
+    <div class="kicker">7.2.1 Karar ağlarının yapısı</div>
+    <h2>Bayes ağı + karar + fayda</h2>
+    <p>Karar ağı (etki diyagramı), Bayes ağını <b>karar</b> ve <b>fayda</b> düğümleriyle genişletir. Ders notundaki şekillere göre: olasılık düğümü daire, karar düğümü kare, fayda düğümü elmas.</p>
+    <svg class="diagram" viewBox="0 0 760 250" role="img" aria-label="Diş ağrısı karar ağı: Çürük daire, Doktora git kare, Fayda elmas"><circle class="d-brand" cx="130" cy="125" r="52"/><text class="d-txt d-c" x="130" y="131">Çürük?</text><text class="d-sm d-c" x="130" y="205">olasılık düğümü</text><rect class="d-warn" x="320" y="30" width="130" height="70" rx="6"/><text class="d-txt d-c" x="385" y="70">Doktora git?</text><text class="d-sm d-c" x="385" y="125">karar düğümü</text><polygon class="d-ok" points="640,125 585,175 640,225 695,175" transform="translate(0,-50)"/><text class="d-txt d-c" x="640" y="130">Fayda</text><text class="d-sm d-c" x="640" y="205">fayda düğümü</text><line class="d-line" x1="180" y1="122" x2="586" y2="125"/><line class="d-line" x1="450" y1="70" x2="612" y2="100"/><polygon points="586,125 570,118 570,132" style="fill:var(--node-stroke)"/><polygon points="612,100 597,93 595,107" style="fill:var(--node-stroke)"/></svg>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Ok</th><th>Anlamı</th></tr></thead>
+      <tbody>
+        <tr><td>Olasılık → olasılık</td><td>Koşullu bağımlılık (Bayes ağındaki gibi).</td></tr>
+        <tr><td>Karar → olasılık</td><td>Eylem, belirsiz sonucun olasılığını etkiler.</td></tr>
+        <tr><td>Herhangi bir düğüm → karar</td><td><b>Bilgi oku</b>: karar verilmeden önce bu değer ajanın elinde.</td></tr>
+        <tr><td>Herhangi bir düğüm → fayda</td><td>Bu değişken fayda değerini etkiler.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Fayda düğümlerinin çocuğu olmaz: terminal değerlerdir. Birden çok fayda niteliği tek ana fayda düğümünde birleşebilir.</p>
+    <div class="callout idea"><b>Çizimdeki sadeleştirme</b>Şekil bu sitede diş ağrısı örneği için çizildi. Ders notunda bu örnek için ayrı bir çizim yoktur; çizim, notun “düğüm şekilleri ve ok anlamları” anlatımına dayanır. Burada karar düğümünden olasılık düğümüne ok yok, çünkü doktora gitmek çürük olup olmadığını değiştirmez.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Ağın değerlendirilmesi">
+  <div class="panel">
+    <div class="kicker">7.2.2 Karar ağlarının değerlendirilmesi</div>
+    <h2>Sondan başa: her karar düğümünde en iyi eylemi seç</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>1 · Faydaya git</b>Sondan başla; fayda düğümlerine giden sonuçların değerlerini hesapla.</div>
+      <div class="peas-c e"><b>2 · Beklenen fayda</b>Her eylem için sonuç faydalarının olasılıkla ağırlıklı ortalamasını al.</div>
+      <div class="peas-c a"><b>3 · En yükseğini seç</b>En yüksek beklenen faydayı veren eylemi karar düğümüne yaz.</div>
+    </div>
+    <h3>Çok adımlı kararlar</h3>
+    <p>Önce bir karar (test yaptır / yaptırma), sonra yeni bilgiyle ikinci karar (tedavi / tedavi yok) gelebilir. Bu durumda <b>geriye doğru çözümleme</b> (backward induction) yapılır: önce son kararların beklenen faydası hesaplanır, sonra bu değerler bir üst karar için kullanılır.</p>
+    <h3>Bilgi değeri</h3>
+    <p>Ek bilginin (test sonucu, sensör verisi, piyasa raporu) kararı değiştirip beklenen faydayı artırıp artırmadığına bakılır (<b>beklenen bilgi değeri, EVI</b>). Artış yoksa bilgiye yatırım gereksizdir. Artış varsa, artış bilginin maliyetinden büyükse bilgi değer. “Beklenen fayda” slaytındaki laboratuvar bunu kusursuz bir test için gösterir.</p>
+    <div class="callout real"><b>Gerçek hayat: Deneme sınavı (ders notundaki örnek)</b>Deneme sınavı sonuçlarına bakmak zaman harcatır. Sonuç çalışma stratejini değiştirip başarıyı artırıyorsa bilgi değerlidir; değiştirmiyorsa değildir.</div>
+    <div class="callout real"><b>Gerçek hayat: Tıpta test seçimi (ders notundaki örnek)</b>Hangi testlerin gerçekten fayda sağlayacağı karar ağı ile analiz edilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Bakım kararı (ders notundaki örnek)</b>Endüstride bakım-onarım kararları arıza olasılıkları ve maliyetleri üzerinden değerlendirilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Avantaj ve sınırlar">
+  <div class="panel">
+    <div class="kicker">7.2.3 Karar ağlarının avantajları ve sınırlamaları</div>
+    <h2>Nerede iyi, nerede zorlanır?</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Avantaj</th><th>Sınırlama</th></tr></thead>
+      <tbody>
+        <tr><td><b>Görselleştirme:</b> doktor, tedavi seçeneklerini hastayla birlikte görebilir.</td><td><b>Karmaşıklık:</b> yüzlerce adımlık yol planlaması tek karar ağıyla çözülemez.</td></tr>
+        <tr><td><b>Bayes ağıyla bütünleşme:</b> yağmur ve kayganlık olasılıkları karar düğümüne taşınır.</td><td><b>Modelleme güçlüğü:</b> başarı olasılığı net değilse sonuç güvenilmez.</td></tr>
+        <tr><td><b>Bilgi değeri analizi:</b> ek sensörün bakım kararlarını ne kadar iyileştireceği ölçülür.</td><td><b>Dinamik ortam:</b> ardışık kararlar alan şehir içi araç için zor.</td></tr>
+        <tr><td><b>Çok boyutlu fayda:</b> batarya, süre, memnuniyet birlikte değerlendirilir.</td><td><b>Hesap maliyeti:</b> yüzlerce piyasa değişkeni çok pahalı olabilir.</td></tr>
+        <tr><td><b>Beklenen faydaya göre tutarlı karar</b></td><td><b>Fayda belirsizliği:</b> fayda değerleri kişiye göre değişir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>“Rasyonel kararı garanti eder” ne demek?</b>Notta bu avantaj “rasyonel kararların garanti edilmesi” diye geçer. Doğru okuma: olasılıklar ve faydalar doğruysa, ağ <b>beklenen faydası en yüksek</b> eylemi seçer. Seçilen eylemin <b>iyi sonuçlanacağını</b> garanti etmez (diş ağrısı örneğinde çürük çıkmayabilir) ve girdiler yanlışsa karar da yanlış olur.</div>
+    <div class="callout real"><b>Gerçek hayat: Yatırımcı (ders notundaki örnek)</b>“Yüksek riskli yatırım mı, güvenli yatırım mı?” kararı beklenen faydaya göre verilebilir. Ama fayda fonksiyonu kişiye özgüdür; aynı olasılıklarla iki yatırımcı farklı seçebilir.</div>
+    <p>Not, orta ölçekli ve bir ya da birkaç adımlı problemlerde karar ağlarını güçlü bulur. Büyük ve dinamik problemler için dinamik karar ağları ve Markov karar süreçleri gibi daha gelişmiş modellere zemin olduklarını söyler.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 7</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Tercih aksiyomları</td><td>Tamlık, geçişlilik, süreklilik, ikame, monotonluk, bileşik piyango ayrışımı</td></tr>
+        <tr><td>Fayda fonksiyonu</td><td>Tercihi sayıya çevirir; a·U + b kararı korur; ajana özgüdür</td></tr>
+        <tr><td>Beklenen fayda (MEU)</td><td>EU(a) = Σ P(s′|a)·U(s′); en yükseği seç</td></tr>
+        <tr><td>Para ve fayda</td><td>Azalan marjinal fayda; içbükey = riskten kaçınma, dışbükey = riske açık</td></tr>
+        <tr><td>Çok nitelikli fayda</td><td>Ağırlıklı toplam; ağırlıklar kişiye göre değişir</td></tr>
+        <tr><td>Normatif / tanımlayıcı</td><td>Nasıl davranmalı / gerçekte nasıl davranılıyor</td></tr>
+        <tr><td>Karar ağı</td><td>Daire = şans, kare = karar, elmas = fayda; bilgi oku</td></tr>
+        <tr><td>Değerlendirme</td><td>Sondan başa; geriye doğru çözümleme; bilgi değeri</td></tr>
+        <tr><td>Sınırlar</td><td>Karmaşıklık, modelleme zorluğu, dinamik ortam, hesap maliyeti</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_YZ_7"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/yz-bolum-7-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/yz7.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>

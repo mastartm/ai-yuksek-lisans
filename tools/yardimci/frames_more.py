@@ -313,6 +313,26 @@ add('dplab', 'goruntu-isleme/bolum-14.html',
     [('ε (epsilon)', 'Gizlilik katsayısı; küçük = daha çok gürültü, daha çok koruma.'), ('Laplace gürültüsü', 'Sayıya eklenen rastgele sapma; ölçeği 1 ÷ ε.'), ('Sapma', 'Gürültülü yanıt ile gerçek sayı arasındaki fark.')],
     'Sayı (60) ve sayma sorusu bu site için seçildi. Farklılaştırılmış gizliliğin istatistiksel analize izin verip bireysel kimliği koruduğu notundaki Bölüm 14.5.1’den; Laplace mekanizması standart bir yöntemdir ve notta anlatılmaz.')
 
+# ---------------- Yapay Zekâ Temelleri 7 ----------------
+add('mulab', 'yapay-zeka-temelleri/bolum-7.html',
+    'Çürük olasılığını, “git + çürük yok” faydasını ve kusursuz test ücretini kaydır.',
+    'İki eylemin beklenen faydası (EU), kusursuz bilginin değeri ve iki eylemin eşit olduğu eşik olasılık görünür. Altta karar ve testin değip değmediği yazılır.',
+    'Karar, olasılıkla fayda birlikte değişince çevrilir: eşiğin altında gitmemek, üstünde gitmek en iyidir. Çürüğü önceden bilmek yalnızca kararı değiştirebiliyorsa değerlidir.',
+    [('EU (beklenen fayda)', 'Sonuç faydalarının olasılıkla ağırlıklı toplamı.'), ('Eşik olasılık', 'İki eylemin beklenen faydasının eşit olduğu P(çürük).'), ('Kusursuz bilginin değeri', 'Çürüğün olup olmadığını önceden kesin bilmenin beklenen faydaya katkısı.'), ('Ücret', 'Bu kusursuz testin faydadan düşen bedeli.')],
+    'Faydalar ve P(çürük) = 0,4 notundaki diş ağrısı örneğinden (Bölüm 7.2.2): EU(git) = 56, EU(gitme) = 2. Eşik formülü, kusursuz bilginin değeri ve test ücreti bu sitenin hesabıdır; notta ücret ve eşik yoktur, bilgi değeri yalnızca kavram olarak anlatılır.')
+add('utillab', 'yapay-zeka-temelleri/bolum-7.html',
+    'Üç eğriden birini seç (içbükey, doğrusal, dışbükey) ve kesin tutar kaydırıcısını oynat.',
+    'Fayda eğrisi, turuncu nokta (piyangonun beklenen faydası) ve yeşil nokta (kesin tutarın faydası) görünür. Altta kesin eşdeğer ve ajanın seçimi yazılır.',
+    'Aynı para sıralaması farklı eğrilerle farklı karar verir: içbükey eğri riskli piyangodan kaçınır, doğrusal eğri yalnızca beklenen paraya bakar, dışbükey eğri piyangoyu sever.',
+    [('Piyango', '%50 ihtimalle 1 milyon dolar, %50 ihtimalle hiçbir şey.'), ('Kesin eşdeğer', 'Ajanı piyangoyla kayıtsız bırakan kesin tutar.'), ('İçbükey / dışbükey', 'Eğrinin biçimi; riskten kaçınma ve riske açıklığı gösterir.')],
+    'Piyango (%50, 1 milyon) ve 450 bin dolar notundaki Bölüm 7.1.4 örneğinden. Eğri formülleri (√x, x, x²) ve 0–1 ölçeği bu sitenin seçimidir; notta formül verilmez.')
+add('mauflab', 'yapay-zeka-temelleri/bolum-7.html',
+    'w₁, w₂, w₃ ağırlıklarını kaydır ya da “Öğrenci / Aile / Konfor” düğmelerini dene.',
+    'Üç arabanın fiyat, güvenlik, konfor puanları ve ağırlıklı fayda (U) tabloda görünür; en yüksek olan yeşil satırdır.',
+    'Araba puanları sabit kalır, yalnızca ağırlıklar değişir; ama kazanan değişir. “En iyi araba” kişinin ağırlıklarına bağlıdır.',
+    [('Ağırlık (w)', 'Bir niteliğin göreli önemi; burada toplamı 1 olacak şekilde normalleştirilir.'), ('U', 'Ağırlıklı fayda toplamı (0–10 ölçeği).'), ('Çok nitelikli fayda', 'Birden çok ölçütü tek bir sayıya toplayan fayda.')],
+    'Formül notundaki Bölüm 7.1.4 (U = w₁·U_fiyat + w₂·U_güvenlik + w₃·U_konfor) ve aile/öğrenci örneğinden. Üç arabanın adı ve 0–10 puanları bu site için uydurulmuştur.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
