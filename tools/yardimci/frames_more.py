@@ -275,6 +275,25 @@ add('quadlab', 'goruntu-isleme/bolum-12.html',
     [('Dörtlü ağaç', 'Her bölgenin dört alt bölgeye bölündüğü hiyerarşi.'), ('Homojenlik eşiği', 'Bir bloktaki en büyük ve en küçük gri seviye farkının izin verilen en çok değeri.'), ('Blok', 'Artık bölünmeyen bölge (ağacın yaprağı).')],
     'Görüntü bu site için üretildi (32×32, bir daire, bir dikdörtgen, zemin, küçük gürültü). Dörtlü ağaçla bölme fikri notundaki Bölüm 12.9’dan; “en büyük − en küçük” homojenlik ölçütü bu sitenin basit seçimidir; birleştirme adımı gösterilmez.')
 
+add('templab', 'goruntu-isleme/bolum-13.html',
+    'Nesnenin yönünü seç (şablonla aynı ya da 180° döndürülmüş) ve “ışık kayması” kaydırıcısını artır.',
+    'Solda sahne (kırmızı kesikli kutu nesnenin gerçek yeri, yeşil kutu en iyi eşleşme), ortada fark haritası, sağda şablon. Altta en iyi eşleşmenin gerçek konumda olup olmadığı ve en küçük fark toplamı yazılır.',
+    'Aynı ışık ve aynı yönde şablon nesneyi bulur. Nesne dönünce ya da sahne parlaklaşınca doğru yer en iyi eşleşme olmaktan çıkar; şablon eşleme bu değişimlere duyarlıdır.',
+    [('Şablon', 'Aranan nesnenin sabit küçük görüntüsü (7×7).'), ('Fark toplamı', 'Şablon ile sahnedeki pencerenin piksel farklarının mutlak değerleri toplamı; küçük olan iyi eşleşmedir.'), ('Işık kayması', 'Sahnedeki tüm piksellere eklenen parlaklık.')],
+    'Sahne ve şablon bu site için üretildi (40×40 gürültülü zemin, L biçimli nesne, bir parlak kare). Şablon eşleme fikri ve ışık, boyut, dönme duyarlılığı notundaki Bölüm 13.3.1’den; “fark toplamı” ölçüsü bu sitenin basit seçimidir.')
+add('ioulab', 'goruntu-isleme/bolum-13.html',
+    'Tahmin kutusunu yatay ve dikey kaydır, ölçeğini değiştir; doğru sayma eşiğini ayarla.',
+    'Yeşil çerçeve gerçek kutu, turuncu çerçeve tahmin, yeşil dolgu kesişim alanıdır. Altta IoU, kesişim, birleşim ve eşiğe göre karar yazılır.',
+    'Kutu aynı yerde ama iki kat büyükse bile IoU düşer; hem konum hem boyut doğru olmalıdır. Eşiği değiştirmek aynı tahmini doğru ya da yanlış yapabilir.',
+    [('IoU', 'Kesişim alanı ÷ birleşim alanı (Intersection over Union); 0 ile 1 arası.'), ('Kesişim', 'İki kutunun ortak alanı.'), ('Birleşim', 'İki kutunun kapladığı toplam alan.'), ('Eşik', 'IoU’nun doğru sayılması için aşması gereken değer.')],
+    'Kutu boyutları bu site için seçildi. IoU’nun nesne kutusu doğruluğunu ölçtüğü notundaki Bölüm 13.2.4’ten; notta eşik değeri verilmez, kaydırıcıdaki eşik bu sitenin seçimidir.')
+add('hoglab', 'goruntu-isleme/bolum-13.html',
+    'Çizginin yönünü değiştir; sonra kontrast çarpanını ve parlaklık kaymasını oynat.',
+    'Solda koyu zeminde parlak bir çizgi, sağda 9 kutulu gradyan yönelim histogramı (her kutu 20°) görünür. Altta baskın yön ve toplam gradyan gücü yazılır.',
+    'Çizgi dönünce histogramın tepesi kayar; kontrast ve parlaklık değişince tepenin yeri değişmez, yalnızca toplam güç değişir. HOG bu yüzden aydınlatma değişimine dayanıklıdır.',
+    [('Gradyan', 'Yoğunluğun en hızlı değiştiği yön ve hız; kenara diktir.'), ('Yönelim kutusu', '0–180° aralığının 20° genişliğinde dilimi.'), ('Güç', 'Gradyan büyüklüklerinin toplamı; histogram bu büyüklüklerle ağırlıklanır.')],
+    'Görüntü bu site için üretildi (24×24 çizgi). HOG’un gradyan yönelimlerini analiz ettiği ve insan tespitinde başarılı olduğu notundaki Bölüm 13.3.4’ten; 9 kutu, merkezî fark ve tek hücre bu sitenin basit hâlidir (gerçek HOG blok normalizasyonu da kullanır; burada yok).')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():

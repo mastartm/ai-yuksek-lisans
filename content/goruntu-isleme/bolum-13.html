@@ -1,0 +1,292 @@
+<!--
+course: goruntu-isleme
+course_title: Görüntü İşleme
+no: 13
+title: Nesne Tanıma
+quiz: QUIZ_GI_13
+quiz_file: gi-bolum-13-quiz.js
+scripts: gi13.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 13</div>
+    <h1>Nesne Tanıma</h1>
+    <p class="big-quote">Bir trafik kamerası kaydında hangisi araba, hangisi bisiklet, hangisi yaya ve nerede? Nesne tanıma bu üç soruyu birlikte yanıtlar: <b>var mı, ne, nerede</b>.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Nesne tanımanın dört aşamasını (ön işleme, öznitelik, sınıflandırma, değerlendirme) sıralayabilirsin.</li>
+      <li>Şablon eşleme, SIFT, SURF ve HOG gibi geleneksel yöntemlerin güçlü ve zayıf yanlarını açıklayabilirsin.</li>
+      <li>CNN, R-CNN ailesi, YOLO/SSD ve transformatör tabanlı modelleri ayırt edebilirsin.</li>
+      <li>Transfer öğrenme, veri artırma ve hibrit yaklaşımların neden gerektiğini anlatabilirsin.</li>
+      <li>Veri, donanım, güvenlik, etik ve enerji zorluklarını sayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Dört aşamalı bir hat</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Ön işleme, öznitelik çıkarımı, sınıflandırma ve değerlendirme sırayla"><rect class="d-warn" x="10" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="90" y="88">Ön işleme</text><text class="d-sm d-c" x="90" y="108">gürültü, kontrast</text><rect class="d-brand" x="200" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="280" y="88">Öznitelik</text><text class="d-sm d-c" x="280" y="108">ayırt edici özellik</text><rect class="d-ok" x="390" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="470" y="88">Sınıflandırma</text><text class="d-sm d-c" x="470" y="108">hangi sınıf?</text><rect class="d-box" x="580" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="665" y="88">Değerlendirme</text><text class="d-sm d-c" x="665" y="108">doğruluk, IoU, F1</text><path class="d-line-brand" d="M170 95 L200 95"/><path class="d-line-brand" d="M360 95 L390 95"/><path class="d-line-brand" d="M550 95 L580 95"/></svg>
+    <p>Derin öğrenmede öznitelik çıkarımı ile sınıflandırma tek ağın içinde birleşir; yine de aşamaları bilmek, hangi parçanın neyi yaptığını görmeye yarar.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Temel kavramlar">
+  <div class="panel">
+    <div class="kicker">13.1 Kavramsal temeller</div>
+    <h2>Algıla, sınıflandır, konumla</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Algılama</b>Görüntü ya da videoda nesnenin var olduğunu bulmak.</div>
+      <div class="peas-c e"><b>Sınıflandırma</b>Nesnenin hangi kategoriye (araba, bisiklet, yaya, trafik işareti) ait olduğunu söylemek.</div>
+      <div class="peas-c a"><b>Konumlama</b>Nesnenin görüntüde nerede olduğunu belirlemek.</div>
+    </div>
+    <div class="callout idea"><b>Tarihsel gidiş</b>İlk çalışmalar kenar, renk histogramı ve geometrik şekil analizi gibi basit özniteliklere dayanıyordu; karmaşık sahne, ışık ve açı değişiminde yetersizdi. 1990’lardan itibaren istatistiksel yöntemler, sonra makine öğrenmesi, bugün derin öğrenme geldi. Evrişimli sinir ağları (CNN) dönüm noktası oldu.</div>
+    <div class="callout idea"><b>Hedefler</b>Doğru ve güvenilir bilgi çıkarmak; nesne konumunu gerçek zamanlı ve doğru bulmak; çevre koşullarına dayanıklı olmak; sağlık, güvenlik, endüstri gibi alana özel çözüm üretmek.</div>
+    <div class="callout real"><b>Gerçek hayat: Trafik kamerası (ders notundaki örnek)</b>Algoritma yoldaki nesnenin araba, bisiklet, yaya ya da trafik işareti olup olmadığını belirler.</div>
+    <div class="callout real"><b>Gerçek hayat: Biyometri (ders notundaki örnek)</b>Yüz, iris ve parmak izi tanıma, nesne tanımanın özel biçimleri sayılır.</div>
+    <div class="callout idea"><b>Etik boyut</b>Yüz tanıma teknik olarak nesne tanımanın bir kolu olsa da kişilerin mahremiyet haklarını etkiler; bu yüzden konu yalnızca mühendislik değil, hukuk ve sosyal bilimlerin de konusudur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Süreç bileşenleri">
+  <div class="panel">
+    <div class="kicker">13.2 Sürecin bileşenleri · dene</div>
+    <h2>Ön işlemeden değerlendirmeye</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Aşama</th><th>Ne yapar?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ön işleme</b></td><td>Gürültü azaltma, kontrast iyileştirme, kenar belirginleştirme, normalizasyon ve boyutlandırma. Ham veri gürültü, düşük kontrast, ışık değişimi ve sensör bozulmaları içerir.</td></tr>
+        <tr><td><b>Öznitelik çıkarımı</b></td><td>Nesneyi diğerlerinden ayıran temsilleri bulur. Eskiden elle tasarlanmış kenar, renk histogramı, doku; bugün CNN ve ViT otomatik öğrenir. ViT, yerel pikselin yanında görüntüdeki küresel bağıntıları da yakalar.</td></tr>
+        <tr><td><b>Sınıflandırma</b></td><td>Öznitelikleri sınıfa atar: klasik olarak SVM, karar ağacı, k-NN; bugün derin ağlar baskın. Bazı uygulamalarda konum, yönelim ve boyutu da verir (yüzün açısı gibi).</td></tr>
+        <tr><td><b>Değerlendirme</b></td><td>Doğruluk, kesinlik (precision), duyarlılık (recall), F1 ve kutu doğruluğu için IoU.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Metrik</th><th>Anlamı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Doğruluk</b></td><td>Tüm tahminlerin içinde doğru olanların oranı.</td></tr>
+        <tr><td><b>Kesinlik (hassasiyet)</b></td><td>Pozitif denenlerin gerçekten doğru olma oranı.</td></tr>
+        <tr><td><b>Duyarlılık</b></td><td>Gerçek pozitiflerin ne kadarının yakalandığı.</td></tr>
+        <tr><td><b>F1</b></td><td>Kesinlik ile duyarlılığın dengeli ölçüsü.</td></tr>
+        <tr><td><b>IoU</b></td><td>Tespit edilen nesne kutusunun doğruluk derecesi (Intersection over Union).</td></tr>
+      </tbody>
+    </table></div>
+    <p>Gerçek kutu (yeşil) ile tahmin (turuncu) arasındaki IoU’yu kaydırıcılarla gör:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Tahmin kutusunu yatay ve dikey kaydır, ölçeğini değiştir; doğru sayma eşiğini ayarla.</li>
+        <li><b>Ne göreceksin:</b> Yeşil çerçeve gerçek kutu, turuncu çerçeve tahmin, yeşil dolgu kesişim alanıdır. Altta IoU, kesişim, birleşim ve eşiğe göre karar yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Kutu aynı yerde ama iki kat büyükse bile IoU düşer; hem konum hem boyut doğru olmalıdır. Eşiği değiştirmek aynı tahmini doğru ya da yanlış yapabilir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>IoU</dt><dd>Kesişim alanı ÷ birleşim alanı (Intersection over Union); 0 ile 1 arası.</dd><dt>Kesişim</dt><dd>İki kutunun ortak alanı.</dd><dt>Birleşim</dt><dd>İki kutunun kapladığı toplam alan.</dd><dt>Eşik</dt><dd>IoU’nun doğru sayılması için aşması gereken değer.</dd></dl></details>
+      <p class="lab-src">Kutu boyutları bu site için seçildi. IoU’nun nesne kutusu doğruluğunu ölçtüğü notundaki Bölüm 13.2.4’ten; notta eşik değeri verilmez, kaydırıcıdaki eşik bu sitenin seçimidir.</p>
+    </div>
+    <div class="lab" id="ioulab"></div>
+    <div class="callout real"><b>Gerçek hayat: MRI ve CT ön işleme (ders notundaki örnek)</b>Tıbbi görüntülerde ham veri artefakt içerir; ön işleme veriyi temizleyerek sonraki aşamalarda daha doğru tanı sağlar. Otonom sürüşte hava koşullarından doğan bozulmalar da ön işlemeyle düzeltilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Güvenlik kamerası (ders notundaki örnek)</b>%95 doğruluk yüksek görünse de yanlış sınıflanan %5’lik kısım ciddi güvenlik sorunlarına yol açabilir. Değerlendirme kullanım senaryosuna uygun yapılmalıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Şablon eşleme">
+  <div class="panel">
+    <div class="kicker">13.3.1 Şablon eşleme · dene</div>
+    <h2>En eski yöntem: şablonu görüntüde kaydır</h2>
+    <p>Şablon eşleme, nesneyi önceden tanımlanmış bir şablonla karşılaştırır. Basit ve uygulanabilirdir; ışık, boyut ya da dönme değişince hızla bozulur. Bu yüzden küçük ya da sabit koşullu problemlerde tercih edilir.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Nesnenin yönünü seç (şablonla aynı ya da 180° döndürülmüş) ve “ışık kayması” kaydırıcısını artır.</li>
+        <li><b>Ne göreceksin:</b> Solda sahne (kırmızı kesikli kutu nesnenin gerçek yeri, yeşil kutu en iyi eşleşme), ortada fark haritası, sağda şablon. Altta en iyi eşleşmenin gerçek konumda olup olmadığı ve en küçük fark toplamı yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Aynı ışık ve aynı yönde şablon nesneyi bulur. Nesne dönünce ya da sahne parlaklaşınca doğru yer en iyi eşleşme olmaktan çıkar; şablon eşleme bu değişimlere duyarlıdır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Şablon</dt><dd>Aranan nesnenin sabit küçük görüntüsü (7×7).</dd><dt>Fark toplamı</dt><dd>Şablon ile sahnedeki pencerenin piksel farklarının mutlak değerleri toplamı; küçük olan iyi eşleşmedir.</dd><dt>Işık kayması</dt><dd>Sahnedeki tüm piksellere eklenen parlaklık.</dd></dl></details>
+      <p class="lab-src">Sahne ve şablon bu site için üretildi (40×40 gürültülü zemin, L biçimli nesne, bir parlak kare). Şablon eşleme fikri ve ışık, boyut, dönme duyarlılığı notundaki Bölüm 13.3.1’den; “fark toplamı” ölçüsü bu sitenin basit seçimidir.</p>
+    </div>
+    <div class="lab" id="templab"></div>
+    <div class="callout real"><b>Gerçek hayat: El yazısı karakter tanıma (ders notundaki örnek)</b>“A” harfinin farklı biçimleri şablon olarak saklanır; yeni görüntü bu şablonlarla eşleştirilip sınıfı belirlenir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Geleneksel yöntemler">
+  <div class="panel">
+    <div class="kicker">13.3 Geleneksel yöntemler · dene</div>
+    <h2>Kenar, köşe, istatistik ve SIFT / SURF / HOG</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Kenar ve köşe</b></td><td>Canny, Sobel ile yoğunluk geçişinden sınır; Harris ile köşe. Konturu belirgin üretim hattında iyi; gölge ve karmaşık arka planda kötü.</td></tr>
+        <tr><td><b>Histogram</b></td><td>Renk histogramıyla ayırt etme; nesne takibinde uzun süre yaygındı.</td></tr>
+        <tr><td><b>Fourier, dalgacık</b></td><td>Frekans bileşenlerine ayırıp analiz; periyodik desenli nesnelerde başarılı. Çok sınıflı yüksek doğruluk istenen yerde yetersiz.</td></tr>
+        <tr><td><b>SIFT</b></td><td>Kilit noktaları ölçek, dönme ve aydınlatma değişimine dayanıklı tanımlar.</td></tr>
+        <tr><td><b>SURF</b></td><td>SIFT’e benzer ama daha hızlı; gerçek zamanlı uygulamalarda tercih edilmiş.</td></tr>
+        <tr><td><b>HOG</b></td><td>Gradyan yönelimlerinin histogramı; özellikle insan tespitinde başarılı. Otonom sürüşte yaya tespitinde uzun süre standart yöntem.</td></tr>
+      </tbody>
+    </table></div>
+    <p>HOG’un temel fikrini dene: bir çizginin yönünü değiştir, sonra kontrastı ve parlaklığı oynat.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Çizginin yönünü değiştir; sonra kontrast çarpanını ve parlaklık kaymasını oynat.</li>
+        <li><b>Ne göreceksin:</b> Solda koyu zeminde parlak bir çizgi, sağda 9 kutulu gradyan yönelim histogramı (her kutu 20°) görünür. Altta baskın yön ve toplam gradyan gücü yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Çizgi dönünce histogramın tepesi kayar; kontrast ve parlaklık değişince tepenin yeri değişmez, yalnızca toplam güç değişir. HOG bu yüzden aydınlatma değişimine dayanıklıdır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Gradyan</dt><dd>Yoğunluğun en hızlı değiştiği yön ve hız; kenara diktir.</dd><dt>Yönelim kutusu</dt><dd>0–180° aralığının 20° genişliğinde dilimi.</dd><dt>Güç</dt><dd>Gradyan büyüklüklerinin toplamı; histogram bu büyüklüklerle ağırlıklanır.</dd></dl></details>
+      <p class="lab-src">Görüntü bu site için üretildi (24×24 çizgi). HOG’un gradyan yönelimlerini analiz ettiği ve insan tespitinde başarılı olduğu notundaki Bölüm 13.3.4’ten; 9 kutu, merkezî fark ve tek hücre bu sitenin basit hâlidir (gerçek HOG blok normalizasyonu da kullanır; burada yok).</p>
+    </div>
+    <div class="lab" id="hoglab"></div>
+    <div class="callout idea"><b>Güçlü ve zayıf yanlar</b>Hesaplama açısından hafiftir (düşük güçlü işlemcide, gömülü sistemde çalışır) ve matematiği açıktır, yorumlanabilir. Buna karşılık çeşitli nesne, karmaşık arka plan ve değişken ışıkta doğruluk ciddi düşer.</div>
+    <div class="callout idea"><b>Bugünkü rolü</b>Tek başına nadiren kullanılır ama yardımcı araç ve öznitelik çıkarıcı olarak sürer: SIFT öznitelikleri derin ağa girdi verilebilir, HOG vektörü CNN tabanlı sınıflandırıcıya katılabilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Üretim bandı (ders notundaki örnek)</b>Konturları belirgin üretim hattında kusurlu parçaların tespiti kenar tabanlı yöntemlerle etkin yapılır.</div>
+    <div class="callout real"><b>Gerçek hayat: Yaya tespiti (ders notundaki örnek)</b>HOG, otonom sürüş teknolojilerinde yaya tespitinde uzun süre standart yöntem olmuştur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Derin öğrenme yöntemleri">
+  <div class="panel">
+    <div class="kicker">13.4 Derin öğrenme tabanlı yöntemler</div>
+    <h2>CNN’den transformatöre</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">CNN</b>Katmanlı öznitelik<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>İlk katmanlar kenar ve köşe, derin katmanlar nesne parçası ve bütün nesne temsilini öğrenir. AlexNet, VGGNet (daha derin), ResNet (artık bağlantıyla 150’den fazla katman).</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">R-CNN ailesi</b>Bölge önerisi<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>R-CNN nesne tespitini bölge önerileriyle birleştirdi; Fast ve Faster R-CNN işlem süresini kısaltıp gerçek zamanlı kullanımı mümkün kıldı.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">YOLO, SSD</b>Tek aşama<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Sınıflandırma ve konumlamayı tek aşamada yapıp büyük hız kazandırır. YOLO ailesi YOLOv1’den YOLOv8’e kadar otonom sürüşten drone gözetimine yaygın.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">ViT, DETR</b>Öz-dikkat<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>ViT görüntüyü parçalara ayırıp her parçayı vektör olarak işler, öz-dikkatle ilişkileri öğrenir. Büyük veri kümelerinde CNN ile rekabet eder, bazen geçer. DETR çapa (anchor) tabanlı yaklaşımları ortadan kaldırır.</span></button>
+    </div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Tarihî eşik</b></td><td>Notta AlexNet’in 2012 ImageNet yarışmasında hata oranını %26’dan %16’ya düşürerek paradigma değişimini başlattığı söylenir.</td></tr>
+        <tr><td><b>ViT adımları</b></td><td>Görüntü sabit boyutlu yamalara bölünür; her yama doğrusal dönüşümle vektör olur; konum kodlaması eklenir; çok başlı dikkat yamaların ilişkisini hesaplar; ileri beslemeli ağ ve normalizasyon katmanları temsili iyileştirir. Yamalar kelime gibi işlenir.</td></tr>
+        <tr><td><b>Dikkat avantajı</b></td><td>Modelin hangi bölgelere odaklandığını açıkça gösterebilir; kritik uygulamalarda güveni artırır. ViT, CNN’den çok daha fazla veri ister; bu yüzden transfer öğrenme ve veri artırma kritiktir.</td></tr>
+        <tr><td><b>Güçlü ve zayıf</b></td><td>Yüksek doğruluk ve esneklik; ama büyük hesaplama gücü, bellek ve “kara kutu” doğası (açıklanabilirlik sorunu).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Notta bir ifade ve doğrusu</b>Notta DeiT ve Swin Transformer “evrişimli katmanlar ile dikkat mekanizmalarını birleştiren hibrit modeller” diye anılır. Bu ikisi genellikle saf Transformer mimarileri olarak bilinir (DeiT veri verimli eğitim, Swin kaydırmalı pencere dikkati ile öne çıkar); ders notundaki ifade gevşektir. Ayrıca AlexNet’in %26’dan %16’ya düşürdüğü hata, kaynaklarda çoğunlukla en iyi-5 hata oranı olarak ve yaklaşık %15,3 diye verilir; %16 yuvarlanmış bir değerdir. Bu iki kontrol dış bilgiye dayanır, ders notunda yoktur; kaynağa bakıp doğrula.</div>
+    <div class="callout real"><b>Gerçek hayat: Bölge tabanlı yaklaşımlar (ders notundaki örnek)</b>Güvenlik kameralarında hareketli nesne takibi, otonom araçlarda yaya tespiti, tıbbi görüntüde tümör konumlama.</div>
+    <div class="callout real"><b>Gerçek hayat: YOLO (ders notundaki örnek)</b>Otonom sürüşten drone tabanlı gözetim sistemlerine kadar birçok alan.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Eğitim ve veri">
+  <div class="panel">
+    <div class="kicker">13.4.5, 13.8.2 Eğitim stratejileri ve veri odaklı öğrenme</div>
+    <h2>Etiketli veri kıt: transfer, artırma, sentetik, aktif</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Strateji</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Transfer öğrenme</b></td><td>ImageNet gibi büyük veri kümesinde önceden eğitilmiş modeli başka alana uyarlar; tıbbi, uydu ve endüstriyel veride yüksek doğruluk mümkün olur.</td></tr>
+        <tr><td><b>Veri artırma</b></td><td>Geometrik (döndürme, ölçekleme, kırpma, yansıtma), renk uzayı (parlaklık, kontrast, doygunluk), gürültü ekleme ve bulanıklaştırma.</td></tr>
+        <tr><td><b>Yarı ve öz denetimli</b></td><td>Sınırlı etiketli veriden en iyi biçimde yararlanır; etiketsiz görüntüden öznitelik öğrenip az etiketle ince ayar yapılır.</td></tr>
+        <tr><td><b>Sentetik veri</b></td><td>GAN ve difüzyon modelleriyle gerçekçi görüntü: nadir nesne, tehlikeli durum.</td></tr>
+        <tr><td><b>Aktif öğrenme</b></td><td>Model belirsizliği yüksek görüntüler önce etiketlenir; sınırlı bütçeyle en çok kazanç.</td></tr>
+        <tr><td><b>Çok görevli öğrenme</b></td><td>Sınıflandırma, tespit ve bölütleme birlikte öğrenilir; her biri için ayrı model eğitmekten daha az veriyle daha iyi sonuç.</td></tr>
+        <tr><td><b>Veri kümeleri</b></td><td>ImageNet (milyonlarca etiketli görüntü, derin ağların eğitiminde dönüştürücü etki), COCO (tespit ve bölütleme).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Sentetik veri (ders notundaki örnek)</b>Otonom sürüşte kazaya yakın durumlar, tıbbi görüntülemede nadir hastalıklar için değerli veri kaynağı.</div>
+    <div class="callout real"><b>Gerçek hayat: Aktif öğrenme (ders notundaki örnek)</b>Uzman etiketlemesi gereken tıbbi görüntülemede kritik: etiket maliyeti yüksektir, bu yüzden en bilgilendirici örnekler seçilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Hibrit yaklaşımlar">
+  <div class="panel">
+    <div class="kicker">13.5 Hibrit yaklaşımlar</div>
+    <h2>İki yöntemin güçlü yanlarını birleştir</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Biçim</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ardışık ya da paralel</b></td><td>İki ya da daha fazla yöntem bir işlem hattında ya da yan yana çalışır.</td></tr>
+        <tr><td><b>Klasik + derin</b></td><td>Kenar tespiti, histogram iyileştirme, morfolojik işlem derin ağdan önce uygulanır (özellikle düşük kaliteli, gürültülü görüntüde işe yarar). Tersi: CNN ya da Transformer özniteliklerini SVM veya Random Forest ile sınıflamak, daha ucuz sınıflandırıcıyla güçlü temsili kullanmak.</td></tr>
+        <tr><td><b>Çoklu algılayıcı</b></td><td>RGB görüntü derin modelle, kızılötesi ya da derinlik verisi klasik yöntemle işlenir; öznitelikler birleşir. Gece sürüşü, düşük ışık ve sis gibi zor senaryolarda avantaj.</td></tr>
+        <tr><td><b>Öğrenme paradigmaları</b></td><td>Denetimli + denetimsiz; öz denetimli ön eğitim + küçük etiketli kümede ince ayar; yarı denetimli + takviyeli öğrenme (hareketli nesne takibi, gerçek zamanlı karar).</td></tr>
+        <tr><td><b>Açıklanabilirlik</b></td><td>CNN tahminleri LIME ya da SHAP ile açıklanarak daha güvenilir olur; sağlık ve adli bilişimde hem doğruluk hem açıklanabilirlik.</td></tr>
+        <tr><td><b>Sınırlar</b></td><td>Tasarım karmaşık; uyum için ciddi mühendislik; hesaplama maliyeti ve veri senkronizasyonu zorluğu.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Sağlık (ders notundaki örnek)</b>Derin öğrenmeyle tümör tespiti, geleneksel ön işlemeyle desteklenince daha doğru sonuç verir.</div>
+    <div class="callout real"><b>Gerçek hayat: Otonom sürüş (ders notundaki örnek)</b>RGB kameranın CNN işlemesi, lidar verisinin geleneksel geometrik analiziyle birleşip daha güvenilir algılama yapar.</div>
+    <div class="callout real"><b>Gerçek hayat: Endüstri (ders notundaki örnek)</b>Üretim hattında derin kalite kontrol, geleneksel istatistiksel yöntemlerle birlikte çalışıp hata oranını düşürür ve hızı artırır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Zorluklar">
+  <div class="panel">
+    <div class="kicker">13.6 Uygulamalarda karşılaşılan zorluklar</div>
+    <h2>Laboratuvardan sokağa</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Grup</th><th>Zorluklar</th></tr></thead>
+      <tbody>
+        <tr><td><b>Veri</b></td><td>Çeşitlilik (ışık, açı, gürültü, düşük çözünürlük); dengesizlik (nadir nesne için az örnek, önyargılı öğrenme); etiketleme maliyeti (tıpta uzman hekim gerekir).</td></tr>
+        <tr><td><b>Hesaplama</b></td><td>Gerçek zamanlı (milisaniyeler); mobil ve gömülü cihazlarda enerji ve işlem sınırı; GPU/TPU maliyeti.</td></tr>
+        <tr><td><b>Karmaşık ortam</b></td><td>Sis, yağmur, kar; kısmi örtülme, üst üste binme, arka plan karmaşası; hızlı gerçek zamanlı değişim.</td></tr>
+        <tr><td><b>Güvenlik</b></td><td>Yanlış sınıflandırma (otonom aracın yayayı yanlış tanıması ölümcül olabilir); insan gözünün fark etmediği karşıt (adversarial) saldırılar; eğitim dışı koşulda hızlı performans düşüşü.</td></tr>
+        <tr><td><b>Etik ve hukuk</b></td><td>Mahremiyet; yanlılık ve adalet; hatalı karar durumunda sorumluluğun kime ait olduğu.</td></tr>
+        <tr><td><b>Sürdürülebilirlik</b></td><td>Eğitim ve çalıştırmanın enerji tüketimi, karbon ayak izi, veri merkezi verimliliği.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Yüz tanıma ve adalet (ders notundaki örnek)</b>Yüz tanıma sistemlerinin farklı etnik gruplarda farklı başarı oranları göstermesi, veri dengesizliğinden doğan ayrımcılığın en bilinen örneğidir.</div>
+    <div class="callout real"><b>Gerçek hayat: Kamusal kamera (ders notundaki örnek)</b>Kamuya açık alanlardaki kamera sistemleri bireylerin gizlilik haklarını ihlal edebilir.</div>
+    <div class="callout idea"><b>Çözüm yönleri</b>Daha küçük ve enerji dostu modeller; veri artırma ve öz denetimli öğrenmeyle veri bağımlılığını azaltmak; açıklanabilir yapay zekâ; hibrit mimariler.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Gelecek eğilimler">
+  <div class="panel">
+    <div class="kicker">13.7 Gelecek eğilimler</div>
+    <h2>Hafif, açıklanabilir, düzenlenmiş</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Başlık</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Hafif modeller</b></td><td>Kompakt mimariler, kuantizasyon ve sıkıştırma, mobil/IoT/gömülü donanım uyumu.</td></tr>
+        <tr><td><b>Öz denetimli ve transfer</b></td><td>Etiketsiz veriden öğrenme; alanlar arası uyarlama; çapraz modalite (görüntü, metin, ses birlikte).</td></tr>
+        <tr><td><b>Açıklanabilirlik</b></td><td>XAI entegrasyonu (sağlık, adli bilişim); kullanıcı güveni; önyargıyı önlemek için bağımsız denetim.</td></tr>
+        <tr><td><b>Gerçek zamanlı ve otonom</b></td><td>Düşük gecikme, çoklu nesne takibi, uyarlanabilir sistemler.</td></tr>
+        <tr><td><b>Etik ve hukuk</b></td><td>Mahremiyet düzenlemeleri, hukuki sorumluluk çerçevesi, uluslararası standartlar.</td></tr>
+        <tr><td><b>Çevre</b></td><td>Enerji verimli algoritmalar, yeşil yapay zekâ, bulut ile uç bilişim dengesi.</td></tr>
+        <tr><td><b>Disiplinler arası</b></td><td>Sağlık (erken teşhis, kişiselleştirilmiş tedavi), tarım (bitki sağlığı, verimlilik, kaynak), kültürel miras (eser koruma, dijitalleştirme).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Tarım ve kültürel miras (ders notundaki örnek)</b>Bitki sağlığını izleme ve kaynak eniyileme; tarihî eserleri koruma ve dijitalleştirme.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="İleri teknikler ve açıklanabilirlik">
+  <div class="panel">
+    <div class="kicker">13.8 İleri teknikler ve açıklanabilirlik</div>
+    <h2>Modelin neye baktığını göster</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Ne yapar?</th></tr></thead>
+      <tbody>
+        <tr><td><b>CAM, Grad-CAM</b></td><td>Son evrişimli katmandaki gradyanlardan her sınıf için ısı haritası üretir; hangi piksellerin önemli olduğunu gösterir.</td></tr>
+        <tr><td><b>Dikkat görselleştirme</b></td><td>Çok başlı dikkatin farklı başları farklı özelliklere odaklanır; bu odaklar görselleştirilerek önyargı ve güvenilirlik değerlendirilir.</td></tr>
+        <tr><td><b>LIME</b></td><td>Bölgeleri maskeleyip her bölgenin tahmine etkisini ölçer; model türünden bağımsızdır.</td></tr>
+        <tr><td><b>Özellik atfı</b></td><td>Entegre gradyanlar referans görüntüden hedefe giden yolda gradyan hesaplar; SHAP ile birlikte kullanılabilir.</td></tr>
+        <tr><td><b>Karşıt örnek analizi</b></td><td>Gözle fark edilmeyen küçük değişikliklerin kararı nasıl etkilediğini inceler; dayanıklılığı artırmaya da yarar.</td></tr>
+        <tr><td><b>Belirsizlik ölçümü</b></td><td>Bayes derin öğrenme ve Monte Carlo dropout ile her tahmin için belirsizlik skoru; yüksek belirsizlik ek inceleme gerektirir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Neden önemli?</b>Sağlık, güvenlik ve adalet gibi alanlarda kararların açıklanabilir olması hem yasal gereklilik hem kullanıcı güveni içindir. Bu yöntemler düzenleyici onay ve kullanıcı kabulünde rol oynar, modelin önyargısını bulmaya da yarar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 13</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Tanım</td><td>Algıla, sınıflandır, konumla; ön işleme → öznitelik → sınıflandırma → değerlendirme</td></tr>
+        <tr><td>Metrikler</td><td>Doğruluk, kesinlik, duyarlılık, F1, IoU</td></tr>
+        <tr><td>Geleneksel</td><td>Şablon eşleme (kırılgan), Canny/Harris, SIFT, SURF, HOG; hafif ama sınırlı</td></tr>
+        <tr><td>Derin</td><td>CNN (AlexNet, VGG, ResNet), R-CNN ailesi, YOLO/SSD, ViT, DETR</td></tr>
+        <tr><td>Eğitim</td><td>Transfer, veri artırma, sentetik veri, aktif ve çok görevli öğrenme, ImageNet, COCO</td></tr>
+        <tr><td>Hibrit</td><td>Klasik + derin, çok algılayıcı, XAI ile birleşim</td></tr>
+        <tr><td>Zorluklar</td><td>Veri, hesaplama, hava ve örtülme, güvenlik, etik, enerji</td></tr>
+        <tr><td>Açıklanabilirlik</td><td>Grad-CAM, LIME, entegre gradyan, belirsizlik</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
