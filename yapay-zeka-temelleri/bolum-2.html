@@ -64,6 +64,7 @@
     </svg>
     <p>İlk üçü birlikte <b>durum uzayını</b> tanımlar: başlangıçtan herhangi bir aksiyon dizisiyle ulaşabileceğin tüm durumlar. Durum uzayı, düğümlerin durumlar, okların aksiyonlar olduğu yönlü bir graf gibi düşünülebilir. Maliyetler negatif olmamalıdır.</p>
     <div class="callout real"><b>Gerçek hayat: Satranç</b><b>Başlangıç:</b> taşların standart dizilişi ve sıra kimde. <b>Aksiyonlar:</b> o durumda yapılabilecek yasal hamleler (rok ve en passant dahil). <b>Geçiş:</b> hamle sonrası yeni tahta. <b>Hedef:</b> şah mat. <b>Maliyet:</b> hamle sayısı, süre ya da kazanılan taş değeri; hangisini seçtiğin “iyi”nin tanımını değiştirir.</div>
+    <div class="callout idea"><b>Refleks ajan ve problem çözme ajanı</b>Refleks ajanı yalnızca mevcut girdiye tepki verir: durumdan doğrudan eyleme eşler, geçmişi ve geleceği hesaba katmaz. Problem çözme ajanı ise ileriye dönük planlar, olası seçenekleri değerlendirir ve amaca götüren eylem dizisini arar.</div>
   </div>
 </section>
 
@@ -104,6 +105,7 @@
       </div>
     </div>
     <div class="callout real"><b>Gerçek hayat: Uçak seyahati</b><b>Durum:</b> bulunduğun havalimanı, saat, önceki uçuşların. <b>Aksiyonlar:</b> uçuş seç, aktarma yap, bilet sınıfını değiştir. <b>Zorluk:</b> fiyatlar değişir, aktarma süreleri kısıtlıdır, hava durumu bozabilir. <b>Maliyet:</b> toplam süre, toplam fiyat ve konfor birlikte düşünülür.</div>
+    <div class="callout real"><b>Gerçek hayat: Vakum dünyası (ders notundaki örnek)</b>İki konumlu bir odada her konumda kir olabilir ya da olmayabilir. Ajanın konumu ve kirin yeri durumu belirler: 2 × 2² = 8 olası dünya durumu. Eylemler: Sol, Sağ, Emme.</div>
   </div>
 </section>
 
@@ -119,6 +121,7 @@
       <div class="metric"><b>Bellek</b>Aynı anda kaç düğüm tuttu?</div>
     </div>
     <div class="callout idea"><b>Denge</b>Bazen hızlı ama en iyi olmayan çözüm yeterlidir; bazen optimallik şarttır. Hangisinin seçileceği problemin ihtiyacına bağlıdır. Bu ölçütleri Bölüm 3’te her algoritma için dolduracağız.</div>
+    <div class="callout idea"><b>Karmaşıklığı büyük O ile yazmak</b>Zaman karmaşıklığı çoğu zaman O(bᵈ) ile ifade edilir: b arama ağacının dallanma faktörü (her düğümden kaç dal çıkıyor), d en sığ hedefin derinliğidir. Alan karmaşıklığı da benzer biçimde yazılır ve zamanla yakından ilişkilidir.</div>
   </div>
 </section>
 
@@ -174,6 +177,7 @@
       </tbody>
     </table></div>
     <div class="callout real"><b>Gerçek hayat: Navigasyon uygulaması</b>Yolda kaza olunca rota yeniden hesaplanır. Bu, dinamik ortamda “yeniden planlama”nın günlük hayattaki hâlidir. Ortam değiştiği için ilk bulunan plan değişmek zorundadır.</div>
+    <div class="callout real"><b>Gerçek hayat: Etik kısıtlar (ders notundaki örnek)</b>Otonom araç kaçınılmaz bir kaza senaryosunda hangi kararı vermeli (troleybüs/“trolley” problemi)? Çözüm yaklaşımı: etik kuralları sistem tasarımına katmak ve insan denetimli karar mekanizmaları kurmak.</div>
   </div>
 </section>
 

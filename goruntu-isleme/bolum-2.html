@@ -157,6 +157,28 @@
   </div>
 </section>
 
+<section class="slide" data-title="Histogram: hız ve gerçek zamanlı kullanım">
+  <div class="panel">
+    <div class="kicker">Histogramın güçlü yanları</div>
+    <h2>Hızlı, küçük ve döndürmeye duyarsız</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Hızlı</b>Görüntü tek taramada işlenir: O(n) zaman.</div>
+      <div class="peas-c e"><b>Küçük</b>Yalnızca L = 256 değer saklanır.</div>
+      <div class="peas-c a"><b>Değişmez</b>Döndürme ve çevirme gibi dönüşümler histogramı değiştirmez (piksellerin yeri zaten saklanmaz; aynı zamanda sınırlılığı da budur).</div>
+      <div class="peas-c s"><b>İstatistik</b>Ortalama, varyans ve çarpıklık kolay hesaplanır.</div>
+    </div>
+    <ul>
+      <li><b>Çift tepeli (bimodal)</b> histogram, hem koyu hem açık bölgelerin yoğun olduğu, yani ışığı dengesiz bir sahneyi gösterir.</li>
+      <li><b>Kusur tespiti:</b> belirli bir ton aralığında beklenmedik yoğunluk artışı, yüzeyde kusur ya da leke ipucudur.</li>
+      <li><b>Gerçek zamanlı kullanım:</b> kameralar çekim sırasında anlık histogram göstererek pozlamayı ayarlatır.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Üretim hattı (ders notundaki örnek)</b>Standart ürünün histogramı referans alınır; bu profilin dışına çıkan ürünler hızla ayrılır. Gıda ve elektronik üretiminde renk ve parlaklık farkı böyle yakalanır.</div>
+    <div class="callout real"><b>Gerçek hayat: Fotoğraf makinesi (ders notundaki örnek)</b>Ekrandaki canlı histogram sola yığılmışsa sahne az pozlanmıştır; sağa yığılmışsa aşırı pozlanmıştır. Çekimden önce düzeltirsin, düzenleme süresinden kazanırsın.</div>
+    <div class="callout real"><b>Gerçek hayat: Bitki sağlığı (ders notundaki örnek)</b>Uydu görüntüsünde yakın kızılötesi kanalın histogramı bitki sağlığını değerlendirmeye yarar (NDVI). Afet sonrası hasar tespitinde de histogram analizi veri sağlar.</div>
+    <div class="callout real"><b>Gerçek hayat: Güvenlik kamerası (ders notundaki örnek)</b>Işıklar aniden kapanınca ya da biri kadraja girince histogram aniden değişir; bu, hareket ya da sahne değişikliği algılamaya yarar.</div>
+  </div>
+</section>
+
 <section class="slide" data-title="Bölüm özeti">
   <div class="panel">
     <div class="kicker">Özet</div>

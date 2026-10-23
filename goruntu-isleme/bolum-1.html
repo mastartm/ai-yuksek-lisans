@@ -90,6 +90,8 @@
       <path class="d-box" d="M560 20 Q640 100 560 180" fill="none" stroke="var(--bad)" stroke-width="5"/><text class="d-sm" x="590" y="100">retina: ters görüntü</text>
     </svg>
     <div class="callout idea"><b>Mühendislik ilhamı</b>Kamera lensi ve sensörü, gözün mercek ve retinasından esinlenir. Yapay görme sistemleri bu biyolojik sürecin ilham verdiği düzeneklerdir.</div>
+    <div class="callout idea"><b>Ayrıntılar</b>Kör nokta, optik sinirin retinaya bağlandığı yerdir ve görüntü algılamaz. Fovea, en keskin görüntünün oluştuğu merkez bölgedir. Gözdeki kasların merceğin şeklini değiştirmesine akomodasyon denir.</div>
+    <div class="callout real"><b>Gerçek hayat: Palmiye ağacı (ders notundaki örnek)</b>100 m uzaktaki 15 m yüksekliğindeki bir palmiye ağacının retinadaki görüntüsü yaklaşık 2,5 mm büyüklüğündedir. Göz, uzak nesneyi küçülmüş bile olsa ayırt edebilir.</div>
   </div>
 </section>
 
@@ -133,6 +135,7 @@
     <p><b>Örnekleme</b> (sampling): görüntünün <i>nerelerinden</i> ölçüm alınacağı; yani kaç piksel olacağı. <b>Nicemleme</b> (quantization): her ölçümün <i>ne kadar hassas</i> yazılacağı; yani kaç yoğunluk seviyesi olacağı. Kodla çizilmiş bir manzara üzerinde iki düğmeyi ayrı ayrı oynat.</p>
     <div class="lab" id="pixlab"></div>
     <div class="callout idea"><b>Gözlem</b>Çözünürlüğü düşürünce görüntü <b>bloklaşır</b> (detay kaybı). Bit sayısını düşürünce görüntü <b>bantlaşır</b> (yumuşak geçişler basamaklara dönüşür; 1 bitte yalnızca siyah ve beyaz kalır). Biri nerede, diğeri ne kadar hassas ölçtüğümüzü belirler.</div>
+    <div class="callout idea"><b>Nyquist kuralı</b>Örtüşme (alias) etkisinden kaçınmak için örnekleme frekansı, sinyaldeki en yüksek frekansın en az 2 katı olmalıdır. Örnekleme “nerede ölçeceğini”, nicemleme “ne kadar hassas ölçeceğini” belirler.</div>
   </div>
 </section>
 
@@ -156,6 +159,8 @@
     <p>Ham (sıkıştırılmamış) boyut = <b>genişlik × yükseklik × bit / 8</b> bayttır. Kendin hesapla:</p>
     <div class="lab" id="sizecalc"></div>
     <div class="callout real"><b>Gerçek hayat: Neden fotoğraflar JPEG?</b>12 megapiksellik bir fotoğraf ham hâlde yaklaşık 34 MB tutar; ama telefonun kaydettiği dosya birkaç MB’dır. Fark sıkıştırmadan gelir.</div>
+    <div class="callout idea"><b>İki çözünürlük daha</b><b>Zamansal çözünürlük</b>: bir alanın ne sıklıkla görüntülendiği (fps ya da uydunun yeniden ziyaret süresi). <b>Spektral çözünürlük</b>: sensörün hangi bantlarda, ne kadar dar aralıkla veri topladığı; multispektral 4–10 bant, hiperspektral yüzlerce dar banttır.</div>
+    <div class="callout real"><b>Gerçek hayat: Uydu ve tarım (ders notundaki örnek)</b>0,3 m uzamsal çözünürlüklü bir uydu 30 cm’lik nesneleri ayırt eder. Hiperspektral görüntü her piksel için bir spektrum çizgisi verdiği için bitki türlerini ve mineral bileşimini ayırt etmeye yarar.</div>
   </div>
 </section>
 
@@ -174,6 +179,7 @@
     <div class="chips"><span class="chip">Tıbbi görüntüleme</span><span class="chip">Uzaktan algılama / GIS</span><span class="chip">Endüstriyel kalite kontrol</span><span class="chip">Biyometri ve güvenlik</span><span class="chip">Trafik ve akıllı ulaşım</span><span class="chip">Multimedya ve film</span><span class="chip">Tarım</span><span class="chip">Arkeoloji ve sanat tarihi</span></div>
     <div class="callout real"><b>Gerçek hayat: Plaka okuma</b>Otoyolda geçişinde kamera aracın fotoğrafını çeker (edinim), plakayı bulur (bölütleme), harfleri okur (tanıma). Bir fotoğraf, sonunda “şu plaka şu saatte geçti” bilgisine döner.</div>
     <div class="callout idea"><b>Diğer alanlarla ilişki</b>Bilgisayarla görme (anlam çıkarma), yapay zekâ ve makine öğrenmesi (özellikle derin öğrenme) ve robotik (görsel bilgiyle yön bulma) görüntü işlemeyle iç içedir.</div>
+    <div class="callout idea"><b>İşleme ve analiz farkı</b><b>Görüntü işleme</b> görüntüyü iyileştirmeyi amaçlar, piksel düzeyinde çalışır, çıktısı yeni bir görüntüdür (gürültü giderme, kontrast, histogram). <b>Görüntü analizi</b> görüntüyü anlamayı ve yorumlamayı amaçlar, nesne ve öznitelik düzeyinde çalışır, çıktısı sayısal öznitelik ya da sınıflandırmadır. İşleme çoğu zaman analiz için ön hazırlıktır.</div>
   </div>
 </section>
 
@@ -215,6 +221,83 @@
     </table></div>
     <p>Güncel eğilimler: <b>derin öğrenme</b> tabanlı yöntemlerin yaygınlaşması, <b>gerçek zamanlı</b> sistemler, tıbbi görüntülemede yapay zekâ, çok kipli (multimodal) analiz, görüntü sentezi ve <b>deepfake</b>, <b>kenar bilişim</b> ve IoT, kuantum görüntü işleme.</p>
     <div class="callout real"><b>Gerçek hayat: Deepfake</b>Aynı teknik yaratıcı işlerde (film efekti) de kötüye kullanımda (sahte görüntü) kullanılır. Görüntü sentezi güçlendikçe bir görüntünün gerçek olup olmadığını doğrulamak da bir görüntü işleme problemi hâline geliyor.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Elektromanyetik spektrum">
+  <div class="panel">
+    <div class="kicker">Görünür ışığın ötesi</div>
+    <h2>Her dalga boyu başka bir şeyi gösterir</h2>
+    <p>Görüntü yalnızca görünür ışıkla oluşmaz. Elektromanyetik spektrumda dalga boyu uzadıkça enerji azalır; her bant farklı bir uygulamada tercih edilir.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Bant</th><th>Ne için kullanılır?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Gama ışını</b></td><td>PET: nükleer tıpta metabolik etkinlik, kanserli doku.</td></tr>
+        <tr><td><b>X-ışını</b></td><td>Kemik kırığı, diş röntgeni, malzemenin iç yapısı.</td></tr>
+        <tr><td><b>Ultraviyole</b></td><td>Mikroskopi; parmak izi ve sahtecilik incelemesi.</td></tr>
+        <tr><td><b>Görünür ışık</b></td><td>Standart kamera.</td></tr>
+        <tr><td><b>Kızılötesi</b></td><td>Termal kamera: ısı kaybı, gece görüşü, arama-kurtarma.</td></tr>
+        <tr><td><b>Mikrodalga</b></td><td>Toprak nemi, buzul hareketi, atmosfer izleme.</td></tr>
+        <tr><td><b>Radyo dalgası</b></td><td>Radar (SAR): bulut ve gece koşulunda arazi görüntüleme. MR: radyo dalgası + güçlü manyetik alanla yumuşak doku.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Ultrason ise ses dalgasıdır (gebelik takibi, karaciğer, böbrek, damar yapıları).</p>
+    <div class="callout real"><b>Gerçek hayat: Aynı vücut, farklı bant (ders notundaki örnekler)</b>X-ışını kemik yapısını, kızılötesi vücut ısısını, ultraviyole deri lezyonunu gösterir. Hangi bilgiyi aradığın, hangi bandı seçeceğini belirler.</div>
+    <div class="callout real"><b>Gerçek hayat: Bulutlu havada uydu (ders notundaki örnek)</b>SAR radarı bulut ve karanlıkta bile yüksek çözünürlüklü arazi görüntüsü alır; afet izlemede kullanılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Görüntüleme sistemi ve sensörler">
+  <div class="panel">
+    <div class="kicker">Sayısal görüntüleme sistemi</div>
+    <h2>Işıktan dosyaya: beş parçalı zincir</h2>
+    <ol>
+      <li><b>Optik sistem:</b> lens, diyafram ve filtreler ışığı odaklar; netliği ve bozulmayı belirler.</li>
+      <li><b>Sensör (CCD / CMOS):</b> ışığı elektrik sinyaline çevirir.</li>
+      <li><b>A/D dönüştürücü:</b> elektrik sinyalini sayıya çevirir; bit derinliği (8, 12, 16) kontrast ve ayrıntı düzeyini belirler.</li>
+      <li><b>İşleme birimi:</b> ham veriyi düzenler, ön işleme yapar.</li>
+      <li><b>Depolama ve görüntüleme:</b> görüntü saklanır ve gösterilir; monitör kalitesi ve renk kalibrasyonu önemlidir.</li>
+    </ol>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Sensör</th><th>Güçlü yanı</th><th>Zayıf yanı</th></tr></thead>
+      <tbody>
+        <tr><td><b>CCD</b></td><td>Yüksek duyarlılık, düşük gürültü (tıp, astronomi).</td><td>Yavaş, pahalı.</td></tr>
+        <tr><td><b>CMOS</b></td><td>Hızlı, düşük enerji tüketimi (telefondan endüstriyele); düşük ışıkta CCD’ye yaklaşıyor.</td><td>Geçmişte daha gürültülüydü.</td></tr>
+        <tr><td><b>IR / termal</b></td><td>Isı bandını görür (savunma, termografi).</td><td>Soğutma gerekir, pahalı.</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li><b>Bayer filtresi</b> en yaygın renk filtre dizisidir (CFA): her piksel yalnızca bir rengi ölçer.</li>
+      <li>Sensör performansı: kuantum verimi, dinamik aralık, gürültü düzeyi, doyma düzeyi.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Telefon kamerası (ders notundaki örnek)</b>Akıllı telefonlardaki küçük CMOS sensör hızlı ve az enerji harcar; bu yüzden cep telefonundan endüstriyel kameraya kadar yaygındır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Matematik ve dönüşümler">
+  <div class="panel">
+    <div class="kicker">Görüntü işlemenin matematiği</div>
+    <h2>Hangi matematik, hangi iş?</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Araç</th><th>Ne için?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Matris ve lineer cebir</b></td><td>Görüntü 2B matristir; PCA ve SVD ile boyut indirgeme.</td></tr>
+        <tr><td><b>Aritmetik işlemler</b></td><td>Çıkarma: fark görüntüsü (hareket tespiti). Çarpma/bölme: parlaklık ve kontrast ayarı.</td></tr>
+        <tr><td><b>Konvolüsyon ve korelasyon</b></td><td>Çekirdeği kaydırarak filtreleme, kenar tespiti, şablon eşleştirme.</td></tr>
+        <tr><td><b>Olasılık ve istatistik</b></td><td>Gauss ve Wiener filtreleri, histogram analizi.</td></tr>
+        <tr><td><b>Türevler</b></td><td>Gradyan: değişimin yönü ve büyüklüğü. Laplace: ikinci türev ile kenar.</td></tr>
+        <tr><td><b>Fourier ve dalgacık</b></td><td>Frekans bileşenlerine ayırma; dalgacık zaman-frekansı birlikte verir.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Temel dönüşümler</h3>
+    <ul>
+      <li><b>DFT / FFT</b> ve <b>ters Fourier</b>: görüntüyü frekansa taşıyıp geri getirir.</li>
+      <li><b>Dalgacık</b> (Haar, Daubechies): sıkıştırma, çok çözünürlüklü analiz, gürültü azaltma.</li>
+      <li><b>Kosinüs dönüşümü (DCT)</b>: enerjiyi az sayıda bileşende toplar; <b>JPEG</b> sıkıştırmasının temelidir.</li>
+      <li><b>Hough dönüşümü</b>: kenar noktalarını parametre uzayına taşıyarak doğru ve çember bulur.</li>
+      <li><b>Renk uzayı dönüşümleri</b>: RGB, HSV, Lab, YCbCr; renge dayalı bölütleme.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Hareket algılama (ders notundaki örnek)</b>Güvenlik kamerası ardışık iki kareyi birbirinden çıkarır; fark görüntüsünde sıfırdan farklı pikseller hareketin olduğu yeri gösterir.</div>
   </div>
 </section>
 
