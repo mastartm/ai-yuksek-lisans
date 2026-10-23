@@ -56,6 +56,20 @@ add('costlab', 'makine-ogrenmesi/bolum-9.html',
     [('n', 'Toplam nesne sayısı.'), ('k', 'Küme sayısı.'), ('t', 'k-ortalamalarda yineleme sayısı.'), ('s', 'CLARA’da rastgele örneğin büyüklüğü.')],
     'Sayılar sanal; formüller notundaki Bölüm 9.2 ve 9.3 maliyet ifadeleridir (θ gösterimi sabit çarpanları içermez).')
 
+# ---------------- Makine Öğrenmesi 10 ----------------
+add('hlab', 'makine-ogrenmesi/bolum-10.html',
+    'Üç bağlantı yönteminden birini seç (tek, tam, grup ortalama). Sonra kesme yüksekliği kaydırıcısını oynat.',
+    'Altı noktanın dendrogramı çizilir; kesme çizgisinin altında kalan kümeler farklı renk alır. Altta birleşme sırası ve uzaklıkları tablo olarak çıkar.',
+    'Aynı matristen yönteme göre farklı ağaçlar çıkar: tek bağlantıda son birleşme 0,22’de, tam bağlantıda 0,39’da olur. Kesme yüksekliği küme sayısını belirler.',
+    [('Dendrogram', 'Birleşmeleri ve birleşme uzaklıklarını gösteren ağaç.'), ('Tek bağlantı', 'İki küme arası uzaklık = en yakın nokta çiftinin uzaklığı.'), ('Tam bağlantı', 'İki küme arası uzaklık = en uzak nokta çiftinin uzaklığı.'), ('Grup ortalama', 'İki küme arası uzaklık = tüm nokta çiftlerinin uzaklık ortalaması.'), ('Kesme yüksekliği', 'Ağacı yatay kesen çizgi; çizginin altında birleşmiş olanlar bir küme sayılır.')],
+    'Veri: ders notundaki 6 noktalı yakınlık matrisi (Bölüm 10.3). Tek ve tam bağlantının birleşme sırası notundakiyle aynıdır. Grup ortalama sonucu notta çizilmemiştir; siteyi yapan hesaplamıştır. Kesme çizgisi ise bu sitenin eklediği bir araçtır.')
+add('bolenlab', 'makine-ogrenmesi/bolum-10.html',
+    'Nesne sayısı n’i kaydır.',
+    '2^(n−1) − 1 formülüyle olası bölme sayısı ve kümeleyici yöntemin en çok yineleme sayısı yazılır.',
+    'Bölücü yöntemde olası bölme sayısı n ile üstel büyür; bu yüzden sezgisel kurallar kullanılır.',
+    [('Olası bölme', 'Bir kümeyi iki parçaya ayırmanın farklı yollarının sayısı.'), ('Üstel', 'n her arttığında sayının kabaca iki katına çıkması.')],
+    'Veri yok; formül notundaki Bölüm 10.2’den alındı.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():

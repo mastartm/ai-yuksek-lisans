@@ -1,0 +1,197 @@
+<!--
+course: makine-ogrenmesi
+course_title: Makine Öğrenmesi
+no: 10
+title: Hiyerarşik Kümeleme
+quiz: QUIZ_ML_10
+quiz_file: ml-bolum-10-quiz.js
+scripts: ml10.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 10</div>
+    <h1>Hiyerarşik Kümeleme</h1>
+    <p class="big-quote">k-ortalamalarda önce “kaç küme?” diye sorulurdu. Ama bir firmada çalışanlar önce yönetici, müdür, personel olarak, personel de kendi içinde kıdemli ve stajyer olarak ayrılır. Bazen aradığın şey tek bir bölümleme değil, <b>iç içe geçmiş gruplardan oluşan bir ağaçtır</b>.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Hiyerarşik kümelemenin ne işe yaradığını iki farklı amaçla anlatabilirsin.</li>
+      <li>Kümeleyici (AGNES) ve bölücü (DIANA) yaklaşımı ayırt edebilirsin.</li>
+      <li>Dendrogramı okuyabilir, yakınlık matrisinden adım adım çizebilirsin.</li>
+      <li>Tek bağlantı, tam bağlantı, grup ortalama ve ağırlık merkezi yöntemlerini karşılaştırabilirsin.</li>
+      <li>Kümeleyici yöntemlerin sınırlarını (geri alınamaz birleştirme vb.) sayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Birleştire birleştire (ya da böle böle) bir ağaç kur</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Kümeleyici yöntem aşağıdan yukarıya birleştirir; bölücü yöntem yukarıdan aşağıya böler; sonuç bir dendrogramdır"><rect class="d-brand" x="10" y="55" width="190" height="80" rx="8"/><text class="d-txt d-c" x="105" y="88">Kümeleyici (AGNES)</text><text class="d-sm d-c" x="105" y="108">aşağıdan yukarıya, birleştir</text><rect class="d-warn" x="280" y="55" width="190" height="80" rx="8"/><text class="d-txt d-c" x="375" y="88">Bölücü (DIANA)</text><text class="d-sm d-c" x="375" y="108">yukarıdan aşağıya, böl</text><rect class="d-ok" x="550" y="55" width="200" height="80" rx="8"/><text class="d-txt d-c" x="650" y="88">Dendrogram</text><text class="d-sm d-c" x="650" y="108">hiyerarşik ağaç</text><path class="d-line-brand" d="M200 95 L280 95"/><path class="d-line-brand" d="M470 95 L550 95"/></svg>
+    <p>İki yaklaşım da aynı ağacı farklı yönden kurar. Ağaç, hangi nesnelerin hangi uzaklıkta bir araya geldiğini gösterir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Hiyerarşi neden?">
+  <div class="panel">
+    <div class="kicker">Neden hiyerarşi?</div>
+    <h2>Özetlemek için de, gerçek yapıyı keşfetmek için de</h2>
+    <p>Bölümlemeli yöntemler nesneleri belli sayıda gruba ayırır. Bazen veriyi hiyerarşi gibi farklı düzeylerde gruplamak istenir. Hiyerarşik yöntem nesneleri bir <b>küme ağacı</b> halinde gruplar. Hiyerarşiyi iki amaçla kullanabilirsin:</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Özetleme ve görselleştirme</b>Veride gerçek bir hiyerarşi yoktur; ağaç yalnızca veriyi sıkıştırılmış biçimde özetlemek ve görselleştirmek içindir.</div>
+      <div class="peas-c e"><b>Gizli hiyerarşiyi keşfetme</b>Verinin altında bir hiyerarşik yapı olduğu varsayılır ve yöntem onu ortaya çıkarır.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Firma çalışanları (ders notundaki örnek)</b>İnsan kaynakları müdürü çalışanları yönetici, müdür ve personel diye ayırır; personel de kıdemli memur, subay ve stajyer alt gruplarına bölünür. Böyle bir hiyerarşi kolay özetlenir; örneğin yöneticilerin ve memurların ortalama maaşı bulunabilir.</div>
+    <div class="callout real"><b>Gerçek hayat: El yazısı karakterler (ders notundaki örnek)</b>Örnekler, her biri bir karaktere karşılık gelen genel gruplara ayrılır. Bir karakter çok farklı yazılabildiği için bazı gruplar alt gruplara bölünür; istenen ayrıntıya ulaşana kadar bölme sürdürülebilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Canlıların sınıflandırılması (ders notundaki örnek)</b>Hayvanlar biyolojik özelliklerine göre gruplanarak türlerin hiyerarşisi ortaya çıkarılabilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Satranç ve dama konumları (ders notundaki örnek)</b>Stratejik bir oyunun konumlarını hiyerarşik gruplamak, oyuncuları eğitmekte kullanılabilecek stratejiler geliştirmeye yardım edebilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Maaşa göre hiyerarşi (ders notundaki örnek)</b>Hiyerarşik kümeleme, çalışanlar için maaş gibi bir ölçüte dayanan bir hiyerarşi de ortaya çıkarabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kümeleyici ve bölücü">
+  <div class="panel">
+    <div class="kicker">İki strateji</div>
+    <h2>Aşağıdan yukarıya mı, yukarıdan aşağıya mı?</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Kümeleyici (agglomerative, AGNES)</th><th>Bölücü (divisive, DIANA)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Yön</b></td><td>Aşağıdan yukarıya, birleştirerek</td><td>Yukarıdan aşağıya, bölerek</td></tr>
+        <tr><td><b>Başlangıç</b></td><td>Her nesne ayrı bir küme</td><td>Tüm nesneler tek kök küme</td></tr>
+        <tr><td><b>Adım</b></td><td>Yakınlık ölçüsüne göre birbirine en yakın iki kümeyi birleştirir; her seferde iki küme birleşir</td><td>Kökü daha küçük kümelere özyinelemeli böler</td></tr>
+        <tr><td><b>Duruş</b></td><td>Tüm nesneler tek kümede toplanınca (hiyerarşinin kökü); en çok n yineleme</td><td>Her kümede tek nesne kalınca ya da kümedekiler birbirine çok benzeyince</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Küme sayısını kullanıcı belirleyebilir</b>İki yöntemde de kullanıcı, işlemin bitmesini istediği küme sayısını belirtebilir.</div>
+    <h3>Bölücü yöntemin zor yanı</h3>
+    <p>n nesnelik bir kümeyi <b>2<sup>n−1</sup> − 1</b> farklı biçimde bölebilirsin. n arttıkça hesap süresi üstel artar; bu yüzden bölücü yöntem bölerken sezgisel kurallara başvurur ve yanlış sonuç verebilir. Üstelik bir kez bölünen küme yeniden düşünülmez. Bu zorluklar yüzünden kümeleyici yöntemler bölücülerden çok daha yaygındır.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Nesne sayısı n’i kaydır.</li>
+        <li><b>Ne göreceksin:</b> 2^(n−1) − 1 formülüyle olası bölme sayısı ve kümeleyici yöntemin en çok yineleme sayısı yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Bölücü yöntemde olası bölme sayısı n ile üstel büyür; bu yüzden sezgisel kurallar kullanılır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Olası bölme</dt><dd>Bir kümeyi iki parçaya ayırmanın farklı yollarının sayısı.</dd><dt>Üstel</dt><dd>n her arttığında sayının kabaca iki katına çıkması.</dd></dl></details>
+      <p class="lab-src">Veri yok; formül notundaki Bölüm 10.2’den alındı.</p>
+    </div>
+    <div class="lab" id="bolenlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Dendrogram">
+  <div class="panel">
+    <div class="kicker">Ağaç gösterimi</div>
+    <h2>Dendrogramı okumak</h2>
+    <p>Hiyerarşik kümeleme sonuçları <b>dendrogram</b> adlı bir ağaçla gösterilir. Notundaki örnekte {a, b, c, d, e} nesneleri vardır: AGNES her nesneyi bir küme sayıp adım adım birleştirir (örneğin Öklit uzaklığı en yakın iki nesneyi içeren kümeler birleşir); DIANA tam tersini yapar.</p>
+    <ul>
+      <li>Seviye 0’da beş nesne de ayrı kümedir. Seviye 1’de a ve b birleşerek ilk kümeyi kurar.</li>
+      <li>Dikey eksen kümeler arasındaki benzerliği (ya da birleşme uzaklığını) gösterir. Notun örneğinde {a, b} ile {c, d, e} yaklaşık 0,16 benzerlikte tek kümeye birleşir.</li>
+      <li>Yatay eksendeki sıra önemli değildir: birleşenler yan yana konur.</li>
+    </ul>
+    <div class="callout idea"><b>Dendrogramı kesmek</b>Ağacı belli bir yükseklikte kesersen o yükseklikteki kümeleri elde edersin. Nerede keseceğin belli değildir; iki birleşme arasındaki en büyük aralıktan kesmek uygun olabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Altı noktalı örnek">
+  <div class="panel">
+    <div class="kicker">Yakınlık matrisi</div>
+    <h2>Her şey bir uzaklık matrisiyle başlar</h2>
+    <p>Notta altı noktalı (iki boyutlu) bir örnek kullanılır. Algoritma önce <b>yakınlık matrisini</b> hesaplar: 6 × 6, köşegende her noktanın kendine uzaklığı 0, ve matris simetriktir (p1–p2 = p2–p1 = 0,24).</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>p1</th><th>p2</th><th>p3</th><th>p4</th><th>p5</th><th>p6</th></tr></thead>
+      <tbody>
+        <tr><td><b>p1</b></td><td>0,00</td><td>0,24</td><td>0,22</td><td>0,37</td><td>0,34</td><td>0,23</td></tr>
+        <tr><td><b>p2</b></td><td>0,24</td><td>0,00</td><td>0,15</td><td>0,20</td><td>0,14</td><td>0,25</td></tr>
+        <tr><td><b>p3</b></td><td>0,22</td><td>0,15</td><td>0,00</td><td>0,15</td><td>0,28</td><td>0,11</td></tr>
+        <tr><td><b>p4</b></td><td>0,37</td><td>0,20</td><td>0,15</td><td>0,00</td><td>0,29</td><td>0,22</td></tr>
+        <tr><td><b>p5</b></td><td>0,34</td><td>0,14</td><td>0,28</td><td>0,29</td><td>0,00</td><td>0,39</td></tr>
+        <tr><td><b>p6</b></td><td>0,23</td><td>0,25</td><td>0,11</td><td>0,22</td><td>0,39</td><td>0,00</td></tr>
+      </tbody>
+    </table></div>
+    <ol>
+      <li>Her nokta ayrı bir küme olarak başla.</li>
+      <li>Matristeki <b>en küçük uzaklığı</b> seç; o iki kümeyi birleştir (ilk adımda p3 ile p6: 0,11).</li>
+      <li>Yeni kümenin diğer kümelere uzaklığını yöntemin kuralına göre hesapla ve matrisi güncelle (bir satır ve sütun azalır).</li>
+      <li>Tek bir küme kalana dek tekrarla. Eşitlik varsa ve başka kural verilmediyse genellikle büyük kümeler birleştirilir.</li>
+    </ol>
+    <div class="callout real"><b>Gerçek hayat: Matris küçülürken (ders notundaki örnek)</b>Tek bağlantıda notun örneğinde matris 6×6 → 5×5 → 4×4 → 3×3 → 2×2 → 1×1 olarak küçülür ve birleşme sırası dendrogramda gösterilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bağlantı yöntemleri">
+  <div class="panel">
+    <div class="kicker">Hiyerarşik kümeleme · dene</div>
+    <h2>Aynı matris, farklı bağlantı, farklı ağaç</h2>
+    <p>Yeni kümenin diğer kümelere uzaklığını hesaplama kuralı, yöntemi belirler. Aşağıda notundaki altı noktalı matrisle üç yöntemi dene, kesme çizgisini kaydır ve dendrogramın nasıl değiştiğine bak:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Üç bağlantı yönteminden birini seç (tek, tam, grup ortalama). Sonra kesme yüksekliği kaydırıcısını oynat.</li>
+        <li><b>Ne göreceksin:</b> Altı noktanın dendrogramı çizilir; kesme çizgisinin altında kalan kümeler farklı renk alır. Altta birleşme sırası ve uzaklıkları tablo olarak çıkar.</li>
+        <li><b>Ne anlamalısın:</b> Aynı matristen yönteme göre farklı ağaçlar çıkar: tek bağlantıda son birleşme 0,22’de, tam bağlantıda 0,39’da olur. Kesme yüksekliği küme sayısını belirler.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Dendrogram</dt><dd>Birleşmeleri ve birleşme uzaklıklarını gösteren ağaç.</dd><dt>Tek bağlantı</dt><dd>İki küme arası uzaklık = en yakın nokta çiftinin uzaklığı.</dd><dt>Tam bağlantı</dt><dd>İki küme arası uzaklık = en uzak nokta çiftinin uzaklığı.</dd><dt>Grup ortalama</dt><dd>İki küme arası uzaklık = tüm nokta çiftlerinin uzaklık ortalaması.</dd><dt>Kesme yüksekliği</dt><dd>Ağacı yatay kesen çizgi; çizginin altında birleşmiş olanlar bir küme sayılır.</dd></dl></details>
+      <p class="lab-src">Veri: ders notundaki 6 noktalı yakınlık matrisi (Bölüm 10.3). Tek ve tam bağlantının birleşme sırası notundakiyle aynıdır. Grup ortalama sonucu notta çizilmemiştir; siteyi yapan hesaplamıştır. Kesme çizgisi ise bu sitenin eklediği bir araçtır.</p>
+    </div>
+    <div class="lab" id="hlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Dört yöntem">
+  <div class="panel">
+    <div class="kicker">Karşılaştırma</div>
+    <h2>Tek bağlantı, tam bağlantı, grup ortalama, ağırlık merkezi</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>İki küme arası uzaklık</th><th>Güçlü yan</th><th>Zayıf yan</th></tr></thead>
+      <tbody>
+        <tr><td><b>Tek bağlantı</b> (single link, min)</td><td>Kümelerin <b>en yakın</b> iki noktası</td><td>Dairesel olmayan, düzensiz şekilli kümeleri keşfedebilir (kümeleri en yakın verileri üzerinden birleştirir).</td><td>Gürültü ve aykırı verilere çok duyarlıdır: en yakın mesafeyi doğuran gürültüyse kümelemenin yönü değişir.</td></tr>
+        <tr><td><b>Tam bağlantı</b> (complete link, max)</td><td>Kümelerin <b>en uzak</b> iki noktası</td><td>Gürültü ve aykırı verilere tek bağlantıdan daha az duyarlıdır.</td><td>Dairesel/küresel kümeleri bulmaya meyillidir; düzensiz şekilli ya da sürekli kümelerde yetersiz kalır.</td></tr>
+        <tr><td><b>Grup ortalama</b></td><td>İki küme arasındaki <b>tüm nokta çiftlerinin</b> uzaklık ortalaması (5 ve 4 nokta için 20 çift)</td><td>Tek ve tam bağlantı arasında bir yöntemdir; tam bağlantıdan da az gürültüye duyarlıdır (nadir gürültünün etkisi ortalamayla azalır).</td><td>Düzensiz şekilli kümeleri bulmada iyi değildir; dairesel kümeleri arar.</td></tr>
+        <tr><td><b>Ağırlık merkezi</b></td><td>Kümelerin ağırlık merkezleri (özniteliklerin ortalaması) arasındaki uzaklık</td><td colspan="2">Notta bu yöntem için güçlü/zayıf yan ayrıca sayılmaz.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Ward metodu</b>Özet bölümü kümeleyici yöntemlerin tek bağlantı, tam bağlantı, grup ortalama, ağırlık merkezi ve Ward metodu gibi farklı algoritmalara ayrılabildiğini söyler. Ward metodunun ayrıntısı notunda verilmez.</div>
+    <div class="callout real"><b>Gerçek hayat: Aynı veride iki ağaç (ders notundaki örnek)</b>Tek ve tam bağlantının ilk yakınlık matrisleri aynıdır, ilk birkaç adım benzer ilerler; ama sonra farklılaşırlar. Dendrogramlara bakınca tam bağlantının biraz daha dairesel kümelere meylettiği görülür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Sorunlar ve çözümler">
+  <div class="panel">
+    <div class="kicker">Hiyerarşik yöntemlerin sınırları</div>
+    <h2>Geri alınamayan kararlar</h2>
+    <p>Kutulara tıklayıp kümeleyici hiyerarşik yöntemlerin sorunlarını gör:</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sorun 1</b>Birleştirme geri alınamaz<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>İki küme birleştirildikten sonra bir sonraki adım yeni kümeler üzerinde çalışır; önceki karar geri alınmaz ve kümeler arasında nesne değişimi yapılmaz. Kötü seçilen karar düşük kaliteli küme demektir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sorun 2</b>Amaç fonksiyonu yok<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Herhangi bir amaç fonksiyonu doğrudan en aza indirilmez.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sorun 3</b>Gürültü ve aykırı değer<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Yöntemlerin bir bölümü gürültü ve aykırılıklara duyarlıdır (tek bağlantıda en belirgin).</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sorun 4</b>Boyut ve şekil<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Farklı boyutlu kümelerde ve konveks şekilli kümelerde zorluk yaşanır; büyük kümeler bölünebilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sorun 5</b>Ölçeklenememe<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Her birleştirme ya da ayırma kararı birçok nesne veya kümeyi incelemeyi gerektirdiği için yöntemler iyi ölçeklenmez.</span></button>
+    </div>
+    <h3>İyileştirme yolları</h3>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Nesne bağlantılarını analiz etmek</b>Her hiyerarşik bölümlemedeki nesne bağlantılarını inceleyerek kaliteyi iyileştirmek (örneğin Chameleon).</div>
+      <div class="peas-c e"><b>Önce mikro kümeleme</b>Nesneleri mikro kümelerde gruplayıp bunlar üzerinde yinelemeli yeniden yerleştirme gibi tekniklerle çalışmak (örneğin BIRCH).</div>
+    </div>
+    <div class="callout idea"><b>Başka bir sınıflandırma</b>Hiyerarşik yöntemler ayrıca algoritmik, olasılıksal ve Bayes yöntemleri olarak ayrılabilir. Kümeleyici, bölücü ve çok aşamalı yöntemler algoritmiktir: nesneleri deterministik sayar ve kümeleri deterministik uzaklıklara göre hesaplar. Olasılıksal yöntemler kümeleri yakalamak için olasılıksal modeller kullanır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 10</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Hiyerarşik kümeleme</td><td>Veriyi küme ağacı halinde gruplar; özetleme/görselleştirme ya da gizli hiyerarşiyi keşfetme</td></tr>
+        <tr><td>Kümeleyici / bölücü</td><td>AGNES aşağıdan yukarıya birleştirir; DIANA yukarıdan aşağıya böler (olası bölme 2<sup>n−1</sup> − 1)</td></tr>
+        <tr><td>Dendrogram</td><td>Dikey eksen birleşme uzaklığı; yatay sıra önemsiz; kesme yüksekliği küme sayısını belirler</td></tr>
+        <tr><td>Yakınlık matrisi</td><td>Her adımda en küçük uzaklık birleşir; yeni satır/sütun yöntemin kuralıyla hesaplanır</td></tr>
+        <tr><td>Bağlantılar</td><td>Tek (en yakın, düzensiz şekil, gürültüye duyarlı), tam (en uzak, küresel), grup ortalama (aradaki), ağırlık merkezi</td></tr>
+        <tr><td>Sınırlar</td><td>Geri alınamaz kararlar, amaç fonksiyonu yok, ölçeklenemez; Chameleon ve BIRCH iyileştirmeleri</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
