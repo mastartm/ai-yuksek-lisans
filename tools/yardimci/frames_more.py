@@ -150,6 +150,32 @@ add('qgrid', 'makine-ogrenmesi/bolum-14.html',
     [('Bölüm (episode)', 'Rastgele bir durumdan hedefe varana kadar süren deneme.'), ('Q değeri', 'Bir durumda bir eylemin tahmini uzun vadeli değeri.'), ('V', 'Durumdaki en büyük Q değeri.'), ('Yutan durum', 'Girilince çıkılmayan hedef durumu (G).')],
     'Izgara-dünyası notundaki Şekil 14.2’nin altı karelik düzenidir (G’ye geçişte ödül 100, γ = 0,9). Eylem seçimi (rastgele ya da %90 öğrenileni uygula) ve bölüm başlangıçları bu sitenin eklemesidir.')
 
+# ---------------- Görüntü İşleme 7 ----------------
+add('kernlab', 'goruntu-isleme/bolum-7.html',
+    'Bir çekirdek seç (ortalama, Gauss, yüksek geçiren, Laplace, keskinleştirme, Sobel X/Y, Prewitt X) ya da Sobel büyüklüğünü dene.',
+    'Üstte çekirdek matrisi, altında solda özgün görüntü sağda süzülmüş görüntü görünür. Çekirdek toplamı ve ham çıktı aralığı yazılır.',
+    'Toplamı 1 olan çekirdekler parlaklığı korur ve yumuşatır ya da keskinleştirir; toplamı 0 olan çekirdekler düz bölgeyi sıfırlayıp yalnızca değişimin olduğu yerleri gösterir.',
+    [('Çekirdek (kernel)', 'Filtrenin ağırlık tablosu.'), ('Yüksek geçiren', 'Ani değişimleri (kenarları) vurgulayan filtre.'), ('Alçak geçiren', 'Ani değişimleri yumuşatan filtre.'), ('Çekirdek toplamı', 'Ağırlıkların toplamı: 1 ise parlaklık korunur, 0 ise düz bölge siyah olur.')],
+    'Görüntü bu site için kodla üretilmiş 32×32 sahnedir (kare, daire, çizgi ve gri geçiş). Yüksek geçiren, Laplace, keskinleştirme, Sobel ve Prewitt çekirdekleri notundaki Bölüm 7.3’ten; ortalama ve Gauss çekirdekleri standart 3×3 biçimleridir (notta matris şekil olarak verilir).')
+add('bordlab', 'goruntu-isleme/bolum-7.html',
+    'Bir sınır yöntemi seç, sonra piksel satır ve sütununu kaydır (köşe için 0, 0 dene).',
+    'Seçili pikselin 3×3 komşuluğu görünür; görüntü dışından gelen hücreler sarı olur. Altta 3×3 ortalama filtresinin sonucu ve çıktı boyutu yazılır.',
+    'İç bölgede bütün yöntemler aynı sonucu verir; fark yalnızca kenar ve köşelerde ortaya çıkar. Kırpmada kenar pikselleri için sonuç hesaplanamaz ve çıktı küçülür.',
+    [('Komşuluk', 'Çekirdeğin altında kalan piksel değerleri.'), ('Sınır dışı', 'Görüntünün dışında kalan, yönteme göre doldurulan hücre.'), ('Kopyalama', 'En yakın kenar pikselini tekrarlar.'), ('Aynalama', 'Kenardan simetrik yansıtır (antisimetrikte işareti değiştirir).')],
+    'Beş yönteme ait formüller notundaki Bölüm 7.4’tendir. 5×5 sayı matrisi ve sabit doldurma değeri (ortalama 40) bu site için seçildi.')
+add('medlab7', 'goruntu-isleme/bolum-7.html',
+    'Bozuk pikselin değerini kaydır; istersen ikinci bir bozuk piksel (0) ekle.',
+    '3×3 pencere, sıralı hâli, medyan ve ortalama yazılır; ortalamanın sapması altta görünür.',
+    'Medyan sıralamada uçtaki bozuk değeri dışarıda bırakır; ortalama ise bozuk pikselden doğrudan etkilenir.',
+    [('Medyan', 'Sıralanmış dizinin ortancası.'), ('Ortalama', 'Değerlerin toplamının sayıya bölümü.'), ('Bozuk piksel', 'Tuz-biber gibi, çevresinden çok farklı değerli piksel.')],
+    'Pencere değerleri notundaki medyan hesabı örneğine dayanır (10, 15, 200, 12, 14, 16, 13, 11, 17); kaydırıcı ve ikinci bozuk piksel bu sitenin eklemesidir.')
+add('maliyetlab', 'goruntu-isleme/bolum-7.html',
+    'Görüntü kenarını ve çekirdek kenarı k’yı kaydır.',
+    'Doğrudan konvolüsyon, ayrılabilir Gauss ve medyan için işlem sayısı mertebesi ile ayrılabilirlikten gelen kazanç görünür.',
+    'Çekirdek büyüdükçe doğrudan konvolüsyonun maliyeti k² ile artar; ayrılabilir filtre yalnızca 2k ile artar.',
+    [('M, N', 'Görüntünün genişliği ve yüksekliği.'), ('k', 'Çekirdeğin kenar uzunluğu.'), ('Ayrılabilir', 'Önce satırlar, sonra sütunlar boyunca iki ayrı tek boyutlu süzme.')],
+    'Sayılar sanal. Formüller (O(M×N×k²), O(M×N×2k), medyanda ek log çarpanı) notundaki Bölüm 7.1 ve 7.3’ten alındı; gerçek süre değildir.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():

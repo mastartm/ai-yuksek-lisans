@@ -1,0 +1,312 @@
+<!--
+course: goruntu-isleme
+course_title: Görüntü İşleme
+no: 7
+title: Filtreleme
+quiz: QUIZ_GI_7
+quiz_file: gi-bolum-7-quiz.js
+scripts: gi7.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 7</div>
+    <h1>Filtreleme</h1>
+    <p class="big-quote">Aynı fotoğrafı bir filtre bulanıklaştırır, bir başkası kenarlarını çizer, bir üçüncüsü ise bozuk pikselleri sessizce siler. Hepsi aynı işlemin farklı <b>ağırlık tablolarıyla</b> uygulanmasıdır. Bu bölüm filtrelerin ailesini, en önemli uzamsal filtreleri ve görüntü kenarında ne yapılacağını anlatır.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Filtrelemenin konvolüsyona dayandığını ve çekirdeğin rolünü açıklayabilirsin.</li>
+      <li>Altı filtre sınıfını (uzamsal, frekans, morfolojik, adaptif, istatistiksel, lineer olmayan) ayırt edebilirsin.</li>
+      <li>Ortalama, medyan, Gauss, alçak/yüksek geçiren, Laplace, Sobel ve Prewitt filtrelerini karşılaştırabilirsin.</li>
+      <li>Görüntü sınırında kırpma, doldurma, uzatma, sarma ve aynalama yöntemlerini anlatabilirsin.</li>
+      <li>Sabit ve öğrenilebilir (CNN) filtrelerin farkını söyleyebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Çekirdek seç, komşulukta ağırlıklı topla</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Görüntü ile filtre çekirdeği konvolüsyonla çıktı görüntüsünü verir; sınır işleme ve öğrenilebilir filtreler"><rect class="d-box" x="10" y="55" width="150" height="80" rx="8"/><text class="d-txt d-c" x="85" y="88">Girdi görüntü</text><text class="d-sm d-c" x="85" y="108">f(x, y)</text><rect class="d-brand" x="190" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="275" y="88">Çekirdek h(s, t)</text><text class="d-sm d-c" x="275" y="108">ağırlıklar</text><rect class="d-ok" x="390" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="475" y="88">Konvolüsyon</text><text class="d-sm d-c" x="475" y="108">sınır işleme dahil</text><rect class="d-warn" x="590" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="670" y="88">Çıktı g(x, y)</text><text class="d-sm d-c" x="670" y="108">yumuşak/keskin/kenar</text><path class="d-line-brand" d="M160 95 L190 95"/><path class="d-line-brand" d="M360 95 L390 95"/><path class="d-line-brand" d="M560 95 L590 95"/></svg>
+    <p>Çekirdeğin ağırlıkları filtrenin ne yaptığını belirler: pozitif ağırlıklar yumuşatır, pozitif ve negatif ağırlıklar kenar bulur.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Filtre nedir?">
+  <div class="panel">
+    <div class="kicker">7.1 Görüntü işlemede filtreler</div>
+    <h2>Komşuların ağırlıklı toplamı</h2>
+    <p><b>Filtreler (süzgeçler)</b>, belirli görsel özellikleri vurgulamak, istenmeyen gürültü bileşenlerini azaltmak ya da yapısal ayrıntıları keskinleştirmek için kullanılan matematiksel araçlardır. Temelleri, iki fonksiyonun <b>konvolüsyonuna</b> dayanır. Dijital ortamda bu, seçilen <b>filtre çekirdeği</b> ile görüntü matrisi arasında eleman bazında çarpma ve toplama işlemidir. Çekirdek genellikle kare matristir ve boyutu işlemin etki alanını belirler.</p>
+    <p class="big-quote" style="font-size:1.05rem">g(x, y) = Σ Σ h(s, t) · f(x − s, y − t)</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Simge</th><th>Anlamı</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">g(x, y)</td><td>İşlenmiş çıktı görüntüsündeki (x, y) pikselinin değeri.</td></tr>
+        <tr><td class="mono">f(x, y)</td><td>Kaynak görüntüdeki (x, y) pikselinin değeri.</td></tr>
+        <tr><td class="mono">h(s, t)</td><td>Filtre maskesinin (s, t) konumundaki katsayısı.</td></tr>
+        <tr><td class="mono">s, t</td><td>Çekirdek içindeki göreli koordinatlar.</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li>Her piksel için, çevresindeki komşu piksellerin <b>ağırlıklı toplamı</b> hesaplanır; ağırlıklar çekirdekte belirlenir.</li>
+      <li>Yumuşatma filtrelerinde pozitif ağırlıklar kullanılır; kenar tespit filtrelerinde hem pozitif hem negatif değerler bulunabilir.</li>
+      <li>İşlem karmaşıklığı <b>O(M × N × k²)</b>: M×N görüntü boyutu, k çekirdek boyutu.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Üç tür amaç (ders notundaki anlatım)</b>Filtreler bir görüntüde ayrıntıyı vurgulamak, gürültüyü azaltmak ya da yapısal ayrıntıyı keskinleştirmek için kullanılır; hangi işlemin hangi koşulda uygulanacağı filtre sınıfına göre seçilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Filtre sınıfları">
+  <div class="panel">
+    <div class="kicker">7.2 Sınıflandırma</div>
+    <h2>Altı filtre ailesi</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Sınıf</th><th>Nasıl çalışır?</th><th>Örnekler</th></tr></thead>
+      <tbody>
+        <tr><td><b>Uzamsal</b></td><td>Görüntü düzleminde doğrudan piksel değerleri üzerinde, komşuluktaki piksellerin ağırlıklı kombinasyonuyla. Küçük çekirdekte hızlı ve gerçek zamanlıya uygun; büyük çekirdekte maliyet artar.</td><td>Ortalama, ağırlıklı ortalama, medyan, Gauss, Sobel, Prewitt, alçak/yüksek geçiren</td></tr>
+        <tr><td><b>Frekans uzayı</b></td><td>İleri Fourier dönüşümü → G(u, v) = H(u, v) × F(u, v) → ters Fourier dönüşümü. Periyodik gürültüye ve büyük çekirdeklere uygun; küçük görüntüde FFT maliyeti ve çınlama artefaktları dezavantajdır.</td><td>İdeal, Butterworth, Gauss; bant geçiren/durduran</td></tr>
+        <tr><td><b>Morfolojik</b></td><td>Şekil ve yapı bilgisine dayanır; özellikle ikili görüntülerde yapısal elemanla çalışır. Küme teorisi üzerine kuruludur.</td><td>Erozyon, genişletme, açma, kapama</td></tr>
+        <tr><td><b>Adaptif</b></td><td>Parametreleri görüntünün yerel özelliklerine (ortalama, varyans) göre dinamik ayarlar; sabit parametreli filtrelerden daha başarılıdır.</td><td>Wiener, adaptif medyan, Lee/Frost/Kuan (radar ve ultrasondaki benek gürültüsü)</td></tr>
+        <tr><td><b>İstatistiksel</b></td><td>Komşuluğun ortalama, medyan, varyans, mod gibi istatistiklerini kullanır.</td><td>Medyan, minimum/maksimum, yüzdelik dilim</td></tr>
+        <tr><td><b>Lineer olmayan</b></td><td>Süperpozisyon prensibini sağlamaz; kenarı koruyarak gürültü azaltmada lineer filtrelerden üstündür.</td><td>Sıralama tabanlı, bilateral, Perona–Malik anizotropik difüzyon</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Radar ve ultrason (ders notundaki anlatım)</b>Lee, Frost ve Kuan filtreleri radar ve ultrason görüntülerindeki benek (speckle) gürültüsü için özelleşmiş adaptif filtrelerdir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Ortalama filtresi">
+  <div class="panel">
+    <div class="kicker">7.3.1 Ortalama (mean) filtresi</div>
+    <h2>Eşit ağırlıkla yumuşatma</h2>
+    <p>Hedef pikselin değerini, çevresindeki komşu piksellerin <b>aritmetik ortalamasıyla</b> değiştirir. Rastgele gürültüyü azaltır ama kenarlarda da yumuşamaya yol açar. Çekirdeğin tüm elemanları eşit ağırlıktadır ve toplamları 1’e eşittir; böylece görüntünün genel parlaklığı korunur.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Pencere</th><th>Etki</th></tr></thead>
+      <tbody>
+        <tr><td>3×3</td><td>Hafif yumuşatma, hızlı işlem</td></tr>
+        <tr><td>5×5</td><td>Orta düzey yumuşatma, orta hız</td></tr>
+        <tr><td>7×7 ve üzeri</td><td>Güçlü yumuşatma, yavaş işlem</td></tr>
+      </tbody>
+    </table></div>
+    <ol>
+      <li>Pencereyi o pikselin merkezi olacak biçimde yerleştir.</li>
+      <li>Penceredeki tüm değerleri topla.</li>
+      <li>Toplamı pencerenin piksel sayısına böl.</li>
+      <li>Sonucu yeni piksel değeri yap ve bir sonraki piksele geç.</li>
+    </ol>
+    <div class="callout idea"><b>Değerlendirme (notta)</b>Gürültülü görüntülerde PSNR’de 2–5 dB artış; bulanıklık nedeniyle MSE artar; yapısal bilgi kaybı yüzünden SSIM azalır. Zaman karmaşıklığı O(M×N×k²), uzay karmaşıklığı O(M×N).</div>
+    <div class="callout real"><b>Gerçek hayat: Kullanım alanı (ders notundaki örnek)</b>Düşük seviyeli, tekdüze gürültünün giderilmesi, görüntüyü bulanıklaştırma ve ön işleme adımlarında başlangıç filtresi olarak kullanılır; estetik yumuşatma efektleri de bu gruptadır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Medyan filtresi">
+  <div class="panel">
+    <div class="kicker">7.3.2 Medyan filtresi · dene</div>
+    <h2>Bozuk pikseli sıralayıp ortadan al</h2>
+    <p>Medyan filtresi, özellikle <b>tuz-biber</b> tipi bozulmalarda tercih edilir. Penceredeki değerler sıralanır, <b>ortanca</b> değer merkez piksele atanır. Konvolüsyon tabanlı filtrelerden farklı olarak <b>doğrusal olmayan</b> bir yaklaşımdır; keskin kenarları ve yapısal ayrıntıları daha iyi korur.</p>
+    <div class="callout real"><b>Gerçek hayat: Notun hesaplama örneği (ders notundaki örnek)</b>3×3 pencerenin değerleri [10, 15, 200, 12, 14, 16, 13, 11, 17]. Sıralanmış hâli [10, 11, 12, 13, 14, 15, 16, 17, 200]. Medyan 14’tür; 200’lük bozuk piksel sonucu etkilemez.</div>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Bozuk pikselin değerini kaydır; istersen ikinci bir bozuk piksel (0) ekle.</li>
+        <li><b>Ne göreceksin:</b> 3×3 pencere, sıralı hâli, medyan ve ortalama yazılır; ortalamanın sapması altta görünür.</li>
+        <li><b>Ne anlamalısın:</b> Medyan sıralamada uçtaki bozuk değeri dışarıda bırakır; ortalama ise bozuk pikselden doğrudan etkilenir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Medyan</dt><dd>Sıralanmış dizinin ortancası.</dd><dt>Ortalama</dt><dd>Değerlerin toplamının sayıya bölümü.</dd><dt>Bozuk piksel</dt><dd>Tuz-biber gibi, çevresinden çok farklı değerli piksel.</dd></dl></details>
+      <p class="lab-src">Pencere değerleri notundaki medyan hesabı örneğine dayanır (10, 15, 200, 12, 14, 16, 13, 11, 17); kaydırıcı ve ikinci bozuk piksel bu sitenin eklemesidir.</p>
+    </div>
+    <div class="lab" id="medlab7"></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Avantajları</th><th>Dezavantajları</th></tr></thead>
+      <tbody>
+        <tr><td>İmpuls gürültüsüne yüksek direnç. Kenar bilgisini korur. Aykırı değerleri etkili süzer. Doğrusal olmayan gürültü türlerine uygundur.</td><td>Yüksek hesaplama maliyeti (sıralama). Gauss gürültüsü için en uygun değildir. İnce çizgi ve ayrıntı kaybı riski. Tekrarlı uygulamada görüntü değişir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Kullanım alanları (ders notundaki örnek)</b>Tuz-biber gürültüsü temizleme, tıbbi görüntülerde yapı koruma, astronomi görüntülerinde kozmik ışın temizleme, OCR öncesi doküman temizleme ve parmak izi görüntülerinde gürültü giderme.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Gauss filtresi">
+  <div class="panel">
+    <div class="kicker">7.3.3 Gauss filtresi</div>
+    <h2>Yakın komşuya daha çok ağırlık</h2>
+    <p>Gauss filtresi, merkez piksele yakın komşulara daha yüksek ağırlık veren bir <b>alçak geçiren</b> filtredir. Ağırlıklar iki boyutlu Gauss (normal) dağılımına göre hesaplanır; merkezden uzaklaştıkça üstel azalır. Doğal bir bulanıklık verir ve kenarı basit ortalama filtresinden daha iyi korur.</p>
+    <p class="big-quote" style="font-size:1.05rem">G(x, y) = 1 / (2πσ²) · exp( −(x² + y²) / (2σ²) )</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Küçük σ</b>Daha az bulanıklık.</div>
+      <div class="peas-c e"><b>Büyük σ</b>Daha yaygın ve yumuşak bulanıklık.</div>
+    </div>
+    <div class="callout idea"><b>Hesaplama kolaylıkları (notta)</b>Ayrılabilir filtreleme (O(M×N×2k)), tablolu hesap, tamsayı yaklaşımı ve Gauss’a benzeyen daha hızlı kutu filtre yaklaşımı.</div>
+    <div class="callout real"><b>Gerçek hayat: Kullanım alanları (ders notundaki örnek)</b>Gauss gürültüsü giderme, görsel estetik efektler, kenar belirleme öncesi hazırlık, ölçek uzayı analizi, kamera lens bulanıklığı simülasyonu ve tıbbi görüntülerde gürültü temizleme.</div>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Görüntü kenarını ve çekirdek kenarı k’yı kaydır.</li>
+        <li><b>Ne göreceksin:</b> Doğrudan konvolüsyon, ayrılabilir Gauss ve medyan için işlem sayısı mertebesi ile ayrılabilirlikten gelen kazanç görünür.</li>
+        <li><b>Ne anlamalısın:</b> Çekirdek büyüdükçe doğrudan konvolüsyonun maliyeti k² ile artar; ayrılabilir filtre yalnızca 2k ile artar.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>M, N</dt><dd>Görüntünün genişliği ve yüksekliği.</dd><dt>k</dt><dd>Çekirdeğin kenar uzunluğu.</dd><dt>Ayrılabilir</dt><dd>Önce satırlar, sonra sütunlar boyunca iki ayrı tek boyutlu süzme.</dd></dl></details>
+      <p class="lab-src">Sayılar sanal. Formüller (O(M×N×k²), O(M×N×2k), medyanda ek log çarpanı) notundaki Bölüm 7.1 ve 7.3’ten alındı; gerçek süre değildir.</p>
+    </div>
+    <div class="lab" id="maliyetlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Alçak ve yüksek geçiren">
+  <div class="panel">
+    <div class="kicker">7.3.4–7.3.5 Alçak / yüksek geçiren filtreler</div>
+    <h2>Pürüzü sil ya da ayrıntıyı çıkar</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Alçak geçiren (low-pass)</th><th>Yüksek geçiren (high-pass)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Amaç</b></td><td>Yüksek frekansları (ani değişimleri, gürültüyü) bastırır, düşük frekansları korur: bulanıklaştırma.</td><td>Ani geçişleri ve hızlı değişimleri ortaya çıkarır: ayrıntı ve kenar vurgusu.</td></tr>
+        <tr><td><b>Çekirdek</b></td><td>Genellikle pozitif değerler; toplam 1’e eşit tutulur (parlaklık korunur).</td><td>Pozitif ve negatif değerler; orijinalden alçak geçiren sonuç çıkarılarak elde edilebilir: g = f − f<sub>LP</sub>.</td></tr>
+        <tr><td><b>Örnek çekirdekler</b></td><td>Kutu, Gauss, binom (Pascal üçgeni), kesirli sinc</td><td>Basit: [−1 −1 −1; −1 8 −1; −1 −1 −1]. Laplace tabanlı: [0 −1 0; −1 4 −1; 0 −1 0]. Keskinleştirme: [0 −1 0; −1 5 −1; 0 −1 0]</td></tr>
+        <tr><td><b>Notta anılan kullanım</b></td><td>Yüksek frekanslı gürültü bastırma, kenar yumuşatma, segmentasyon öncesi hazırlık, ölçeklendirme öncesi kenar yumuşatma, hareket bulanıklığı simülasyonu</td><td>İnce ayrıntı ortaya çıkarma, kenar algılama öncesi hazırlık, netlik artırma, tümör sınırları, parmak izi çizgi tespiti, kusur tespiti</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Kesim frekansı</b>Alçak geçiren filtrelerde kesim frekansı filtrenin etkinlik sınırını belirler. Bu filtrelerin gürültü giderme başarısı gürültü türüne bağlıdır; bazı durumlarda medyan gibi alternatifler daha başarılıdır.</div>
+    <div class="callout real"><b>Gerçek hayat: Hareket bulanıklığı ve kamera titremesi (ders notundaki örnek)</b>Alçak geçiren filtreler hareket bulanıklığı simülasyonunda, atmosferik türbülans modellemede ve kamera titreşimi telafisinde de anılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Laplace">
+  <div class="panel">
+    <div class="kicker">7.3.6 Laplace filtresi</div>
+    <h2>İkinci türev: her yöndeki kenar</h2>
+    <p>Laplace filtresi görüntünün <b>ikinci türevini</b> hesaplayan yüksek geçiren filtredir. Yön bağımsızdır: yatay, dikey ve çapraz keskin geçişlere duyarlıdır. Gürültüye duyarlı olduğu için genellikle bir yumuşatma filtresiyle birlikte kullanılır.</p>
+    <p class="big-quote" style="font-size:1.05rem">g(x, y) = ∂²f/∂x² + ∂²f/∂y²</p>
+    <ol>
+      <li>Ön işlem: Gauss bulanıklaştırma (önerilen).</li>
+      <li>Laplace konvolüsyonu.</li>
+      <li>Normalizasyon: sonucu [0, 255] aralığına ölçekle.</li>
+      <li>Sıfır geçişleriyle kenarı yerelleştir.</li>
+      <li>Eşikleme: zayıf kenarları ele.</li>
+    </ol>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Avantajları</th><th>Dezavantajları</th></tr></thead>
+      <tbody>
+        <tr><td>Yön bağımsızlığı. Hızlı hesaplama. Kapalı kontur tespitine uygunluk. Ölçek uzayı analizinde kullanışlılık.</td><td>Gürültüye yüksek duyarlılık. Çift kenar problemi. Kenar yönü bilgisi vermez. Zayıf kenar ile gürültüyü ayırmak zordur.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Kullanım alanları (ders notundaki örnek)</b>Kenar tespiti, tıbbi görüntülerde anomali belirleme, LoG ile leke tespiti, ilgi noktası tespiti, parmak izi ayrıntı (minutiae) tespiti, doküman görüntü analizi.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Sobel ve Prewitt">
+  <div class="panel">
+    <div class="kicker">7.3.7 Sobel ve Prewitt · dene</div>
+    <h2>Birinci türev: yönlü kenar</h2>
+    <p>Sobel ve Prewitt, <b>yönlü türev</b> tabanlı yüksek geçiren filtrelerdir; yatay ve dikey kenarları ayrı ayrı bulur. Birinci türevi hesaplayarak yoğunluk değişimini tespit eder; hem x hem y gradyanından kenarın <b>büyüklüğünü ve yönünü</b> bulur. Sobel merkeze daha çok ağırlık verir (2×), Prewitt daha basit ve dengelidir.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Özellik</th><th>Sobel</th><th>Prewitt</th></tr></thead>
+      <tbody>
+        <tr><td>Merkez ağırlığı</td><td>2×</td><td>1×</td></tr>
+        <tr><td>Gürültü direnci</td><td>Daha iyi</td><td>Daha az</td></tr>
+        <tr><td>Hesaplama</td><td>Biraz karmaşık</td><td>Basit</td></tr>
+        <tr><td>Kenar kalitesi</td><td>Kalın, belirgin</td><td>İnce</td></tr>
+        <tr><td>Kullanım sıklığı</td><td>Yaygın</td><td>Sınırlı</td></tr>
+      </tbody>
+    </table></div>
+    <ol>
+      <li>Görüntüyü Sobel X ve Sobel Y çekirdekleriyle konvolve ederek G<sub>x</sub> ve G<sub>y</sub>’yi bul.</li>
+      <li>Büyüklüğü ve yönü hesapla.</li>
+      <li>Kenar yönüne dik komşulara bakıp yerel maksimum olmayanları bastır.</li>
+      <li>Eşikle: düşük eşik zayıf, yüksek eşik güçlü kenarları belirler; histerezis eşikleme güçlülere bağlı zayıfları korur.</li>
+    </ol>
+    <p>Aşağıda çekirdekleri seç, çekirdek matrisini ve sonucu kendin gör:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Bir çekirdek seç (ortalama, Gauss, yüksek geçiren, Laplace, keskinleştirme, Sobel X/Y, Prewitt X) ya da Sobel büyüklüğünü dene.</li>
+        <li><b>Ne göreceksin:</b> Üstte çekirdek matrisi, altında solda özgün görüntü sağda süzülmüş görüntü görünür. Çekirdek toplamı ve ham çıktı aralığı yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Toplamı 1 olan çekirdekler parlaklığı korur ve yumuşatır ya da keskinleştirir; toplamı 0 olan çekirdekler düz bölgeyi sıfırlayıp yalnızca değişimin olduğu yerleri gösterir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Çekirdek (kernel)</dt><dd>Filtrenin ağırlık tablosu.</dd><dt>Yüksek geçiren</dt><dd>Ani değişimleri (kenarları) vurgulayan filtre.</dd><dt>Alçak geçiren</dt><dd>Ani değişimleri yumuşatan filtre.</dd><dt>Çekirdek toplamı</dt><dd>Ağırlıkların toplamı: 1 ise parlaklık korunur, 0 ise düz bölge siyah olur.</dd></dl></details>
+      <p class="lab-src">Görüntü bu site için kodla üretilmiş 32×32 sahnedir (kare, daire, çizgi ve gri geçiş). Yüksek geçiren, Laplace, keskinleştirme, Sobel ve Prewitt çekirdekleri notundaki Bölüm 7.3’ten; ortalama ve Gauss çekirdekleri standart 3×3 biçimleridir (notta matris şekil olarak verilir).</p>
+    </div>
+    <div class="lab" id="kernlab"></div>
+    <div class="callout real"><b>Gerçek hayat: Kullanım alanları (ders notundaki örnek)</b>Yatay ve dikey kenar algılama, kenar haritalama, OCR ön işlemleri, şablon eşleme için özellik çıkarımı, gerçek zamanlı video işleme, endüstriyel muayene, otonom araç görme sistemleri, tıbbi görüntü ve uydu görüntü işleme.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Sınır işleme">
+  <div class="panel">
+    <div class="kicker">7.4 Görüntü sınırlarında filtreleme · dene</div>
+    <h2>Kenarda eksik komşu varsa ne yapılır?</h2>
+    <p>Çekirdek kenara gelince bazı komşular görüntünün dışında kalır. Bu eksik pikselleri tamamlamak için beş yaklaşım vardır:</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Nasıl?</th><th>Notta anılan yön</th></tr></thead>
+      <tbody>
+        <tr><td><b>Kırpma (crop)</b></td><td>Çekirdeğin tam uygulanamadığı kenar pikselleri dışarıda bırakılır; çıktı (N − k + 1) × (M − k + 1) boyutuna küçülür.</td><td>Basit, artefakt yok; ama boyut ve kenar bilgisi kaybolur.</td></tr>
+        <tr><td><b>Doldurma (pad)</b></td><td>Sıfır doldurma ya da sabit değer (genellikle ortalama piksel değeri) eklenir.</td><td>Boyut korunur, kenar tespitte vurgu artar; ama kenarda artefakt riski ve düşük değerler.</td></tr>
+        <tr><td><b>Uzatma (extend)</b></td><td>Kopyalama: f(−1, y) = f(0, y). Simetrik: f(−1, y) = f(1, y).</td><td>Doğal geçişler, az artefakt.</td></tr>
+        <tr><td><b>Sarma (wrap)</b></td><td>Görüntü halka gibi sayılır: f(−1, y) = f(N−1, y), f(N, y) = f(0, y).</td><td>Periyodik sinyaller ve Fourier tabanlı işlemlere uygun; periyodik olmayanda artefakt.</td></tr>
+        <tr><td><b>Aynalama (mirror)</b></td><td>Simetrik: f(−1, y) = f(1, y). Antisimetrik: f(−1, y) = −f(1, y).</td><td>Kenarda süreklilik; wavelet dönüşümü gibi matematiksel özelliklerin korunacağı yerlerde.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Hangi yöntem hangi iş için? (ders notundaki Tablo 7.2)</b>Yumuşatma için genişletme/yansıtma (doğal geçişler); kenar tespiti için sıfır doldurma (kenar vurgusu); FFT tabanlı filtreleme için sarma veya sıfır doldurma (periyodik varsayım); morfolojik işlemde uygun sabit.</div>
+    <p>Küçük bir 5×5 matriste kenar pikseli seç, yöntemi değiştir ve 3×3 ortalama filtresinin sonucunu karşılaştır:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Bir sınır yöntemi seç, sonra piksel satır ve sütununu kaydır (köşe için 0, 0 dene).</li>
+        <li><b>Ne göreceksin:</b> Seçili pikselin 3×3 komşuluğu görünür; görüntü dışından gelen hücreler sarı olur. Altta 3×3 ortalama filtresinin sonucu ve çıktı boyutu yazılır.</li>
+        <li><b>Ne anlamalısın:</b> İç bölgede bütün yöntemler aynı sonucu verir; fark yalnızca kenar ve köşelerde ortaya çıkar. Kırpmada kenar pikselleri için sonuç hesaplanamaz ve çıktı küçülür.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Komşuluk</dt><dd>Çekirdeğin altında kalan piksel değerleri.</dd><dt>Sınır dışı</dt><dd>Görüntünün dışında kalan, yönteme göre doldurulan hücre.</dd><dt>Kopyalama</dt><dd>En yakın kenar pikselini tekrarlar.</dd><dt>Aynalama</dt><dd>Kenardan simetrik yansıtır (antisimetrikte işareti değiştirir).</dd></dl></details>
+      <p class="lab-src">Beş yönteme ait formüller notundaki Bölüm 7.4’tendir. 5×5 sayı matrisi ve sabit doldurma değeri (ortalama 40) bu site için seçildi.</p>
+    </div>
+    <div class="lab" id="bordlab"></div>
+    <div class="callout idea"><b>Maliyet sırası (notta)</b>Kırpma en düşük; sıfır/sabit doldurma düşük; genişletme orta; yansıtma ve sarma yüksek.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Öğrenilebilir filtreler">
+  <div class="panel">
+    <div class="kicker">7.5 Öğrenilebilir filtreler ve derin öğrenme</div>
+    <h2>Katsayıları insan değil veri belirlesin</h2>
+    <p>Klasik filtrelerde katsayılar matematiksel analizle belirlenir ve her uygulamada aynıdır (Sobel her görüntüde aynı katsayıları kullanır). <b>Öğrenilebilir filtrelerde</b> ise katsayılar rastgele başlatılır ve eğitim sırasında veriye göre sistematik olarak değiştirilir; filtre belirli bir görev için optimize olur. Filtre tasarımı deneyim tabanlıdan <b>veri tabanlı</b> hâle gelir.</p>
+    <h3>Evrişimli sinir ağları (CNN)</h3>
+    <p>CNN, konvolüsyonun sinir ağlarıyla birleşmesidir. Genellikle 3×3, 5×5 ya da 7×7 boyutlu filtreler görüntü üzerinde uygulanır ve her filtrenin çıktısı bir <b>özellik haritası</b> olur. Eğitim <b>geri yayılımla</b> yapılır. Süreç dört adımdır:</p>
+    <ol>
+      <li><b>İleri geçiş:</b> görüntü verilir, mevcut filtrelerle özellik haritaları çıkarılır.</li>
+      <li>Ağın sonucu ile gerçek etiket karşılaştırılır; <b>kayıp fonksiyonuyla</b> bir hata değeri bulunur.</li>
+      <li>Hatanın her filtre katsayısına katkısı kısmi türevle hesaplanır (<b>gradyan</b>).</li>
+      <li>Her katsayı gradyana göre küçük bir miktar güncellenir; performans yeterli olana kadar tekrarlanır.</li>
+    </ol>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Özellik</th><th>Klasik filtreler</th><th>Öğrenilebilir filtreler</th></tr></thead>
+      <tbody>
+        <tr><td>Tasarım</td><td>Manuel, uzman bilgisi</td><td>Otomatik, veri güdümlü</td></tr>
+        <tr><td>Adaptasyon</td><td>Sabit parametreler</td><td>Göreve özel optimizasyon</td></tr>
+        <tr><td>Performans</td><td>Genel amaçlı</td><td>Yüksek, spesifik</td></tr>
+        <tr><td>Hesaplama</td><td>Düşük karmaşıklık</td><td>Yüksek eğitim maliyeti</td></tr>
+        <tr><td>Yorumlanabilirlik</td><td>Yüksek</td><td>Düşük</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: El yazısı rakam ve tıbbi görüntü (ders notundaki örnek)</b>El yazısı rakam tanımada çalışan bir CNN eğri çizgileri tespit eden filtreler geliştirebilir; tıbbi görüntü analizi yapan bir CNN doku özelliklerini vurgulayan filtreler oluşturabilir.</div>
+    <div class="callout real"><b>Gerçek hayat: ImageNet 2012 (ders notundaki örnek)</b>2012 ImageNet yarışmasında AlexNet adlı CNN tabanlı sistem geleneksel yöntemlerden çok daha başarılı sonuç almış ve alandaki paradigma değişikliğini hızlandırmıştır.</div>
+    <div class="callout real"><b>Gerçek hayat: Telefon kamerası, tıp, otonom araç, fabrika (ders notundaki örnek)</b>Akıllı telefonlardaki sahne tanıma, otomatik odaklama ve görüntü iyileştirme; göz tabanından erken teşhis, akciğer röntgeninden patoloji tespiti ve deri lezyonu analizi; trafik işareti ve yol çizgisi tanıma; üretim hattında kusurlu parça tespiti.</div>
+    <div class="callout idea"><b>Hibrit yaklaşım</b>Ön işlemede klasik filtreyle gürültü temizlenir, özellik çıkarımında öğrenilebilir filtre kullanılır. Klasik filtrelerin hızı ve anlaşılırlığı ile öğrenilebilirlerin yüksek performansı bir arada kullanılır; özellikle gerçek zamanlı uygulamalarda tercih edilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 7</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Filtreleme</td><td>Konvolüsyon: komşuların ağırlıklı toplamı; maliyet O(M·N·k²)</td></tr>
+        <tr><td>Sınıflar</td><td>Uzamsal, frekans, morfolojik, adaptif, istatistiksel, lineer olmayan</td></tr>
+        <tr><td>Yumuşatma</td><td>Ortalama (eşit), Gauss (yakına çok ağırlık, σ), medyan (tuz-biber için, kenarı korur)</td></tr>
+        <tr><td>Kenar / ayrıntı</td><td>Yüksek geçiren (f − f<sub>LP</sub>), Laplace (2. türev, yön bağımsız, gürültüye duyarlı), Sobel/Prewitt (1. türev, yönlü)</td></tr>
+        <tr><td>Sınır işleme</td><td>Kırpma, doldurma, uzatma, sarma, aynalama</td></tr>
+        <tr><td>Öğrenilebilir filtre</td><td>CNN: katsayılar geri yayılımla öğrenilir; güçlü ama yorumlanması zor</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
