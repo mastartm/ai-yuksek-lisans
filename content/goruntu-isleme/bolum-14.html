@@ -1,0 +1,219 @@
+<!--
+course: goruntu-isleme
+course_title: Görüntü İşleme
+no: 14
+title: Geleceğin Görüntü İşleme Paradigmaları
+quiz: QUIZ_GI_14
+quiz_file: gi-bolum-14-quiz.js
+scripts: gi14.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 14</div>
+    <h1>Geleceğin Görüntü İşleme Paradigmaları</h1>
+    <p class="big-quote">Görüntü işlemenin yarını yalnızca “daha büyük ağ” değil. Kuantum bilişim, beyinden esinlenen algoritmalar, yeni etkileşim biçimleri ve gizlilik kaygısı aynı yol haritasının parçaları.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Kuantum görüntü temsillerini (FRQI, NEQR) ve kuantum görüntü işlemenin sınırlarını anlatabilirsin.</li>
+      <li>Darbe sinir ağları, genetik algoritma ve sürü zekâsının görüntü işlemedeki yerini açıklayabilirsin.</li>
+      <li>Jest, çoklu-modlu etkileşim, beyin-bilgisayar arayüzü ve AR’ı örneklerle sayabilirsin.</li>
+      <li>Gizlilik, şifreleme, deepfake ve yasal çerçeveyi (GDPR, KVKK) bağlayabilirsin.</li>
+      <li>Disiplinler arası alanları ve açık araştırma başlıklarını söyleyebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Beş yön</h2>
+    <svg class="diagram" viewBox="0 0 760 250" role="img" aria-label="Görüntü işlemenin geleceği: kuantum, biyo-esinlenme, etkileşim, güvenlik ve gizlilik, disiplinler arası"><rect class="d-brand" x="280" y="95" width="200" height="60" rx="8"/><text class="d-txt d-c" x="380" y="130">Görüntü işleme</text><rect class="d-warn" x="10" y="15" width="200" height="60" rx="8"/><text class="d-txt d-c" x="110" y="50">Kuantum</text><rect class="d-ok" x="280" y="15" width="200" height="60" rx="8"/><text class="d-txt d-c" x="380" y="50">Biyo-esinlenme</text><rect class="d-box" x="550" y="15" width="200" height="60" rx="8"/><text class="d-txt d-c" x="650" y="50">İnsan-bilgisayar</text><rect class="d-bad" x="145" y="175" width="200" height="60" rx="8"/><text class="d-txt d-c" x="245" y="210">Güvenlik, gizlilik</text><rect class="d-plain" x="415" y="175" width="200" height="60" rx="8"/><text class="d-txt d-c" x="515" y="210">Disiplinler arası</text><path class="d-line-brand" d="M210 55 L290 100"/><path class="d-line-brand" d="M380 75 L380 95"/><path class="d-line-brand" d="M550 55 L470 100"/><path class="d-line-brand" d="M290 155 L260 175"/><path class="d-line-brand" d="M470 155 L500 175"/></svg>
+    <p>Notun 14.1–14.7 başlıkları bu beş yönü işler. Her yön bir teknik soru, bir de toplumsal soru getirir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Kuantum görüntü işleme">
+  <div class="panel">
+    <div class="kicker">14.1 ve 14.4 Kuantum görüntü işleme</div>
+    <h2>Pikseller qubit’lerde</h2>
+    <p>Kuantum bilişim, klasik bilgisayarların ötesinde paralel hesaplama ve bilgi işleme kapasitesi sunan yeni bir paradigmadır. Süperpozisyon ve dolanıklık sayesinde aynı anda birden çok görüntü durumunun işlenebileceği; bunun sıkıştırma, şifreleme ve hızlı işlemede fırsat yaratabileceği söylenir.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Notta ne denir?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Kuantum piksel temsili</b></td><td>Klasik pikseller yerine qubit durumlarıyla görüntü kodlanır. Notta 2<sup>n</sup> boyutlu bir görüntünün yalnızca n qubit ile ifade edilebildiği yazılır; büyük tıbbi görüntü veri tabanlarında avantaj sayılır.</td></tr>
+        <tr><td><b>FRQI</b></td><td>Esnek kuantum görüntü gösterimi: her pikselin konum ve parlaklık bilgisini qubit’lerde kodlar.</td></tr>
+        <tr><td><b>NEQR</b></td><td>Gri seviye görüntüler için daha optimize bir temsil.</td></tr>
+        <tr><td><b>Algoritmalar</b></td><td>Kuantum Fourier dönüşümü, kuantum dalgacık dönüşümü, kuantum mantık kapıları; filtreleme, sıkıştırma, kenar tespiti.</td></tr>
+        <tr><td><b>Kazanımlar</b></td><td>Hız, güvenli iletim ve depolama (kuantum şifreleme), kayıpsız sıkıştırma.</td></tr>
+        <tr><td><b>Sınırlar</b></td><td>Donanım yetersizliği, qubit kararlılığı (decoherence), hata düzeltmenin karmaşıklığı, klasik ile kuantumun entegrasyonunun erken aşamada olması, yüksek maliyet.</td></tr>
+        <tr><td><b>Gerçekçi yol</b></td><td>Klasik ve kuantum algoritmaların birlikte kullanıldığı hibrit çözümler; kuantum destekli makine öğrenmesi sınıflandırma ve tanımada umut verici sonuçlar vermeye başlamıştır.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Büyük tıbbi veri tabanları (ders notundaki örnek)</b>Az bellekle temsil edebilme, büyük ölçekli tıbbi görüntüleme veri tabanlarının yönetiminde avantaj olarak anılır.</div>
+    <div class="callout real"><b>Gerçek hayat: Askerî ve tıbbi veri güvenliği (ders notundaki örnek)</b>Kuantum kriptografiyle birleşen sistemlerin askerî ve tıbbi verinin korunmasında yeni bir standart oluşturabileceği söylenir; hasta mahremiyeti ve kritik altyapı güvenliği için önemlidir.</div>
+    <div class="callout idea"><b>Notla ilgili üç uyarı</b>
+      <ol>
+        <li>Bölüm 14’te “Kuantum görüntü işleme” başlığı iki kez geçer (14.1 ve 14.4) ve ayrıca 14.7.1’de yine anılır. İçerik büyük ölçüde birbirini tekrarlar; bu sayfa üçünü tek slaytta birleştirir.</li>
+        <li>Notta “doğrusal artan hesaplama maliyetinin kuantum algoritmalarıyla logaritmik seviyelere indirilebildiği” yazılır. Bu bir kuramsal potansiyel iddiasıdır ve görüntüyü kuantum belleğe yükleme ile sonucu okuma maliyetini hesaba katmaz; bu yüzden kesin bir hız garantisi gibi okunmamalıdır. Notun kendisi de alanın deneysel aşamada olduğunu söyler.</li>
+        <li>Notta kuantum anahtar dağıtımıyla görüntünün “kopyalanmasının ya da değiştirilmesinin fiziksel olarak engellenebileceği” söylenir. Kuantum anahtar dağıtımının asıl işlevi, anahtar iletimine yapılan dinlemeyi fark ettirmektir; veriyi kopyalanmaktan ya da değiştirilmekten tek başına korumaz. İkinci ve üçüncü uyarı dış bilgiye dayanır, ders notunda yoktur; kaynağa bakıp doğrula.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="Biyo-esinlenmiş: darbe ağları">
+  <div class="panel">
+    <div class="kicker">14.2.1 Biyo-esinlenmiş algoritmalar: sinir sistemi · dene</div>
+    <h2>Zamanı da kullanan yapay nöron</h2>
+    <p>İnsan beynindeki görsel korteksin çalışma biçimi derin öğrenmenin ve özellikle CNN’lerin gelişiminde temel rol oynamıştır. Klasik yapay sinir ağlarının ötesinde, biyolojik nöronların zamansal kodlamasını taklit eden <b>Darbe Sinir Ağları (SNN)</b> önem kazanmaktadır. Mekânsal özelliklerin yanında zamansal dinamikleri de değerlendirebildiği için video analizi ve gerçek zamanlı algı sistemlerinde dikkat çeker.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Girdi parlaklığını, sızıntıyı ve ateşleme eşiğini değiştir; hazır düğmelerle koyu, orta ve parlak pikseli dene.</li>
+        <li><b>Ne göreceksin:</b> 80 zaman adımında hücrenin zar potansiyeli (mavi çizgi), eşik (turuncu kesikli) ve ateşlediği darbeler (kırmızı çizgiler) görünür. Altta darbe sayısı, ilk darbenin adımı ve adım başına girdi yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Parlak girdi hücreyi sık ve erken ateşletir; zayıf girdi sızıntıya yenilip hiç ateşletmez. Bilgi darbelerin sayısında ve zamanında taşınır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Zar potansiyeli</dt><dd>Hücrenin birikmiş girdisi; eşiğe ulaşınca darbe üretilir.</dd><dt>Sızıntı</dt><dd>Her adımda potansiyelin bir kısmının sönmesi.</dd><dt>Darbe (spike)</dt><dd>Eşik aşılınca hücrenin gönderdiği ani sinyal; sonra potansiyel sıfırlanır.</dd><dt>Eşik</dt><dd>Darbe için aşılması gereken potansiyel.</dd></dl></details>
+      <p class="lab-src">Model bu site için sadeleştirildi (sızıntılı toplayıp ateşleyen hücre; girdi = parlaklık × 0,3). Darbe sinir ağlarının zamansal dinamiği değerlendirdiği notundaki Bölüm 14.2.1’den; hücre denklemi ve sayılar notta yoktur.</p>
+    </div>
+    <div class="lab" id="snnlab"></div>
+    <div class="callout real"><b>Gerçek hayat: Video ve gerçek zamanlı algı (ders notundaki örnek)</b>SNN tabanlı görüntü işleme, zamansal dinamiklere duyarlı olduğu için video analizi ve gerçek zamanlı algı sistemlerinde öne çıkar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Evrimsel ve sürü zekâsı">
+  <div class="panel">
+    <div class="kicker">14.2.2–14.2.4 Evrimsel algoritmalar ve sürü zekâsı · dene</div>
+    <h2>Doğadan arama yöntemi: genetik algoritma</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Görüntü işlemedeki kullanımı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Genetik algoritma</b></td><td>Darwinci evrimden: doğal seçilim, çaprazlama ve mutasyon. Optimum filtre parametresi seçimi, segmentasyon eşiği belirleme, karmaşık sınıflandırma problemleri. Klasik eniyilemeye göre çözüm uzayını daha esnek tarar.</td></tr>
+        <tr><td><b>Karınca kolonisi (ACO)</b></td><td>Kenar tespiti ve yol bulma.</td></tr>
+        <tr><td><b>Arı kolonisi (ABC)</b></td><td>Özellik seçimi ve görüntü kümeleme.</td></tr>
+        <tr><td><b>Gelecek</b></td><td>Enerji verimliliği ve uyum yeteneği; derin öğrenmenin büyük veri ve hesaplama gücü istemesine karşılık daha düşük maliyetli, esnek çözümler. Mobil cihaz, IoT ve otonom robotik için avantaj.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Bir görüntü histogramında iki tepe var. Genetik algoritma, iki nesneyi en iyi ayıran eşiği arıyor (Bölüm 12’deki Otsu ölçütüyle):</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Popülasyon büyüklüğünü ve mutasyon büyüklüğünü seç; “Bir nesil ilerlet” ya da “10 nesil ilerlet”e bas.</li>
+        <li><b>Ne göreceksin:</b> İki tepeli bir histogram, üzerinde eşik adaylarını gösteren turuncu noktalar, en iyi aday (yeşil çizgi) ve tüm eşikler denenince bulunan en uygun eşik (beyaz kesikli çizgi) görünür. Altta nesil sayısı, en iyi eşik ve uygunluk oranı yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Seçilim, çaprazlama ve mutasyonla bireyler nesiller içinde en uygun eşiğe yaklaşır. Burada tek eşik aranır; bu yüzden 256 değeri tek tek denemek de mümkündür.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Birey</dt><dd>Bir eşik adayı (0–255).</dd><dt>Uygunluk</dt><dd>Eşiğin iki sınıfı ayırma başarısı; burada sınıflar arası varyans (Otsu ölçütü).</dd><dt>Çaprazlama</dt><dd>İki ebeveynin ortalaması alınarak yeni birey üretmek.</dd><dt>Mutasyon</dt><dd>Yeni bireyi rastgele biraz oynatmak.</dd></dl></details>
+      <p class="lab-src">Histogram bu site için üretildi (iki tepe: 70 ve 180 civarı). Genetik algoritmanın segmentasyon eşiği seçiminde kullanılması notundaki Bölüm 14.2.2’den; seçilim yöntemi (en iyiyi koru, ikili turnuva) ve uygunluk ölçütü bu sitenin sade seçimleridir.</p>
+    </div>
+    <div class="lab" id="galab"></div>
+    <div class="callout real"><b>Gerçek hayat: Eşik ve filtre seçimi (ders notundaki örnek)</b>Segmentasyon eşiklerinin ve filtre parametrelerinin belirlenmesi genetik algoritmaların görüntü işlemedeki tipik işleridir.</div>
+    <div class="callout real"><b>Gerçek hayat: Kenar tespiti (ders notundaki örnek)</b>Karınca kolonisi optimizasyonu kenar tespitinde ve yol bulmada uygulanır; basit kurallardan karmaşık çözümler çıkar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="İnsan-bilgisayar etkileşimi">
+  <div class="panel">
+    <div class="kicker">14.3 İnsan-bilgisayar etkileşiminde yeni yaklaşımlar</div>
+    <h2>Jest, ses, beyin sinyali ve artırılmış gerçeklik</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Jest ve poz</b>Hareketle etkileşim<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Bilgisayarlar jestleri, yüz ifadelerini ve vücut hareketlerini algılar. Derin öğrenmeli poz tahmini el ve vücut hareketini gerçek zamanlı bulur; kullanımı fiziksel olarak daha erişilebilir kılar.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Çoklu-modlu</b>Ses + görüntü<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Görüntü işleme ile ses tanımanın birleşimi daha doğal iletişim sağlar: kullanıcı hem sesli komut verir hem el hareketiyle yön verir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">BCI</b>Beyin-bilgisayar arayüzü<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>EEG veya fMRI ile elde edilen beyin sinyalleri analiz edilip bilgisayarın doğrudan insan düşüncesine yanıt vermesi sağlanır. Engelli bireyler için alternatif iletişim yolu oluşturur.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">AR</b>Artırılmış gerçeklik<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Görüntü işleme fiziksel dünya ile dijital katmanı birleştirir; öğrenmeyi hızlandırır, iş gücü verimliliğini artırır.</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Oyun, sanal gerçeklik ve rehabilitasyon (ders notundaki örnek)</b>Poz tahmini oyun konsollarında, sanal gerçeklik uygulamalarında ve tıbbi rehabilitasyon sistemlerinde etkileşimli çözümler sunar.</div>
+    <div class="callout real"><b>Gerçek hayat: Eğitim yazılımı, akıllı ev, sürücüsüz araç paneli (ders notundaki örnek)</b>Çoklu-modlu etkileşim bu alanlarda yaygınlaşıyor.</div>
+    <div class="callout real"><b>Gerçek hayat: Engelli bireyler ve oyun (ders notundaki örnek)</b>BCI engelliler için alternatif iletişim yolları kurarken oyun ve eğlence sektöründe de kullanılmaya başlanmıştır.</div>
+    <div class="callout real"><b>Gerçek hayat: Eğitim ve endüstri (ders notundaki örnek)</b>AR, öğrencilere gerçek nesnelerin üstünde ek bilgi, teknisyenlere gerçek zamanlı talimat sunar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Güvenlik ve gizlilik">
+  <div class="panel">
+    <div class="kicker">14.5 Veri güvenliği ve gizlilik · dene</div>
+    <h2>Kimliği koru, analizi bozma</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Kişisel veri</b></td><td>Yüz, parmak izi, iris gibi biyometrik veriler kimlikle doğrudan ilişkilidir; yanlış ellere geçerse geri dönüşü olmayan sorunlar çıkar. Anonimleştirme ve maskeli görüntü kullanımı önem kazanır. Farklılaştırılmış gizlilik, istatistik analize izin verirken bireysel kimliği korur.</td></tr>
+        <tr><td><b>İletimde güvenlik</b></td><td>Şifreleme; homomorfik şifreleme verilerin şifreliyken işlenmesine imkân tanır, üçüncü taraf veriye erişmeden analiz yapabilir. Bulutta hasta görüntülerini işlemek bu önlemler olmadan ciddi risk taşır.</td></tr>
+        <tr><td><b>Manipülasyon</b></td><td>Derin sahte (deepfake) görüntüleri sahteciliğe açık hale getirdi. Önerilen çözümler: orijinalliği doğrulayan dijital imzalar, blok zinciri tabanlı doğrulama, yapay zekâ destekli sahte görüntü tespiti.</td></tr>
+        <tr><td><b>Yasal düzen</b></td><td>AB’nin GDPR’ı ve Türkiye’deki KVKK, görüntü işleme teknolojilerinin kullanımına sınırlar getirir; sistemler teknik, yasal ve etik uyum açısından denetlenmelidir.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Bir kamerada “belirli bir özelliği taşıyan kişi sayısı” sorulsun. Gerçek sayı 60. Yanıta rastgele gürültü eklenince tek bir kişinin varlığı sayıdan anlaşılamaz:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Gizlilik katsayısı ε kaydırıcısını değiştir ve “Yeni 20 yanıt çek”e bas.</li>
+        <li><b>Ne göreceksin:</b> Sayı doğrusu üzerinde gerçek sayı (60, yeşil çizgi) ve gürültü eklenmiş 20 yanıt (turuncu noktalar) görünür. Altta ortalama sapma, yanıt aralığı ve gürültü ölçeği yazılır.</li>
+        <li><b>Ne anlamalısın:</b> ε küçükken yanıtlar daha dağınıktır, bu da tek bir kişinin varlığını gizler; ε büyükken yanıtlar gerçeğe yakındır ama koruma azalır. Koruma ile doğruluk arasında denge vardır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>ε (epsilon)</dt><dd>Gizlilik katsayısı; küçük = daha çok gürültü, daha çok koruma.</dd><dt>Laplace gürültüsü</dt><dd>Sayıya eklenen rastgele sapma; ölçeği 1 ÷ ε.</dd><dt>Sapma</dt><dd>Gürültülü yanıt ile gerçek sayı arasındaki fark.</dd></dl></details>
+      <p class="lab-src">Sayı (60) ve sayma sorusu bu site için seçildi. Farklılaştırılmış gizliliğin istatistiksel analize izin verip bireysel kimliği koruduğu notundaki Bölüm 14.5.1’den; Laplace mekanizması standart bir yöntemdir ve notta anlatılmaz.</p>
+    </div>
+    <div class="lab" id="dplab"></div>
+    <div class="callout real"><b>Gerçek hayat: Biyometri (ders notundaki örnek)</b>Yüz tanıma, parmak izi analizi ve iris taraması bireylerin kimliğiyle doğrudan bağlantılıdır.</div>
+    <div class="callout real"><b>Gerçek hayat: Sağlık bulutu (ders notundaki örnek)</b>Hasta görüntülerinin bulut tabanlı sistemlerde işlenmesi, şifreleme ve benzeri önlemler olmadan ciddi risk taşır; homomorfik şifreleme şifreliyken işlemeyi mümkün kılar.</div>
+    <div class="callout real"><b>Gerçek hayat: Deepfake (ders notundaki örnek)</b>Görüntü orijinalliği dijital imza, blok zinciri doğrulaması ve sahte tespit algoritmalarıyla korunmaya çalışılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Disiplinler arası">
+  <div class="panel">
+    <div class="kicker">14.6 Disiplinler arası yaklaşımlar</div>
+    <h2>Görüntü işleme tek başına bir ada değil</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Alan</th><th>Bağlantı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Matematik ve istatistik</b></td><td>Doğrusal cebir, olasılık, Fourier ve dalgacık, eniyileme, diferansiyel denklemler. Derin öğrenmeyle istatistiksel modelleme ve olasılıksal çıkarımın önemi arttı.</td></tr>
+        <tr><td><b>Biyoloji ve tıp</b></td><td>Hücresel görüntüleme, doku sınıflandırma, genetik araştırma, MRI ve CT analizi; cerrahi planlamada 3B modelleme.</td></tr>
+        <tr><td><b>Sosyal bilim ve psikoloji</b></td><td>Yüz ifadesi analizi, duygu tanıma, insan-bilgisayar etkileşimi, davranışsal modelleme; eğitim teknolojisi ve medya analizi.</td></tr>
+        <tr><td><b>Sanat ve kültürel miras</b></td><td>Yüksek çözünürlüklü tarama ve spektral görüntüleme eserlerin özgün ayrıntılarını ortaya çıkarır; arkeolojik eserlerin dijital yeniden inşası.</td></tr>
+        <tr><td><b>Hukuk ve güvenlik</b></td><td>Adli bilişim: kamera kaydı iyileştirme, hukuki süreçte yüz tanıma, sahte görüntü tespiti; etik tartışma ve yasal sınır.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Kanser hücresi tespiti (ders notundaki örnek)</b>Kanser hücrelerinin otomatik tespiti biyoloji ile bilgisayar biliminin ortak çalışma alanıdır.</div>
+    <div class="callout real"><b>Gerçek hayat: Cerrahi planlama (ders notundaki örnek)</b>3B modelleme, biyomedikal mühendislik ile görüntü işlemenin birleşiminden doğar.</div>
+    <div class="callout real"><b>Gerçek hayat: Restorasyon ve arkeoloji (ders notundaki örnek)</b>Sanat eserlerinin dijitalleştirilmesi ve restorasyonu; kazılarda çıkan eserlerin dijital yeniden inşası.</div>
+    <div class="callout real"><b>Gerçek hayat: Adli bilişim (ders notundaki örnek)</b>Kamera kayıtlarının iyileştirilmesi suçların aydınlatılmasında kritik rol oynar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Gelecek eğilimler">
+  <div class="panel">
+    <div class="kicker">14.7 Gelecek eğilimler ve açık araştırma alanları</div>
+    <h2>Beş açık başlık</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Başlık</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Kuantum</b></td><td>Paralel işlem yeteneği, kuantum Fourier dönüşümü ve kuantum makine öğrenmesi yüksek boyutlu veriyi hızlı analiz edebilir; donanım hâlâ gelişim aşamasında, çalışmalar uzun vadeli.</td></tr>
+        <tr><td><b>Gerçek zamanlı, düşük güç</b></td><td>Gömülü sistem ve düşük enerjili cihazlarda çalışma; IoT sensörleri, akıllı şehir altyapısı, giyilebilir cihazlar; enerji verimli algoritmalar öncelikli.</td></tr>
+        <tr><td><b>Açıklanabilir ve güvenilir yapay zekâ</b></td><td>Derin öğrenme çoğunlukla “kara kutu”. XAI yöntemleri yalnızca güvenlik ve sağlıkta değil, sosyal ve etik boyutta da güvenilir sistem kurmaya yarar.</td></tr>
+        <tr><td><b>Büyük ölçekli, çok modlu veri</b></td><td>Uydu görüntüsü, tıbbi tarama, sosyal medya, endüstriyel sensör verisinin birleştirilmesi; metin, ses ve sensör verisini eş zamanlı işleyen hibrit yapılar.</td></tr>
+        <tr><td><b>Etik, hukuk, toplum</b></td><td>Mahremiyet, önyargının azaltılması, toplumsal fayda; teknik mükemmeliyetin yanında toplumsal adalet ve etik sorumluluk.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: IoT, akıllı şehir, giyilebilir (ders notundaki örnek)</b>Gerçek zamanlı analiz ihtiyacı bu alanlarda artıyor; bu yüzden enerji verimli algoritmalar öncelikli araştırma alanıdır.</div>
+    <div class="callout real"><b>Gerçek hayat: Çok modlu veri (ders notundaki örnek)</b>Uydu görüntüleri, tıbbi taramalar, sosyal medya içeriği ve endüstriyel sensör verisi birlikte analiz edilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 14</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Kuantum</td><td>FRQI, NEQR; kuantum Fourier ve dalgacık; umut büyük, donanım ve decoherence sınırı, hibrit yol</td></tr>
+        <tr><td>Biyo-esinlenme</td><td>SNN (zamansal), genetik algoritma (seçilim, çaprazlama, mutasyon), ACO (kenar), ABC (özellik seçimi, kümeleme); düşük maliyet ve uyum</td></tr>
+        <tr><td>Etkileşim</td><td>Jest ve poz, çoklu-modlu, BCI (EEG, fMRI), AR</td></tr>
+        <tr><td>Gizlilik ve güvenlik</td><td>Anonimleştirme, farklılaştırılmış gizlilik, homomorfik şifreleme, deepfake, dijital imza, blok zinciri, GDPR, KVKK</td></tr>
+        <tr><td>Disiplinler arası</td><td>Matematik, biyoloji ve tıp, sosyal bilim, sanat ve kültürel miras, hukuk ve adli bilişim</td></tr>
+        <tr><td>Açık başlıklar</td><td>Kuantum, düşük güç, XAI, çok modlu veri, etik ve hukuk</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

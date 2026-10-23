@@ -294,6 +294,25 @@ add('hoglab', 'goruntu-isleme/bolum-13.html',
     [('Gradyan', 'Yoğunluğun en hızlı değiştiği yön ve hız; kenara diktir.'), ('Yönelim kutusu', '0–180° aralığının 20° genişliğinde dilimi.'), ('Güç', 'Gradyan büyüklüklerinin toplamı; histogram bu büyüklüklerle ağırlıklanır.')],
     'Görüntü bu site için üretildi (24×24 çizgi). HOG’un gradyan yönelimlerini analiz ettiği ve insan tespitinde başarılı olduğu notundaki Bölüm 13.3.4’ten; 9 kutu, merkezî fark ve tek hücre bu sitenin basit hâlidir (gerçek HOG blok normalizasyonu da kullanır; burada yok).')
 
+add('snnlab', 'goruntu-isleme/bolum-14.html',
+    'Girdi parlaklığını, sızıntıyı ve ateşleme eşiğini değiştir; hazır düğmelerle koyu, orta ve parlak pikseli dene.',
+    '80 zaman adımında hücrenin zar potansiyeli (mavi çizgi), eşik (turuncu kesikli) ve ateşlediği darbeler (kırmızı çizgiler) görünür. Altta darbe sayısı, ilk darbenin adımı ve adım başına girdi yazılır.',
+    'Parlak girdi hücreyi sık ve erken ateşletir; zayıf girdi sızıntıya yenilip hiç ateşletmez. Bilgi darbelerin sayısında ve zamanında taşınır.',
+    [('Zar potansiyeli', 'Hücrenin birikmiş girdisi; eşiğe ulaşınca darbe üretilir.'), ('Sızıntı', 'Her adımda potansiyelin bir kısmının sönmesi.'), ('Darbe (spike)', 'Eşik aşılınca hücrenin gönderdiği ani sinyal; sonra potansiyel sıfırlanır.'), ('Eşik', 'Darbe için aşılması gereken potansiyel.')],
+    'Model bu site için sadeleştirildi (sızıntılı toplayıp ateşleyen hücre; girdi = parlaklık × 0,3). Darbe sinir ağlarının zamansal dinamiği değerlendirdiği notundaki Bölüm 14.2.1’den; hücre denklemi ve sayılar notta yoktur.')
+add('galab', 'goruntu-isleme/bolum-14.html',
+    'Popülasyon büyüklüğünü ve mutasyon büyüklüğünü seç; “Bir nesil ilerlet” ya da “10 nesil ilerlet”e bas.',
+    'İki tepeli bir histogram, üzerinde eşik adaylarını gösteren turuncu noktalar, en iyi aday (yeşil çizgi) ve tüm eşikler denenince bulunan en uygun eşik (beyaz kesikli çizgi) görünür. Altta nesil sayısı, en iyi eşik ve uygunluk oranı yazılır.',
+    'Seçilim, çaprazlama ve mutasyonla bireyler nesiller içinde en uygun eşiğe yaklaşır. Burada tek eşik aranır; bu yüzden 256 değeri tek tek denemek de mümkündür.',
+    [('Birey', 'Bir eşik adayı (0–255).'), ('Uygunluk', 'Eşiğin iki sınıfı ayırma başarısı; burada sınıflar arası varyans (Otsu ölçütü).'), ('Çaprazlama', 'İki ebeveynin ortalaması alınarak yeni birey üretmek.'), ('Mutasyon', 'Yeni bireyi rastgele biraz oynatmak.')],
+    'Histogram bu site için üretildi (iki tepe: 70 ve 180 civarı). Genetik algoritmanın segmentasyon eşiği seçiminde kullanılması notundaki Bölüm 14.2.2’den; seçilim yöntemi (en iyiyi koru, ikili turnuva) ve uygunluk ölçütü bu sitenin sade seçimleridir.')
+add('dplab', 'goruntu-isleme/bolum-14.html',
+    'Gizlilik katsayısı ε kaydırıcısını değiştir ve “Yeni 20 yanıt çek”e bas.',
+    'Sayı doğrusu üzerinde gerçek sayı (60, yeşil çizgi) ve gürültü eklenmiş 20 yanıt (turuncu noktalar) görünür. Altta ortalama sapma, yanıt aralığı ve gürültü ölçeği yazılır.',
+    'ε küçükken yanıtlar daha dağınıktır, bu da tek bir kişinin varlığını gizler; ε büyükken yanıtlar gerçeğe yakındır ama koruma azalır. Koruma ile doğruluk arasında denge vardır.',
+    [('ε (epsilon)', 'Gizlilik katsayısı; küçük = daha çok gürültü, daha çok koruma.'), ('Laplace gürültüsü', 'Sayıya eklenen rastgele sapma; ölçeği 1 ÷ ε.'), ('Sapma', 'Gürültülü yanıt ile gerçek sayı arasındaki fark.')],
+    'Sayı (60) ve sayma sorusu bu site için seçildi. Farklılaştırılmış gizliliğin istatistiksel analize izin verip bireysel kimliği koruduğu notundaki Bölüm 14.5.1’den; Laplace mekanizması standart bir yöntemdir ve notta anlatılmaz.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
