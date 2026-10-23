@@ -333,6 +333,26 @@ add('mauflab', 'yapay-zeka-temelleri/bolum-7.html',
     [('Ağırlık (w)', 'Bir niteliğin göreli önemi; burada toplamı 1 olacak şekilde normalleştirilir.'), ('U', 'Ağırlıklı fayda toplamı (0–10 ölçeği).'), ('Çok nitelikli fayda', 'Birden çok ölçütü tek bir sayıya toplayan fayda.')],
     'Formül notundaki Bölüm 7.1.4 (U = w₁·U_fiyat + w₂·U_güvenlik + w₃·U_konfor) ve aile/öğrenci örneğinden. Üç arabanın adı ve 0–10 puanları bu site için uydurulmuştur.')
 
+# ---------------- Yapay Zekâ Temelleri 8 ----------------
+add('splitlab', 'yapay-zeka-temelleri/bolum-8.html',
+    'Hava, Nem ya da “Gün numarası” özelliklerinden birini seç.',
+    'Seçilen özelliğin her dalındaki örnek sayısı, Evet/Hayır dağılımı, entropi ve Gini görünür. Üstte kök entropisi, bilgi kazancı ve Gini bölünmesi yazılır.',
+    'Hava ile Nem karşılaştırılınca Nem hem bilgi kazancında hem Gini’de önde çıkar. Gün numarası her dalı tek örneğe böler: ölçütler “mükemmel” der, ama bu ezberdir.',
+    [('Entropi', 'Dalın karışıklığı; 0 = saf, 1 = yarı yarıya (iki sınıf).'), ('Bilgi kazancı (IG)', 'Kök entropisi ile dalların ağırlıklı entropisi arasındaki fark.'), ('Gini bölünmesi', 'Dalların Gini değerlerinin örnek sayısıyla ağırlıklı ortalaması; küçük olan iyi.')],
+    'Veri: notundaki Bölüm 8.2.3 piknik tablosu (10 satır). Notun yazdığı 6 Evet / 4 Hayır ve IG(Hava) = 0,246, IG(Nem) = 0,371, Gini(Hava) = 0,4 tabloyla tutmadığı için burada tablodan yeniden hesaplandı (7 Evet / 3 Hayır). “Gün numarası” bu sitenin eklemesidir.')
+add('treelab', 'yapay-zeka-temelleri/bolum-8.html',
+    'max_depth ve min_samples_leaf kaydırıcılarını değiştir.',
+    'İki özellikli sanal verinin bölge haritası (yeşil/turuncu), 60 eğitim noktası, yaprak sayısı, eğitim ve test doğruluğu ve 12 derinlik için doğruluk tablosu görünür.',
+    'Derinlik arttıkça eğitim doğruluğu yükselir ama test doğruluğu bir noktadan sonra düşer ya da durur; gürültüyü ezberleyen ağaç genellemez. min_samples_leaf büyütmek ön-budama gibi davranır.',
+    [('max_depth', 'Ağacın en fazla kaç seviye büyüyeceği.'), ('min_samples_leaf', 'Bir yaprakta bulunması gereken en az örnek.'), ('Eğitim / test doğruluğu', 'Ağacın eğitim noktalarında / hiç görmediği 400 noktada doğru tahmin oranı.'), ('Ön-budama', 'Ağacı büyürken durdurmak (derinlik ya da yaprak sınırıyla).')],
+    'Veri bu site için üretildi (“x > 0,5 ve y > 0,4” bölgesi sınıf 1, %15 etiket gürültüsü, sabit tohum). Aşırı uyum ve parametre rolü notundaki Bölüm 8.2.4 ve 8.6.1’e dayanır; ağaç kurma ve doğruluklar bu sitenin basit CART benzeri uygulamasıdır.')
+add('thrlab', 'yapay-zeka-temelleri/bolum-8.html',
+    'Eşik kaydırıcısını (yaş <) 20 ile 66 arasında oynat.',
+    'Yaş ekseninde 12 müşteri (yeşil: alır, turuncu: almaz), eşik çizgisi, iki tarafın sayıları ve Gini bölünmesi görünür.',
+    'Sayısal özellikte ağaç, aday eşikler arasından Gini bölünmesi en küçük olanı seçer. Burada en iyi eşik 31 ile 34 arasında, ikinci bir zayıf dip 40 civarındadır.',
+    [('Eşik', 'Sayısal özelliği ikiye ayıran değer (yaş < eşik).'), ('Aday eşik', 'Komşu iki farklı değerin ortası.'), ('Gini bölünmesi', 'İki tarafın ağırlıklı Gini ortalaması.')],
+    'Müşteri yaşları ve alma kararları bu site için uydurulmuştur. Eşikle bölme ve en uygun bölünme noktasını bulma fikri notundaki Bölüm 8.5 ve 8.2.2’den; Gini hesabı notundaki formüldür.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
