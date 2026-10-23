@@ -36,6 +36,26 @@ add('kumelab', 'makine-ogrenmesi/bolum-8.html',
     [('Uzaklık esaslı', 'Nesneyi en yakın merkeze atar; küme şekli oval varsayılır.'), ('Yoğunluk/komşuluk esaslı', 'Yarıçap içindeki komşuları aynı kümeye bağlar; zincir sürdükçe küme büyür.'), ('Komşuluk yarıçapı', 'İki noktanın komşu sayılması için en çok ne kadar uzak olabileceği.'), ('Gri nokta', 'İlk iki büyük parçanın dışında kalan, kümeye girmeyen nokta.')],
     'Veri notta yok; bu site için üretilmiş sanal noktalardır. Karşılaştırılan iki fikir (uzaklık esaslı yöntemin düzensiz şekli bölmesi, yoğunluk esaslı yöntemin şekli izlemesi) notundaki Bölüm 8.2 ve 8.3’e dayanır; buradaki yöntemler yalnızca fikri göstermek için sadeleştirilmiştir.')
 
+# ---------------- Makine Öğrenmesi 9 ----------------
+add('kmlab', 'makine-ogrenmesi/bolum-9.html',
+    'k’yı seç, “Rastgele merkezler koy”a bas, sonra “Bir adım”a birkaç kez bas ya da “Yakınsayana kadar çalıştır”ı dene. Başka bir rastgele başlangıçla tekrarla.',
+    'Noktalar en yakın merkezin rengini alır; + işaretli merkezler kümelerinin ortasına kayar. Yineleme sayısı, hata değeri ve yakınsama durumu güncellenir.',
+    'Her adımda hata düşer ya da aynı kalır, merkezler oynamayınca algoritma durur. Farklı rastgele başlangıçlar farklı hata değerlerinde bitebilir; bu yerel optimumdur.',
+    [('Merkez (centroid)', 'Kümedeki noktaların ortalaması.'), ('Hata', 'Her noktanın kendi merkezine uzaklığının karelerinin toplamı.'), ('Yakınsama', 'Merkezlerin artık değişmemesi.'), ('Yerel optimum', 'Başlangıca bağlı olarak takılınan, her zaman en iyi olmayan çözüm.')],
+    'Veri notta yok; bu site için üretilmiş 75 sanal nokta (üç yoğun bölge). Algoritma notundaki Algoritma 9.1’e dayanır.')
+add('medlab', 'makine-ogrenmesi/bolum-9.html',
+    'Aykırı noktanın x konumunu kaydırıcıyla sağa çek ve ortalama (+) ile medoidin (○) nerede durduğuna bak.',
+    'Sekiz noktalık küme sabit kalır; dokuzuncu (kırmızı) nokta uzaklaştıkça sarı + işareti ona doğru kayar, yeşil halka ise kümenin içindeki bir noktada kalır.',
+    'Ortalama uç noktadan etkilenir; medoid gerçek bir nesne olduğu için kümeden kopmaz. Notta k-medoidlerin uç verilere daha dirençli olması bu yüzden vurgulanır.',
+    [('Ortalama', 'Noktaların koordinat ortalaması; hiçbir noktaya denk gelmeyebilir.'), ('Medoid', 'Diğer tüm noktalara uzaklıkları toplamı en küçük olan gerçek nokta.'), ('Aykırı nokta', 'Kümenin dışında, uzakta kalan nokta.')],
+    'Noktalar notta yok; bu site için seçilmiş sanal sayılardır. Mantık, notundaki Bölüm 9.3.1’deki dayanıklılık anlatımına dayanır.')
+add('costlab', 'makine-ogrenmesi/bolum-9.html',
+    'n, k, t ve s kaydırıcılarını değiştir.',
+    'Üç algoritmanın notundaki formüllerle hesaplanan işlem sayıları ve PAM/CLARA oranı görünür.',
+    'n büyüdükçe PAM’ın maliyeti hızla artar; CLARA yalnızca örnek (s) üzerinde PAM çalıştırdığı için çok daha ucuz kalır. Bu sayılar gerçek süre değil, formülün değeridir.',
+    [('n', 'Toplam nesne sayısı.'), ('k', 'Küme sayısı.'), ('t', 'k-ortalamalarda yineleme sayısı.'), ('s', 'CLARA’da rastgele örneğin büyüklüğü.')],
+    'Sayılar sanal; formüller notundaki Bölüm 9.2 ve 9.3 maliyet ifadeleridir (θ gösterimi sabit çarpanları içermez).')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():

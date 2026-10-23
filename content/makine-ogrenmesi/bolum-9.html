@@ -1,0 +1,191 @@
+<!--
+course: makine-ogrenmesi
+course_title: Makine Öğrenmesi
+no: 9
+title: Bölümlemeli Kümeleme (k-ortalamalar, PAM, CLARA)
+quiz: QUIZ_ML_9
+quiz_file: ml-bolum-9-quiz.js
+scripts: ml9.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 9</div>
+    <h1>Bölümlemeli Kümeleme</h1>
+    <p class="big-quote">“Müşterilerimi üç gruba ayır” dersen algoritma ne yapar? Önce üç tahmin merkezi koyar, herkesi en yakın merkeze verir, merkezleri gruplarının ortasına çeker ve bunu merkezler oynamayana dek tekrarlar. Bu bölüm <b>k-ortalamalar</b>, onun dirençli kardeşi <b>k-medoidler (PAM)</b> ve büyük veri için <b>CLARA</b>’yı anlatır.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Bölümlemeli kümelemenin girdisini (D ve k) ve amacını söyleyebilirsin.</li>
+      <li>k-ortalamalar adımlarını elle izleyebilir, hata fonksiyonunu açıklayabilirsin.</li>
+      <li>k-ortalamaların sınırlarını (yerel optimum, k seçimi, şekil, gürültü) sayabilirsin.</li>
+      <li>k-modes, k-medoidler, PAM, CLARA ve CLARANS’ı ayırt edebilirsin.</li>
+      <li>Ortalama ile medoidin aykırı değere karşı farkını açıklayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Önce k’yı ver, sonra merkezleri iyileştir</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Bölümlemeli kümeleme: k-ortalamalar merkezi ortalama olarak alır; k-medoidler gerçek bir nesne olarak alır; CLARA büyük veri için örnekleme kullanır"><rect class="d-box" x="10" y="55" width="150" height="80" rx="8"/><text class="d-txt d-c" x="85" y="88">D ve k</text><text class="d-sm d-c" x="85" y="108">veri + küme sayısı</text><rect class="d-brand" x="190" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="275" y="88">k-ortalamalar</text><text class="d-sm d-c" x="275" y="108">merkez = ortalama</text><rect class="d-ok" x="390" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="475" y="88">k-medoidler (PAM)</text><text class="d-sm d-c" x="475" y="108">merkez = gerçek nesne</text><rect class="d-warn" x="590" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="670" y="88">CLARA</text><text class="d-sm d-c" x="670" y="108">örnekle ölçekle</text><path class="d-line-brand" d="M160 95 L190 95"/><path class="d-line-brand" d="M360 95 L390 95"/><path class="d-line-brand" d="M560 95 L590 95"/></svg>
+    <p>Hepsi aynı çerçevede çalışır: bir başlangıç bölümlemesi kur, sonra nesneleri gruplar arasında taşıyarak bölümlemeyi yinelemeli iyileştir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölümleme problemi">
+  <div class="panel">
+    <div class="kicker">Problem</div>
+    <h2>n nesneyi k bölüme ayır</h2>
+    <p>Kümeleme analizinin en basit ve en temel biçimi bölümlemedir. n nesnelik bir veri kümesi <b>D</b> ve oluşturulacak küme sayısı <b>k</b> verilir; algoritma nesneleri k bölüme (k ≤ n) ayırır ve her bölüm bir kümeyi temsil eder. Küme sayısı, arka plan bilgisi olarak baştan verilir; bu parametre yöntemlerin başlangıç noktasıdır.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Girdi</b>D (n nesne) ve k (küme sayısı).</div>
+      <div class="peas-c e"><b>Çıktı</b>k küme. Kümelerin kesişimi boştur: her nesne yalnızca bir kümeye ait olur.</div>
+      <div class="peas-c a"><b>Amaç</b>Mesafeye dayalı bir farklılık fonksiyonu gibi nesnel bir kriteri en iyilemek: küme içinde benzer, kümeler arasında benzemez.</div>
+      <div class="peas-c s"><b>Yöntem</b>Başlangıç bölümlemesi + yinelemeli yeniden yerleştirme.</div>
+    </div>
+    <div class="callout idea"><b>İki klasik yöntem</b>Bu bölümde en bilinen iki yöntem işlenir: <b>k-ortalamalar</b> (k-means) ve <b>k-medoidler</b> (k-medoids). Ayrıca büyük veri için ölçeklenmiş varyasyonları da görülür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="k-ortalamalar">
+  <div class="panel">
+    <div class="kicker">Ağırlık merkezi esaslı teknik</div>
+    <h2>k-ortalamalar: merkez = kümenin ortalaması</h2>
+    <p>Her kümenin bir <b>merkezi (centroid)</b> vardır: kümedeki nesnelerin ortalama değeri. Küme, merkeziyle temsil edilir. Kümelemenin kalitesi <b>hata fonksiyonuyla</b> ölçülür: her nesnenin bulunduğu kümenin merkezine uzaklığının <b>karesi</b> alınıp toplanır. Toplam ne kadar küçükse küme o kadar sıkıdır.</p>
+    <p class="big-quote" style="font-size:1.05rem">E = Σ (her kümede) Σ (nesne p için) d(p, merkez)²</p>
+    <ol>
+      <li>Rastgele k merkez seç.</li>
+      <li>Her nesneyi en yakın merkezin kümesine ata.</li>
+      <li>Her kümenin yeni merkezini, kümedeki nesnelerin ortalaması olarak güncelle.</li>
+      <li>Merkezler değişmeyene kadar 2. ve 3. adımı yinele; değişmediğinde algoritma <b>yakınsamıştır</b>.</li>
+    </ol>
+    <div class="callout real"><b>Gerçek hayat: k = 3 örneği (ders notundaki örnek)</b>İki boyutlu uzaydaki bir nesne kümesi için k = 3 verilir. Rastgele üç merkez konur, nesneler en yakın merkezin kümesine atanır, merkezler küme ortalamasına kayar ve nesneler yeniden atanır; merkezler oynamayınca son kümeler döndürülür.</div>
+    <div class="callout idea"><b>Neden açgözlü?</b>Hata fonksiyonunu tam optimize etmek zordur: küme sayısı yalnızca iki olsa bile genel Öklit uzayında NP-zor bir problemdir. Bu yüzden çoğunlukla açgözlü (greedy) yöntemlere başvurulur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="k-ortalamalar laboratuvarı">
+  <div class="panel">
+    <div class="kicker">k-ortalamalar · dene</div>
+    <h2>Merkezleri kaydıra kaydıra izle</h2>
+    <p>Aşağıda üç yoğun bölge olan 75 nokta var. Merkezleri rastgele koy, adım adım ilerle ve hata değerinin nasıl düştüğüne bak. Sonra başka bir rastgele başlangıçla tekrar dene.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> k’yı seç, “Rastgele merkezler koy”a bas, sonra “Bir adım”a birkaç kez bas ya da “Yakınsayana kadar çalıştır”ı dene. Başka bir rastgele başlangıçla tekrarla.</li>
+        <li><b>Ne göreceksin:</b> Noktalar en yakın merkezin rengini alır; + işaretli merkezler kümelerinin ortasına kayar. Yineleme sayısı, hata değeri ve yakınsama durumu güncellenir.</li>
+        <li><b>Ne anlamalısın:</b> Her adımda hata düşer ya da aynı kalır, merkezler oynamayınca algoritma durur. Farklı rastgele başlangıçlar farklı hata değerlerinde bitebilir; bu yerel optimumdur.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Merkez (centroid)</dt><dd>Kümedeki noktaların ortalaması.</dd><dt>Hata</dt><dd>Her noktanın kendi merkezine uzaklığının karelerinin toplamı.</dd><dt>Yakınsama</dt><dd>Merkezlerin artık değişmemesi.</dd><dt>Yerel optimum</dt><dd>Başlangıca bağlı olarak takılınan, her zaman en iyi olmayan çözüm.</dd></dl></details>
+      <p class="lab-src">Veri notta yok; bu site için üretilmiş 75 sanal nokta (üç yoğun bölge). Algoritma notundaki Algoritma 9.1’e dayanır.</p>
+    </div>
+    <div class="lab" id="kmlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="k-ortalamaların özellikleri">
+  <div class="panel">
+    <div class="kicker">Güçlü ve zayıf yönler</div>
+    <h2>Yerel optimum, k seçimi, şekil ve gürültü</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Notta söylenen</th></tr></thead>
+      <tbody>
+        <tr><td><b>Yerel optimum</b></td><td>Küresel optimuma ulaşmayı garanti etmez, sık sık yerel optimumda sonlanır. Sonuç ilk rastgele merkezlere göre değişir; bu yüzden algoritma genellikle farklı başlangıç merkezleriyle birden çok kez çalıştırılır.</td></tr>
+        <tr><td><b>Zaman karmaşıklığı</b></td><td>θ(n·k·t): n nesne, k küme, t yineleme sayısı. Normalde k ≪ n ve t ≪ n’dir; bu yüzden ölçeklenebilir ve büyük veride etkindir.</td></tr>
+        <tr><td><b>k’yı kullanıcı seçer</b></td><td>k küçükse büyük kümeler gereksiz bölünür; k çok büyükse birden fazla küçük küme tek kümede toplanır. Belli aralıktaki k değerlerini deneyip analitik tekniklerle en iyi k’yı bulma çalışmaları vardır.</td></tr>
+        <tr><td><b>Şekil ve büyüklük</b></td><td>Dışbükey olmayan şekillere ve büyüklükleri çok farklı kümelere uygun değildir; eşit büyüklükte küresel kümeler bulmaya eğilimlidir.</td></tr>
+        <tr><td><b>Gürültü ve uç noktalar</b></td><td>Merkezden çok uzaktaki noktalar ortalamayı yanlış kaydırır. Önce bir gürültü giderme algoritması çalıştırmak uygun olur.</td></tr>
+        <tr><td><b>Veri türü</b></td><td>Yalnızca nesne kümelerinin ortalaması tanımlıysa uygulanabilir. Nominal özellik varsa <b>k-modes</b> kullanılır: ortalama yerine <b>mod</b> alır, yeni bir benzemezlik ölçüsü ve sıklık esaslı yöntemler kullanır. İkisi birlikte kullanılarak sayısal ve nominal değerler işlenebilir.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Daha ölçeklenebilir yapmak için üç yaklaşım</h3>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Daha etkin kılmak</b>Algoritmayı büyük veride verimli olacak biçimde geliştirmek.</div>
+      <div class="peas-c e"><b>Filtreleme</b>Verileri indeksleyerek hesaplama zamanından kazanmak.</div>
+      <div class="peas-c a"><b>Mikro kümeleme</b>Önce birbirine yakın nesneleri “mikro kümeler”de gruplamak, sonra k-ortalamaları bu mikro kümeler üzerinde çalıştırmak.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Nominal veri için k-modes (ders notundaki anlatım)</b>Veri kümesinde nominal (adlandırılmış) özellikler varsa ortalama alınamayabilir. K-modes ortalama yerine mod kullanarak bu sorunu aşar.</div>
+    <div class="callout real"><b>Gerçek hayat: Önce gürültüyü temizle (ders notundaki anlatım)</b>Aykırı ya da gürültülü veriler ortalamayı yanıltır; notta k-ortalamalardan önce gürültü giderme algoritması çalıştırmak önerilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="k-medoidler ve PAM">
+  <div class="panel">
+    <div class="kicker">Temsili nesne esaslı teknik</div>
+    <h2>k-medoidler: merkez = gerçek bir nesne</h2>
+    <p>k-ortalamalarda merkez, hiçbir nesneye denk gelmeyen bir ortalama olabilir. <b>k-medoidlerde</b> kümeyi, kümenin içinden seçilen bir nesne (<b>medoid</b>) temsil eder. <b>PAM</b> (Partitioning Around Medoids), ilk önerilen k-medoidler algoritmasıdır.</p>
+    <ol>
+      <li>D’den rastgele k nesne temsil edici nesne olarak seç.</li>
+      <li>Kalan her nesneyi en yakın temsil edici nesneye bağla.</li>
+      <li>Temsil edici olmayan rastgele bir nesne (o<sub>random</sub>) seç.</li>
+      <li>Mevcut temsil edici o<sub>j</sub> ile o<sub>random</sub> yer değiştirirse toplam maliyetin ne kadar değiştiğini (S) hesapla.</li>
+      <li><b>S &lt; 0</b> ise yer değiştir (hata düşer). Pozitifse mevcut temsil edici kabul edilebilirdir.</li>
+      <li>Değişiklik olmayana kadar tekrarla.</li>
+    </ol>
+    <div class="callout idea"><b>Atama örnekleri</b>Bir p nesnesi, o<sub>j</sub> yerine o<sub>random</sub> geldiğinde ya başka bir temsil edici o<sub>i</sub>’ye ya da o<sub>random</sub>’a bağlanır: hangisi daha yakınsa oraya.</div>
+    <div class="callout real"><b>Gerçek hayat: Hangisi daha dirençli? (ders notundaki soru)</b>Notta “k-ortalama mı, k-medoids mi daha dirençlidir?” diye sorulur: k-medoidler daha dirençlidir, çünkü gürültülü ve uç verilerden k-ortalamalar kadar etkilenmez. Bedeli yinelemede θ(k(n−k)²) maliyettir; n ve k büyükse k-ortalamalardan çok daha pahalıdır. İkisi de k’yı kullanıcıdan bekler.</div>
+    <p>Aşağıda tek bir aykırı nokta kümeden uzaklaşırken ortalama ile medoidin ne yaptığını izle:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Aykırı noktanın x konumunu kaydırıcıyla sağa çek ve ortalama (+) ile medoidin (○) nerede durduğuna bak.</li>
+        <li><b>Ne göreceksin:</b> Sekiz noktalık küme sabit kalır; dokuzuncu (kırmızı) nokta uzaklaştıkça sarı + işareti ona doğru kayar, yeşil halka ise kümenin içindeki bir noktada kalır.</li>
+        <li><b>Ne anlamalısın:</b> Ortalama uç noktadan etkilenir; medoid gerçek bir nesne olduğu için kümeden kopmaz. Notta k-medoidlerin uç verilere daha dirençli olması bu yüzden vurgulanır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Ortalama</dt><dd>Noktaların koordinat ortalaması; hiçbir noktaya denk gelmeyebilir.</dd><dt>Medoid</dt><dd>Diğer tüm noktalara uzaklıkları toplamı en küçük olan gerçek nokta.</dd><dt>Aykırı nokta</dt><dd>Kümenin dışında, uzakta kalan nokta.</dd></dl></details>
+      <p class="lab-src">Noktalar notta yok; bu site için seçilmiş sanal sayılardır. Mantık, notundaki Bölüm 9.3.1’deki dayanıklılık anlatımına dayanır.</p>
+    </div>
+    <div class="lab" id="medlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="CLARA ve CLARANS">
+  <div class="panel">
+    <div class="kicker">Büyük veri için</div>
+    <h2>PAM küçük veride çalışır; büyük veride örnekle</h2>
+    <p>PAM küçük veri kümelerinde başarılıdır ama veri büyüdükçe yetersiz kalır. <b>CLARA</b> (Clustering LARge Applications) örnekleme esaslıdır: veri kümesinin tamamı yerine rastgele bir örnek kümeyi temsilci alır, <b>PAM’ı bu örnek üzerinde</b> çalıştırır ve en iyi medoidleri bulur. Bunu birkaç farklı rastgele örnekle yapıp aralarından en iyi kümelemeyi döndürür.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Algoritma</th><th>Fikir</th><th>Maliyet (notta)</th></tr></thead>
+      <tbody>
+        <tr><td><b>k-ortalamalar</b></td><td>Merkez = ortalama</td><td class="mono">θ(n·k·t)</td></tr>
+        <tr><td><b>PAM</b></td><td>Her nesneyi tüm medoidlerle karşılaştırır</td><td class="mono">yineleme başına θ(k(n−k)²)</td></tr>
+        <tr><td><b>CLARA</b></td><td>Rastgele örnek üzerinde PAM; s = örnek büyüklüğü</td><td class="mono">θ(k·s² + k(n−k))</td></tr>
+        <tr><td><b>CLARANS</b></td><td>CLARA’nın sonucunu sabit örnekten kurtarır: her aşamada değişen örnek; rastgele seçilen noktaların çevresine bakar</td><td>maliyet ve etkinlik arasında bir ödünleşme</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Örnek yeterince temsil etmeli</b>CLARA’nın etkinliği örneğin boyutuna bağlıdır. Örnekler yeterince bağımsız değilse veri kümesini temsil edemez; yanlış sonuç çıkabilir ya da en iyi kümelemeye hiç ulaşılamaz.</div>
+    <div class="callout real"><b>Gerçek hayat: Büyük veri kümelerinde tercih (ders notundaki anlatım)</b>Notta “büyük veri kümelerinde genelde CLARA tercih edilir” denir; çünkü PAM’ın maliyeti n ile hızla büyür, CLARA ise yalnızca örnekte PAM’ı çalıştırır.</div>
+    <p>Aşağıda notundaki maliyet formüllerini sayılara dök:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> n, k, t ve s kaydırıcılarını değiştir.</li>
+        <li><b>Ne göreceksin:</b> Üç algoritmanın notundaki formüllerle hesaplanan işlem sayıları ve PAM/CLARA oranı görünür.</li>
+        <li><b>Ne anlamalısın:</b> n büyüdükçe PAM’ın maliyeti hızla artar; CLARA yalnızca örnek (s) üzerinde PAM çalıştırdığı için çok daha ucuz kalır. Bu sayılar gerçek süre değil, formülün değeridir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>n</dt><dd>Toplam nesne sayısı.</dd><dt>k</dt><dd>Küme sayısı.</dd><dt>t</dt><dd>k-ortalamalarda yineleme sayısı.</dd><dt>s</dt><dd>CLARA’da rastgele örneğin büyüklüğü.</dd></dl></details>
+      <p class="lab-src">Sayılar sanal; formüller notundaki Bölüm 9.2 ve 9.3 maliyet ifadeleridir (θ gösterimi sabit çarpanları içermez).</p>
+    </div>
+    <div class="lab" id="costlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 9</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Bölümleme</td><td>D ve k verilir; k bölüm, kesişmeyen kümeler; başlangıç bölümlemesi + yinelemeli yeniden yerleştirme</td></tr>
+        <tr><td>k-ortalamalar</td><td>Merkez = ortalama; ata → güncelle → yakınsa dur; hata = merkeze uzaklıkların kareleri toplamı</td></tr>
+        <tr><td>Sınırlar</td><td>Yerel optimum (çok kez çalıştır), k’yı kullanıcı seçer, küresel şekil, uç noktalara duyarlı</td></tr>
+        <tr><td>Karmaşıklık</td><td>k-ortalamalar θ(nkt); PAM yineleme başına θ(k(n−k)²); CLARA θ(ks² + k(n−k))</td></tr>
+        <tr><td>k-modes</td><td>Nominal veri için ortalama yerine mod</td></tr>
+        <tr><td>k-medoidler / PAM</td><td>Merkez = gerçek nesne; S &lt; 0 ise yer değiştir; gürültüye daha dirençli ama pahalı</td></tr>
+        <tr><td>CLARA / CLARANS</td><td>Örnek üzerinde PAM; CLARANS örneği her aşamada değiştirir</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
