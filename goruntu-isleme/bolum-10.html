@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Morfolojik Görüntü İşleme — Görüntü İşleme</title>
+<meta name="description" content="Görüntü İşleme, Bölüm 10: Morfolojik Görüntü İşleme. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 10 · Morfolojik Görüntü İşleme</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 10</div>
+    <h1>Morfolojik Görüntü İşleme</h1>
+    <p class="big-quote">Taranmış bir belgedeki tozları silmek, kopmuş bir harfi onarmak, bir kıyı çizgisini çıkarmak, bir yolun omurgasını bulmak… Hepsi için pikselin değerine değil, <b>şeklin kendisine</b> bakan bir araca ihtiyaç var. Matematiksel morfoloji tam bu iş için, küçük bir “şekil kalıbıyla” görüntüyü tarar.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Matematiksel morfolojiyi ve yapısal elemanı tanımlayabilirsin.</li>
+      <li>Aşınma, genişleme, açma ve kapamanın etkisini ve formüllerini söyleyebilirsin.</li>
+      <li>Sınır çıkarma, delik doldurma, inceltme ve kalınlaştırmayı anlatabilirsin.</li>
+      <li>Morfolojik gradyan, top-hat ve bottom-hat dönüşümlerini ayırt edebilirsin.</li>
+      <li>Gri seviye ve öğrenme tabanlı morfolojiyi açıklayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Yapısal elemanla şekli kazı ya da büyüt</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Temel işlemler aşınma ve genişleme; bunlardan açma, kapama; onlardan sınır, gradyan, top-hat gibi algoritmalar"><rect class="d-brand" x="10" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="95" y="88">Aşınma · Genişleme</text><text class="d-sm d-c" x="95" y="108">iki temel işlem</text><rect class="d-ok" x="210" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="295" y="88">Açma · Kapama</text><text class="d-sm d-c" x="295" y="108">bileşik işlemler</text><rect class="d-warn" x="410" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="495" y="88">Algoritmalar</text><text class="d-sm d-c" x="495" y="108">sınır, delik, iskelet</text><rect class="d-box" x="610" y="55" width="140" height="80" rx="8"/><text class="d-txt d-c" x="680" y="88">İleri</text><text class="d-sm d-c" x="680" y="108">gradyan, top-hat</text><path class="d-line-brand" d="M180 95 L210 95"/><path class="d-line-brand" d="M380 95 L410 95"/><path class="d-line-brand" d="M580 95 L610 95"/></svg>
+    <p>Her şey iki temel işlemden türer. Yapısal eleman şeklin ve boyutun karakterini belirler.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Morfoloji nedir?">
+  <div class="panel">
+    <div class="kicker">10.1 Tanım ve rol</div>
+    <h2>Şekil temelli analiz</h2>
+    <p><b>Matematiksel morfoloji</b>, nesnelerin biçimsel ve yapısal özelliklerini analiz eden güçlü bir yöntemler bütünüdür; temelinde şekillerin geometrik ve topolojik özelliklerinin incelenmesi yatar. Morfolojik işlemler nesneleri <b>büyütmek, küçültmek, ayırmak, birleştirmek</b> ya da belirli yapısal özelliklerini ortaya çıkarmak için uygulanır.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>İkili görüntüden gri seviyeye</b>İlk olarak ikili görüntüler için geliştirildi, sonra gri seviyeli ve renkli görüntülere de genelleştirildi. Gri ton morfolojisi piksel değerleri arasındaki büyüklük ilişkilerini dikkate alır.</div>
+      <div class="peas-c e"><b>Yapısal eleman</b>Küçük, önceden tanımlı bir geometrik şekil; görüntü üzerinde kaydırılarak dönüşümler yapılır.</div>
+      <div class="peas-c a"><b>Ön işleme</b>Kenar tespitinden önce küçük parazitleri kaldırmak gibi.</div>
+      <div class="peas-c s"><b>Son işleme</b>Bölütleme sonucunda elde edilen bölgeleri düzgünleştirmek gibi.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Hücre sınırı, üretim hattı, harita (ders notundaki örnek)</b>Biyolojik hücre görüntülerinde hücre sınırlarını belirlemek, endüstriyel kalite kontrolde üretim hatlarını tespit etmek ve haritada yolları ayrıştırmak morfolojinin kritik rol oynadığı senaryolardır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Uygulama alanları">
+  <div class="panel">
+    <div class="kicker">10.2 Uygulama alanlarına genel bakış</div>
+    <h2>Beş amaç, beş alan</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Amaç 1</b>Bölütleme ve nesne ayrıştırma<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Açma ve kapama, bölütleme sonucundaki küçük parazitleri giderir ya da birleşmesi gereken bölgeleri birleştirir. Örnek: tıbbi görüntüde damar yollarının, uydu görüntüsünde bina ve yolların ayrıştırılması.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Amaç 2</b>Gürültü giderme ve iyileştirme<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>İkili görüntüde küçük gürültü noktaları ve ince çizgi parçacıkları aşınmayla temizlenir. Gri seviyede morfolojik filtreler kenar yapısını koruyarak parazitleri bastırır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Amaç 3</b>Sınır ve kontur çıkarma<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Morfolojik gradyan gibi türev teknikler nesne sınırlarını belirlemede güçlüdür; kenar tespiti şekil özelliklerine dayandığında daha tutarlıdır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Amaç 4</b>İskelet çıkarımı<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>İnceltme (thinning) nesnenin iskeletini verir. Özellikle OCR’da ve biyomedikal görüntülerde damar ya da sinir yollarının çıkarılmasında kullanılır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Amaç 5</b>Delik doldurma ve boşluk tamamlama<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Nesne içinde kalan boşlukların tespit edilip doldurulması, özellikle üretim hatlarındaki kalite kontrolde önemlidir.</span></button>
+    </div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Alan</th><th>Örnek kullanım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Tıbbi görüntüleme</b></td><td>MR, BT ya da mikroskop görüntülerinde yapıları ayırma, tümör bölgesini belirleme, damar yollarını çıkarma.</td></tr>
+        <tr><td><b>Uzaktan algılama</b></td><td>Yol, tarım alanı ya da su kütlesi gibi hedefleri belirleme.</td></tr>
+        <tr><td><b>Belge analizi</b></td><td>Taranmış belgelerde harf, kelime ya da satır düzeltme; el yazısı tanıma.</td></tr>
+        <tr><td><b>Endüstriyel kalite kontrol</b></td><td>Ürün yüzeyindeki hataları tespit etme, parçaları ölçme.</td></tr>
+        <tr><td><b>Biyometrik sistemler</b></td><td>Parmak izi, retina ve yüz tanımada şekil tabanlı öznitelik çıkarma.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Kütüphanelerde hazır</b>OpenCV ve MATLAB Image Processing Toolbox gibi birçok bilgisayarla görü kütüphanesi bu teknikleri hazır fonksiyonlar olarak sunar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Biyolojik köken">
+  <div class="panel">
+    <div class="kicker">10.3 Biyolojik kökeni</div>
+    <h2>Canlıların biçiminden taneli malzemelere</h2>
+    <p>“Morfoloji” terimi tarihsel olarak biyolojiden gelir: canlı organizmaların şekillerini, boyutlarını ve yüzey özelliklerini inceleyen bilim dalı. 19. yüzyılda <b>Carl Gegenbaur</b> ve <b>Johann Wolfgang von Goethe</b> gibi bilim insanları terimi biyoloji literatürüne kazandırdı. Sayısal morfoloji bu fikri ödünç alıp küme teorisi, geometri ve lineer cebirle matematiksel bir çerçeveye taşıdı.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Biyolojide</th><th>Sayısal morfolojide</th></tr></thead>
+      <tbody>
+        <tr><td>Organizmaların iskelet yapısı</td><td>Nesnelerin iskelet çıkarımı</td></tr>
+        <tr><td>Organ sınırlarının belirlenmesi</td><td>Bölütleme ile nesne sınırlarının çıkarılması</td></tr>
+        <tr><td>Dokular arası boşlukların analizi</td><td>Delik doldurma ve bağlantı tespiti</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Kaya ve kum tanelerinin mikroskopla incelenmesi (ders notundaki örnek)</b>Matematiksel morfolojinin temelleri 1960’larda Fransa’da École des Mines de Paris’te <b>Georges Matheron</b> ve <b>Jean Serra</b> tarafından, jeolojik örneklerin (kaya, kum, mineral) mikroskop altında incelenmesi sırasında, tanelerin boyut dağılımı, bağlantılılık ve boşluk yapısı gibi özelliklerini sayısal analiz etmek için atıldı.</div>
+    <div class="callout idea"><b>Nitelden niceliğe</b>Biyolojik morfolojiden sayısal morfolojiye geçişin en önemli özelliği, gözleme dayalı nitel analizden matematiksel olarak tanımlanabilen nicel analize geçiştir: algoritmalar yalnızca “görsel yorum” yapmakla kalmaz, şekil özelliklerini ölçer, karşılaştırır ve sayısal raporlar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Küme teorisi, yansıma, öteleme">
+  <div class="panel">
+    <div class="kicker">10.4.1–10.4.2 Temel kavramlar</div>
+    <h2>Görüntü bir küme, işlemler küme işlemleri</h2>
+    <p>İkili görüntüde ön plan pikselleri (nesne) bir <b>A kümesi</b>dir; arka plan A’nın tümleyenidir. Her piksel (x, y) koordinat noktasıdır. Morfolojik işlemler şu küme işlemlerine dayanır:</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Kesişim ∩</b>İki kümenin ortak elemanları.</div>
+      <div class="peas-c e"><b>Birleşim ∪</b>İki kümenin tüm elemanları.</div>
+      <div class="peas-c a"><b>Fark \</b>Birinde olup diğerinde olmayan elemanlar.</div>
+      <div class="peas-c s"><b>Öteleme</b>Kümenin tüm elemanlarını bir vektör kadar kaydırma.</div>
+    </div>
+    <div class="callout idea"><b>Morfolojinin farkı</b>İşlenen veri yalnızca piksel değerlerinin büyüklüğü değil, piksellerin <b>uzamsal düzeni ve geometrik ilişkileridir</b>.</div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>İşlem</th><th>Tanım</th><th>Notun örneği</th></tr></thead>
+      <tbody>
+        <tr><td><b>Yansıma</b></td><td class="mono">B̂ = { −b | b ∈ B }</td><td>B = {(1, 0), (0, 1)} ise B̂ = {(−1, 0), (0, −1)}.</td></tr>
+        <tr><td><b>Öteleme</b></td><td class="mono">B<sub>z</sub> = { b + z | b ∈ B }</td><td>B = {(0, 0), (1, 0)}, z = (2, 3) ise B<sub>z</sub> = {(2, 3), (3, 3)}.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Yansıma ve öteleme örnekleri (ders notundaki örnek)</b>Yansıma, her noktanın koordinat işaretini değiştirir; öteleme ise yapısal elemanı görüntü üzerinde farklı konumlara kaydırarak uygulamayı sağlar. İkisi de aşınma ve genişlemenin matematiksel tanımlarında yer alır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Yapısal eleman">
+  <div class="panel">
+    <div class="kicker">10.4.3–10.4.4 Yapısal eleman</div>
+    <h2>Morfolojinin kalbi: küçük bir şekil kalıbı</h2>
+    <p>Yapısal eleman genellikle kare, dikdörtgen, daire ya da çapraz gibi standart bir şekildir; ihtiyaca göre özel biçimler de tasarlanabilir. Seçimi sonucu doğrudan etkiler: <b>küçük</b> yapısal elemanlar ince ayrıntıyı hedefler; <b>büyük</b> olanlar daha genel şekil özelliklerini öne çıkarır. Merkez noktası (origin) işlemin davranışını belirler; genellikle elemanın ortasıdır.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yapısal eleman</th><th>Etkisi (notta)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Kare 3×3</b></td><td>Kenar kalınlaştırma ve küçük boşluk doldurma gibi genel amaçlar için uygun.</td></tr>
+        <tr><td><b>3×3 çapraz</b></td><td>İnce ve doğrusal yapıları korur, gereksiz yan bağlantıları kaldırır; ince çizgi ve köşe yapılarını korumada etkili.</td></tr>
+        <tr><td><b>Büyük dikdörtgen</b></td><td>Küçük ayrıntıları yok edip yalnızca ana şekilleri bırakır.</td></tr>
+        <tr><td><b>Daire</b></td><td>Köşeleri yumuşatır, nesneleri daha doğal büyütür/küçültür; biyolojik ve tıbbi görüntülerde hücre benzeri yapılar için tercih edilir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Doğru seçim şart</b>Yanlış seçilen yapısal eleman nesnenin gerçek geometrisini bozabilir ya da hedeflenen etkiden sapmaya yol açabilir; seçim uygulama amacına göre optimize edilmelidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Temel işlemler">
+  <div class="panel">
+    <div class="kicker">10.5–10.6 Aşınma, genişleme, açma, kapama · dene</div>
+    <h2>Dört işlemin etkisini kendin gör</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>İşlem</th><th>Tanım</th><th>Ne yapar?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Aşınma (erosion)</b></td><td class="mono">A ⊖ B = { z | B<sub>z</sub> ⊆ A }</td><td>Yapısal eleman tamamen nesnenin içinde kalıyorsa o konum ön plan. Sınırları daraltır, küçük çıkıntıları ve gürültüyü siler, ince bağlantıları koparır, nesneler arası mesafeyi artırır. Gri seviyede pencerenin <b>minimumu</b>.</td></tr>
+        <tr><td><b>Genişleme (dilation)</b></td><td class="mono">A ⊕ B = { z | (B̂)<sub>z</sub> ∩ A ≠ ∅ }</td><td>Yapısal elemanın herhangi bir noktası nesneye değiyorsa merkez ön plan. Nesneyi büyütür, küçük boşlukları kapatır, kopuk parçaları birleştirir, kenarları kalınlaştırır. Gri seviyede pencerenin <b>maksimumu</b>.</td></tr>
+        <tr><td><b>Açma (opening)</b></td><td class="mono">A ∘ B = (A ⊖ B) ⊕ B</td><td>Küçük nesneleri ve ince çıkıntıları siler, ana şekli büyük ölçüde korur; gürültü azaltmaya uygun.</td></tr>
+        <tr><td><b>Kapama (closing)</b></td><td class="mono">A • B = (A ⊕ B) ⊖ B</td><td>Nesne içindeki küçük boşlukları doldurur, ince kırıkları onarır.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Aşağıda aynı ikili görüntüde işlemleri ve yapısal elemanları değiştir. Görüntüde bir delik, ince bir köprü, tek piksellik gürültüler ve çizgide bir kırık var:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Bir morfolojik işlem (aşınma, genişleme, açma, kapama, sınır, gradyan, top-hat, bottom-hat) ve bir yapısal eleman (kare 3×3, çapraz, kare 5×5) seç.</li>
+        <li><b>Ne göreceksin:</b> Solda siyah ön planlı ikili görüntü, sağda turuncu ön planlı sonuç görünür. Altta ön plan piksel sayısı ve bağlı parça sayısı (önce → sonra) yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Aşınma gürültüyü ve ince köprüyü siler ama nesneyi küçültür; genişleme boşluğu kapatır ama nesneyi büyütür. Açma gürültüyü silip şekli korur; kapama çizgideki kırığı onarır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Yapısal eleman</dt><dd>Görüntüde gezdirilen küçük şekil kalıbı (kare, çapraz).</dd><dt>Ön plan</dt><dd>Nesneyi oluşturan pikseller (1).</dd><dt>Bağlı parça</dt><dd>Birbirine (8’li komşulukla) bağlı piksel grubu.</dd><dt>Açma / kapama</dt><dd>Aşınma+genişleme / genişleme+aşınma.</dd></dl></details>
+      <p class="lab-src">Görüntü bu site için üretilmiş 24×24 ikili sahnedir (delikli bir kare, ince köprüyle bağlı ikinci bir nesne, tek piksellik gürültü noktaları ve kırık bir çizgi). Tüm işlem tanımları notundaki Bölüm 10.5–10.8’dendir.</p>
+    </div>
+    <div class="lab" id="morlab"></div>
+    <div class="callout idea"><b>Dualite</b>Aşınma ve genişleme birbirinin dualidir: (A ⊖ B)<sup>c</sup> = A<sup>c</sup> ⊕ B̂ ve (A ⊕ B)<sup>c</sup> = A<sup>c</sup> ⊖ B̂. Açma ve kapama da: (A • B)<sup>c</sup> = A<sup>c</sup> ∘ B̂ ve (A ∘ B)<sup>c</sup> = A<sup>c</sup> • B̂. Dualite hangi durumda hangisinin kullanılacağını kolay belirler: açma gürültü temizler, kapama boşluk doldurur. Aşınmayla fazla küçülen nesneyi genişletmek, açmanın temelidir.</div>
+    <div class="callout real"><b>Gerçek hayat: Açmanın kullanımı (ders notundaki örnek)</b>Taranmış belgelerde rastgele parazitleri temizleme, uydu görüntülerinde küçük yanlış tespitleri giderme, tıbbi görüntülerde damar ya da hücre sınırlarını netleştirme. Biyomedikal görüntüde damar yapıları üzerindeki küçük parlak noktalar açmayla temizlenir.</div>
+    <div class="callout real"><b>Gerçek hayat: Kapamanın kullanımı (ders notundaki örnek)</b>Üretim hatlarında yüzey çatlaklarını tespitte kırık bölgeleri birleştirme, uydu görüntülerinde yol ve yapı tespiti sırasında kopuklukları giderme, karakter tanımada harfleri bütünleştirme; tarım arazisinin uydu görüntüsünde ekim alanları arasındaki ince boşlukları doldurma.</div>
+    <div class="callout real"><b>Gerçek hayat: Genişlemenin kullanımı (ders notundaki örnek)</b>Metin tanıma öncesinde taranmış belgelerde harfler arasındaki ince boşlukları doldurmak; tıbbi görüntülerde damar gibi ince yapılar arasındaki kopuk bölgeleri birleştirmek.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Sınır çıkarma ve delik doldurma">
+  <div class="panel">
+    <div class="kicker">10.7.1–10.7.2 Algoritmalar · dene</div>
+    <h2>Sınırı çıkar, deliği doldur</h2>
+    <h3>Sınır çıkarma</h3>
+    <p class="big-quote" style="font-size:1.05rem">β(A) = A − (A ⊖ B)</p>
+    <p>Nesneden aşınmış hâli çıkarılır, geriye yalnızca sınır bölgesi kalır. Yukarıdaki laboratuvarda “Sınır” işlemini seçip dene.</p>
+    <div class="callout real"><b>Gerçek hayat: Kıyı çizgisi (ders notundaki örnek)</b>Uydu görüntüsünde kıyı çizgisinin belirlenmesi sınır çıkarmayla yüksek doğrulukta yapılabilir: aşınma iç bölgeleri yok eder, fark alma kıyı çizgisi şeklinde sınırı ortaya çıkarır. Diğer kullanımlar: nesne ölçümünde sınır uzunluğu, kenar tabanlı bölütlemeye ön işleme, haritada yol kenarları.</div>
+    <h3>Delik doldurma</h3>
+    <p>Nesnenin içinde kalan ve arka planla tamamen çevrili boşlukları kapatır. Algoritma: deliğin içinden bir başlangıç noktası X₀ seç; bu noktadan genişlet ama <b>yalnızca boşluk alanı içinde</b>; boşluk tamamen dolana kadar yinele:</p>
+    <p class="big-quote" style="font-size:1.05rem">X<sub>k</sub> = (X<sub>k−1</sub> ⊕ B) ∩ A<sup>c</sup>, X<sub>k</sub> = X<sub>k−1</sub> olunca dur</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> “Bir adım” ya da “Bitene kadar”a bas; yapısal elemanı değiştir; “Duvarda 1 piksellik kırık aç”la sonucu karşılaştır.</li>
+        <li><b>Ne göreceksin:</b> Siyah halka nesnedir; turuncu bölge deliğin içindeki X_k kümesidir. Altta yineleme sayısı ve X_k’nin değişmeyip değişmediği yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Genişleme yalnızca nesnenin tümleyeni içinde sürdüğü için deliğin içi dolar ve durur. Duvarda kırık varsa doldurma dışarı kaçar: delik arka planla tamamen çevrili değildir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>X₀</dt><dd>Deliğin içindeki başlangıç noktası.</dd><dt>X_k</dt><dd>k. yinelemede doldurulmuş bölge.</dd><dt>A^c</dt><dd>Nesnenin tümleyeni (arka plan).</dd><dt>Yutan duvar</dt><dd>Doldurmanın dışarı sızmasını engelleyen kapalı nesne sınırı.</dd></dl></details>
+      <p class="lab-src">Şekil bu site için 16×16 ikili görüntüdür. Algoritma notundaki Bölüm 10.7.2’deki X_k = (X_{k−1} ⊕ B) ∩ A^c formülüdür.</p>
+    </div>
+    <div class="lab" id="holelab"></div>
+    <div class="callout real"><b>Gerçek hayat: Üretim hattında gözenek (ders notundaki örnek)</b>Kalite kontrol hattında metal yüzeylerdeki gözenekler sayılmadan önce delik doldurma uygulanarak boşluklar kapatılır ve parçanın sağlamlık analizi yapılabilir. Ayrıca harf ya da şekil tanımada eksik kısımları tamamlama ve biyolojik hücre görüntülerinde çekirdek içi boşlukları kapatma.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="İnceltme ve kalınlaştırma">
+  <div class="panel">
+    <div class="kicker">10.7.3–10.7.4 Algoritmalar</div>
+    <h2>İskelet çıkar, eksiği tamamla</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Algoritma</th><th>Tanım</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>İnceltme (thinning)</b></td><td class="mono">A ⊗ B = A ∩ (A ⊙ B)<sup>c</sup></td><td>Nesnenin iskeletini elde etmek için yinelemeli işlem; amaç nesneyi en ince hâline getirirken topolojik yapıyı (bağlantılar, şekil) korumaktır. Yapısal elemanlar farklı yönlerde taranarak desenler çıkarılır; ⊙ Hit-or-Miss dönüşümüdür. Sonuçta nesnenin omurgası kalır.</td></tr>
+        <tr><td><b>Kalınlaştırma (thickening)</b></td><td class="mono">A ⊙ B = A ∪ (A ⊗ B)</td><td>İnceltmenin tersi: nesneye yeni pikseller ekler; eksik ya da kopuk bölgeleri tamamlar. Belirli desenlere uyan bölgeler yapısal elemanla genişletilir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Yol ağı iskeleti (ders notundaki örnek)</b>Uydu görüntüsünden yol ağı çıkarılırken inceltmeyle yolların merkez çizgileri elde edilir; kavşaklar, bağlantılar ve rota planlaması kolaylaşır. Diğer kullanımlar: OCR’da harflerin iskeleti, biyomedikal görüntüde damar yapısının temsili.</div>
+    <div class="callout real"><b>Gerçek hayat: Bozulmuş teknik çizim (ders notundaki örnek)</b>Tarama sırasında bozulmuş bir teknik çizimde kalınlaştırmayla eksik çizgiler tamamlanır ve çizim mühendislik analizine uygun hâle gelir. Kullanımlar: eksik çizgilerin tamamlanması, zayıf bağlantıların güçlendirilmesi, harf ya da sembollerin okunabilirliğinin artırılması.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="İleri işlemler">
+  <div class="panel">
+    <div class="kicker">10.8 İleri morfolojik işlemler · dene</div>
+    <h2>Gradyan, top-hat, bottom-hat, rekonstrüksiyon</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>İşlem</th><th>Tanım</th><th>Ne öne çıkarır?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Morfolojik gradyan</b></td><td class="mono">(A ⊕ B) − (A ⊖ B)</td><td>Nesne sınırlarını: genişleme sınırı dışa, aşınma içe taşır; farkları sınır pikselleridir.</td></tr>
+        <tr><td><b>Top-hat</b></td><td class="mono">A − (A ∘ B)</td><td>Çevresinden daha <b>parlak</b> küçük ayrıntıları.</td></tr>
+        <tr><td><b>Bottom-hat</b></td><td class="mono">(A • B) − A</td><td>Çevresinden daha <b>koyu</b> küçük ayrıntıları.</td></tr>
+        <tr><td><b>Rekonstrüksiyon</b></td><td>İşaretçi (marker) ve maske (mask)</td><td>İşaretçi görüntü maskenin sınırladığı biçimde genişletilir; işaretçi değişmeyene dek tekrarlanır. Gürültü giderme, nesne bağlantılarını koruma, bölgesel filtreleme.</td></tr>
+        <tr><td><b>Çok boyutlu morfoloji</b></td><td>3B yapısal elemanlar</td><td>3B tıbbi veri (MR, BT) ve hiperspektral veri; küresel, silindirik ya da karmaşık yapısal elemanlar. Organ sınırı çıkarma, katmanlı malzeme inceleme, spektral bantlar arası analiz.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Gri seviye morfolojiyi tek boyutlu bir profilde dene (parlak sivri tepe, koyu çatlak ve geniş bir yayla var):</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Bir gri seviye işlemi (aşınma, genişleme, açma, kapama, top-hat, bottom-hat) seç; pencere genişliğini kaydır.</li>
+        <li><b>Ne göreceksin:</b> Gri kesik çizgi özgün profil, mavi çizgi sonuçtur. Altta sonucun en büyük değeri ile top-hat ve bottom-hat tepe değerleri yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Aşınma pencerenin en küçük, genişleme en büyük değerini alır. Top-hat pencereden dar parlak tepeyi, bottom-hat pencereden dar koyu çatlağı çıkarır; geniş yayla pencere büyüdükçe ayrıntı olmaktan çıkar.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Pencere</dt><dd>Yapısal elemanın tek boyutlu karşılığı: aynı anda bakılan komşu sayısı.</dd><dt>Top-hat</dt><dd>Özgün − açma: küçük parlak ayrıntı.</dd><dt>Bottom-hat</dt><dd>Kapama − özgün: küçük koyu ayrıntı.</dd></dl></details>
+      <p class="lab-src">Profil bu site için üretilmiş 96 örnekli tek boyutlu sinyaldir. Gri seviyede minimum/maksimum tanımı ve top-hat/bottom-hat formülleri notundaki Bölüm 10.5 ve 10.8’dendir.</p>
+    </div>
+    <div class="lab" id="grilab"></div>
+    <div class="callout real"><b>Gerçek hayat: Tarım alanı sınırı (ders notundaki örnek)</b>Uydu görüntüsünde tarım alanlarının sınırlarını tespit etmek için morfolojik gradyan; bölge kenarları netleşir ve sınıflandırma algoritmalarına giriş verisi olur. Diğer kullanım: tıbbi görüntüde tümör ya da lezyon sınırlarını belirginleştirme.</div>
+    <div class="callout real"><b>Gerçek hayat: Yıldızlar ve çatlaklar (ders notundaki örnek)</b>Astronomik görüntülerde yıldızları bulmak için top-hat: açma arka planı düzleştirir, fark küçük parlak noktaları ortaya çıkarır. Endüstriyel yüzey incelemesinde metal yüzeydeki ince çatlaklar bottom-hat ile vurgulanır. Top-hat belge analizinde lekelerin kaldırılmasında, mikroskop görüntülerinde küçük hücre yapılarını ortaya çıkarmada da anılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Vaka çalışmaları">
+  <div class="panel">
+    <div class="kicker">10.9 Uygulama örnekleri ve vaka çalışmaları</div>
+    <h2>Hangi işlem, hangi iş için?</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Tıbbi 1</b>Damar yapılarının çıkarılması<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>MRA görüntülerinde damarlar çevre dokudan ayrılmalıdır: inceltmeyle merkez hatlar çıkarılır, küçük kopukluklar kapamayla tamamlanır; damar ağı net haritalanır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Tıbbi 2</b>Tümör segmentasyonu<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Beyin MR’sinde tümör genellikle parlaktır. Top-hat parlak bölgeleri öne çıkarır, açma ve kapama kombinasyonu sınırları düzgünleştirir; manuel bölütlemeye göre hız ve tutarlılık sağlar.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Uydu 1</b>Yol ve bina tespiti<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Yollar uzun, ince yapılardır: açmayla küçük gürültüler temizlenir, inceltmeyle yol iskeleti çıkarılır. Binalar kapamayla daha net bölgelere dönüştürülüp sayısal haritaya eklenir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Uydu 2</b>Tarım alanlarının sınırlandırılması<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Tarım arazileri düzensiz şekillidir; morfolojik gradyan sınırları belirginleştirir ve arazi planlaması ile ürün verim analizi için hassas veri sağlar.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sanayi 1</b>Yüzey kusur tespiti<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Metal ya da plastik yüzeydeki çatlaklar bottom-hat ile vurgulanır; sonra kapamayla kusur maskesi tamamlanıp boyut ölçülür.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sanayi 2</b>Parça ölçülendirme<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Ürünün toleranslar içinde üretilip üretilmediğini görmek için sınır çıkarma uygulanır; kenarları net parçaların boyutu otomatik hesaplanır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Belge 1</b>Harf onarımı<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Kırık ya da eksik çizgili harfler kalınlaştırmayla onarılır; OCR’ın tanıma başarısı artar.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Belge 2</b>Leke temizleme<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Belgedeki rastgele lekeler, özellikle küçük boyutlu olanlar, açmayla temizlenir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Biyometri 1</b>Parmak izi iyileştirme<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Sırt çizgileri ve vadiler morfolojik filtrelerle netleştirilir; genişleme ve aşınma kombinasyonuyla kırık çizgiler tamamlanır, gürültü noktaları temizlenir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Biyometri 2</b>Yüz maskesi<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Yüz tanımadan önce yüz bölgesi morfolojik açma-kapamayla arka plandan ayrılır; arka plan etkileri tanıma performansını düşürmez.</span></button>
+    </div>
+    <div class="callout idea"><b>Parametre seçimi kritik</b>Yapısal eleman şekli, boyutu ve işlem sıralaması sonucu doğrudan etkiler; uygulama öncesinde doğru parametre seçimi başarının kritik faktörüdür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Öğrenme tabanlı morfoloji">
+  <div class="panel">
+    <div class="kicker">10.10 Öğrenme tabanlı morfolojik yöntemler</div>
+    <h2>Yapısal elemanı veri öğrensin</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Fikir</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Uyarlamalı yapısal eleman</b></td><td>Geleneksel yapısal elemanlar önceden belirlenmiş şekillerdir (kare, çapraz, daire) ve boyutu deneme-yanılmayla seçilir. Uyarlamalı yaklaşımda yapısal elemanın her pikseli <b>öğrenilebilir parametre</b> olur (B<sub>θ</sub>). Başlangıç rastgele ya da bilinen bir şekil (çapraz) olur; işlem sonucu hedefle karşılaştırılıp gradyan tabanlı optimizasyonla parametreler güncellenir; yakınsayana dek sürer. Biyomedikal hücre şekli analizinde ve kusur türü tespitinde başarılıdır.</td></tr>
+        <tr><td><b>Morfolojik katmanlar</b></td><td>CNN içinde özel katmanlar: y = σ(M(x; B<sub>θ</sub>) + b); M bir morfolojik operatördür (⊕, ⊖, ∘, •), σ aktivasyon, b bias. Ön işleme katmanlarında gürültü azaltma ve kenar vurgulama; son işlemede bölütleme sonuçlarını düzgünleştirme ve küçük bölgeleri temizleme. U-Net’te başarılıdır.</td></tr>
+        <tr><td><b>Segmentasyonda hibrit</b></td><td>U-Net’in encoder–decoder bağlantılarında morfolojik filtreler şekil bilgisini korur; çıktı maskelerinde açma-kapama sınırları düzgünleştirir; farklı boyutlu yapısal elemanlarla çoklu ölçek analiz yapılır. Avantajlar: hassas nesne sınırı, küçük yapıların iyi tespiti, topolojik tutarlılık, gürültüye direnç (damar segmentasyonu, hücre sayımı, organ sınırı).</td></tr>
+        <tr><td><b>Veri artırma</b></td><td>Yapısal deformasyon (farklı yapısal elemanlarla genişleme/aşınma), sınır varyasyonu (morfolojik gradyan), topolojik değişim (açma/kapama). Seyrek etiketli veride, dengesiz sınıflarda ve şekil duyarlı görevlerde faydalıdır.</td></tr>
+        <tr><td><b>Maliyet ve sınırlar</b></td><td>Eğitim süresi klasik yöntemlere göre 3–5 kat artar, çıkarım süresi yaklaşık aynı kalır, bellek %20–30 artar. Sınırlılıklar: veri bağımlılığı, öğrenilen yapısal elemanın anlamının belirsizliği, farklı veri türlerine uyarlanma zorluğu.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Göz dibi damarları (ders notundaki örnek)</b>Göz dibi görüntülerinde damar ağını çıkarmak için U-Net morfolojik son işleme katmanlarıyla güçlendirilmiştir; ince damar dallarının tespitinde ve bağlantı tutarlılığında geleneksel yöntemlere göre üstündür.</div>
+    <div class="callout real"><b>Gerçek hayat: Yol haritaları (ders notundaki örnek)</b>Uydu görüntülerinden yol haritası çıkarmada morfolojik veri artırma, özellikle kesintili yol parçalarının birleştirilmesinde etkili olmuştur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 10</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Morfoloji</td><td>Şekil temelli; küme teorisi; yapısal eleman; kökeni biyoloji, temeli Matheron ve Serra</td></tr>
+        <tr><td>Temel işlemler</td><td>Aşınma (küçültür, ince bağlantıyı koparır), genişleme (büyütür, boşluğu kapatır); dual</td></tr>
+        <tr><td>Bileşikler</td><td>Açma = aşınma sonra genişleme (gürültü siler); kapama = genişleme sonra aşınma (boşluk doldurur)</td></tr>
+        <tr><td>Algoritmalar</td><td>Sınır çıkarma A − (A ⊖ B); delik doldurma X<sub>k</sub> = (X<sub>k−1</sub> ⊕ B) ∩ A<sup>c</sup>; inceltme; kalınlaştırma</td></tr>
+        <tr><td>İleri</td><td>Gradyan (sınır), top-hat (parlak ayrıntı), bottom-hat (koyu ayrıntı), rekonstrüksiyon (marker ve mask)</td></tr>
+        <tr><td>Öğrenme tabanlı</td><td>Öğrenilebilir yapısal eleman, morfolojik katmanlar, hibrit U-Net, morfolojik veri artırma</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_GI_10"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/gi-bolum-10-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/gi10.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>

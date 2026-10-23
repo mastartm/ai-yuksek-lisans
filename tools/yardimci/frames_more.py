@@ -216,6 +216,26 @@ add('wienerlab', 'goruntu-isleme/bolum-9.html',
     [('Bulanıklık (PSF)', 'Sinyali yayan Gauss şekilli ağırlık.'), ('H', 'Bulanıklığın frekans uzayındaki hâli.'), ('K', 'Sinyal-gürültü oranının tersi: büyükse daha çok bastırma.'), ('MSE', 'Ortalama kare hata.')],
     'Sinyal bu site için üretildi (128 örnek, tek boyutlu). Ters filtre G/H ve Wiener H*/(|H|² + K) formülleri notundaki Bölüm 9.6’dandır.')
 
+# ---------------- Görüntü İşleme 10 ----------------
+add('morlab', 'goruntu-isleme/bolum-10.html',
+    'Bir morfolojik işlem (aşınma, genişleme, açma, kapama, sınır, gradyan, top-hat, bottom-hat) ve bir yapısal eleman (kare 3×3, çapraz, kare 5×5) seç.',
+    'Solda siyah ön planlı ikili görüntü, sağda turuncu ön planlı sonuç görünür. Altta ön plan piksel sayısı ve bağlı parça sayısı (önce → sonra) yazılır.',
+    'Aşınma gürültüyü ve ince köprüyü siler ama nesneyi küçültür; genişleme boşluğu kapatır ama nesneyi büyütür. Açma gürültüyü silip şekli korur; kapama çizgideki kırığı onarır.',
+    [('Yapısal eleman', 'Görüntüde gezdirilen küçük şekil kalıbı (kare, çapraz).'), ('Ön plan', 'Nesneyi oluşturan pikseller (1).'), ('Bağlı parça', 'Birbirine (8’li komşulukla) bağlı piksel grubu.'), ('Açma / kapama', 'Aşınma+genişleme / genişleme+aşınma.')],
+    'Görüntü bu site için üretilmiş 24×24 ikili sahnedir (delikli bir kare, ince köprüyle bağlı ikinci bir nesne, tek piksellik gürültü noktaları ve kırık bir çizgi). Tüm işlem tanımları notundaki Bölüm 10.5–10.8’dendir.')
+add('holelab', 'goruntu-isleme/bolum-10.html',
+    '“Bir adım” ya da “Bitene kadar”a bas; yapısal elemanı değiştir; “Duvarda 1 piksellik kırık aç”la sonucu karşılaştır.',
+    'Siyah halka nesnedir; turuncu bölge deliğin içindeki X_k kümesidir. Altta yineleme sayısı ve X_k’nin değişmeyip değişmediği yazılır.',
+    'Genişleme yalnızca nesnenin tümleyeni içinde sürdüğü için deliğin içi dolar ve durur. Duvarda kırık varsa doldurma dışarı kaçar: delik arka planla tamamen çevrili değildir.',
+    [('X₀', 'Deliğin içindeki başlangıç noktası.'), ('X_k', 'k. yinelemede doldurulmuş bölge.'), ('A^c', 'Nesnenin tümleyeni (arka plan).'), ('Yutan duvar', 'Doldurmanın dışarı sızmasını engelleyen kapalı nesne sınırı.')],
+    'Şekil bu site için 16×16 ikili görüntüdür. Algoritma notundaki Bölüm 10.7.2’deki X_k = (X_{k−1} ⊕ B) ∩ A^c formülüdür.')
+add('grilab', 'goruntu-isleme/bolum-10.html',
+    'Bir gri seviye işlemi (aşınma, genişleme, açma, kapama, top-hat, bottom-hat) seç; pencere genişliğini kaydır.',
+    'Gri kesik çizgi özgün profil, mavi çizgi sonuçtur. Altta sonucun en büyük değeri ile top-hat ve bottom-hat tepe değerleri yazılır.',
+    'Aşınma pencerenin en küçük, genişleme en büyük değerini alır. Top-hat pencereden dar parlak tepeyi, bottom-hat pencereden dar koyu çatlağı çıkarır; geniş yayla pencere büyüdükçe ayrıntı olmaktan çıkar.',
+    [('Pencere', 'Yapısal elemanın tek boyutlu karşılığı: aynı anda bakılan komşu sayısı.'), ('Top-hat', 'Özgün − açma: küçük parlak ayrıntı.'), ('Bottom-hat', 'Kapama − özgün: küçük koyu ayrıntı.')],
+    'Profil bu site için üretilmiş 96 örnekli tek boyutlu sinyaldir. Gri seviyede minimum/maksimum tanımı ve top-hat/bottom-hat formülleri notundaki Bölüm 10.5 ve 10.8’dendir.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
