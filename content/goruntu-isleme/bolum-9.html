@@ -1,0 +1,268 @@
+<!--
+course: goruntu-isleme
+course_title: Görüntü İşleme
+no: 9
+title: Görüntü Onarımı ve Geri Çatma
+quiz: QUIZ_GI_9
+quiz_file: gi-bolum-9-quiz.js
+scripts: gi9.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 9</div>
+    <h1>Görüntü Onarımı ve Geri Çatma</h1>
+    <p class="big-quote">Karanlıkta çekilen bir fotoğrafın üstündeki kum tanelerini, titremeyle bulanıklaşmış bir tabelayı, ultrasondaki benekleri düşün. Hepsi aynı soruya çıkar: <b>bozulmuş görüntüden özgününe nasıl dönülür?</b> Bu bölüm önce bozulmaların (gürültü türlerinin) fiziğini, sonra onarım ve geri çatma yöntemlerini anlatır.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Onarım ile geri çatımı (deconvolution) ayırt edebilir, “ill-posed” problemi açıklayabilirsin.</li>
+      <li>Sekiz gürültü türünü, kaynaklarını ve hangi filtrenin uygun olduğunu söyleyebilirsin.</li>
+      <li>Ortalama, medyan, Gauss, adaptif ve sıralı istatistik filtrelerini karşılaştırabilirsin.</li>
+      <li>Frekans uzayında gürültü gidermeyi (alçak/yüksek, bant, homomorfik, Wiener) anlatabilirsin.</li>
+      <li>Ters filtre, Wiener, Lucy–Richardson ve düzenlileştirmeyi açıklayabilirsin.</li>
+      <li>DnCNN, U-Net, GAN, VAE, difüzyon ve transformatör tabanlı onarımın fikrini söyleyebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Bozulmayı modelle, sonra tersine çevirmeye çalış</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Özgün görüntü bulanıklık ve gürültüyle bozulur; onarım gürültüyü, geri çatım bulanıklığı azaltır"><rect class="d-ok" x="10" y="55" width="150" height="80" rx="8"/><text class="d-txt d-c" x="85" y="88">Özgün görüntü</text><text class="d-sm d-c" x="85" y="108">bilinmeyen f</text><rect class="d-bad" x="190" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="275" y="88">Bozulma</text><text class="d-sm d-c" x="275" y="108">bulanıklık + gürültü</text><rect class="d-box" x="390" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="475" y="88">Gözlenen g</text><text class="d-sm d-c" x="475" y="108">elimizdeki görüntü</text><rect class="d-brand" x="590" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="670" y="88">Onarım / geri çatım</text><text class="d-sm d-c" x="670" y="108">özgüne yaklaş</text><path class="d-line-brand" d="M160 95 L190 95"/><path class="d-line-brand" d="M360 95 L390 95"/><path class="d-line-brand" d="M560 95 L590 95"/></svg>
+    <p>Gürültü gideren filtreler gözlenen g’yi temizler; geri çatım ise bulanıklık gibi <b>sistem kaynaklı</b> bozulmayı modelleyip tersini almaya çalışır.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Onarımın amacı">
+  <div class="panel">
+    <div class="kicker">9.1 Görüntü onarımının amacı ve temelleri</div>
+    <h2>Onarım, geri çatım, ill-posed problem</h2>
+    <p><b>Görüntü onarımı</b>, bozunmuş ya da kayba uğramış dijital görüntüleri özgün hâllerine mümkün olduğunca yakın geri kazanma işlemidir. Bozulmalar iletim hatalarından, sensör kusurlarından, ortam gürültüsünden ya da optik sistemden gelebilir. Onarım kaliteyi artıran işlemleri kapsar; <b>geri çatım (deconvolution)</b> ise bulanıklık gibi sistem kaynaklı bozulmaları geri almaya çalışan daha matematiksel, model temelli bir süreçtir.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Gizli parametre</b>Bozulmuş görüntü gözlenen veridir; özgün görüntü gizli parametre olarak modellenir.</div>
+      <div class="peas-c e"><b>Ill-posed (kötü tanımlı)</b>Çözümün varlığı, tekliği ya da kararlılığından en az biri garanti edilemez.</div>
+      <div class="peas-c a"><b>Düzenlileştirme</b>Probleme ek kısıt ya da önsel bilgi ekleyerek çözümü kararlı ve fiziksel olarak anlamlı yapar. Temeli Bayesyen istatistik, varyasyonel kalkülüs ve optimizasyon teorisidir.</div>
+      <div class="peas-c s"><b>Başarı ölçümü</b>Nesnel: MSE, PSNR, SSIM ve algısal metrikler. Öznel: insan görsel algısına göre değerlendirme.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Uygulama alanları (ders notundaki örnek)</b>Tıbbi görüntüleme, astronomi, güvenlik sistemleri, sanat eseri restorasyonu ve tüketici elektroniği. Tıbbi görüntülemede tanısal doğruluk kritiktir; tüketici uygulamalarında görsel estetik daha ön plandadır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Gürültü türleri">
+  <div class="panel">
+    <div class="kicker">9.2 Görüntü bozunumları ve gürültü türleri · dene</div>
+    <h2>Sekiz gürültü, sekiz farklı dağılım</h2>
+    <p>Her gürültü türünü seç, şiddetini kaydır ve alttaki dağılım grafiğinin biçimine bak. Gürültü değeri g − f; yani gürültülü görüntüden temizin farkıdır:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Sekiz gürültü türünden birini seç ve gürültü şiddeti kaydırıcısını değiştir.</li>
+        <li><b>Ne göreceksin:</b> Solda temiz, sağda gürültülü 32×32 görüntü; altında gürültü değerlerinin (g − f) dağılım grafiği ve gürültünün ortalaması, standart sapması, PSNR’si görünür.</li>
+        <li><b>Ne anlamalısın:</b> Her türün dağılımı farklı biçimdedir: Gauss çan, tuz-karabiber iki uçta çubuk, düzgün dikdörtgen, üstel/Rayleigh/Gamma yalnızca pozitif yanda. Benek ve Poisson’da gürültü parlak bölgede daha büyüktür.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>g − f</dt><dd>Gürültülü pikselden temiz pikselin çıkarılması: gürültünün kendisi.</dd><dt>PSNR</dt><dd>Temiz ile gürültülü görüntü arasındaki farkı dB olarak ölçer; yüksek değer = daha az bozulma.</dd><dt>Çarpımsal</dt><dd>Gürültünün piksel değeriyle çarpılması (g = f × η).</dd><dt>Toplayıcı</dt><dd>Gürültünün piksel değerine eklenmesi (g = f + η).</dd></dl></details>
+      <p class="lab-src">Görüntü bu site için kodla üretilmiş 32×32 sahnedir. Sekiz türün özellikleri (toplayıcı/çarpımsal, tek taraflı, sinyale bağımlı vb.) notundaki Bölüm 9.2’den; kullanılan sayısal parametreler siteye aittir.</p>
+    </div>
+    <div class="lab" id="noiselab"></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Tür</th><th>Karakter</th><th>Başlıca kaynak</th></tr></thead>
+      <tbody>
+        <tr><td><b>Gauss</b></td><td>Normal dağılım, toplayıcı, sıfır ortalama, beyaz (pikseller arası bağımsız); frekansta tekdüze güç spektrumu.</td><td>Termal gürültü, sensör ısısı, elektronik devre; CCD/CMOS amplifikatör ve A/D dönüştürücü gürültüsü, iletimdeki parazit.</td></tr>
+        <tr><td><b>Tuz-karabiber</b></td><td>Darbe (impuls) türü: rastgele pikseller 0 (karabiber) ya da 255 (tuz) ile <b>değiştirilir</b>. Etkilenen piksel genellikle %1–10; seyrek.</td><td>Bit hataları, A/D sorunları, bellek bozulması, disk hataları, ağ paket kayıpları, eski CCD’lerde ölü piksel.</td></tr>
+        <tr><td><b>Benek (speckle)</b></td><td>Çarpımsal: g = f × η; sinyale bağımlı. Granüler görünüm. Tam gelişmişte Rayleigh, çoklu bakışta Gamma ile modellenir.</td><td>Tutarlı görüntüleme: radar (SAR), tıbbi ultrason, lazer, holografi, OCT; dalgaların yapıcı/yıkıcı girişimi.</td></tr>
+        <tr><td><b>Poisson</b></td><td>Foton sayma istatistiği; ortalama = varyans = λ; sinyale bağımlı; SNR, √λ ile artar.</td><td>X-ışını, CT, PET, SPECT, düşük ışıkta foton atış gürültüsü, astronomi, mikroskopi.</td></tr>
+        <tr><td><b>Düzgün</b></td><td>Belirli aralıkta eşit olasılık. Ortalama (a+b)/2, varyans (b−a)²/12. Belirli varyans için entropisi en yüksektir.</td><td>Nicemleme hatası (A/D dönüştürme); sözde-rastgele sayı üreteçleri, Monte Carlo.</td></tr>
+        <tr><td><b>Üstel</b></td><td>Tek taraflı (yalnızca pozitif), belleksiz. Ortalama 1/λ, varyans 1/λ².</td><td>Radar, lazer menzil ölçümü, bazı tıbbi görüntüleme; uçuş zamanı ve darbe algılama.</td></tr>
+        <tr><td><b>Rayleigh</b></td><td>İki bağımsız Gauss değişkenin büyüklüğü; yalnızca pozitif, sağa çarpık.</td><td>Radar (SAR), ultrason ve sonar, kablosuz zayıflama, rüzgâr hızı, sismik veri.</td></tr>
+        <tr><td><b>Gamma</b></td><td>Şekil ve ölçek parametreleriyle esnek; yalnızca pozitif, sağa çarpık. Şekil 1 iken üstel, çok büyükken normale yaklaşır. Ortalama b/a, varyans b/a².</td><td>Lazer tabanlı sistemler, LIDAR, OCT, SAR (deniz yüzeyi, K-dağılımı).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Yüksek ISO ve düşük ışık (ders notundaki örnek)</b>Gauss gürültüsü özellikle düşük ışıkta ve yüksek ISO değerlerinde belirginleşir; modern kameralar çoklu çekim birleştirme ve gelişmiş gürültü azaltma kullanır.</div>
+    <div class="callout real"><b>Gerçek hayat: Ölü piksel ve paket kaybı (ders notundaki örnek)</b>Tuz-karabiber gürültüsü bit hatalarından, bellek ya da disk bozulmasından, ağdaki paket kayıplarından ve eski CCD sensörlerdeki ölü piksellerden doğar.</div>
+    <div class="callout real"><b>Gerçek hayat: Ultrason ve SAR (ders notundaki örnek)</b>Benek gürültüsü medikal ultrasonografide (kardiyoloji, obstetrik), SAR uydu verilerinde ve OCT’de önemli sorundur.</div>
+    <div class="callout real"><b>Gerçek hayat: Düşük doz tarama (ders notundaki örnek)</b>Poisson gürültüsü, özellikle düşük doz radyasyonla çalışan sistemlerde (hasta güvenliği için) SNR’yi sınırlayan temel faktördür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Gürültü ve filtre eşleşmesi">
+  <div class="panel">
+    <div class="kicker">Hangi gürültüye hangi yöntem?</div>
+    <h2>Gürültünün yapısı, filtreyi belirler</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Gürültü</th><th>Notta anılan giderme yöntemleri</th></tr></thead>
+      <tbody>
+        <tr><td><b>Gauss</b></td><td>Lineer filtreler (ortalama, Gauss), Wiener filtresi, derin öğrenme tabanlı gürültü giderme, frekans alanında alçak geçiren filtreler, adaptif filtreler.</td></tr>
+        <tr><td><b>Tuz-karabiber</b></td><td>Medyan filtresi en etkilisidir (aykırıları bastırır, normal pikselleri korur); uyarlanabilir medyan, biçimbilimsel süzgeçleme, seyrek gösterim; toplam değişim ve sıkıştırılmış algılama.</td></tr>
+        <tr><td><b>Benek</b></td><td>Lee, Kuan ve Frost gibi adaptif filtreler; SRAD, dalgacık tabanlı azaltma, bilateral filtre, derin öğrenme destekli benek giderme.</td></tr>
+        <tr><td><b>Poisson</b></td><td>Anscombe dönüşümü gibi dönüşümler, Bayesyen yöntemler, iteratif netleştirme (Lucy–Richardson), MLE ve PWLS, derin öğrenme.</td></tr>
+        <tr><td><b>Düzgün</b></td><td>Ortalama filtresi teorik olarak en uygun; medyanın avantajı sınırlı (gürültü aşırı değerler içermez); sınırlı değişim düzenlileştirmesi.</td></tr>
+        <tr><td><b>Üstel, Rayleigh, Gamma</b></td><td>Dağılımın tek taraflı/sağa çarpık yapısını dikkate alan: asimetrik filtreler, sıralı istatistik filtreleri, MLE, moment yöntemi, Bayesyen ve sağlam tahmin teknikleri, uyarlanabilir filtreleme.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Merkezi limit teoremi</b>Çok sayıda bağımsız rastgele sürecin toplamı Gauss dağılıma yaklaşır; birçok fiziksel sürecin birleşmesiyle oluşan görüntü gürültüsünün sık sık Gauss karakterde olmasının nedeni budur. Aynı teorem ortalama filtresinin neden çalıştığını da açıklar: N bağımsız değişkenin ortalamasında varyans 1/N oranında azalır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Gürültü modelleme">
+  <div class="panel">
+    <div class="kicker">9.3 Gürültü modellemesi ve matematiksel temeller</div>
+    <h2>Sistemi ve gürültüyü tanımak</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Nokta yayılım fonksiyonu (PSF)</b></td><td>İdeal bir nokta kaynağın sistem tarafından nasıl görüntülendiğini gösterir; çözünürlük sınırını belirler. Optik aktarım fonksiyonu PSF’nin Fourier dönüşümüdür; modülasyon aktarım fonksiyonu onun büyüklüğü, faz aktarım fonksiyonu fazıdır. Doğrusal konum-değişmez sistemlerde PSF’nin evrişimi görüntünün her noktasına eşit uygulanır; gerçek sistemlerde aberasyon ve lens bozulmaları nedeniyle konum-değişken olabilir.</td></tr>
+        <tr><td><b>Gürültü istatistiklerini tahmin</b></td><td>Çoğunlukla görüntünün homojen bölgelerinden. Sağlam kestirimler (ortanca mutlak sapma, çeyrekler arası aralık, budanmış ortalama) aykırı değerlerden etkilenmez; kör kestirim içeriğe bağlı olmadan parametreyi tahmin eder; çok ölçekli analiz farklı çözünürlüklerde gürültüyü inceler.</td></tr>
+        <tr><td><b>İstatistiksel karar teorisi</b></td><td>Restorasyon bir en uygun kestirim problemidir: Bayesyen yaklaşım önsel bilgi ile gözlemi birleştirir; kriterler maksimum sonsal olasılık ve minimum ortalama kare hatadır. Minimax yaklaşımı en kötü durumda iyi başarım garanti eder.</td></tr>
+        <tr><td><b>Çok boyutlu / durağan olmayan</b></td><td>Renkli görüntüde kanallar arası gürültü bağıntısı; videoda zamansal bağıntı; çok spektrumlu görüntüde spektral bağıntı. Gerçek gürültü çoğunlukla durağan değildir: konuma göre değişir, sinyale bağlıdır (Poisson–Gauss karışım modelleri).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Dokulu bölgede gürültü (ders notundaki anlatım)</b>İnsan görsel sistemi dokulu bölgelerde gürültüye daha hoşgörülüdür; bu yüzden içeriğe uyarlanabilir gürültü azaltma stratejileri geliştirilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Filtre tabanlı giderme">
+  <div class="panel">
+    <div class="kicker">9.4 Filtre tabanlı gürültü giderme · dene</div>
+    <h2>Ortalama, medyan, alfa-kırpmalı, adaptif</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Filtre</th><th>Fikir</th><th>Not</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ortalama</b></td><td>Pencere ortalaması; merkezi limit teoremiyle gürültü varyansı 1/N azalır.</td><td>Büyük pencere güçlü giderme ama detay kaybı. Ağırlıklı ortalama kenarı daha iyi korur. Ayrılabilir çekirdek ve integral görüntü hesabı hızlandırır.</td></tr>
+        <tr><td><b>Medyan</b></td><td>Pencereyi sıralayıp ortadaki değeri seç; aykırı değerlerin etkisini en aza indirir.</td><td>Darbe gürültüsüne dirençli, kenarı ortalamadan çok daha iyi korur. Uyarlanabilir medyan gürültü yoğunluğuna göre pencereyi büyütür. Vektör ortancası renkli görüntüye, zamansal ortanca videoya genişletir.</td></tr>
+        <tr><td><b>Gauss</b></td><td>G(x, y) = 1/(2πσ²)·exp(−(x² + y²)/(2σ²)); σ etki alanını belirler (genellikle σ = boyut/6).</td><td>Frekansta da Gauss, ayrılabilir. Canny, LoG, ölçek uzayı, leke algılamanın temeli. Gauss gürültüsü için teorik olarak en uygun doğrusal filtre.</td></tr>
+        <tr><td><b>Adaptif</b></td><td>çıkış = giriş + uyarlama_faktörü × (yerel_ortalama − giriş); faktör 0 ile 1 arasındadır: 0’a yakın az (detaylı bölge), 1’e yakın güçlü (homojen bölge) filtreleme.</td><td>Lee (yerel varyans), Frost (uzaysal ağırlık), Sigma (eşikli), Wiener adaptif (yerel istatistik). Yavaştır; eşik ayarı gerekebilir; çok küçük pencerede performans düşer.</td></tr>
+        <tr><td><b>Biçimbilimsel</b></td><td>Aşındırma, genişletme, açma, kapama; açma küçük gürültü parçalarını siler, kapama küçük delikleri doldurur.</td><td>Top-hat parlak/koyu ayrıntıyı, biçimbilimsel gradyan (genişletme − aşındırma) kenarı vurgular.</td></tr>
+        <tr><td><b>Sıralı istatistik</b></td><td>En küçük/büyük, alfa-kırpmalı ortalama, yüzdelik dilim, orta değer (min ve max ortalaması).</td><td>Alfa-kırpmalı ortalama iki uçtan değer atar: kırpma arttıkça medyana, azaldıkça ortalamaya yaklaşır.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Aşağıdaki laboratuvarda Gauss ve tuz-karabiber gürültüsünü ortalama, medyan, alfa-kırpmalı ve adaptif filtreyle dene; PSNR ve kenar farkı sayılarına bak:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Gürültü türünü (Gauss ya da tuz-karabiber) seç, bir filtre seç ve şiddet kaydırıcısını değiştir.</li>
+        <li><b>Ne göreceksin:</b> Solda gürültülü, sağda süzülmüş görüntü; altında iki PSNR değeri ve dikey kenardaki fark (temiz görüntüde 100) görünür.</li>
+        <li><b>Ne anlamalısın:</b> Medyan tuz-karabiberde, ortalama Gauss’ta başarılıdır; adaptif filtre kenarı ortalamadan çok daha iyi korur. Alfa-kırpmalı ortalama ikisinin arasındadır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>PSNR</dt><dd>Temiz görüntüyle benzerlik: yüksek iyi.</dd><dt>Alfa-kırpmalı ortalama</dt><dd>Sıralı değerlerin iki ucundan değer atıp kalanın ortalaması.</dd><dt>Adaptif filtre</dt><dd>Yerel varyansa göre filtreleme gücünü değiştiren filtre.</dd><dt>Kenar farkı</dt><dd>Kenarın iki yanındaki parlaklık farkı; yumuşadıkça düşer.</dd></dl></details>
+      <p class="lab-src">Görüntü bu site için üretilmiş 32×32 sentetik sahnedir (iki ton ve iki kare). Adaptif filtrenin “çıkış = giriş + faktör × (yerel ortalama − giriş)” biçimi notundaki Bölüm 9.4.4’tendir; faktörün yerel varyans ile hesabı Lee filtresi fikrinin sadeleştirilmiş uyarlamasıdır.</p>
+    </div>
+    <div class="lab" id="filtlab9"></div>
+    <div class="callout real"><b>Gerçek hayat: Adaptif filtrenin kullanım alanları (ders notundaki örnek)</b>Tıbbi görüntülemede (MRI, CT, ultrason) gürültü azaltma, uydu ve meteoroloji görüntüleri, radar (SAR) benek azaltma, düşük ışıkta dijital fotoğraf ve gerçek zamanlı video işleme.</div>
+    <div class="callout real"><b>Gerçek hayat: Sıralı istatistik filtreleri (ders notundaki örnek)</b>Tıbbi görüntüleme, endüstriyel denetim ve güvenlik sistemlerinde; aykırı değerlere dayanıklılıkları görüntü kalitesinin kritik olduğu yerlerde tercih sebebidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Frekans uzayında giderme">
+  <div class="panel">
+    <div class="kicker">9.5 Frekans uzayında gürültü giderme</div>
+    <h2>Alçak, yüksek, bant, homomorfik, Wiener</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>İdeal alçak geçiren</b></td><td>Kesim frekansının altını geçirir, üstünü tamamen engeller; keskin kesim uzayda <b>halka etkisi</b> yaratır.</td></tr>
+        <tr><td><b>Butterworth</b></td><td>İdeal ile Gauss arasında denge; düşük mertebe yumuşak geçiş, yüksek mertebe ideale yaklaşır.</td></tr>
+        <tr><td><b>Gauss alçak geçiren</b></td><td>En yumuşak geçiş, halka yok; doğal görüntüde en yaygın tercih.</td></tr>
+        <tr><td><b>Yüksek geçiren</b></td><td>İdeal ve Gauss türleri; ikisi de DC bileşenini sıfırladığı için sonra genellikle ofset eklenir.</td></tr>
+        <tr><td><b>Bant geçiren / durduran</b></td><td>Belirli frekans aralığını geçirir/engeller; belirli bantlarda yoğunlaşan periyodik gürültüye karşı etkilidir. Doğru bandı belirlemek kritiktir.</td></tr>
+        <tr><td><b>Homomorfik</b></td><td>Çarpımsal bileşenleri logaritmayla toplayıcıya çevirir. Beş adım: logaritma → Fourier → frekansta filtre → ters Fourier → üstel. Aydınlatma ve yansıtma bileşenlerini ayrı işler.</td></tr>
+        <tr><td><b>Wiener</b></td><td>Minimum ortalama kare hata altında en uygun; her frekans bileşeninin sinyal-gürültü oranına bakar, yüksek orandakini korur, düşükleri bastırır.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Elektrik hattı parazitleri (ders notundaki örnek)</b>Bant durduran filtreler 50/60 Hz gibi elektrik hattı kaynaklı periyodik parazitleri gidermede kullanılır; ayrıca belirli doku özelliklerini vurgulamak ya da bastırmak için de tercih edilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Düzgün olmayan aydınlatma (ders notundaki örnek)</b>Homomorfik filtreleme, düzgün olmayan aydınlatma koşullarında çekilen görüntüleri düzeltmede etkilidir; fotoğrafçılık ve tıbbi görüntülemede yaygındır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Ters filtre ve Wiener">
+  <div class="panel">
+    <div class="kicker">9.6.1–9.6.2 Geri çatım · dene</div>
+    <h2>Bulanıklığı tersine çevirmek neden zor?</h2>
+    <p><b>Ters filtreleme</b>, bulanıklık fonksiyonunun tam bilindiği varsayımıyla bozulmanın matematiksel tersini almaktır. F̂(u, v) = G(u, v) / H(u, v): G bozulmuş görüntünün, H nokta yayılım fonksiyonunun Fourier dönüşümüdür. Sorun, H’nin frekans uzayında sıfır ya da sıfıra yakın değer aldığı noktalardır: bölme tanımsızlaşır ya da çok büyür. Gürültü varsa özellikle yüksek frekanslarda H’nin küçük değerleri gürültüyü katlanarak büyütür. Pratikte düzenlileştirme parametresiyle kararlı hâle getirilir.</p>
+    <p><b>Wiener filtresi</b>, ortalama kare hatayı en aza indiren en uygun doğrusal filtredir ve hem bulanıklığı hem gürültüyü aynı anda ele alır:</p>
+    <p class="big-quote" style="font-size:1.05rem">H<sub>W</sub>(u, v) = H*(u, v) / ( |H(u, v)|² + K )</p>
+    <p>H* karmaşık eşlenik, K sinyal-gürültü oranının tersidir. Yüksek SNR bölgelerinde ters filtreye yaklaşır; düşük SNR bölgelerinde filtreleme yapar. Aşağıda tek boyutlu bir sinyali Gauss bulanıklığıyla bozup ikisini yan yana dene:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Ters filtre ve Wiener filtresi arasında geçiş yap; gürültü σ ve Wiener K değerlerini kaydır.</li>
+        <li><b>Ne göreceksin:</b> Yeşil çizgi özgün sinyal, gri kesik çizgi bulanık ve gürültülü hâli, kırmızı çizgi onarılmış sinyaldir. Altta hata (MSE) değerleri yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Ters filtre bulanıklığı tam tersine çevirmeye çalıştığı için gürültüyü patlatır; Wiener K ile bölmeyi dengeler ve gürültüyü kontrol eder.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Bulanıklık (PSF)</dt><dd>Sinyali yayan Gauss şekilli ağırlık.</dd><dt>H</dt><dd>Bulanıklığın frekans uzayındaki hâli.</dd><dt>K</dt><dd>Sinyal-gürültü oranının tersi: büyükse daha çok bastırma.</dd><dt>MSE</dt><dd>Ortalama kare hata.</dd></dl></details>
+      <p class="lab-src">Sinyal bu site için üretildi (128 örnek, tek boyutlu). Ters filtre G/H ve Wiener H*/(|H|² + K) formülleri notundaki Bölüm 9.6’dandır.</p>
+    </div>
+    <div class="lab" id="wienerlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="İteratif ve düzenlileştirme">
+  <div class="panel">
+    <div class="kicker">9.6.3–9.6.5 İteratif, düzenlileştirme, kör</div>
+    <h2>Adım adım iyileştir, kısıt ekle, bulanıklığı da tahmin et</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Lucy–Richardson</b></td><td>Maksimum olasılık tahminine dayalı yinelemeli yöntem; Poisson gürültü modeli varsayar. Her yinelemede mevcut tahmin ile gözlenen görüntü arasındaki farkla tahmini günceller; pozitiflik ve toplam akı korunur. Avantaj: gürültü dayanıklılığı, kenar koruma, fiziksel anlamlı sonuç. Dezavantaj: yavaş yakınsama ve durma kriterini belirlemek.</td></tr>
+        <tr><td><b>Jansson–van Cittert, ISTA/FISTA</b></td><td>Jansson–van Cittert basit sabit nokta yinelemesidir (spektroskopiden). ISTA ve FISTA seyrek düzenlileştirme problemleri içindir; L1 terimiyle seyrek çözüm bulur.</td></tr>
+        <tr><td><b>Tikhonov</b></td><td>En yaygın düzenlileştirme: veri uyumu ile düzgünlük arasında denge; parametre seçimi kritiktir. Kapalı form çözümü var; ama tüm görüntüye düzgünlük uyguladığı için kenarı korumada sınırlıdır.</td></tr>
+        <tr><td><b>Toplam değişim (TV)</b></td><td>Parça-düzgün görüntüler için; düzgün bölgeleri korurken keskin kenarları muhafaza eder; tıbbi ve uydu görüntüde değerli.</td></tr>
+        <tr><td><b>Dalgacık</b></td><td>Doğal görüntülerin dalgacık katsayılarının çoğu küçüktür; yumuşak eşikleme ile çözülür; doku korumada başarılı.</td></tr>
+        <tr><td><b>Kör geri çatım</b></td><td>Bulanıklık fonksiyonu bilinmiyorsa: alternatif en küçük kareler (bulanıklık sabit → görüntü tahmini; görüntü sabit → bulanıklık güncellemesi; yakınsayana dek), çok çerçeveli yaklaşım (aynı sahnenin farklı bulanıklıkla çekilmiş birçok görüntüsü), istatistiksel yaklaşımlar (Bayesyen MAP).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Astronomi ve mikroskopi (ders notundaki örnek)</b>Lucy–Richardson algoritması özellikle astronomi ve mikroskopi uygulamalarında başarılı sonuçlar verir.</div>
+    <div class="callout real"><b>Gerçek hayat: Spektroskopi (ders notundaki örnek)</b>Jansson–van Cittert algoritması özellikle spektroskopi uygulamalarından gelişmiştir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Derin öğrenme tabanlı onarım">
+  <div class="panel">
+    <div class="kicker">9.7 Derin öğrenme tabanlı görüntü onarımı</div>
+    <h2>Ağ, gürültüyü ya da temiz görüntüyü öğrensin</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Model</th><th>Fikir</th><th>Not</th></tr></thead>
+      <tbody>
+        <tr><td><b>DnCNN</b></td><td>Temiz görüntüyü değil <b>gürültü bileşenini</b> öğrenir (kalıntı öğrenme); ağ gürültü haritasını üretir, bu da gürültülü görüntüden çıkarılır.</td><td>İlk katman 64 adet 3×3 evrişim + ReLU; orta katmanlar evrişim + küme normalizasyonu + ReLU; son katman tek evrişim. Gauss için 17 katman (35×35 alıcı alan) yeterli, karmaşık işlerde 20. Farklı gürültü seviyeleriyle eğitilerek kör gürültü giderme; süper çözünürlük ve JPEG artefakt gidermede de başarılı.</td></tr>
+        <tr><td><b>U-Net</b></td><td>Daralan yol (encoder) ve genişleyen yol (decoder) + aralarında atlama bağlantıları; düşük seviyeli uzamsal bilgi doğrudan çıktıya geçer.</td><td>Bölütlemeden onarıma uyarlanır: piksel-piksel sınıflandırma yerine regresyon. Yerel ve global bilgiyi birleştirir; ama hesaplama ve bellek maliyeti yüksektir, çok derin mimaride gradyan kaybolabilir.</td></tr>
+        <tr><td><b>GAN</b></td><td>Üretici ve ayırt edici ağ rekabetle eğitilir; üretici daha doğal, fotogerçekçi sonuç üretmeye zorlanır.</td><td>Keskin ayrıntıları daha iyi korur. SRGAN algısal kayıp kullanır; ESRGAN, CycleGAN, Contextual GAN türevleridir. Eğitim kararsız olabilir; kip çökmesi (mode collapse) görülür.</td></tr>
+        <tr><td><b>VAE</b></td><td>Girdiyi tek bir kod yerine bir olasılık dağılımı olarak temsil eder (latent uzayda ortalama ve varyans).</td><td>Eksik pikselleri olasılıksal tahmin eder, belirsizlik modeller. Çıktı bazen bulanık olur; GAN ya da difüzyonla hibrit çözülür.</td></tr>
+        <tr><td><b>Difüzyon</b></td><td>Görüntüye kademeli gürültü eklenir, sonra süreç tersine çevrilerek görüntü yeniden inşa edilir (DDPM).</td><td>Karmaşık gürültü dağılımlarını öğrenir; gürültü giderme, süper çözünürlük, eksik bölge doldurmada yüksek performans. En büyük sınırı yüzlerce–binlerce adımın maliyetidir; DDIM ve Latent Diffusion daha hızlı türevlerdir.</td></tr>
+        <tr><td><b>Transformatör (ViT)</b></td><td>Öz dikkat (self-attention) ile görüntünün uzak bölgeleri arasındaki ilişkiyi doğrudan öğrenir.</td><td>Küresel bağlam, detay korunumu, esneklik. Öz dikkatin karmaşıklığı girdi uzunluğunun karesiyle artar; Swin Transformer kaydırmalı pencereyle bunu azaltır. Hibrit mimariler yerel için CNN, küresel için transformatör kullanır.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Kayıp fonksiyonu ve veri artırımı</h3>
+    <p>MSE basit ama algısal kaliteyi tam yansıtmayabilir; modern yaklaşımlar kombinasyon kullanır: algısal kayıp (önceden eğitilmiş CNN özellik temsilleri), SSIM tabanlı kayıp (yapısal benzerlik), çekişmeli kayıp (foto-gerçekçilik). Veri artırımında döndürme, ölçekleme, kırpma, renk uzayı dönüşümleri; tıbbi görüntüde elastik deformasyon kullanılır.</p>
+    <div class="callout real"><b>Gerçek hayat: Düşük doz tarama (ders notundaki örnek)</b>MRI, CT ve ultrasonda gürültü gidermede klasik yöntemlere göre belirgin üstünlük; düşük doz radyasyon protokollerinde hasta güvenliğini artırırken görüntü kalitesini korur.</div>
+    <div class="callout real"><b>Gerçek hayat: Uydu ve meteoroloji (ders notundaki örnek)</b>Bulut giderme, atmosferik düzeltme; çok spektral görüntüde spektral bilgiyi koruyarak gürültü bastırma.</div>
+    <div class="callout real"><b>Gerçek hayat: Endüstriyel kalite kontrol (ders notundaki örnek)</b>Yüzey inceleme, malzeme analizi, otomatik sıralama ve kusur tespitinde yüksek doğruluk; gerçek zamanlı işleme için optimize mimariler.</div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Metrik (notun Tablo 9.1’i)</th><th>Klasik</th><th>DnCNN</th><th>U-Net</th></tr></thead>
+      <tbody>
+        <tr><td>PSNR (dB)</td><td>28–30</td><td>32–34</td><td>31–33</td></tr>
+        <tr><td>SSIM</td><td>0,85–0,90</td><td>0,92–0,95</td><td>0,91–0,94</td></tr>
+        <tr><td>İşleme süresi</td><td>Düşük</td><td>Orta</td><td>Yüksek</td></tr>
+        <tr><td>Bellek</td><td>Düşük</td><td>Orta</td><td>Yüksek</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Gelecek yönelimleri</b>Model açıklanabilirliği (tıbbi uygulamalarda kritik; dikkat haritaları, gradyan tabanlı görselleştirme), hesaplama verimliliği (hafif mimariler, model sıkıştırma, budama, sayısallaştırma), çok-modal entegrasyon.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 9</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Onarım / geri çatım</td><td>Onarım kaliteyi artırır; geri çatım sistem kaynaklı bozulmayı model temelli geri alır; ill-posed → düzenlileştirme</td></tr>
+        <tr><td>Gürültüler</td><td>Gauss (termal, beyaz), tuz-karabiber (impuls, değiştirme), benek (çarpımsal), Poisson (foton), düzgün (nicemleme), üstel, Rayleigh, Gamma</td></tr>
+        <tr><td>Uzamsal filtreler</td><td>Ortalama (Gauss), medyan (tuz-karabiber), adaptif (yerel varyans), sıralı istatistik, biçimbilimsel</td></tr>
+        <tr><td>Frekans yöntemleri</td><td>İdeal (halka), Butterworth, Gauss; bant (periyodik gürültü), homomorfik (aydınlatma), Wiener (MSE)</td></tr>
+        <tr><td>Geri çatım</td><td>Ters filtre (gürültüyü büyütür), Wiener (K ile denge), Lucy–Richardson (Poisson), Tikhonov/TV/dalgacık, kör yöntemler</td></tr>
+        <tr><td>Derin öğrenme</td><td>DnCNN (gürültüyü öğren), U-Net (atlama bağlantıları), GAN, VAE, difüzyon, transformatör</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

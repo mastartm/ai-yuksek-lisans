@@ -196,6 +196,26 @@ add('ringlab', 'goruntu-isleme/bolum-8.html',
     [('H(D)', 'Filtrenin D frekans uzaklığındaki değeri: 1 geçirir, 0 keser.'), ('D₀', 'Kesim frekansı.'), ('Halka (ringing)', 'Keskin kesimin kenar yanında yarattığı dalgalanma.'), ('Aşma', 'Çıktının girdinin aralığını aşan miktarı.')],
     'Sinyal bu site için üretildi (128 örnekli, 20/120 basamak). Üç filtrenin formülleri ve halka artefaktı bilgisi notundaki Bölüm 8.5 ve 8.6’dan; işlem tek boyutlu yapılır.')
 
+# ---------------- Görüntü İşleme 9 ----------------
+add('noiselab', 'goruntu-isleme/bolum-9.html',
+    'Sekiz gürültü türünden birini seç ve gürültü şiddeti kaydırıcısını değiştir.',
+    'Solda temiz, sağda gürültülü 32×32 görüntü; altında gürültü değerlerinin (g − f) dağılım grafiği ve gürültünün ortalaması, standart sapması, PSNR’si görünür.',
+    'Her türün dağılımı farklı biçimdedir: Gauss çan, tuz-karabiber iki uçta çubuk, düzgün dikdörtgen, üstel/Rayleigh/Gamma yalnızca pozitif yanda. Benek ve Poisson’da gürültü parlak bölgede daha büyüktür.',
+    [('g − f', 'Gürültülü pikselden temiz pikselin çıkarılması: gürültünün kendisi.'), ('PSNR', 'Temiz ile gürültülü görüntü arasındaki farkı dB olarak ölçer; yüksek değer = daha az bozulma.'), ('Çarpımsal', 'Gürültünün piksel değeriyle çarpılması (g = f × η).'), ('Toplayıcı', 'Gürültünün piksel değerine eklenmesi (g = f + η).')],
+    'Görüntü bu site için kodla üretilmiş 32×32 sahnedir. Sekiz türün özellikleri (toplayıcı/çarpımsal, tek taraflı, sinyale bağımlı vb.) notundaki Bölüm 9.2’den; kullanılan sayısal parametreler siteye aittir.')
+add('filtlab9', 'goruntu-isleme/bolum-9.html',
+    'Gürültü türünü (Gauss ya da tuz-karabiber) seç, bir filtre seç ve şiddet kaydırıcısını değiştir.',
+    'Solda gürültülü, sağda süzülmüş görüntü; altında iki PSNR değeri ve dikey kenardaki fark (temiz görüntüde 100) görünür.',
+    'Medyan tuz-karabiberde, ortalama Gauss’ta başarılıdır; adaptif filtre kenarı ortalamadan çok daha iyi korur. Alfa-kırpmalı ortalama ikisinin arasındadır.',
+    [('PSNR', 'Temiz görüntüyle benzerlik: yüksek iyi.'), ('Alfa-kırpmalı ortalama', 'Sıralı değerlerin iki ucundan değer atıp kalanın ortalaması.'), ('Adaptif filtre', 'Yerel varyansa göre filtreleme gücünü değiştiren filtre.'), ('Kenar farkı', 'Kenarın iki yanındaki parlaklık farkı; yumuşadıkça düşer.')],
+    'Görüntü bu site için üretilmiş 32×32 sentetik sahnedir (iki ton ve iki kare). Adaptif filtrenin “çıkış = giriş + faktör × (yerel ortalama − giriş)” biçimi notundaki Bölüm 9.4.4’tendir; faktörün yerel varyans ile hesabı Lee filtresi fikrinin sadeleştirilmiş uyarlamasıdır.')
+add('wienerlab', 'goruntu-isleme/bolum-9.html',
+    'Ters filtre ve Wiener filtresi arasında geçiş yap; gürültü σ ve Wiener K değerlerini kaydır.',
+    'Yeşil çizgi özgün sinyal, gri kesik çizgi bulanık ve gürültülü hâli, kırmızı çizgi onarılmış sinyaldir. Altta hata (MSE) değerleri yazılır.',
+    'Ters filtre bulanıklığı tam tersine çevirmeye çalıştığı için gürültüyü patlatır; Wiener K ile bölmeyi dengeler ve gürültüyü kontrol eder.',
+    [('Bulanıklık (PSF)', 'Sinyali yayan Gauss şekilli ağırlık.'), ('H', 'Bulanıklığın frekans uzayındaki hâli.'), ('K', 'Sinyal-gürültü oranının tersi: büyükse daha çok bastırma.'), ('MSE', 'Ortalama kare hata.')],
+    'Sinyal bu site için üretildi (128 örnek, tek boyutlu). Ters filtre G/H ve Wiener H*/(|H|² + K) formülleri notundaki Bölüm 9.6’dandır.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
