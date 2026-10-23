@@ -176,6 +176,26 @@ add('maliyetlab', 'goruntu-isleme/bolum-7.html',
     [('M, N', 'Görüntünün genişliği ve yüksekliği.'), ('k', 'Çekirdeğin kenar uzunluğu.'), ('Ayrılabilir', 'Önce satırlar, sonra sütunlar boyunca iki ayrı tek boyutlu süzme.')],
     'Sayılar sanal. Formüller (O(M×N×k²), O(M×N×2k), medyanda ek log çarpanı) notundaki Bölüm 7.1 ve 7.3’ten alındı; gerçek süre değildir.')
 
+# ---------------- Görüntü İşleme 8 ----------------
+add('dftlab', 'goruntu-isleme/bolum-8.html',
+    'Ortalama düzeyini, iki sinüs bileşeninin frekansını ve genliğini kaydır.',
+    'Üstte 64 örnekli sinyal, altta genlik spektrumu çubukları görünür; her çubuk bir frekans bileşenidir. Altta O(N²) ile O(N log N) işlem sayıları yazılır.',
+    'Her sinüs bileşeni spektrumda kendi frekansında bir çubuk bırakır; k = 0 çubuğu ortalama parlaklığı (doğru akım bileşeni) gösterir.',
+    [('k', 'Frekans indeksi: sinyalde kaç tam dalga olduğu.'), ('Genlik', 'Bir frekans bileşeninin gücü.'), ('DC bileşeni (k = 0)', 'Sinyalin ortalama düzeyi.'), ('DFT', 'Sinyali sinüs bileşenlerine ayıran ayrık Fourier dönüşümü.')],
+    'Sinyal bu site için üretildi (tek boyutlu, 64 örnek). Dönüşüm formülü ve O(N²) → O(N log N) bilgisi notundaki Bölüm 8.3.1’den.')
+add('convlab', 'goruntu-isleme/bolum-8.html',
+    'Çekirdek genişliğini kaydır.',
+    'Gri kesik çizgi girdi, mavi çizgi uzamsal konvolüsyon, kırmızı noktalı çizgi frekans uzayında çarpma sonucudur. Altta iki yolun farkı ve işlem sayıları yazılır.',
+    'Mavi ve kırmızı eğriler üst üste biner: uzamsal konvolüsyon ile frekans uzayında çarpma aynı sonucu verir (fark yalnızca yuvarlama hatasıdır).',
+    [('Çekirdek', 'Ortalamayı alan küçük pencere.'), ('Dairesel konvolüsyon', 'Sağ uçtan çıkan değerin sol uca sarıldığı konvolüsyon.'), ('FFT', 'Hızlı Fourier dönüşümü.')],
+    'Sinyal ve çekirdek bu site için üretildi (32 örnek; kutu şeklinde bir sinyal ve ortalama çekirdeği). Konvolüsyon teoremi notundaki Bölüm 8.4’ten; işlem sayıları kaba mertebedir.')
+add('ringlab', 'goruntu-isleme/bolum-8.html',
+    'Filtre türünü (ideal, Gauss, Butterworth), alçak ya da yüksek geçirenliği ve kesim frekansını seç; Butterworth için mertebeyi de değiştir.',
+    'Üstte filtrenin H(D) eğrisi, altında 20/120 basamaklı sinyalin gri girdisi ve mavi çıktısı görünür. Altta aşma miktarı (alçak geçirende) ya da çıktının ortalaması (yüksek geçirende) yazılır.',
+    'İdeal filtre basamağın iki yanında dalgalanma (halka) üretir; Gauss yumuşak geçişle dalgalanmaz; Butterworth arada kalır. Yüksek geçirende ortalama sıfıra kayar.',
+    [('H(D)', 'Filtrenin D frekans uzaklığındaki değeri: 1 geçirir, 0 keser.'), ('D₀', 'Kesim frekansı.'), ('Halka (ringing)', 'Keskin kesimin kenar yanında yarattığı dalgalanma.'), ('Aşma', 'Çıktının girdinin aralığını aşan miktarı.')],
+    'Sinyal bu site için üretildi (128 örnekli, 20/120 basamak). Üç filtrenin formülleri ve halka artefaktı bilgisi notundaki Bölüm 8.5 ve 8.6’dan; işlem tek boyutlu yapılır.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():

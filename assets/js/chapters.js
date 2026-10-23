@@ -16,7 +16,7 @@
     ] },
     { slug: 'goruntu-isleme', title: 'Görüntü İşleme', blurb: 'Piksel, histogram, filtre, frekans, morfoloji, bölütleme, nesne tanıma.', chapters: [
       [1, 'Görüntü İşlemeye Giriş', 1], [2, 'Histogramlar', 1], [3, 'Noktasal İşlemler', 1], [4, 'Piksel İlişkileri', 1], [5, 'Görüntü İyileştirme', 1],
-      [6, 'Frekans Alanına Giriş', 1], [7, 'Filtreleme', 1], [8, 'Frekans Uzayında Filtreleme', 0], [9, 'Görüntü Onarımı ve Geri Çatma', 0],
+      [6, 'Frekans Alanına Giriş', 1], [7, 'Filtreleme', 1], [8, 'Frekans Uzayında Filtreleme', 1], [9, 'Görüntü Onarımı ve Geri Çatma', 0],
       [10, 'Morfolojik Görüntü İşleme', 0], [11, 'Renkli Görüntü İşleme', 0], [12, 'Görüntü Bölütleme', 0], [13, 'Nesne Tanıma', 0], [14, 'Geleceğin Paradigmaları', 0]
     ] },
     { slug: 'veri-bilimi', title: 'Veri Bilimi', blurb: 'Temeller, veri toplama ve etik, EDA, istatistik, büyük veri, metodolojiler.', chapters: [

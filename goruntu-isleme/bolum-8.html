@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frekans Uzayında Filtreleme — Görüntü İşleme</title>
+<meta name="description" content="Görüntü İşleme, Bölüm 8: Frekans Uzayında Filtreleme. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 8 · Frekans Uzayında Filtreleme</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 8</div>
+    <h1>Frekans Uzayında Filtreleme</h1>
+    <p class="big-quote">Devasa bir çekirdekle bir görüntüyü süzmek için her pikselde yüzlerce çarpma yapman gerekir. Ama görüntüyü “değişim hızı” bakışıyla yeniden yazarsan aynı işlem <b>tek bir çarpmaya</b> iner. Bu bölüm o bakışı, yani frekans uzayını anlatır.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Frekans uzayının ne gösterdiğini ve düşük/yüksek frekansın görüntüdeki karşılığını söyleyebilirsin.</li>
+      <li>1D ve 2D ayrık Fourier dönüşümünü yorumlayabilirsin.</li>
+      <li>Konvolüsyon teoremini ve filtrelemedeki adımları açıklayabilirsin.</li>
+      <li>İdeal, Gauss ve Butterworth alçak/yüksek geçiren filtreleri karşılaştırabilirsin.</li>
+      <li>Derin öğrenme tabanlı frekans filtrelemenin fikrini anlatabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Dönüştür, çarp, geri dön</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Görüntü Fourier dönüşümüyle frekans uzayına geçer, filtreyle çarpılır, ters dönüşümle uzamsal uzaya döner"><rect class="d-box" x="10" y="55" width="150" height="80" rx="8"/><text class="d-txt d-c" x="85" y="88">f(x, y)</text><text class="d-sm d-c" x="85" y="108">uzamsal görüntü</text><rect class="d-brand" x="190" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="275" y="88">F(u, v)</text><text class="d-sm d-c" x="275" y="108">frekans uzayı (DFT)</text><rect class="d-ok" x="390" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="475" y="88">F · H</text><text class="d-sm d-c" x="475" y="108">filtreyle çarp</text><rect class="d-warn" x="590" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="670" y="88">g(x, y)</text><text class="d-sm d-c" x="670" y="108">ters dönüşüm</text><path class="d-line-brand" d="M160 95 L190 95"/><path class="d-line-brand" d="M360 95 L390 95"/><path class="d-line-brand" d="M560 95 L590 95"/></svg>
+    <p>Bu hat, uzamsal alandaki konvolüsyonun frekans alanındaki karşılığıdır.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Neden frekans uzayı?">
+  <div class="panel">
+    <div class="kicker">8.1 Frekans uzayında görüntü filtreleme</div>
+    <h2>Uzamsal filtrelemenin güçlü alternatifi</h2>
+    <p>Frekans uzayında filtreleme, görüntüyü frekans bileşenlerine ayırıp bu bileşenler üzerinde seçici işlemler yapmaya dayanır. Spektral analizle belirli frekans aralıklarındaki bilgi <b>korunabilir, güçlendirilebilir ya da bastırılabilir</b>. Konvolüsyon teoremi sayesinde uzamsal alandaki karmaşık konvolüsyon, frekans uzayında basit bir <b>çarpıma</b> dönüşür; Hızlı Fourier Dönüşümü (FFT) ile birleşince, özellikle büyük çekirdekli uygulamalarda önemli bir hız kazancı sağlar.</p>
+    <div class="callout real"><b>Gerçek hayat: Kullanım alanları (ders notundaki örnek)</b>Tıbbi görüntüleme, uydu görüntüleri analizi, sıkıştırma algoritmaları ve sinyal yenileme gibi geniş bir yelpazede frekans uzayı filtreleme kullanılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Frekans uzayı nedir?">
+  <div class="panel">
+    <div class="kicker">8.2 Frekans uzayı nedir?</div>
+    <h2>Detayların ne kadar hızlı değiştiği</h2>
+    <p>Frekans uzayı, bir görüntüdeki ayrıntıların <b>ne kadar hızlı değiştiğini</b> gösteren temsildir. Uzamsal alanda görüntü, piksellerin yerel parlaklık değerleriyle ifade edilir; frekans alanında bu parlaklık değişimlerinin sıklığı ve düzeni incelenir. Fourier teorisine göre sonlu sürekli bir fonksiyon, farklı frekanslardaki sinüs ve kosinüs dalgalarının ağırlıklı toplamı olarak yazılabilir.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Düşük frekans</b>Geniş, homojen bölgeler; yavaş değişim. Spektrumda merkezi bölge.</div>
+      <div class="peas-c e"><b>Yüksek frekans</b>Kenarlar, doku geçişleri, ani parlaklık farkları. Spektrumda çevresel bölge.</div>
+      <div class="peas-c a"><b>Doğru akım (DC) bileşeni</b>Görüntünün ortalama parlaklığı.</div>
+      <div class="peas-c s"><b>Magnitüd ve faz</b>Magnitüd spektrumu enerji dağılımını gösterir; faz spektrumu yapısal bilginin korunmasında kritik rol oynar.</div>
+    </div>
+    <div class="callout idea"><b>Uzamsal ile farkı</b>Uzay/zaman alanı verinin konumsal ya da zamansal dağılımını gösterir; frekans uzayı bu dağılımdaki değişim oranlarını gösterir. Uzamsal yöntemler yerel özellikler üzerinde daha hassas kontrol sağlar; frekans uzayı ise görüntünün bütünsel spektral karakterini dikkate alır ve periyodik gürültünün tespiti ile giderilmesinde, spektral sıkıştırmada ve uyarlanabilir filtrelemede kritiktir.</div>
+    <div class="callout real"><b>Gerçek hayat: Homojen arka plan ile kenar (ders notundaki örnek)</b>Homojen bir arka plan düşük frekansı, kenarlar ve ince ayrıntılar yüksek frekansı temsil eder; bu fark sayesinde filtreleme, sıkıştırma ve kenar tespiti etkin yapılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="1B DFT">
+  <div class="panel">
+    <div class="kicker">8.3.1 Bir boyutlu DFT · dene</div>
+    <h2>Bir satırı sinüslerine ayır</h2>
+    <p>Bir boyutlu sinyallere (bir satır ya da sütun boyunca piksel dizisi) uygulanan ayrık Fourier dönüşümü, sinyali temel frekans bileşenlerine ayırır ve her frekansın <b>genlik ve faz</b> bilgisini verir:</p>
+    <p class="big-quote" style="font-size:1.05rem">X(k) = Σ<sub>n=0..N−1</sub> x(n) · e<sup>−j2πkn/N</sup></p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Simge</th><th>Anlamı</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">X(k)</td><td>Frekans uzayındaki k. bileşenin karmaşık değeri.</td></tr>
+        <tr><td class="mono">x(n)</td><td>Giriş dizisinin n. elemanı.</td></tr>
+        <tr><td class="mono">N</td><td>Sinyal uzunluğu (örnek sayısı).</td></tr>
+        <tr><td class="mono">k</td><td>Frekans indeksi, 0 ≤ k ≤ N − 1.</td></tr>
+        <tr><td class="mono">j</td><td>Karmaşık sayı birimi, √(−1).</td></tr>
+      </tbody>
+    </table></div>
+    <p>Karmaşık üstel terim, temel fonksiyonlar adı verilen sinüzoidal bileşenleri oluşturur. Hesaplama karmaşıklığı O(N²)’dir; Hızlı Fourier Dönüşümü (Cooley–Tukey ve diğer çeşitlemeler) bunu <b>O(N log N)</b>’ye indirir. Bir boyutlu dönüşüm satır satır ya da sütun sütun uygulanarak iki boyutlu görüntülerde ayrılabilir dönüşümler için de kullanılır.</p>
+    <p>Kendi sinyalini kur ve spektrumunda çubukları gör:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Ortalama düzeyini, iki sinüs bileşeninin frekansını ve genliğini kaydır.</li>
+        <li><b>Ne göreceksin:</b> Üstte 64 örnekli sinyal, altta genlik spektrumu çubukları görünür; her çubuk bir frekans bileşenidir. Altta O(N²) ile O(N log N) işlem sayıları yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Her sinüs bileşeni spektrumda kendi frekansında bir çubuk bırakır; k = 0 çubuğu ortalama parlaklığı (doğru akım bileşeni) gösterir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>k</dt><dd>Frekans indeksi: sinyalde kaç tam dalga olduğu.</dd><dt>Genlik</dt><dd>Bir frekans bileşeninin gücü.</dd><dt>DC bileşeni (k = 0)</dt><dd>Sinyalin ortalama düzeyi.</dd><dt>DFT</dt><dd>Sinyali sinüs bileşenlerine ayıran ayrık Fourier dönüşümü.</dd></dl></details>
+      <p class="lab-src">Sinyal bu site için üretildi (tek boyutlu, 64 örnek). Dönüşüm formülü ve O(N²) → O(N log N) bilgisi notundaki Bölüm 8.3.1’den.</p>
+    </div>
+    <div class="lab" id="dftlab"></div>
+    <div class="callout real"><b>Gerçek hayat: Kullanım alanları (ders notundaki örnek)</b>Sinyal işleme, frekans tabanlı filtreleme ve gürültü analizleri.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="2B DFT">
+  <div class="panel">
+    <div class="kicker">8.3.2 İki boyutlu DFT</div>
+    <h2>Yatay ve dikey frekanslar birlikte</h2>
+    <p>Görüntüler doğası gereği iki boyutlu olduğu için iki boyutlu ayrık Fourier dönüşümü daha yaygındır; hem yatay hem dikey frekans bileşenlerini hesaba katar:</p>
+    <p class="big-quote" style="font-size:1.05rem">F(u, v) = Σ<sub>x=0..M−1</sub> Σ<sub>y=0..N−1</sub> f(x, y) · e<sup>−j2π(ux/M + vy/N)</sup></p>
+    <ul>
+      <li><b>Ayrılabilirlik:</b> önce satırlar üzerinde 1B dönüşüm, sonra sütunlar üzerinde 1B dönüşüm uygulanarak aynı sonuç elde edilir; bu hesaplama verimliliği sağlar.</li>
+      <li>(u = 0, v = 0) noktası görüntünün ortalama yoğunluğunu verir; u ve v büyük değerlerinde yüksek frekanslar kenarları ve ince ayrıntıları gösterir.</li>
+      <li>Dönüşümün periyodik doğası frekans uzayında <b>sarmalama</b> etkilerine yol açar; sınır yapay ürünlerini önlemek için sıfır doldurma, aynalama ve dairesel uzatma kullanılır.</li>
+    </ul>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Avantajları</th><th>Dezavantajları</th></tr></thead>
+      <tbody>
+        <tr><td>Genel frekans analizi yeteneği. Frekans uzayında çarpma yoluyla verimli filtreleme. Spektral özellik çıkarımı.</td><td>Uzamsal konumlandırmanın kaybı. Bellek gereksinimi. Sınır etkilerine duyarlılık.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Konvolüsyon teoremi">
+  <div class="panel">
+    <div class="kicker">8.4 Filtreleme prensibi · dene</div>
+    <h2>Konvolüsyon = çarpma</h2>
+    <p class="big-quote" style="font-size:1.05rem">f(x, y) ∗ h(x, y) ↔ F(u, v) × H(u, v)</p>
+    <p>Uzamsal alandaki konvolüsyon, frekans alanındaki çarpmadır (∗ konvolüsyon, × çarpma, ↔ Fourier dönüşüm çifti). Buna <b>konvolüsyon teoremi</b> denir. Büyük çekirdekli filtreler bu sayede daha hızlı uygulanır ve istenen frekans özelliklerine göre özel filtreler tasarlanabilir.</p>
+    <ol>
+      <li>Girdi görüntüsünün iki boyutlu dönüşümünü al.</li>
+      <li>Frekans uzayı filtresi H(u, v) ile çarp.</li>
+      <li>Ters dönüşümle uzamsal sonucu elde et.</li>
+    </ol>
+    <p>Tek boyutlu bir sinyalde iki yolu karşılaştır:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Çekirdek genişliğini kaydır.</li>
+        <li><b>Ne göreceksin:</b> Gri kesik çizgi girdi, mavi çizgi uzamsal konvolüsyon, kırmızı noktalı çizgi frekans uzayında çarpma sonucudur. Altta iki yolun farkı ve işlem sayıları yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Mavi ve kırmızı eğriler üst üste biner: uzamsal konvolüsyon ile frekans uzayında çarpma aynı sonucu verir (fark yalnızca yuvarlama hatasıdır).</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Çekirdek</dt><dd>Ortalamayı alan küçük pencere.</dd><dt>Dairesel konvolüsyon</dt><dd>Sağ uçtan çıkan değerin sol uca sarıldığı konvolüsyon.</dd><dt>FFT</dt><dd>Hızlı Fourier dönüşümü.</dd></dl></details>
+      <p class="lab-src">Sinyal ve çekirdek bu site için üretildi (32 örnek; kutu şeklinde bir sinyal ve ortalama çekirdeği). Konvolüsyon teoremi notundaki Bölüm 8.4’ten; işlem sayıları kaba mertebedir.</p>
+    </div>
+    <div class="lab" id="convlab"></div>
+    <div class="callout idea"><b>Tasarım değerlendirmeleri</b>Frekans uzayında filtre tasarlarken filtre karakteristikleri (kesim frekansları, geçiş bölgeleri), sınır etkilerini önleme ve faz koruma stratejileri düşünülür. İdeal, Butterworth ve Gauss yaklaşımlarının her birinin kendine özgü değiş tokuşları vardır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Alçak geçiren filtreler">
+  <div class="panel">
+    <div class="kicker">8.5 Alçak geçiren filtreler · dene</div>
+    <h2>Yüksek frekansı bastır: yumuşat</h2>
+    <p>Alçak geçiren filtreler yüksek frekansları bastırıp yalnızca düşükleri geçirir; görüntü yumuşar, gürültü azalır. Tasarımda üç temel parametre vardır: <b>kesim frekansı</b> (geçen ve bastırılan arasındaki sınır), <b>geçiş bant genişliği</b> (keskinlik) ve <b>filtre mertebesi</b> (düşüş oranı ve karmaşıklık). D(u, v) = √(u² + v²) frekans uzayındaki mesafedir.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Filtre</th><th>H(u, v)</th><th>Özellik</th></tr></thead>
+      <tbody>
+        <tr><td><b>İdeal</b></td><td class="mono">1 (D ≤ D₀), 0 (D &gt; D₀)</td><td>Kesim frekansı D₀’ın dışını sıfırlar. Keskin geçiş uzamsal uzayda sinc fonksiyonuna karşılık gelir ve <b>halka artefaktlarına</b> yol açar.</td></tr>
+        <tr><td><b>Gauss</b></td><td class="mono">e<sup>−D²/(2σ²)</sup></td><td>Frekansları yumuşakça bastırır, daha doğal sonuç verir. Halka artefaktını en aza indirir; uzamsal uzayda da Gauss şeklini korur. σ bant genişliğini kontrol eder.</td></tr>
+        <tr><td><b>Butterworth</b></td><td class="mono">1 / (1 + (D/D₀)<sup>2n</sup>)</td><td>İdeal ile Gauss arasında bir uzlaşma. n mertebesi geçiş keskinliğini belirler.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Aşağıda bir basamak (kenar) sinyalini süz; ideal filtrede halkayı, Gauss’ta yokluğunu gör:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Filtre türünü (ideal, Gauss, Butterworth), alçak ya da yüksek geçirenliği ve kesim frekansını seç; Butterworth için mertebeyi de değiştir.</li>
+        <li><b>Ne göreceksin:</b> Üstte filtrenin H(D) eğrisi, altında 20/120 basamaklı sinyalin gri girdisi ve mavi çıktısı görünür. Altta aşma miktarı (alçak geçirende) ya da çıktının ortalaması (yüksek geçirende) yazılır.</li>
+        <li><b>Ne anlamalısın:</b> İdeal filtre basamağın iki yanında dalgalanma (halka) üretir; Gauss yumuşak geçişle dalgalanmaz; Butterworth arada kalır. Yüksek geçirende ortalama sıfıra kayar.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>H(D)</dt><dd>Filtrenin D frekans uzaklığındaki değeri: 1 geçirir, 0 keser.</dd><dt>D₀</dt><dd>Kesim frekansı.</dd><dt>Halka (ringing)</dt><dd>Keskin kesimin kenar yanında yarattığı dalgalanma.</dd><dt>Aşma</dt><dd>Çıktının girdinin aralığını aşan miktarı.</dd></dl></details>
+      <p class="lab-src">Sinyal bu site için üretildi (128 örnekli, 20/120 basamak). Üç filtrenin formülleri ve halka artefaktı bilgisi notundaki Bölüm 8.5 ve 8.6’dan; işlem tek boyutlu yapılır.</p>
+    </div>
+    <div class="lab" id="ringlab"></div>
+    <div class="callout real"><b>Gerçek hayat: Alçak geçiren uygulamalar (ders notundaki örnek)</b>Görüntü yumuşatma, gürültü azaltma, kenar yumuşatma önleme ve diğer işlemler için ön işleme. Tıbbi görüntülemede doku kontrast geliştirme, uydu görüntülerinde atmosferik gürültü azaltma ve bilgisayarlı görmede özellik çıkarımı ön işlemesi tipik kullanımlardır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Yüksek geçiren filtreler">
+  <div class="panel">
+    <div class="kicker">8.6 Yüksek geçiren filtreler</div>
+    <h2>Düşük frekansı bastır: ayrıntıyı çıkar</h2>
+    <p>Yüksek geçiren filtreler düşük frekansları bastırıp yalnızca ani değişimleri ve ayrıntıları içeren yüksek frekansları geçirir. Görüntünün keskinliğini artırır, kenar tespitinde etkilidir. Düşük frekansların bastırılması arka plan aydınlatma değişimlerini ve yavaş değişen yoğunluk desenlerini ortadan kaldırırken yapısal ayrıntıları korur.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Filtre</th><th>H(u, v)</th><th>Not</th></tr></thead>
+      <tbody>
+        <tr><td><b>İdeal</b></td><td class="mono">0 (D ≤ D₀), 1 (D &gt; D₀)</td><td>İdeal alçak geçirenin tamamlayıcısıdır; keskin geçiş nedeniyle yapay ürün riski taşır.</td></tr>
+        <tr><td><b>Butterworth</b></td><td class="mono">1 / (1 + (D₀/D)<sup>2n</sup>)</td><td>Daha kontrollü geçiş, parametrik ayar. Yüksek mertebe daha dik geçiş verir ama halka duyarlılığını artırır.</td></tr>
+        <tr><td><b>Gauss</b></td><td class="mono">1 − e<sup>−D²/(2σ²)</sup></td><td>Yumuşak geçiş ve minimum yapay ürün; kademeli düşüş nedeniyle kesim hassasiyeti sınırlıdır.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Yan etkiler</b>Gürültü büyütme (ayrıntıyı güçlendirirken gürültüyü de büyütür), doğru akım bileşenini ortadan kaldırma ve olası halka artefaktları. DC bileşeni kalkınca ortalama yoğunluk sıfıra kayar; bu yüzden gösterim için <b>normalizasyon</b> gerekir. Yukarıdaki laboratuvarda “Yüksek geçiren”i seçip çıktının ortalamasına bak.</div>
+    <div class="callout real"><b>Gerçek hayat: Yüksek geçiren uygulamalar (ders notundaki örnek)</b>Kenar tespiti, görüntü keskinleştirme, keskinleştirme maskeleme ve örüntü tanıma için ön işleme. Endüstriyel muayenede kusur tespiti, tıbbi görüntülemede patoloji vurgulama ve uzaktan algılamada özellik çıkarımı öne çıkan örneklerdir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Derin öğrenme tabanlı">
+  <div class="panel">
+    <div class="kicker">8.7 Derin öğrenme tabanlı frekans filtreleme</div>
+    <h2>Filtreyi ağ öğrensin</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Fikir</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Öğrenilebilir frekans filtresi</b></td><td>Sabit filtre yerine veriden öğrenilen adaptif filtre: G(u, v) = F(u, v) × W<sub>learned</sub>(u, v). Ağırlıklar gradyan inişle güncellenir ve kayıp fonksiyonunu en aza indirecek biçimde ayarlanır.</td></tr>
+        <tr><td><b>Hibrit uzamsal–frekans mimarileri</b></td><td>Ağın farklı katmanları farklı uzaylarda çalışır: önce uzamsal katmanlar temel özellikleri çıkarır, özellik haritaları frekans uzayına dönüştürülüp işlenir, sonra uzamsal uzaya dönülür. Uzamsal işleme yerel ayrıntı ve konum bilgisini, frekans işleme spektral özellikleri ve gürültü bastırmayı sağlar.</td></tr>
+        <tr><td><b>Dinamik frekans seçimi</b></td><td>Kesim frekansı gibi parametreler her görüntü için ayrı optimize edilir; ağ görüntüyü analiz edip hangi frekansların önemli olduğunu belirler. Dikkat (attention) mekanizmalarıyla farklı frekans bölgelerine farklı ağırlık verilebilir.</td></tr>
+        <tr><td><b>Spektral konvolüsyon ağları</b></td><td>Konvolüsyonu FFT ile doğrudan frekans uzayında hesaplar: F<sup>−1</sup>[F[x] ⊙ F[w]] = x ∗ w. Büyük çekirdeklerde hesaplama tasarrufu sağlar; dezavantajı FFT maliyeti, bellek ve uzamsal konum bilgisi kaybıdır.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Portre ve manzara (ders notundaki örnek)</b>Portre fotoğraflarında yüz ayrıntılarını vurgulayan frekanslar, manzara görüntülerinde genel yapıyı öne çıkaran frekanslar seçilebilir; seçim görüntü içeriğine göre otomatik yapılır.</div>
+    <div class="callout real"><b>Gerçek hayat: MRI ve CT (ders notundaki örnek)</b>Patolojik değişiklikleri vurgulayan spektral özellikler öğrenilerek tanı doğruluğu artırılmıştır; yaklaşım radyologların gözden kaçırabileceği ince ayrıntıları belirginleştirebilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Uydu görüntüleri (ders notundaki örnek)</b>Farklı arazi türlerini ayıran spektral imzalar otomatik keşfedilmiştir; tarımsal ürün tespiti, orman değişimi izleme ve şehirsel gelişim analizinde geleneksel yöntemlerden üstün sonuç alınmıştır.</div>
+    <div class="callout real"><b>Gerçek hayat: Gürültü giderme (ders notundaki örnek)</b>Öğrenilebilir filtreler, farklı gürültü türlerinin spektral özelliklerini öğrenerek geleneksel Gauss ve Butterworth filtrelerine kıyasla daha etkili temizleme yapabilir.</div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Özellik</th><th>Geleneksel FFT filtreleme</th><th>Derin öğrenme tabanlı</th></tr></thead>
+      <tbody>
+        <tr><td>Adaptasyon</td><td>Sabit parametreler</td><td>Veriden öğrenilen parametreler</td></tr>
+        <tr><td>Performans</td><td>Genel amaçlı</td><td>Göreve özel optimize</td></tr>
+        <tr><td>Karmaşıklık</td><td>Düşük hesaplama</td><td>Yüksek eğitim maliyeti</td></tr>
+        <tr><td>Esneklik</td><td>Sınırlı</td><td>Yüksek uyarlanabilirlik</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Gelecek ve sınırlılıklar</b>Araştırmalar az veriyle öğrenme (few-shot), gerçek zamanlı uygulamalar (model sıkıştırma, budama, nicemleme ile mobil cihazlar) ve açıklanabilirlik üzerine yoğunlaşıyor. Sınırlılıklar: yüksek hesaplama maliyeti, büyük veri gereksinimi ve yorumlama zorluğu; özellikle tıbbi uygulamalarda şeffaflık önemlidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 8</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Frekans uzayı</td><td>Değişim hızı: düşük frekans = homojen bölge, yüksek = kenar; DC = ortalama parlaklık</td></tr>
+        <tr><td>DFT</td><td>1B: O(N²), FFT ile O(N log N); 2B ayrılabilir; periyodik doğa sarmalama etkisi</td></tr>
+        <tr><td>Konvolüsyon teoremi</td><td>f ∗ h ↔ F × H; adımlar: dönüştür, çarp, ters dönüştür</td></tr>
+        <tr><td>Alçak geçiren</td><td>İdeal (halka), Gauss (yumuşak), Butterworth (n ile ayar)</td></tr>
+        <tr><td>Yüksek geçiren</td><td>Tamamlayıcı formüller; gürültü büyütür, DC’yi siler, normalizasyon ister</td></tr>
+        <tr><td>Derin öğrenme</td><td>Öğrenilebilir W, hibrit mimari, dinamik frekans seçimi, spektral konvolüsyon</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_GI_8"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/gi-bolum-8-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/gi8.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>
