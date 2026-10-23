@@ -236,6 +236,26 @@ add('grilab', 'goruntu-isleme/bolum-10.html',
     [('Pencere', 'Yapısal elemanın tek boyutlu karşılığı: aynı anda bakılan komşu sayısı.'), ('Top-hat', 'Özgün − açma: küçük parlak ayrıntı.'), ('Bottom-hat', 'Kapama − özgün: küçük koyu ayrıntı.')],
     'Profil bu site için üretilmiş 96 örnekli tek boyutlu sinyaldir. Gri seviyede minimum/maksimum tanımı ve top-hat/bottom-hat formülleri notundaki Bölüm 10.5 ve 10.8’dendir.')
 
+# ---------------- Görüntü İşleme 11 ----------------
+add('spacelab', 'goruntu-isleme/bolum-11.html',
+    'R, G, B kaydırıcılarıyla bir renk kur (ya da hazır renklerden birini seç), sonra “Parlaklığı ölçekle” kaydırıcısını azalt.',
+    'İki renk kutusu (özgün ve ölçeklenmiş) ve tabloda aynı renklerin RGB, HSV, CMY, CMYK ve YCbCr değerleri görünür.',
+    'Parlaklık azalınca RGB’nin üç değeri de değişir, ama HSV’deki ton (H) aynı kalır. Bu yüzden renk tabanlı segmentasyonda HSV tercih edilir.',
+    [('Ton (H)', 'Rengin türü, derece cinsinden (0–360).'), ('Doygunluk (S)', 'Rengin canlılığı; 0 gri, 1 saf renk.'), ('Değer (V)', 'Parlaklık.'), ('YCbCr', 'Y parlaklık, Cb ve Cr renk farkı bileşenleri.')],
+    'Renkler bu site için seçildi. Uzayların rolleri notundaki Bölüm 11.2–11.3’ten; HSV, CMY, CMYK ve YCbCr dönüşüm formülleri standart biçimleridir (notta formül verilmez).')
+add('threshlab', 'goruntu-isleme/bolum-11.html',
+    'Yöntemi seç (RGB uzaklığı ya da HSV tonu) ve tolerans kaydırıcısını değiştir.',
+    'Solda 40×40 sahne, sağda seçilen piksellerin yeşil maskesi görünür. Altta yaprak piksellerinin yüzde kaçının yakalandığı ve yanlışlıkla seçilen piksel sayısı yazılır.',
+    'RGB uzaklığı gölgedeki yaprağı kaçırır ya da toleransı büyütünce başka alanları seçmeye başlar; HSV tonu parlaklıktan bağımsız olduğu için gölgedeki yaprağı da yakalar.',
+    [('RGB uzaklığı', 'Pikselin referans yeşile üç boyutlu uzaklığı.'), ('HSV tonu', 'Pikselin tonunun referans yeşilin tonundan farkı (derece).'), ('Tolerans', 'Seçime girecek en büyük uzaklık/fark.'), ('Maske', 'Seçilen piksellerin siyah-yeşil görüntüsü.')],
+    'Sahne bu site için üretildi (aydınlık ve gölgeli yaprak, kırmızı tabela, mavi bant, bej zemin; küçük gürültülü). Renk eşikleme fikri notundaki Bölüm 11.4’ten; HSV için doygunluk ve değer ek şartları bu sitenin basit kuralıdır.')
+add('kmeanscolor', 'goruntu-isleme/bolum-11.html',
+    'Küme sayısı k kaydırıcısını 2’den 6’ya kadar değiştir.',
+    'Solda özgün sahne, sağda her pikselin kendi kümesinin ortalama rengine boyandığı görüntü ve altında küme renkleri (palet) görünür. Piksel başına ortalama renk hatası yazılır.',
+    'k küçükken farklı bölgeler tek kümede birleşir; k = 5’te sahnedeki beş renk bölgesi ayrılır; k büyüyünce aynı bölge birkaç kümeye bölünür.',
+    [('Küme', 'Benzer renkli piksellerin grubu.'), ('Palet', 'Kümelerin ortalama renkleri.'), ('Renk hatası', 'Pikselin özgün rengi ile kümenin rengi arasındaki RGB uzaklığı.')],
+    'Sahne bu site için üretildi (Bölüm 11’deki aynı sahne). k-ortalamalar notundaki Bölüm 9’daki algoritmadır; renk bölütlemede kullanımı notundaki Bölüm 11.4.1’dendir.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():

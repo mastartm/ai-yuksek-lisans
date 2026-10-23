@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Renkli Görüntü İşleme — Görüntü İşleme</title>
+<meta name="description" content="Görüntü İşleme, Bölüm 11: Renkli Görüntü İşleme. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 11 · Renkli Görüntü İşleme</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 11</div>
+    <h1>Renkli Görüntü İşleme</h1>
+    <p class="big-quote">Gün ışığında canlı yeşil olan bir yaprağın gölgedeki yarısı, bir bilgisayarın gözünde tamamen başka bir renk olabilir. Rengi işlemek, yalnızca üç sayıyı işlemek değildir: <b>ışığı, gözü ve renk uzayını</b> bilmek gerekir.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Rengin fiziksel, biyolojik ve psikolojik boyutlarını anlatabilirsin.</li>
+      <li>RGB, CMY/CMYK, HSV/HSI, YCbCr ve CIE-Lab uzaylarını ne işe yaradıklarıyla eşleştirebilirsin.</li>
+      <li>Renk eşikleme ve kümelemeyle segmentasyonu açıklayabilirsin.</li>
+      <li>Renkli görüntüde özellik çıkarımı, nesne tanıma, gürültü giderme ve sıkıştırmayı anlatabilirsin.</li>
+      <li>Derin öğrenmenin renk analizindeki rolünü (renk uzayı öğrenme, veri artırma, açıklanabilirlik) söyleyebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Renk: ışıktan algıya, uzaydan uygulamaya</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Işık gözde koni hücrelerince algılanır, renk uzayına temsil edilir, işlenir ve uygulamalarda kullanılır"><rect class="d-warn" x="10" y="55" width="150" height="80" rx="8"/><text class="d-txt d-c" x="85" y="88">Işık</text><text class="d-sm d-c" x="85" y="108">380–780 nm</text><rect class="d-brand" x="190" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="275" y="88">Göz ve beyin</text><text class="d-sm d-c" x="275" y="108">3 tip koni, karşıt çiftler</text><rect class="d-ok" x="390" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="475" y="88">Renk uzayı</text><text class="d-sm d-c" x="475" y="108">RGB, HSV, Lab…</text><rect class="d-box" x="590" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="670" y="88">İşleme</text><text class="d-sm d-c" x="670" y="108">bölütleme, tanıma, sıkıştırma</text><path class="d-line-brand" d="M160 95 L190 95"/><path class="d-line-brand" d="M360 95 L390 95"/><path class="d-line-brand" d="M560 95 L590 95"/></svg>
+    <p>İyi bir renkli görüntü işleme algoritması, dalga boyunu da, insan algısını da, biyolojik sistemi de hesaba katar.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Renk bilgisinin temelleri">
+  <div class="panel">
+    <div class="kicker">11.1 Renk bilgisinin temelleri</div>
+    <h2>Üç boyutlu bir olgu: fiziksel, biyolojik, psikolojik</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Fiziksel</b>Görünür bölgedeki dalga boylarının gözce algılanması: yaklaşık 380–780 nm. Kısa dalga boyları mavi ve mor, uzun dalga boyları kırmızı ve turuncu tonları verir.</div>
+      <div class="peas-c e"><b>Biyolojik</b>Retinadaki koni hücreleri: kısa (S), orta (M) ve uzun (L) dalga boyuna duyarlı üç tip. Bu üçlü reseptör sistemi trikromatik algıyı sağlar; farklı dalga boyları koniyi farklı oranlarda uyarır.</div>
+      <div class="peas-c a"><b>Psikolojik</b>Algısal ve bağlamsal. Aynı fiziksel özellikli iki ışık farklı ortamda farklı renk algılatabilir. <b>Renk sabitliği</b>: gün ışığında ve loş ışıkta aynı nesne aynı renk olarak tanımlanır.</div>
+    </div>
+    <div class="callout idea"><b>Renk teorileri</b>Newton’un prizma deneylerinden Young–Helmholtz’un üç renk teorisine ve Hering’in karşıt renkler teorisine kadar birçok yaklaşım vardır. Bugün ikisinin birleşimi kabul edilir: gözde üç tip koni vardır ama sinir sisteminde sinyaller <b>karşıt çiftler</b> hâlinde işlenir: kırmızı–yeşil, mavi–sarı ve siyah–beyaz eksenleri.</div>
+    <div class="callout real"><b>Gerçek hayat: Gün ışığı ve loş ışık (ders notundaki örnek)</b>Bir nesne gün ışığında farklı, loş ışıkta farklı görünür; ama insan algısı genellikle nesneyi aynı renk olarak tanımlar. Bu, görsel sistemin çevre koşullarına uyum yeteneğinin sonucudur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Renk uzayları">
+  <div class="panel">
+    <div class="kicker">11.2 Renk modelleri ve renk uzayları · dene</div>
+    <h2>Aynı renk, farklı koordinatlar</h2>
+    <p>Her renk üç boyutlu bir koordinat sisteminde bir konumla ifade edilir. Hangi uzayın seçileceği işe bağlıdır:</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Uzay</th><th>Bileşenler</th><th>Nerede?</th></tr></thead>
+      <tbody>
+        <tr><td><b>RGB</b></td><td>Kırmızı, yeşil, mavi oranları</td><td>Bilgisayar grafiği, dijital kamera ve ekranlar. İnsan algısına doğrudan karşılık gelmez.</td></tr>
+        <tr><td><b>CMY / CMYK</b></td><td>Camgöbeği, eflatun, sarı (+ siyah K)</td><td>Baskı. RGB’nin tersine dayanır, ışık emilimine odaklanır; K daha net ve doygun baskı sağlar.</td></tr>
+        <tr><td><b>HSV / HSI</b></td><td>Ton (hue), doygunluk (saturation), parlaklık (value/intensity)</td><td>İnsan algısına yakın. Renk tabanlı segmentasyon ve nesne tanımada RGB’den etkili; parlaklık değişimlerinden bağımsız renk tonunu korur.</td></tr>
+        <tr><td><b>CIE-Lab</b></td><td>L parlaklık; a ve b renk karşıtlıkları</td><td>Cihazdan bağımsız standart; insan görme sistemine yakın doğruluk. Kalite kontrol ve renk analizinde.</td></tr>
+        <tr><td><b>YCbCr</b></td><td>Y parlaklık, Cb ve Cr renk farkları</td><td>Video sıkıştırma ve iletim; MPEG ve JPEG (aşağıda).</td></tr>
+      </tbody>
+    </table></div>
+    <p>Bir renk seç, parlaklığı azalt ve hangi uzayın hangi sayıları değiştirdiğine bak:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> R, G, B kaydırıcılarıyla bir renk kur (ya da hazır renklerden birini seç), sonra “Parlaklığı ölçekle” kaydırıcısını azalt.</li>
+        <li><b>Ne göreceksin:</b> İki renk kutusu (özgün ve ölçeklenmiş) ve tabloda aynı renklerin RGB, HSV, CMY, CMYK ve YCbCr değerleri görünür.</li>
+        <li><b>Ne anlamalısın:</b> Parlaklık azalınca RGB’nin üç değeri de değişir, ama HSV’deki ton (H) aynı kalır. Bu yüzden renk tabanlı segmentasyonda HSV tercih edilir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Ton (H)</dt><dd>Rengin türü, derece cinsinden (0–360).</dd><dt>Doygunluk (S)</dt><dd>Rengin canlılığı; 0 gri, 1 saf renk.</dd><dt>Değer (V)</dt><dd>Parlaklık.</dd><dt>YCbCr</dt><dd>Y parlaklık, Cb ve Cr renk farkı bileşenleri.</dd></dl></details>
+      <p class="lab-src">Renkler bu site için seçildi. Uzayların rolleri notundaki Bölüm 11.2–11.3’ten; HSV, CMY, CMYK ve YCbCr dönüşüm formülleri standart biçimleridir (notta formül verilmez).</p>
+    </div>
+    <div class="lab" id="spacelab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Renk dönüşümleri">
+  <div class="panel">
+    <div class="kicker">11.3 Renk dönüşümleri</div>
+    <h2>Doğru işe doğru uzay</h2>
+    <p>Renklerin bir uzaydan diğerine dönüştürülmesi, farklı uygulama ihtiyaçlarını karşılamak, analizi kolaylaştırmak ya da görsel kaliteyi iyileştirmek için yapılır.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Dönüşüm</th><th>Neden?</th></tr></thead>
+      <tbody>
+        <tr><td><b>RGB → HSV / HSI</b></td><td>RGB donanımda verimlidir ama renk tonlarını ayırmada sınırlıdır; HSV ton, doygunluk ve parlaklığı bağımsız ele alır. Nesne tanıma ve segmentasyonda yaygın.</td></tr>
+        <tr><td><b>RGB ↔ YCbCr</b></td><td>Parlaklık (Y) ile renk farkları (Cb, Cr) ayrılır; video sıkıştırma ve iletimde verim. MPEG ve JPEG’de; algıyı büyük ölçüde korurken veri azalır.</td></tr>
+        <tr><td><b>→ CIE-Lab</b></td><td>Renk doğruluğunun kritik olduğu yerlerde. İnsan gözüyle algılanan renk farkları daha doğru sayısallaşır.</td></tr>
+        <tr><td><b>Görüntü geliştirme</b></td><td>Renk bileşenlerini ayırmak, kontrastı artırmak ya da belirli renk aralıklarını filtrelemek için uygun uzaya geçilir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Tekstil ve boya (ders notundaki örnek)</b>Tekstil ve boya sanayilerinde ürün renklerinin standartlara uygunluğunu denetlemek için CIE-Lab dönüşümleri kullanılır.</div>
+    <div class="callout real"><b>Gerçek hayat: Düşük ışıkta çekilmiş görüntü (ders notundaki örnek)</b>Parlaklık bileşeni üzerinde histogram eşitleme yapılırsa görsel ayrıntılar belirginleşirken renk tonları korunur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Renk tabanlı segmentasyon">
+  <div class="panel">
+    <div class="kicker">11.4 Renk tabanlı segmentasyon · dene</div>
+    <h2>Rengi eşikle, kümele ya da öğren</h2>
+    <p>Segmentasyon genellikle uygun bir renk uzayına dönüştürülmüş görüntüde yapılır. HSV’de <b>ton</b> bileşeni nesneleri ayırt etmede kritik rol oynar; parlaklık ya da gölge değişimlerinden bağımsız ton eşiklemesiyle nesneler arka plandan ayrılabilir.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Renk eşikleme</b></td><td>Belirli bir renk aralığı tanımlanır; aralıktaki tüm pikseller o sınıfa atanır. Tek başına aydınlatma değişimine ve gürültüye duyarlıdır; genellikle morfolojik işlemlerle desteklenir.</td></tr>
+        <tr><td><b>Kümeleme (k-means, GMM)</b></td><td>Piksel renk dağılımlarını inceleyip benzer renk gruplarını bulur; eşiklemeye göre daha esnek ve genelleştirilebilir; karmaşık sahnelerde ve çok nesneli bölütlemede tercih edilir.</td></tr>
+        <tr><td><b>Makine ve derin öğrenme</b></td><td>CNN gibi modeller renk bilgisini uzamsal özelliklerle birlikte değerlendirir; tümör dokusu ya da biyolojik örneklerin renk temelli ayırt edilmesinde rol oynar.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Önce yaprakları iki farklı yolla seç. Sahnede aydınlık yaprak, gölgedeki yaprak, kırmızı bir tabela ve mavi bir bant var:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Yöntemi seç (RGB uzaklığı ya da HSV tonu) ve tolerans kaydırıcısını değiştir.</li>
+        <li><b>Ne göreceksin:</b> Solda 40×40 sahne, sağda seçilen piksellerin yeşil maskesi görünür. Altta yaprak piksellerinin yüzde kaçının yakalandığı ve yanlışlıkla seçilen piksel sayısı yazılır.</li>
+        <li><b>Ne anlamalısın:</b> RGB uzaklığı gölgedeki yaprağı kaçırır ya da toleransı büyütünce başka alanları seçmeye başlar; HSV tonu parlaklıktan bağımsız olduğu için gölgedeki yaprağı da yakalar.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>RGB uzaklığı</dt><dd>Pikselin referans yeşile üç boyutlu uzaklığı.</dd><dt>HSV tonu</dt><dd>Pikselin tonunun referans yeşilin tonundan farkı (derece).</dd><dt>Tolerans</dt><dd>Seçime girecek en büyük uzaklık/fark.</dd><dt>Maske</dt><dd>Seçilen piksellerin siyah-yeşil görüntüsü.</dd></dl></details>
+      <p class="lab-src">Sahne bu site için üretildi (aydınlık ve gölgeli yaprak, kırmızı tabela, mavi bant, bej zemin; küçük gürültülü). Renk eşikleme fikri notundaki Bölüm 11.4’ten; HSV için doygunluk ve değer ek şartları bu sitenin basit kuralıdır.</p>
+    </div>
+    <div class="lab" id="threshlab"></div>
+    <p>Sonra aynı sahneyi renk dağılımına göre k-ortalamalarla (Bölüm 9) kümele:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Küme sayısı k kaydırıcısını 2’den 6’ya kadar değiştir.</li>
+        <li><b>Ne göreceksin:</b> Solda özgün sahne, sağda her pikselin kendi kümesinin ortalama rengine boyandığı görüntü ve altında küme renkleri (palet) görünür. Piksel başına ortalama renk hatası yazılır.</li>
+        <li><b>Ne anlamalısın:</b> k küçükken farklı bölgeler tek kümede birleşir; k = 5’te sahnedeki beş renk bölgesi ayrılır; k büyüyünce aynı bölge birkaç kümeye bölünür.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Küme</dt><dd>Benzer renkli piksellerin grubu.</dd><dt>Palet</dt><dd>Kümelerin ortalama renkleri.</dd><dt>Renk hatası</dt><dd>Pikselin özgün rengi ile kümenin rengi arasındaki RGB uzaklığı.</dd></dl></details>
+      <p class="lab-src">Sahne bu site için üretildi (Bölüm 11’deki aynı sahne). k-ortalamalar notundaki Bölüm 9’daki algoritmadır; renk bölütlemede kullanımı notundaki Bölüm 11.4.1’dendir.</p>
+    </div>
+    <div class="lab" id="kmeanscolor"></div>
+    <div class="callout real"><b>Gerçek hayat: Yaprak ve bitki (ders notundaki örnek)</b>Yeşil renk aralığı belirlenerek bir bitkinin yaprakları diğer nesnelerden ayrılabilir.</div>
+    <div class="callout idea"><b>Zorluk: aydınlatma</b>Gün ışığı ile yapay ışıkta aynı sahne farklı renk dağılımına sahip olur. Dayanıklılık için renk normalizasyonu, gölge giderme algoritmaları ve adaptif eşikleme kullanılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Özellik çıkarımı">
+  <div class="panel">
+    <div class="kicker">11.5 Renkli görüntülerde özellik çıkarımı</div>
+    <h2>Renk histogramı, renk momentleri, renkli kenar</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Özellik</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Renk histogramı</b></td><td>Renklerin frekans dağılımı; her kanalın (RGB ya da HSV) dağılımından renk profili çıkar. Görüntü benzerliği ve içerik tabanlı görüntü erişiminde kullanılır; aydınlatmaya duyarlı olduğu için normalizasyon gerekir.</td></tr>
+        <tr><td><b>Renk momentleri</b></td><td>Dağılımı istatistiklerle (ortalama, varyans, çarpıklık) kompakt ifade eder; düşük boyutlu ama anlamlı girdi vektörleri için uygundur.</td></tr>
+        <tr><td><b>Renk tabanlı kenar</b></td><td>Renk geçişlerinden yararlanır; renk farkına dayalı gradyan gri seviye kenar yöntemlerinden daha hassas sınır verir. Nesnelerin parlaklığı yakın ama renkleri farklıysa büyük avantaj.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Uzay ve uygulama</b>HSV’de doygunluk ve ton değerleri, LAB’de aydınlık ve renk bileşenleri ayırt edici özellikleri yakalamada etkilidir. Uzay uygulama alanına göre seçilir: yüz tanımada LAB, bitki yaprağı analizi gibi biyolojik uygulamalarda HSV daha etkin olabilir.</div>
+    <div class="callout idea"><b>Derin öğrenme</b>Derin ağlar renk kanallarından elle tanımlanan özelliklerin ötesinde, yüksek ayırt ediciliğe sahip temsilleri otomatik öğrenir; nesne tanıma, sahne analizi ve sınıflandırma daha yüksek doğrulukla yapılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Nesne tanıma">
+  <div class="panel">
+    <div class="kicker">11.6 Renkli görüntülerde nesne tanıma</div>
+    <h2>Renk iyi bir ipucu ama tek başına yetmez</h2>
+    <div class="callout real"><b>Gerçek hayat: Kırmızı trafik işareti yeşil yaprakların arasında (ders notundaki örnek)</b>Kırmızı bir trafik işareti yeşil yapraklar arasında kolayca tespit edilebilir. Renk histogramları ya da renk uzayında eşik değerlere dayalı bölütleme kullanılır. Renk tabanlı yaklaşımlar arka plan ve ön plan arasında belirgin renk farkı olduğunda etkilidir.</div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Geleneksel</th><th>Derin öğrenme</th></tr></thead>
+      <tbody>
+        <tr><td><b>Yöntem</b></td><td>Renk tabanlı eşleştirme, şablon eşleştirme, kenar özellikleri.</td><td>CNN, uzamsal ve renk ilişkilerini otomatik öğrenir; YOLO, Faster R-CNN, Mask R-CNN renk bilgisini doğrudan girdi alır.</td></tr>
+        <tr><td><b>Sınır</b></td><td>Karmaşık sahnede ya da değişken ışıkta tek başına yetersiz; bu yüzden dokusal ve şekil özellikleriyle birlikte kullanılır.</td><td>Yüksek doğrulukta tespit.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Zorluklar ve çözümler</b>Aydınlatma değişimi (aynı nesne farklı tonlarda görünür), gölgeler ve yansımalar doğruluğu düşürür. Çözüm: renk sabitleme ve normalizasyon, renk uzayı dönüşümleri ve aydınlatmadan bağımsız renk bileşenleri.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Modern segmentasyon">
+  <div class="panel">
+    <div class="kicker">11.7 Modern segmentasyon teknikleri</div>
+    <h2>FCN, U-Net, Mask R-CNN ve transformatörler</h2>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">FCN</b>Tam evrişimsel ağlar<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Klasik CNN’lerdeki tam bağlı katmanlar yerine tamamen evrişimsel katmanlar kullanır; giriş boyutundan bağımsız piksel bazlı tahmin yapılabilir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">U-Net</b>Encoder–decoder<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Hem düşük seviyeli ayrıntıları hem yüksek seviyeli özellikleri birleştirerek yüksek doğrulukta bölütleme yapar.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Mask R-CNN</b>Tespit + bölütleme<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Nesne tespitini ve segmentasyonu aynı anda yapar; sahnedeki her nesneyi ayrı maskeler. Otonom araçlar, yüz tanıma ve biyometrik doğrulamada başarılı.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">ViT</b>Transformatör tabanlı<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Dikkat mekanizmasıyla uzun menzilli bağımlılıkları öğrenir; hibrit CNN + ViT yerel özellikleri ve küresel bağlamı birlikte yakalar.</span></button>
+    </div>
+    <p>Bu modeller geniş veri kümelerinde eğitildiğinde yalnızca renk farklarını ayırmakla kalmaz, dokusal ve yapısal özelliklerle de bütünleştirir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Gürültü giderme">
+  <div class="panel">
+    <div class="kicker">11.8 Görüntü iyileştirme ve gürültü giderme</div>
+    <h2>Temel filtrelerden derin ağlara</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Grup</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Doğrusal</b></td><td>Ortalama filtresi basit ve hızlıdır ama kenarları bulanıklaştırır. Gauss filtresi merkeze yakın piksellere daha çok ağırlık verir.</td></tr>
+        <tr><td><b>Doğrusal olmayan</b></td><td>Medyan, tuz-biber gürültüsünde etkilidir ve keskin kenarları korur. Bilateral filtre hem uzamsal mesafeyi hem renk farkını hesaba katarak kenarı korur.</td></tr>
+        <tr><td><b>İstatistiksel / dalgacık</b></td><td>Wiener filtresi görüntü ve gürültü istatistiklerinden optimum tahmin yapar. Dalgacık yöntemleri görüntüyü frekans bileşenlerine ayırıp yüksek frekanslı gürültüyü bastırır, düşük frekanslı yapıları korur.</td></tr>
+        <tr><td><b>Derin öğrenme</b></td><td>CNN tabanlı modeller bozulmuş–temiz görüntü çiftleriyle eğitilerek gürültüyü öğrenir ve gerçek zamanlı temizler: DnCNN, FFDNet, U-Net tabanlı ağlar.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Sıkıştırma ve dönüşümler">
+  <div class="panel">
+    <div class="kicker">11.9–11.10 Sıkıştırma ve dönüşüm alanı</div>
+    <h2>Gözün az duyarlı olduğu yerden vazgeç</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Kayıpsız</b> (PNG, GIF)</td><td>Görüntü tamamen özgününe dönebilir; oran genellikle düşüktür. Tıbbi görüntüleme ve adli bilişim gibi özgünün korunmasının kritik olduğu alanlarda tercih edilir.</td></tr>
+        <tr><td><b>Kayıplı</b> (JPEG, JPEG2000)</td><td>Daha yüksek oran; insan gözünün daha az hassas olduğu renk ve ayrıntı bileşenlerinde kayıp yapılır.</td></tr>
+        <tr><td><b>JPEG</b></td><td>Renk bileşenleri YCbCr’de ayrılır; gözün daha az hassas olduğu krominans bileşenlerinde veri kaybı uygulanır. DCT algoritmanın temelindedir.</td></tr>
+        <tr><td><b>JPEG2000</b></td><td>Dalgacık dönüşümüne dayanır; bloklama artefaktlarını azaltır, görsel kalitesi yüksek, sıkıştırma seviyelerinde esnek.</td></tr>
+        <tr><td><b>Değerlendirme</b></td><td>Görüntü kalitesi ve sıkıştırma oranı; PSNR ve SSIM metrikleri.</td></tr>
+        <tr><td><b>Fourier</b></td><td>Yüksek frekanslı gürültüyü bastırma ya da düşük frekanslı arka planı giderme; JPEG gibi yöntemler bu ilkelerden yararlanır.</td></tr>
+        <tr><td><b>Dalgacık</b></td><td>Uzamsal ve frekans çözünürlüğünü aynı anda analiz eder; ayrıntılı bölgeleri ve kenarları iyi korur. Gürültü giderme, sıkıştırma, çok çözünürlüklü analiz.</td></tr>
+        <tr><td><b>DCT</b></td><td>JPEG’in temeli; görüntüyü frekans bileşenlerine ayırıp bilgi yoğunluğunu optimize eder.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Tıbbi görüntü ve adli bilişim (ders notundaki örnek)</b>Özgün görüntünün korunmasının kritik olduğu bu alanlarda kayıpsız sıkıştırma (PNG, GIF gibi) tercih edilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kenar, hareket, uygulamalar">
+  <div class="panel">
+    <div class="kicker">11.11–11.14 Kenar, hareket, uygulamalar, gelecek</div>
+    <h2>Renkli kenar, video ve gerçek dünya</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Renkli kenar tespiti</b></td><td>Her piksel üç boyutlu renk bilgisi taşıdığı için gri seviyeden daha karmaşıktır. Sobel, Prewitt ve Canny genellikle gri tonlamaya indirgeyerek uygulanır; bu renk bilgisinin bir kısmını kaybettirir. RGB, HSV ya da CIELab’de her kanalın gradyanı ayrı ayrı veya birleştirilerek hesaplanır; CIELab insan görme sistemiyle uyumlu olduğu için daha yüksek doğruluk verir. Gauss ile gürültü azaltma, medyan ile keskin kenar koruma, bilateral ile kenar koruyarak yumuşatma kullanılır.</td></tr>
+        <tr><td><b>Hareket analizi</b></td><td>Zamanla değişen nesne ve sahne özelliklerini inceler; konumun yanında hız, yön ve ivme gibi dinamik bilgi çıkarılır. <b>Optik akış</b> piksellerin zamandaki hareketini tahmin ederek yön ve hızı verir. <b>Arka plan çıkarımı</b> durağan arka planı modeller ve hareketli nesneleri çıkarır; renk bilgisi gölge ve aydınlatma hatalarını azaltır. Davranış analizi ve aktivite tanıma (koşma, yürüme, oturma) da mümkündür.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Histopatoloji (ders notundaki örnek)</b>Patoloji ve dermatoloji görüntülerinde renkli dokuların yüksek çözünürlükte analizi erken teşhis oranlarını artırır; histopatolojide hücre tiplerinin renk özelliklerine göre sınıflandırılması kanser teşhisinde önemli bir araçtır.</div>
+    <div class="callout real"><b>Gerçek hayat: Otonom araç ve tarım robotu (ders notundaki örnek)</b>Trafik işaretlerinin renklerine dayalı tanıma ve tarım robotlarında bitki sağlığının renk analiziyle değerlendirilmesi.</div>
+    <div class="callout real"><b>Gerçek hayat: Fabrika ve uydu (ders notundaki örnek)</b>Endüstriyel üretimde ürün kusurları, renk sapmaları ve materyal sınıflandırması; uydu görüntülerinde arazi kullanım sınıflandırması, çevre izleme ve tarım, çok spektrumlu verilerle bütünleştirilerek.</div>
+    <div class="callout idea"><b>Gelecek</b>Artırılmış/sanal gerçeklikte renk doğruluğu, derinlik algısı ve dinamik ışıklandırma; çok spektrumlu ve hiperspektral görüntüleme; açıklanabilir yapay zekâ (şeffaflık); GPU, TPU ve özel yapay zekâ çipleri ile düşük güç tüketimli gömülü sistemler.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Öğrenme tabanlı renk analizi">
+  <div class="panel">
+    <div class="kicker">11.15 Öğrenme tabanlı renk analizi</div>
+    <h2>Renk uzayını da ağ öğrensin</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Renk uzayı optimizasyonu</b></td><td>RGB, HSV, CIELab insan algısı ve teknolojik kısıtlarla tasarlanmıştır; bir görev için en uygun temsil belli değildir. CNN’in ilk katmanları RGB girişini göreve özel temsillere çevirir. Bir yaklaşım renk kanallarının ağırlıklı birleşimini öğrenmektir: <span class="mono">C<sub>öğrenilmiş</sub> = W · C<sub>RGB</sub> + b</span> (W öğrenilebilir ağırlık matrisi, b yanlılık). Renk sabitleme de derin öğrenmeyle geliştirilmiştir. U-Net uzamsal tutarlılık için, ViT uzun menzilli renk ilişkileri için, hibrit yapılar ikisini birlikte.</td></tr>
+        <tr><td><b>Renk tabanlı veri artırma</b></td><td>Parlaklık ve kontrast ayarı (farklı aydınlatmayı taklit), doygunluk değişimi, kanal değiştirme (renk tonunun kritik olmadığı görevlerde), rastgele renk dönüşümleri, histogram eşitleme tabanlı artırma, renk transferi (bir görüntünün paletini başkasına aktarma).</td></tr>
+        <tr><td><b>Açıklanabilir renk analizi</b></td><td>Sınıf aktivasyon haritaları (CAM) hangi renk bölgelerinin önemli olduğunu gösterir. Grad-CAM her renk kanalı için ayrı önem haritası üretebilir. Filtre görselleştirme: ilk katmanlar temel renk geçişlerini, derin katmanlar karmaşık renk desenlerini yakalar. Renk tabanlı karşıt örnekler gözle fark edilmeyecek küçük renk değişiklikleriyle modelin yanlış sınıflandırmasını sağlayıp zayıflığı ölçer. LIME bir bölgedeki renk değişikliğinin çıktıya etkisini nicel ölçer.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Patoloji, otonom sürüş, tarım (ders notundaki örnek)</b>Tıbbi görüntülemede patoloji tespiti ve doku sınıflandırmada renk tabanlı CNN ve U-Net türevleri; otonom sürüşte aydınlatma değişimine dayanıklı trafik işareti tanıma; tarımsal görüntülemede bitki sağlığı analizinde renk varyasyonları temel gösterge.</div>
+    <div class="callout idea"><b>Klasik ile öğrenme tabanlı</b>Klasik yöntemler hızlı ve düşük maliyetlidir ama genelleme kabiliyeti düşüktür, farklı ışık koşullarına uyum zordur. Öğrenme tabanlı yöntemler daha yüksek doğruluk ve esneklik sunar ama veri bağımlılığı ve yüksek hesaplama maliyeti dezavantajdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 11</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Renk</td><td>Fiziksel (380–780 nm), biyolojik (S, M, L konileri, karşıt çiftler), psikolojik (renk sabitliği)</td></tr>
+        <tr><td>Uzaylar</td><td>RGB (ekran), CMYK (baskı), HSV/HSI (algıya yakın, segmentasyon), CIE-Lab (doğruluk), YCbCr (sıkıştırma)</td></tr>
+        <tr><td>Segmentasyon</td><td>HSV ton eşiklemesi, k-means/GMM, CNN; ışık değişimi zorluğu</td></tr>
+        <tr><td>Özellik / tanıma</td><td>Renk histogramı, momentler, renkli kenar; YOLO, Faster R-CNN, Mask R-CNN; renk sabitleme</td></tr>
+        <tr><td>Gürültü / sıkıştırma</td><td>Medyan, bilateral, Wiener, dalgacık, DnCNN; JPEG (YCbCr + DCT), JPEG2000 (dalgacık)</td></tr>
+        <tr><td>Renkli kenar ve hareket</td><td>CIELab’de kenar; optik akış, arka plan çıkarımı</td></tr>
+        <tr><td>Öğrenme tabanlı</td><td>Renk uzayı öğrenme (W·C + b), renk tabanlı veri artırma, CAM, Grad-CAM, LIME</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_GI_11"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/gi-bolum-11-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/gi11.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>
