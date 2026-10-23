@@ -1,0 +1,272 @@
+<!--
+course: goruntu-isleme
+course_title: Görüntü İşleme
+no: 12
+title: Görüntü Bölütleme
+quiz: QUIZ_GI_12
+quiz_file: gi-bolum-12-quiz.js
+scripts: gi12.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Görüntü İşleme · Bölüm 12</div>
+    <h1>Görüntü Bölütleme</h1>
+    <p class="big-quote">Bir MR görüntüsünde gri madde, beyaz madde ve beyin omurilik sıvısı aynı karenin içindedir. Bilgisayara “bunlar farklı dokular” dedirten adım, <b>her pikseli bir bölgeye atamaktır</b>: bölütleme.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Bölütlemenin dört kuralını (tam kapsama, ayrık bölgeler, homojenlik, kontrast) söyleyebilirsin.</li>
+      <li>Süreksizlik ve benzerlik tabanlı yaklaşımı ayırt edebilirsin.</li>
+      <li>Genel, Otsu ve yerel eşiklemenin ne zaman işe yaradığını açıklayabilirsin.</li>
+      <li>Bölge büyütme, bölme-birleştirme ve kümelemeyle bölütlemeyi karşılaştırabilirsin.</li>
+      <li>Model tabanlı, çizge tabanlı ve derin öğrenme (FCN, U-Net) yöntemlerini tanıtabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Sekiz yöntem, iki temel fikir</h2>
+    <svg class="diagram" viewBox="0 0 760 230" role="img" aria-label="Görüntü, süreksizlik ya da benzerlik fikriyle bölgelere ayrılır; sekiz yöntem bu iki fikre dayanır"><rect class="d-box" x="10" y="85" width="120" height="60" rx="8"/><text class="d-txt d-c" x="70" y="120">Görüntü</text><rect class="d-warn" x="190" y="20" width="250" height="80" rx="8"/><text class="d-txt d-c" x="315" y="52">Süreksizlik</text><text class="d-sm d-c" x="315" y="74">ani değişimi (kenarı) bul</text><rect class="d-ok" x="190" y="130" width="250" height="80" rx="8"/><text class="d-txt d-c" x="315" y="162">Benzerlik</text><text class="d-sm d-c" x="315" y="184">benzer pikselleri grupla</text><rect class="d-brand" x="500" y="85" width="250" height="60" rx="8"/><text class="d-txt d-c" x="625" y="112">Bölgeler</text><text class="d-sm d-c" x="625" y="132">anlamlı nesneler</text><path class="d-line-brand" d="M130 105 L190 65"/><path class="d-line-brand" d="M130 125 L190 170"/><path class="d-line-brand" d="M440 60 L500 105"/><path class="d-line-brand" d="M440 170 L500 125"/></svg>
+    <p>Notta sekiz yöntem sayılır: eşikleme, kenar belirleme, histogram, bölge büyütme, bölme-birleştirme, kümeleme, model tabanlı ve çizge bölümleme. Tek evrensel algoritma yoktur; yöntem probleme göre seçilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Dört kural">
+  <div class="panel">
+    <div class="kicker">12.1 Segmentasyonun özellikleri</div>
+    <h2>İyi bir bölütlemenin dört şartı</h2>
+    <p>Görüntü R, ayrık bölgelere (R₁, R₂, …, Rₙ) ayrılır. Sonucun tutarlı ve anlamlı olması için şu kurallar aranır:</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Tam kapsama</b>Her piksel bir bölgede<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Görüntüdeki tüm pikseller en az bir bölgeye ait olmalı; sınıflanmamış piksel kalmamalı.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Ayrık bölgeler</b>Çakışma yok<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Farklı bölgeler birbiriyle çakışmaz; bir piksel aynı anda iki bölgeye ait olamaz.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Homojenlik</b>İçeride benzerlik<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Bir bölgenin pikselleri benzer özellik taşır: renk, yoğunluk, doku ya da şekil.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Kontrast</b>Komşular farklı<span class="tip">tıkla</span></span><span class="back"><b class="k">Anlamı</b>Komşu bölgeler belirgin biçimde farklı olmalı; değilse birleştirilmelidir.</span></button>
+    </div>
+    <div class="callout idea"><b>Bağlantılılık</b>Modern sistemler ayrıca uzamsal bağlantılılığı ister: benzer piksellerin görüntüde de yakın olması gerekir. Bu, gürültüden doğan yanlış sınıflamaları azaltır. Anlamsal tutarlılık ise bölütlenen nesnelerin gerçek dünyada var olabilecek yapılar olmasını ister.</div>
+    <div class="callout real"><b>Gerçek hayat: Tıbbi görüntü (ders notundaki örnek)</b>Manyetik rezonans görüntüsünde gri madde, beyaz madde ve beyin omurilik sıvısı bölütlemeyle ayrılır.</div>
+    <div class="callout real"><b>Gerçek hayat: Otonom araç (ders notundaki örnek)</b>Yol yüzeyi, kaldırım, araçlar, yayalar ve trafik işaretleri birbirinden ayrılır.</div>
+    <div class="callout real"><b>Gerçek hayat: Üretim hattı ve tarım (ders notundaki örnek)</b>Kalite kontrolde kusurlu ürünler tespit edilir (otomotivde boya kalitesi için özel algoritmalar anılır); tarımda hasat zamanı belirlenir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Süreksizlik ve benzerlik">
+  <div class="panel">
+    <div class="kicker">12.1–12.4 Yaklaşımlar ve yöntemler</div>
+    <h2>Sınırı mı arıyorsun, benzerliği mi?</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yaklaşım</th><th>Nasıl çalışır?</th><th>Nerede iyi?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Süreksizlik tabanlı</b></td><td>Kenar tespiti, gradyan analizi ve morfolojik operatörlerle bölge sınırlarını bulur.</td><td>Net sınırlı nesneler, kontrollü ortamlar.</td></tr>
+        <tr><td><b>Benzerlik tabanlı</b></td><td>Piksel gruplarının istatistiksel ve spektral özelliklerini inceleyip homojen bölgeler kurar.</td><td>Yumuşak geçişli doğal görüntüler.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Notta ayrıca çok modaliteli bölütleme anılır: görünür ışık verisi kızılötesi ya da termal görüntüyle birleştirilince tek sensörün göremediği ayrıntılar çıkar; güvenlik ve askerî projelerde önemlidir. Algoritma seçerken doğruluğun yanında hız, bellek ve enerji de hesaba girer (mobil cihazlarda kısıtlıdır).</p>
+    <div class="callout idea"><b>Notta bir düzensizlik</b>Ders notunda “12.2 Benzerlik tabanlı bölütleme algoritmaları” başlığının altında benzerlik tabanlı yöntem anlatılmaz; RAW, JPEG, PNG, TIFF gibi görüntü dosya biçimleri anlatılır. “12.5.2 Gelişmiş eşikleme teknikleri” altında yalnızca görüntü işleme donanım-yazılımına dair bir giriş, “12.13.2 Modern model kategorileri” altında ise Bölüm 8’in (Filtreleme 2) hedef paragrafı durur. Bu metinler başka bölümlerden gelmiş görünüyor. Bu sayfa onları bölütleme konusu gibi anlatmaz. Benzerlik tabanlı yöntemlerin gerçek içeriği notun sonraki alt başlıklarındadır: eşikleme, histogram, bölge büyütme, bölme-birleştirme ve kümeleme.</div>
+    <div class="callout idea"><b>Bilgi için: dosya biçimleri</b>Notun o bölümündeki doğru bilgi: RAW biçimler (.NEF, .CR2, .ARW) sensör verisini işlenmemiş ve sıkıştırılmamış saklar, 10–16 bit radyometrik çözünürlük taşır; JPEG kayıplı, PNG ve TIFF kayıpsız sıkıştırır. Bölütleme için bir şey söylemez.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Eşikleme">
+  <div class="panel">
+    <div class="kicker">12.5 Eşikleme tabanlı bölütleme · dene</div>
+    <h2>Genel, Otsu ve yerel eşik</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Tür</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Genel (global)</b></td><td>Tüm görüntü için tek eşik. Basit ve hızlı; homojen aydınlatmalı basit görüntülerde iyi, karmaşık görüntülerde sınırlı. Eşik histogramdan bulunur.</td></tr>
+        <tr><td><b>Otsu</b></td><td>Sınıflar arası varyansı büyütüp sınıf içi varyansı küçülten eşiği seçer. Entropi tabanlı yöntemler ise bilgi kuramı ölçütleri kullanır.</td></tr>
+        <tr><td><b>Yerel uyarlanabilir</b></td><td>Her piksel için komşuluğuna göre eşik hesaplanır (Gauss ağırlıklı ortalama ya da medyan). Değişken koşullarda daha iyi.</td></tr>
+        <tr><td><b>Çok seviyeli</b></td><td>Birden çok eşikle görüntü birkaç yoğunluk bölgesine ayrılır; gri görüntüyü renkli temsile çevirmek için de kullanılır.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Soldan sağa giderek parlaklaşan bir ışığın altında iki nesne var. Üç yolu dene:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Üç yoldan birini seç: elle genel eşik, Otsu (otomatik genel eşik) ya da yerel uyarlanabilir eşik. Genel eşik ve yerel pencere kaydırıcılarını oynat.</li>
+        <li><b>Ne göreceksin:</b> Solda soldan sağa parlaklaşan bir ışık altında iki nesne (daire ve dikdörtgen), sağda eşik sonucu (beyaz = nesne) görünür. Altta doğru sınıflanan piksel yüzdesi ve yanlış piksel sayısı yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Aydınlatma değiştiği için hiçbir tek eşik (elle ya da Otsu) iki nesneyi birden temiz ayıramaz; yerel eşik her pikseli komşuluğuyla karşılaştırdığı için başarılıdır. Pencere nesneden çok küçükse nesnenin içi boş kalır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Genel eşik</dt><dd>Tüm görüntüde tek eşik değeri.</dd><dt>Otsu</dt><dd>Sınıflar arası varyansı en büyük yapan tek eşik, histogramdan otomatik bulunur.</dd><dt>Yerel eşik</dt><dd>Pikselin komşuluk ortalamasına göre hesaplanan eşik (burada ortalama + 10).</dd><dt>Pencere</dt><dd>Yerel ortalamanın hesaplandığı kare komşuluk.</dd></dl></details>
+      <p class="lab-src">Görüntü bu site için üretildi (40×40, ışık soldan sağa artar, nesneler zeminden 50 gri seviye parlak, küçük gürültü). Genel, Otsu ve yerel eşikleme notundaki Bölüm 12.5.1’den; “ortalama + 10” kuralı bu sitenin basit seçimidir.</p>
+    </div>
+    <div class="lab" id="threshgray"></div>
+    <div class="callout real"><b>Gerçek hayat: Parmak izi (ders notundaki örnek)</b>Notta Şekil 12.5 olarak parmak izine histogram tabanlı bölütleme uygulanan bir örnek gösterilir (şekil bu sitede yok).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kenar ve histogram">
+  <div class="panel">
+    <div class="kicker">12.3, 12.6, 12.7 Kenar ve histogram tabanlı</div>
+    <h2>Türevden sınır, tepe-vadiden eşik</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Birinci türev</b></td><td>Gradyan büyüklüğü kenar gücünü, yönü kenar oryantasyonunu verir. Sobel, Prewitt ve daha iyi frekans yanıtlı Scharr; Gauss türev süzgeçleri gürültü bastırmayı ve kenar bulmayı tek adımda yapar.</td></tr>
+        <tr><td><b>İkinci türev</b></td><td>Sıfır geçişi ile kenarın konumu hassas bulunur; Laplace operatörü yönden bağımsız (izotropik) tepki verir.</td></tr>
+        <tr><td><b>Sorun</b></td><td>Doğal görüntülerde kenarlar kesiklidir, gürültüden sahte kenar çıkar. Çözüm: kenar tamamlama, gürültü bastırma; anizotropik difüzyon kenarı korurken yumuşatır.</td></tr>
+        <tr><td><b>Derin ve karma</b></td><td>Uçtan uca kenar ağları ham pikselden kenar haritası üretir; karma yöntemler klasik operatörle öğrenilmiş özelliği birleştirir.</td></tr>
+        <tr><td><b>Histogram tabanlı</b></td><td>Tepe-vadi analizi; karışım modelleri (GMM) ve çekirdek yoğunluk kestirimi çok modlu dağılımı modeller. Renkli görüntüde RGB, HSV ve LAB’de birlikte analiz yapılır.</td></tr>
+        <tr><td><b>Uyarlanabilir histogram</b></td><td>Görüntü çakışan pencerelere bölünür, her pencerenin kendi histogramından eşik bulunur. Pencere küçükse istatistik güvenilmez, büyükse yerel değişim kaçar.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Aydınlatma değişmezliği</b>Aynı nesne farklı ışıkta farklı renk dağılımı gösterir; bu histogram yöntemlerinin güvenilirliğini düşürür. Normalize renk uzayları ve doygunluk koordinatları sorunu azaltır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölge büyütme">
+  <div class="panel">
+    <div class="kicker">12.8 Bölge büyütme tabanlı bölütleme · dene</div>
+    <h2>Tohumdan başla, benzerleri kat</h2>
+    <p>Bölge büyütme, tohum noktalarından başlayıp benzer özellikli pikselleri yineleyerek birleştirir. Başarı iki şeye bağlıdır: <b>uygun tohum</b> ve <b>iyi benzerlik ölçütü</b>.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Parça</th><th>Notta ne denir?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Tohum belirleme</b></td><td>Gradyan büyüklüğü, köşe, leke ve içerik analizi birlikte kullanılır; öğrenme yöntemleri tohumun başarı olasılığını önceden değerlendirir; görüntü piramidinde çok çözünürlüklü tohum dağıtılır.</td></tr>
+        <tr><td><b>Büyüme ölçütü</b></td><td>Yoğunluk benzerliğine doku desteği: Yerel İkili Örüntü (LBP), Gabor süzgeçleri, dalgacıklar. Mahalanobis uzaklığı ve Kullback–Leibler ıraksaması istatistiksel homojenliği ölçer.</td></tr>
+        <tr><td><b>Birleştirme</b></td><td>Aşırı bölümlenmeyi gidermek için komşu bölgelerin spektral özelliği, şekli ve bağlamı incelenir; bölgeler ağaç yapısında (hiyerarşik) tutulabilir.</td></tr>
+        <tr><td><b>Hız</b></td><td>GPU’da (CUDA, OpenCL) binlerce tohum aynı anda işlenip gerçek zamana yaklaşılır.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Aşağıda iki nesne ve gürültü var. Tohumu ve toleransı değiştir:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Tohumu seç (nesne A, nesne B ya da zemin) ve benzerlik toleransını değiştir.</li>
+        <li><b>Ne göreceksin:</b> Solda gürültülü görüntü (kırmızı kare tohumu gösterir), sağda tohumdan büyüyen bölge (beyaz) görünür. Altta bölgedeki piksel sayısı, gerçek bölgenin yüzde kaçının yakalandığı ve bölge dışına taşan piksel sayısı yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Tolerans çok küçükse bölge gürültüde takılıp parça parça kalır; çok büyükse nesne sınırını aşıp zemine taşar. Bölge yalnızca tohuma bağlı pikselleri toplar: öteki nesne seçilmez. Sonuç tohuma ve ölçüte bağlıdır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Tohum</dt><dd>Büyümenin başladığı piksel.</dd><dt>Tolerans</dt><dd>Komşu pikselin bölge ortalamasından en fazla ne kadar farklı olabileceği (gri seviye).</dd><dt>Taşma</dt><dd>Tohumun ait olduğu gerçek bölgenin dışında kalan seçili piksel.</dd><dt>Bağlı</dt><dd>Komşuluk (4’lü) üzerinden ulaşılabilir.</dd></dl></details>
+      <p class="lab-src">Görüntü bu site için üretildi (40×40, iki nesne ve zemin, gürültülü). Tohumdan büyüme fikri notundaki Bölüm 12.8’den; ölçüt olarak “bölge ortalamasına uzaklık” ve 4’lü komşuluk bu sitenin basit seçimidir.</p>
+    </div>
+    <div class="lab" id="regionlab"></div>
+    <div class="callout real"><b>Gerçek hayat: Tıbbi görüntü ve uydu (ders notundaki örnek)</b>Öğrenme temelli benzerlik ölçütlerinin özellikle tıbbi görüntülemede ve uydu görüntü analizinde başarılı olduğu söylenir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölme ve birleştirme">
+  <div class="panel">
+    <div class="kicker">12.9 Bölme ve birleştirme tabanlı bölütleme · dene</div>
+    <h2>Dörtlü ağaçla yukarıdan aşağı</h2>
+    <p>Görüntü başta tek bölgedir. Bölge homojen değilse dörde bölünür; bu özyinelemeyle sürer. Her düğüm bir görüntü bölgesidir (dörtlü ağaç). Sonra komşu benzer bloklar birleştirilir.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Adım</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Bölme</b></td><td>Varyans analizi, istatistiksel homojenlik testi ve doku uyumu ölçüsüyle karar verilir. Homojen bölgeler erken durur, karmaşık bölgeler derine iner (uyarlanabilir derinlik).</td></tr>
+        <tr><td><b>Verim</b></td><td>Kararlar yerel ölçütlerle verilir, küresel eniyileme gerekmez; büyük görüntülerde hızlıdır.</td></tr>
+        <tr><td><b>Birleştirme</b></td><td>Komşuların spektral benzerliği, şekil uyumu, doku ve bağlam çok ölçütlü olarak ağırlıklandırılır. Pareto eniyilemesi, bulanık mantık ve etiketli örneklerden öğrenen yöntemler kullanılabilir.</td></tr>
+        <tr><td><b>Video</b></td><td>Komşu karelerde benzer bölgelerin tutarlı birleştirilmesi titremeyi önler; hareket telafisi de kullanılır.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Homojenlik eşiği kaydırıcısını değiştir.</li>
+        <li><b>Ne göreceksin:</b> Solda 32×32 görüntü, sağda dörtlü ağaç blokları (kırmızı çerçeveli, her blok kendi ortalama grisinde) görünür. Altta blok sayısı ve piksel başına ortalama sapma yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Homojen yerler büyük blokta kalır; nesne kenarları küçük bloklara bölünür. Eşik düşük olursa gürültü yüzünden her yer parçalanır, çok yüksek olursa ayrıntı kaybolur.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Dörtlü ağaç</dt><dd>Her bölgenin dört alt bölgeye bölündüğü hiyerarşi.</dd><dt>Homojenlik eşiği</dt><dd>Bir bloktaki en büyük ve en küçük gri seviye farkının izin verilen en çok değeri.</dd><dt>Blok</dt><dd>Artık bölünmeyen bölge (ağacın yaprağı).</dd></dl></details>
+      <p class="lab-src">Görüntü bu site için üretildi (32×32, bir daire, bir dikdörtgen, zemin, küçük gürültü). Dörtlü ağaçla bölme fikri notundaki Bölüm 12.9’dan; “en büyük − en küçük” homojenlik ölçütü bu sitenin basit seçimidir; birleştirme adımı gösterilmez.</p>
+    </div>
+    <div class="lab" id="quadlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kümeleme">
+  <div class="panel">
+    <div class="kicker">12.10–12.12 Kümeleme ile bölütleme</div>
+    <h2>Pikselleri özellik uzayında grupla</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Aile</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Bölümleme</b></td><td>K-ortalamalar varyantları, bulanık c-ortalamalar, spektral kümeleme. Küme sayısı önceden verilir, her nokta tek kümeye gider.</td></tr>
+        <tr><td><b>Hiyerarşik</b></td><td>Toplayıcı (altları birleştirir) ve bölücü (büyük kümeyi ayırır).</td></tr>
+        <tr><td><b>Yoğunluk tabanlı</b></td><td>DBSCAN, OPTICS; yoğunluğa göre küme bulur, gürültü noktalarına dayanıklıdır.</td></tr>
+        <tr><td><b>Derin kümeleme</b></td><td>Özellik öğrenme ile kümelemeyi birleştirir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">K-ortalamalar++</b>Akıllı başlangıç<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Başlangıç merkezlerini akıllıca seçerek klasik algoritmanın yakınsama sorunlarını azaltır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Mini-yığın</b>Büyük veri<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Tüm veri yerine rastgele alt kümelerle çalışır; hesaplama süresi çok düşer.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Çekirdek K-ort.</b>Doğrusal olmayan sınır<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>RBF, polinom, sigmoid çekirdekleriyle yüksek boyutlu uzayda kümeler; karmaşık yapılar işlenir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Uyarlanabilir</b>Küme sayısını bul<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>AIC ve BIC gibi bilgi kuramı ölçütleriyle uygun küme sayısı seçilir. Dirsek yöntemi, silüet analizi ve boşluk istatistiği de aynı amaçla anılır.</span></button>
+    </div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Bulanık c-ortalamalar türü</th><th>Fark</th></tr></thead>
+      <tbody>
+        <tr><td><b>Gustafson–Kessel</b></td><td>Küme başına kovaryans matrisi; elips biçimli kümeleri bulur.</td></tr>
+        <tr><td><b>Olasılıkçı (possibilistic)</b></td><td>Tipiklik değerleriyle gürültü ve aykırı değerlere dayanıklı üyelik.</td></tr>
+        <tr><td><b>Çekirdek</b></td><td>Doğrusal olmayan yapılar için çekirdek yöntemi.</td></tr>
+        <tr><td><b>Derin</b></td><td>Otomatik kodlayıcıyla boyut azaltma ve bulanık kümelemeyi birlikte eniyiler.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Uzaklık ölçüleri</b>Mahalanobis (kovaryansı hesaba katar), Wasserstein (renk histogramlarını karşılaştırmak için), sinir ağıyla öğrenilmiş metrikler. Bulanık kümeleme “yumuşak atama” yapar; sınırları belirsiz doğal görüntülerde esnektir. Renk uzayında k-ortalamayı Bölüm 11’deki laboratuvardan hatırla.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Model ve çizge tabanlı">
+  <div class="panel">
+    <div class="kicker">12.13–12.14 Model tabanlı ve çizge bölümleme</div>
+    <h2>Önceden bilgi ve ilişki ağı</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Model tabanlı (öncül bilgi)</b></td><td>Şekil öncülleri organların doğal şekil değişimini istatistiksel olarak modeller ve anormal deformasyonu engeller. Aktif şekil modeli (ASM) ve aktif görünüm modeli (AAM) eğitim verisinden öğrenilir; temel bileşen analizi şekil değişimini, nokta dağılım modelleri işaret noktalarını kontrol eder. Bayes çerçevesinde en büyük sonsal kestirim veri uyumunu ve önsel bilgiyi birlikte eniyiler.</td></tr>
+        <tr><td><b>Çizge bölümleme</b></td><td>Piksel ya da bölgeler düğüm, ilişkiler kenar olur. Çizge kurma yolları: k-en yakın komşu, epsilon-komşuluk, tam bağlantılı (hesaplaması pahalı).</td></tr>
+        <tr><td><b>Spektral kümeleme</b></td><td>Çizge Laplace matrisinin özdeğer ayrıştırmasından bölüm bulunur; en küçük özdeğerler doğal bölümleri gösterir.</td></tr>
+        <tr><td><b>Normalize kesim</b></td><td>Küme boyutlarını dengeler; küçük, yalıtılmış kümelerin oluşmasını önler.</td></tr>
+        <tr><td><b>Rastgele yürüyüş</b></td><td>Tohumlardan başlayan yürüyüşlerin hangi düğümlere ulaşma olasılığına bakar; kişiselleştirilmiş PageRank ve çok tohumlu yürüyüş anılır.</td></tr>
+        <tr><td><b>Çizge sinir ağları</b></td><td>GCN ve GAT; yerel pikseli küresel yapıyla birleştirir. Süper piksel kullanmak maliyeti düşürür.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Zorluk</b>Çizge eniyileme problemleri çoğunlukla NP-zordur; bu yüzden yaklaşık ve sezgisel (genetik algoritma, tavlama benzetimi) yöntemler kullanılır.</div>
+    <div class="callout real"><b>Gerçek hayat: Organ bölütleme (ders notundaki örnek)</b>İstatistiksel şekil modelleri tıbbi görüntülemede organ bölütleme için “vazgeçilmez” olarak anılır; şekil atlasları farklı popülasyonlar için standart referans şekil sağlar.</div>
+    <div class="callout real"><b>Gerçek hayat: Video (ders notundaki örnek)</b>Video bölütlemede uzay-zaman çizgeleri kareler arası tutarlılığı korur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Derin öğrenme">
+  <div class="panel">
+    <div class="kicker">12.15 Derin öğrenme tabanlı bölütleme</div>
+    <h2>Her piksele sınıf: FCN, U-Net ve ötesi</h2>
+    <p>Klasik CNN sınıflandırma için tasarlanmıştır; uzamsal bilgiyi kaybedip tek bir sınıf verir. Bölütleme ise <b>her piksel için</b> sınıf ister.</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">FCN</b>Tam evrişimli ağ<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Tam bağlı katmanlar evrişimli katmanlarla değişir; ağ her boyutta girdiyi işler. Kodlayıcı çözünürlüğü düşürür, kod çözücü yukarı örnekleme ve atlama bağlantılarıyla geri kazandırır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">U-Net</b>Simetrik yapı<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Simetrik kodlayıcı–kod çözücü ve zengin atlama bağlantıları; her kodlayıcı seviyesi karşılık gelen kod çözücü seviyesine aktarılır. Biyomedikal bölütlemede başarılıdır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">SegNet</b>Havuzlama endeksleri<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Kod çözücüde havuzlama endekslerini kullanarak hesaplama verimliliği sağlar.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">PSPNet</b>Piramit havuzlama<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Piramit havuzlama modülüyle çok ölçekli bağlam bilgisini yakalar.</span></button>
+    </div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Anlatım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Mimari parçalar</b></td><td>Kodlayıcı (VGG, ResNet gibi önceden eğitilmiş ağlardan) anlamsal bilgi çıkarır; kod çözücü özgün boyuta döner; atlama bağlantıları iri anlamı ince ayrıntıyla birleştirir.</td></tr>
+        <tr><td><b>Hibrit</b></td><td>Ön işleme (morfoloji, kenar koruyan süzgeç, gürültü giderme), son işleme (morfolojik açma-kapama; koşullu rastgele alanlarla sınır düzleştirme), çok aşamalı (önce klasik kaba bölütleme, sonra ağ ince ayarı) ve özellik füzyonu. Kaynak kısıtlı ve veri azken özellikle yararlıdır.</td></tr>
+        <tr><td><b>Veri artırma</b></td><td>Döndürme, ölçekleme, kırpma, yansıtma hem görüntüye hem maskeye birlikte uygulanır; elastik deformasyon (biyomedikal); parlaklık-kontrast-doygunluk; kesme-yapıştırma ve karışım (nadir sınıflar); üretici çekişmeli ağlarla sentetik görüntü–maske çifti (hasta mahremiyetinde değerli).</td></tr>
+        <tr><td><b>Açıklanabilirlik</b></td><td>Dikkat haritaları, Grad-CAM, özellik görselleştirme (ilk katman kenar-doku, derin katman şekil ve parça), karşıt örnek analizi, LIME, Bayes yaklaşımıyla belirsizlik ölçümü.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Alana özgü artırma (ders notundaki örnek)</b>Tıbbi görüntüde elastik deformasyon, uydu görüntüsünde mevsimsel değişim, endüstride aydınlatma değişimi öne çıkar.</div>
+    <div class="callout real"><b>Gerçek hayat: Klinik güven (ders notundaki örnek)</b>Yüksek belirsizlik gösteren bölgeler modelin güvenilirliğinin düşük olduğu yerleri işaret eder ve ek inceleme gerektirebilir; açıklanabilirlik, modelin klinik ya da endüstriyel kullanıma hazır olup olmadığını değerlendirmede rol oynar.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 12</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Kurallar</td><td>Tam kapsama, ayrık bölgeler, homojenlik, kontrast (+ bağlantılılık)</td></tr>
+        <tr><td>İki fikir</td><td>Süreksizlik (kenar) ve benzerlik (bölge)</td></tr>
+        <tr><td>Eşikleme</td><td>Genel (homojen ışık), Otsu (sınıflar arası varyans), yerel (değişen ışık)</td></tr>
+        <tr><td>Bölge tabanlı</td><td>Bölge büyütme (tohum + ölçüt), bölme-birleştirme (dörtlü ağaç)</td></tr>
+        <tr><td>Kümeleme</td><td>K-ortalamalar ve varyantları, bulanık c-ortalamalar, DBSCAN, hiyerarşik</td></tr>
+        <tr><td>Model ve çizge</td><td>ASM/AAM, MAP; spektral, normalize kesim, rastgele yürüyüş, GNN</td></tr>
+        <tr><td>Derin öğrenme</td><td>FCN, U-Net, SegNet, PSPNet; hibrit, veri artırma, açıklanabilirlik</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

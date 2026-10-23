@@ -256,6 +256,25 @@ add('kmeanscolor', 'goruntu-isleme/bolum-11.html',
     [('Küme', 'Benzer renkli piksellerin grubu.'), ('Palet', 'Kümelerin ortalama renkleri.'), ('Renk hatası', 'Pikselin özgün rengi ile kümenin rengi arasındaki RGB uzaklığı.')],
     'Sahne bu site için üretildi (Bölüm 11’deki aynı sahne). k-ortalamalar notundaki Bölüm 9’daki algoritmadır; renk bölütlemede kullanımı notundaki Bölüm 11.4.1’dendir.')
 
+add('threshgray', 'goruntu-isleme/bolum-12.html',
+    'Üç yoldan birini seç: elle genel eşik, Otsu (otomatik genel eşik) ya da yerel uyarlanabilir eşik. Genel eşik ve yerel pencere kaydırıcılarını oynat.',
+    'Solda soldan sağa parlaklaşan bir ışık altında iki nesne (daire ve dikdörtgen), sağda eşik sonucu (beyaz = nesne) görünür. Altta doğru sınıflanan piksel yüzdesi ve yanlış piksel sayısı yazılır.',
+    'Aydınlatma değiştiği için hiçbir tek eşik (elle ya da Otsu) iki nesneyi birden temiz ayıramaz; yerel eşik her pikseli komşuluğuyla karşılaştırdığı için başarılıdır. Pencere nesneden çok küçükse nesnenin içi boş kalır.',
+    [('Genel eşik', 'Tüm görüntüde tek eşik değeri.'), ('Otsu', 'Sınıflar arası varyansı en büyük yapan tek eşik, histogramdan otomatik bulunur.'), ('Yerel eşik', 'Pikselin komşuluk ortalamasına göre hesaplanan eşik (burada ortalama + 10).'), ('Pencere', 'Yerel ortalamanın hesaplandığı kare komşuluk.')],
+    'Görüntü bu site için üretildi (40×40, ışık soldan sağa artar, nesneler zeminden 50 gri seviye parlak, küçük gürültü). Genel, Otsu ve yerel eşikleme notundaki Bölüm 12.5.1’den; “ortalama + 10” kuralı bu sitenin basit seçimidir.')
+add('regionlab', 'goruntu-isleme/bolum-12.html',
+    'Tohumu seç (nesne A, nesne B ya da zemin) ve benzerlik toleransını değiştir.',
+    'Solda gürültülü görüntü (kırmızı kare tohumu gösterir), sağda tohumdan büyüyen bölge (beyaz) görünür. Altta bölgedeki piksel sayısı, gerçek bölgenin yüzde kaçının yakalandığı ve bölge dışına taşan piksel sayısı yazılır.',
+    'Tolerans çok küçükse bölge gürültüde takılıp parça parça kalır; çok büyükse nesne sınırını aşıp zemine taşar. Bölge yalnızca tohuma bağlı pikselleri toplar: öteki nesne seçilmez. Sonuç tohuma ve ölçüte bağlıdır.',
+    [('Tohum', 'Büyümenin başladığı piksel.'), ('Tolerans', 'Komşu pikselin bölge ortalamasından en fazla ne kadar farklı olabileceği (gri seviye).'), ('Taşma', 'Tohumun ait olduğu gerçek bölgenin dışında kalan seçili piksel.'), ('Bağlı', 'Komşuluk (4’lü) üzerinden ulaşılabilir.')],
+    'Görüntü bu site için üretildi (40×40, iki nesne ve zemin, gürültülü). Tohumdan büyüme fikri notundaki Bölüm 12.8’den; ölçüt olarak “bölge ortalamasına uzaklık” ve 4’lü komşuluk bu sitenin basit seçimidir.')
+add('quadlab', 'goruntu-isleme/bolum-12.html',
+    'Homojenlik eşiği kaydırıcısını değiştir.',
+    'Solda 32×32 görüntü, sağda dörtlü ağaç blokları (kırmızı çerçeveli, her blok kendi ortalama grisinde) görünür. Altta blok sayısı ve piksel başına ortalama sapma yazılır.',
+    'Homojen yerler büyük blokta kalır; nesne kenarları küçük bloklara bölünür. Eşik düşük olursa gürültü yüzünden her yer parçalanır, çok yüksek olursa ayrıntı kaybolur.',
+    [('Dörtlü ağaç', 'Her bölgenin dört alt bölgeye bölündüğü hiyerarşi.'), ('Homojenlik eşiği', 'Bir bloktaki en büyük ve en küçük gri seviye farkının izin verilen en çok değeri.'), ('Blok', 'Artık bölünmeyen bölge (ağacın yaprağı).')],
+    'Görüntü bu site için üretildi (32×32, bir daire, bir dikdörtgen, zemin, küçük gürültü). Dörtlü ağaçla bölme fikri notundaki Bölüm 12.9’dan; “en büyük − en küçük” homojenlik ölçütü bu sitenin basit seçimidir; birleştirme adımı gösterilmez.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
