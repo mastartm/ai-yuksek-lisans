@@ -70,6 +70,26 @@ add('bolenlab', 'makine-ogrenmesi/bolum-10.html',
     [('Olası bölme', 'Bir kümeyi iki parçaya ayırmanın farklı yollarının sayısı.'), ('Üstel', 'n her arttığında sayının kabaca iki katına çıkması.')],
     'Veri yok; formül notundaki Bölüm 10.2’den alındı.')
 
+# ---------------- Makine Öğrenmesi 11 ----------------
+add('dbscanlab', 'makine-ogrenmesi/bolum-11.html',
+    'ε (komşuluk yarıçapı) ve MinPts kaydırıcılarını değiştir.',
+    'İki hilal ve dağınık noktalar renklenir: dolu daire merkez nokta, halka sınır nokta, kırmızı çarpı gürültü. Altta küme ve nokta türü sayıları görünür.',
+    'ε ve MinPts doğru ayarlanınca iki hilal ayrı küme olur ve dağınık noktalar gürültü kalır. Ayarlar yanlışsa küme parçalanır ya da birleşir; yani kullanıcının seçtiği parametreler sonucu belirler.',
+    [('ε (epsilon)', 'Komşuluk yarıçapı.'), ('MinPts', 'Bir noktanın merkez sayılması için komşuluğunda (kendisi dahil) bulunması gereken en az nokta sayısı.'), ('Merkez nokta', 'Komşuluğunda en az MinPts nokta olan nokta.'), ('Sınır nokta', 'Merkez olmayan ama bir merkez noktanın komşuluğunda olan nokta.'), ('Gürültü', 'Ne merkez ne sınır olan nokta.')],
+    'Veri notta yok; bu site için üretilmiş 90 sanal nokta (iki hilal + 10 dağınık nokta). Algoritma notundaki Bölüm 11.2.1’e dayanır; komşu sayımına noktanın kendisi de dahil edilmiştir (bu site tercihi).')
+add('hucrelab', 'makine-ogrenmesi/bolum-11.html',
+    'Her boyuttaki aralık sayısını ve yoğunluk eşiğini kaydır.',
+    'Izgara hücreleri çizilir; eşiği aşan yoğun hücreler renklenir, yan yana yoğun hücreler aynı renkli kümeyi oluşturur.',
+    'Izgara yöntemi noktalara değil hücrelere bakar. Aralık sayısı ve eşik uygun değilse yoğun bölgeler ya parçalanır ya birleşir.',
+    [('Aralık sayısı', 'Her boyutun kaç eşit parçaya bölündüğü; toplam hücre = aralık sayısının karesi.'), ('Yoğunluk eşiği', 'Bir hücrenin yoğun sayılması için içindeki nokta sayısının aşması gereken değer.'), ('Yoğun hücre', 'İçindeki nokta sayısı eşiği aşan hücre.')],
+    'Veri notta yok; Bölüm 11’deki aynı sanal 90 nokta. Bu araç CLIQUE’in (Bölüm 11.3.2) yalnızca iki boyutlu, ilk adımını sadeleştiren bir göstergedir; alt uzay arama ve MDL adımları içermez.')
+add('klab', 'makine-ogrenmesi/bolum-11.html',
+    'Küme sayısı k’yı 1’den 8’e kadar kaydır.',
+    'Üç yoğun bölgeli 90 nokta k kümeye bölünür; altta küme içi hata ve ortalama siluet k’ya göre çizilir, seçili k kırmızı noktayla gösterilir.',
+    'Hata k arttıkça düşer ama dirsek noktasından sonra azalma küçülür. Siluet ise iyi ayrışmış kümelerde yükselir.',
+    [('Küme içi hata', 'Her noktanın kendi merkezine uzaklığının karelerinin toplamı.'), ('Dirsek', 'Hata eğrisinin eğiminin belirgin değiştiği nokta.'), ('Siluet katsayısı', 'Nesnenin kümesine yakınlığı ile en yakın diğer kümeden uzaklığını karşılaştırır; −1 ile 1 arasındadır.')],
+    'Veri notta yok; bu site için üretilmiş 90 sanal nokta. Dirsek ve siluet fikri notundaki Bölüm 11.4.2 ve 11.4.3.2’ye dayanır; siluetin (b − a) / max{a, b} biçimi notta şekil olarak verilir, burada standart hâliyle hesaplandı.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():

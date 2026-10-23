@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yoğunluk ve Izgara Tabanlı Kümeleme, Kümelemenin Değerlendirilmesi — Makine Öğrenmesi</title>
+<meta name="description" content="Makine Öğrenmesi, Bölüm 11: Yoğunluk ve Izgara Tabanlı Kümeleme, Kümelemenin Değerlendirilmesi. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 11 · Yoğunluk ve Izgara Tabanlı Kümeleme, Kümelemenin Değerlendirilmesi</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 11</div>
+    <h1>Yoğunluk ve Izgara Tabanlı Kümeleme, Kümelemenin Değerlendirilmesi</h1>
+    <p class="big-quote">İç içe geçmiş iki hilali k-ortalamalara verirsen ortadan keser. Çünkü merkeze yakınlık, yuvarlak bölge arar. Peki “yoğun bölgeleri, seyrek bölgelerin ayırdığı gruplar” olarak düşünürsek? Bu bölüm <b>yoğunluk</b> ve <b>ızgara</b> temelli yöntemleri, sonra da <b>bir kümelemenin iyi olup olmadığını</b> nasıl ölçeceğimizi anlatır.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>DBSCAN’in parametrelerini (ε, MinPts) ve merkez, sınır, gürültü noktalarını açıklayabilirsin.</li>
+      <li>Yoğunluk-erişilebilir ile yoğunluk-bağlantılı kavramlarını ayırt edebilirsin.</li>
+      <li>OPTICS’in neden bir küme sıralaması ürettiğini söyleyebilirsin.</li>
+      <li>STING ve CLIQUE’i anlatabilir, ızgara yöntemlerinin güçlü ve zayıf yanlarını sayabilirsin.</li>
+      <li>Kümeleme eğilimi, doğru küme sayısı ve küme kalitesi ölçümlerini (dirsek, siluet, BCubed) açıklayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Yoğun bölgeleri bul, sonra sonucu değerlendir</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Yoğunluk tabanlı yöntemler DBSCAN ve OPTICS, ızgara tabanlı yöntemler STING ve CLIQUE, sonra değerlendirme"><rect class="d-brand" x="10" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="95" y="88">Yoğunluk tabanlı</text><text class="d-sm d-c" x="95" y="108">DBSCAN, OPTICS</text><rect class="d-ok" x="210" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="295" y="88">Izgara tabanlı</text><text class="d-sm d-c" x="295" y="108">STING, CLIQUE</text><rect class="d-warn" x="410" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="495" y="88">Eğilim ve k sayısı</text><text class="d-sm d-c" x="495" y="108">kümeleme anlamlı mı?</text><rect class="d-box" x="610" y="55" width="140" height="80" rx="8"/><text class="d-txt d-c" x="680" y="88">Kalite</text><text class="d-sm d-c" x="680" y="108">yapı dışı, yapı içi</text><path class="d-line-brand" d="M180 95 L210 95"/><path class="d-line-brand" d="M380 95 L410 95"/><path class="d-line-brand" d="M580 95 L610 95"/></svg>
+    <p>İlk iki parça kümeleri bulur, son iki parça ise bulunan kümelemenin işe yarayıp yaramadığını söyler.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Neden yoğunluk?">
+  <div class="panel">
+    <div class="kicker">11.1 Giriş</div>
+    <h2>Dairesel olmayan kümeler için yeni bir bakış</h2>
+    <p>Bölümleme ve hiyerarşik yöntemler genellikle dairesel ya da küresel kümeleri bulmak için tasarlanmıştır; düzensiz şekilli ve sürekli kümelerde zorlanırlar. Üstelik kümelere gürültü ya da aykırı değerleri de dahil eden dışbükey bölgeleri yanlış belirleyebilirler.</p>
+    <div class="callout idea"><b>Temel strateji</b>Kümeleri, veri uzayında <b>seyrek bölgelerle ayrılmış yoğun bölgeler</b> olarak modelle. Böylece küresel olmayan şekilli kümeler de bulunabilir. Yoğunluk tabanlı kümelemenin arkasındaki fikir budur.</div>
+    <div class="callout real"><b>Gerçek hayat: Bölüm 8’deki hilaller (bu sitenin örneği)</b>Bölüm 8’deki laboratuvarda iç içe iki hilali uzaklık esaslı yöntem ortadan bölüyordu. Yoğunluk esaslı bakış, komşuluk zinciri sürdükçe kümeyi büyüttüğü için aynı şekli tek parça olarak bulabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="DBSCAN: nokta türleri">
+  <div class="panel">
+    <div class="kicker">11.2.1 DBSCAN</div>
+    <h2>İki parametre, üç nokta türü</h2>
+    <p>DBSCAN (Density-Based Spatial Clustering of Applications with Noise) yoğun komşulukları olan kümeleri bulur. Kullanıcıdan iki parametre ister:</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>ε (epsilon)</b>Bir noktanın komşuluk yarıçapı: en büyük komşuluk yarıçapı.</div>
+      <div class="peas-c e"><b>MinPts</b>ε-komşuluğunda bulunması gereken en az nokta sayısı: yoğun alandaki minimum yoğunluk.</div>
+    </div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Nokta türü</th><th>Tanım</th></tr></thead>
+      <tbody>
+        <tr><td><b>Merkez (core)</b></td><td>ε-komşuluğunda en az MinPts nokta var. Kümenin iç bölgesindedir; bir kümede birden fazla merkez nokta olabilir.</td></tr>
+        <tr><td><b>Sınır (border)</b></td><td>ε-komşuluğunda MinPts’ten az nokta var ama komşularından en az biri merkez nokta. Genelde kümenin kenarındadır.</td></tr>
+        <tr><td><b>Gürültü (noise)</b></td><td>Ne merkez ne sınır: komşuluğunda MinPts’ten az nokta var ve komşuluğunda hiç merkez nokta yok.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Gürültüyü etiketler</b>DBSCAN diğer kümeleme algoritmalarından farklı olarak gürültüyü etiketler. Bu yüzden veri analizinin ön işleme aşamasında gürültü giderme algoritması olarak da kullanılabilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Gürültü giderme (ders notundaki anlatım)</b>Bölüm 8’de kümeleme algoritmalarının veri ön işlemede gürültü gidermede kullanılabileceği söylenmişti. DBSCAN gürültü noktalarını açıkça işaretlediği için bu iş için uygundur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Erişilebilirlik ve bağlantı">
+  <div class="panel">
+    <div class="kicker">Yoğunluk-erişilebilir ve yoğunluk-bağlantılı</div>
+    <h2>Küçük yoğun bölgelerden geniş kümelere</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Kavram</th><th>Anlamı</th><th>Simetrik mi?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Doğrudan yoğunluk-erişilebilir</b></td><td>q bir merkez nokta ve p, q’nun ε-komşuluğunda ise p, q’dan doğrudan yoğunluk-erişilebilirdir. Merkez nesne, komşuluğundaki bütün nesneleri yoğun bölgeye çekebilir.</td><td>Hayır</td></tr>
+        <tr><td><b>Yoğunluk-erişilebilir</b></td><td>p₁ = q, pₙ = p olacak biçimde, her pᵢ₊₁’in pᵢ’den doğrudan yoğunluk-erişilebilir olduğu bir zincir varsa p, q’dan yoğunluk-erişilebilirdir.</td><td>Hayır (eşitlik ilişkisi değil)</td></tr>
+        <tr><td><b>Yoğunluk-bağlantılı</b></td><td>Hem p hem q bir o noktasından yoğunluk-erişilebilirse p ve q yoğunluk-bağlantılıdır.</td><td>Evet (eşitlik ilişkisi)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Neden simetrik değil?</b>İki merkez nokta birbirinden erişilebilir. Ama o₂ merkez, o₁ değilse o₁, o₂’den yoğunluk-erişilebilir olabilir; tersi olamaz, çünkü zincir yalnızca merkez noktalardan geçerek genişler.</div>
+    <div class="callout real"><b>Gerçek hayat: Notun Şekil 11.2 örneği (ders notundaki örnek)</b>ε dairelerin yarıçapı ve MinPts = 3 olsun. m, p, o, r merkez nesnelerdir (komşuluklarında en az üç nokta var). q, m’den doğrudan yoğunluk-erişilebilirdir; m, p’den ve p, m’den de doğrudan erişilebilirdir. q, p’den yoğunluk-erişilebilirdir ama p, q’dan erişilemez, çünkü q merkez nesne değildir. r ve s, o’dan yoğunluk-erişilebilirdir; o, r ve s birbirine yoğunluk-bağlantılıdır.</div>
+    <p>Bir küme C, D’nin boş olmayan bir alt kümesidir: C’deki herhangi iki nesne yoğunluk-bağlantılıdır; C’de olmayan bir nesne C’dekilerle yoğunluk-bağlantılı olamaz.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="DBSCAN algoritması">
+  <div class="panel">
+    <div class="kicker">DBSCAN · dene</div>
+    <h2>DBSCAN nasıl küme bulur?</h2>
+    <ol>
+      <li>Tüm noktaları “gezilmedi” olarak işaretle ve rastgele bir noktadan başla.</li>
+      <li>Nokta zaten bir kümedeyse geç. Aksi halde komşularını bul.</li>
+      <li>Komşu sayısı MinPts’ten küçükse noktayı <b>gürültü</b> işaretle ve geç.</li>
+      <li>MinPts’e eşit ya da büyükse yeni bir küme kur; noktayı ve komşularını kümeye ekle.</li>
+      <li>Kümeye eklenen, henüz bir kümede olmayan her komşunun da komşuluğunu araştır; komşu sayısı MinPts’e eşit ya da büyükse onları da kümeye ekle. Eklenecek nokta kalmayana kadar sürdür.</li>
+      <li>Gezilmemiş başka bir noktayla yeni küme ara; tüm noktalar gezilince dur.</li>
+    </ol>
+    <div class="callout idea"><b>Karmaşıklık</b>Uzamsal indeks kullanılırsa θ(n log n); aksi halde θ(n²).</div>
+    <p>İki hilal ve dağınık 10 gürültü noktasından oluşan 90 noktalı veriyle ε ve MinPts’i değiştir. “Hangi ayar iki hilali bulur, hangisi parçalar, hangisi birleştirir?” sorusunu kendin yanıtla:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> ε (komşuluk yarıçapı) ve MinPts kaydırıcılarını değiştir.</li>
+        <li><b>Ne göreceksin:</b> İki hilal ve dağınık noktalar renklenir: dolu daire merkez nokta, halka sınır nokta, kırmızı çarpı gürültü. Altta küme ve nokta türü sayıları görünür.</li>
+        <li><b>Ne anlamalısın:</b> ε ve MinPts doğru ayarlanınca iki hilal ayrı küme olur ve dağınık noktalar gürültü kalır. Ayarlar yanlışsa küme parçalanır ya da birleşir; yani kullanıcının seçtiği parametreler sonucu belirler.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>ε (epsilon)</dt><dd>Komşuluk yarıçapı.</dd><dt>MinPts</dt><dd>Bir noktanın merkez sayılması için komşuluğunda (kendisi dahil) bulunması gereken en az nokta sayısı.</dd><dt>Merkez nokta</dt><dd>Komşuluğunda en az MinPts nokta olan nokta.</dd><dt>Sınır nokta</dt><dd>Merkez olmayan ama bir merkez noktanın komşuluğunda olan nokta.</dd><dt>Gürültü</dt><dd>Ne merkez ne sınır olan nokta.</dd></dl></details>
+      <p class="lab-src">Veri notta yok; bu site için üretilmiş 90 sanal nokta (iki hilal + 10 dağınık nokta). Algoritma notundaki Bölüm 11.2.1’e dayanır; komşu sayımına noktanın kendisi de dahil edilmiştir (bu site tercihi).</p>
+    </div>
+    <div class="lab" id="dbscanlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="OPTICS">
+  <div class="panel">
+    <div class="kicker">11.2.2 OPTICS</div>
+    <h2>Tek bir ε yetmediğinde: küme sıralaması</h2>
+    <p>DBSCAN kullanıcıya doğru parametre değerlerini seçme yükünü bırakır. Parametreler çoğunlukla deneysel belirlenir ve gerçek dünyadaki yüksek boyutlu veride zordur; biraz farklı ayar çok farklı kümeleme verebilir. Gerçek veri çok çarpık dağılabildiği için içsel küme yapısı <b>tek bir küresel yoğunluk parametresi kümesiyle</b> iyi tanımlanamayabilir.</p>
+    <div class="callout idea"><b>OPTICS’in fikri</b>OPTICS açıkça bir kümeleme üretmez; <b>küme sıralaması</b> üretir: analiz edilen tüm nesnelerin doğrusal bir listesi. Daha yoğun bir kümedeki nesneler bu listede birbirine daha yakın durur. Sıralama, geniş bir parametre aralığından elde edilebilecek yoğunluk tabanlı kümelemelere eşdeğerdir; bu yüzden kullanıcı belirli bir yoğunluk eşiği vermek zorunda kalmaz.</div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Nesne başına bilgi</th><th>Anlamı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Merkez mesafesi</b></td><td>p’nin ε’-komşuluğunda en az MinPts nesne olduğu en küçük ε’. p’yi merkez nesne yapan en küçük eşik. p merkez nesne değilse tanımsızdır.</td></tr>
+        <tr><td><b>Ulaşılabilirlik mesafesi</b></td><td>q’dan p’ye: max{ merkez-mesafesi(q), mesafe(p, q) }. q merkez nesne değilse tanımsızdır. p’nin birden çok merkez nesneye göre birden çok ulaşılabilirlik mesafesi olabilir; en küçüğü önemlidir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Çıktı</b>Nesneler, en küçük ulaşılabilirlik mesafesine göre sıralanmış bir listede tutulur. Sıralama küme merkezlerini, rastgele şekilli kümeleri, içsel küme yapısını çıkarmak ve görselleştirme için kullanılabilir. OPTICS’in yapısı DBSCAN’e çok benzer; zaman karmaşıklığı aynıdır (indeksle O(n log n), indekssiz O(n²)).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="STING">
+  <div class="panel">
+    <div class="kicker">11.3.1 STING</div>
+    <h2>İstatistiksel bilgi ızgarası</h2>
+    <p>STING, girdi nesnelerinin bulunduğu uzayı <b>dikdörtgen hücrelere</b> bölen, <b>çok çözünürlüklü</b> ızgara tabanlı bir yöntemdir. Hücreler hiyerarşik bir yapı kurar: üst düzeydeki her hücre, bir alt düzeyde bir dizi hücreye bölünür. Her hücrede ortalama, en büyük, en küçük değer gibi istatistikler önceden hesaplanıp saklanır.</p>
+    <ol>
+      <li>Hiyerarşide sorgu cevaplamaya başlanacak bir katman seç (genellikle az hücre içerir).</li>
+      <li>Katmandaki her hücrenin sorguyla ilişkisini yansıtan güven aralığını hesapla; ilgisiz hücreleri bırak.</li>
+      <li>Bir alt düzeyde yalnızca ilgili hücreleri incele; en alt katmana varana kadar sürdür.</li>
+      <li>Sorgu ölçütü sağlanıyorsa ilgili hücre bölgelerini döndür; aksi halde ilgili hücrelere düşen veriyi alıp işlemeye devam et.</li>
+    </ol>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>STING’in avantajları</th><th>Sınırları</th></tr></thead>
+      <tbody>
+        <tr><td>Hesaplama sorgudan bağımsızdır (hücre özetleri sorguya bağlı değildir).<br>Izgara yapısı paralel işleme ve artımlı güncellemeyi kolaylaştırır.<br>Veritabanı bir kez taranır: küme oluşturma O(n); sonra sorgu O(g), g en alt seviyedeki hücre sayısıdır ve n’den çok küçüktür.</td><td>Kalite en alt seviyenin ayrıntısına bağlıdır: çok ince ise maliyet artar, çok kaba ise kalite düşer.<br>Alt ve komşu hücreler arasındaki uzamsal ilişkiyi dikkate almaz; kümelerin sınırları yatay ya da dikey çıkar, çapraz sınır algılanmaz (izotetik).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Yoğunlukla ilişkisi</b>Ayrıntı düzeyi 0’a yaklaştıkça STING, DBSCAN sonucuna yaklaşır; bu yüzden yoğunluk tabanlı bir yöntem olarak da düşünülebilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="CLIQUE">
+  <div class="panel">
+    <div class="kicker">11.3.2 CLIQUE · dene</div>
+    <h2>Alt uzaylarda yoğun hücreler</h2>
+    <p>Bir veri nesnesi onlarca özniteliğe sahip olabilir ve çoğu alakasız olabilir; bu yüzden tüm uzayda küme aramak zorlaşır. Daha anlamlı olan, verinin farklı <b>alt alanlarında</b> küme aramaktır.</p>
+    <div class="callout real"><b>Gerçek hayat: Kuş gribi hastaları (ders notundaki örnek)</b>Hasta kayıtlarında çok sayıda semptom, rahatsızlık ve aile geçmişi özniteliği vardır. Kuş gribi hastalarında yaş, cinsiyet ve iş geniş aralıkta değişir; tüm uzayda böyle bir grup bulmak zordur. Ama alt alanda, örneğin yüksek ateş ve öksürük semptomu olan, burun akıntısı olmayan ve 3–16 yaşları arasındaki hastalardan oluşan bir küme bulunabilir.</div>
+    <h3>İki adım</h3>
+    <ol>
+      <li>Her boyutu örtüşmeyen aralıklara böl; uzay hücrelere ayrılır. Kendisine eşlenen nesne sayısı <b>yoğunluk eşiğini aşan</b> hücre yoğundur. Tüm alt uzaylardaki yoğun hücreler bulunur (Apriori özelliğine dayanan boyutluluğa göre monotonluk kullanılır).</li>
+      <li>Her alt uzaydaki bağlı yoğun hücreleri kapsayan maksimum bölgelerle (MDL ilkesi) kümeler kurulur; kümeler rastgele şekilli olabilir. En iyi tanımı bulmak NP-zordur; açgözlü yaklaşım kullanılır.</li>
+    </ol>
+    <p>Aşağıda iki boyutlu basit bir örnekle ilk fikri dene: aralık sayısı ve eşik ayarına göre yoğun hücreler ve bunların bağlı grupları değişir.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Her boyuttaki aralık sayısını ve yoğunluk eşiğini kaydır.</li>
+        <li><b>Ne göreceksin:</b> Izgara hücreleri çizilir; eşiği aşan yoğun hücreler renklenir, yan yana yoğun hücreler aynı renkli kümeyi oluşturur.</li>
+        <li><b>Ne anlamalısın:</b> Izgara yöntemi noktalara değil hücrelere bakar. Aralık sayısı ve eşik uygun değilse yoğun bölgeler ya parçalanır ya birleşir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Aralık sayısı</dt><dd>Her boyutun kaç eşit parçaya bölündüğü; toplam hücre = aralık sayısının karesi.</dd><dt>Yoğunluk eşiği</dt><dd>Bir hücrenin yoğun sayılması için içindeki nokta sayısının aşması gereken değer.</dd><dt>Yoğun hücre</dt><dd>İçindeki nokta sayısı eşiği aşan hücre.</dd></dl></details>
+      <p class="lab-src">Veri notta yok; Bölüm 11’deki aynı sanal 90 nokta. Bu araç CLIQUE’in (Bölüm 11.3.2) yalnızca iki boyutlu, ilk adımını sadeleştiren bir göstergedir; alt uzay arama ve MDL adımları içermez.</p>
+    </div>
+    <div class="lab" id="hucrelab"></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>CLIQUE’in güçlü yanı</th><th>Zayıf yanı</th></tr></thead>
+      <tbody>
+        <tr><td>En yüksek boyutlu alt uzayları otomatik bulur. Giriş sırasına duyarsızdır ve kanonik bir veri dağılımı varsaymaz. Girdi boyutuyla doğrusal ölçeklenir, boyut sayısı arttıkça iyi ölçeklenir.</td><td>Sonuç, ızgara boyutunun ve yoğunluk eşiğinin doğru ayarına bağlıdır; bu ayarlar tüm boyut kombinasyonlarında kullanıldığı için zordur. Basitlik doğruluğu azaltabilir. Bildirilen yoğun bölgeler arasında büyük örtüşme olabilir. Farklı boyutlu alt uzaylarda çok farklı yoğunluktaki kümeleri bulmak zordur.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Eğilim ve küme sayısı">
+  <div class="panel">
+    <div class="kicker">11.4 Kümelemenin değerlendirilmesi</div>
+    <h2>Kümeleme anlamlı mı? Kaç küme?</h2>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Kümeleme eğilimi</b>Veri kümesinin rastgele olmayan bir yapıya sahip olup olmadığını belirler. Veri uzayında düzgün dağılmış noktalarda algoritma küme döndürse de bunlar rastgele ve anlamsızdır. Sezgisel olarak verinin düzgün dağılımla üretilme olasılığı ölçülür; mekânsal rastgelelik için istatistiksel testler kullanılır.</div>
+      <div class="peas-c e"><b>Küme sayısı</b>Doğru sayıyı bulmak önemlidir: bazı algoritmalar bunu parametre olarak ister ve uygun sayı daha iyi bir kümeleme demektir. Sıkıştırılabilirlik ile kesinlik arasında denge sağlar.</div>
+    </div>
+    <div class="callout idea"><b>İki uç durum</b>Tüm veri tek küme olursa özetleme maksimumdur ama kümelemeden hiçbir şey öğrenilmez. Her nesne ayrı küme olursa (k-ortalamalarda hata en iyi durumdadır) özetleme yapılamaz. “Doğru” sayı belirsizdir; verinin dağılımına, şekline ve kullanıcının beklediği çözünürlüğe bağlıdır.</div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Nasıl?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Basit kural</b></td><td>Küme sayısı yaklaşık √(n/2); yani her kümede yaklaşık √(2n) nokta (n nesne sayısı).</td></tr>
+        <tr><td><b>Dirsek yöntemi</b></td><td>k arttıkça küme içi toplam hata azalır; ama çok fazla küme olunca bu azalma etkisini yitirir. Küme içi toplam varyansı gösteren eğrinin <b>eğiminin değiştiği ilk (en önemli) nokta</b> doğru sayı olarak seçilir.</td></tr>
+        <tr><td><b>Çapraz doğrulama</b></td><td>Veri m parçaya bölünür; m−1 parçayla kümeleme modeli kurulur, kalan parça test edilir (test noktalarının en yakın merkeze uzaklık kareleri toplanır). Bu m kez tekrarlanır; farklı k değerlerinin ortalama kalitesi karşılaştırılır.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Aşağıdaki 90 noktalık veride k’yı değiştir; hatanın düştüğü grafikte dirseği, siluet grafiğinde ise en yüksek noktayı ara:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Küme sayısı k’yı 1’den 8’e kadar kaydır.</li>
+        <li><b>Ne göreceksin:</b> Üç yoğun bölgeli 90 nokta k kümeye bölünür; altta küme içi hata ve ortalama siluet k’ya göre çizilir, seçili k kırmızı noktayla gösterilir.</li>
+        <li><b>Ne anlamalısın:</b> Hata k arttıkça düşer ama dirsek noktasından sonra azalma küçülür. Siluet ise iyi ayrışmış kümelerde yükselir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Küme içi hata</dt><dd>Her noktanın kendi merkezine uzaklığının karelerinin toplamı.</dd><dt>Dirsek</dt><dd>Hata eğrisinin eğiminin belirgin değiştiği nokta.</dd><dt>Siluet katsayısı</dt><dd>Nesnenin kümesine yakınlığı ile en yakın diğer kümeden uzaklığını karşılaştırır; −1 ile 1 arasındadır.</dd></dl></details>
+      <p class="lab-src">Veri notta yok; bu site için üretilmiş 90 sanal nokta. Dirsek ve siluet fikri notundaki Bölüm 11.4.2 ve 11.4.3.2’ye dayanır; siluetin (b − a) / max{a, b} biçimi notta şekil olarak verilir, burada standart hâliyle hesaplandı.</p>
+    </div>
+    <div class="lab" id="klab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kalite ölçümü">
+  <div class="panel">
+    <div class="kicker">11.4.3 Kümeleme kalitesi</div>
+    <h2>Yapı dışı ve yapı içi ölçütler</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Yapı dışı (extrinsic)</th><th>Yapı içi (intrinsic)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ne zaman?</b></td><td>Bölge araştırması (ground truth) mevcutken: kümeleme C ile referans Cg karşılaştırılır; bir skor Q(C, Cg) hesaplanır.</td><td>Bölge araştırması yokken: kümelerin ne kadar iyi ayrıldığına ve ne kadar yoğun olduğuna bakılır.</td></tr>
+        <tr><td><b>Örnek ölçüt</b></td><td>BCubed hassasiyeti ve tekrarı</td><td>Siluet katsayısı</td></tr>
+      </tbody>
+    </table></div>
+    <h3>İyi bir yapı dışı ölçütün sağlaması gereken dört kriter</h3>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Kriter 1</b>Küme homojenliği<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Kümeler ne kadar saf olursa kümeleme o kadar başarılıdır. C₂, C₁’in nesne türlerine göre ayrılmış hâliyse Q(C₂) &gt; Q(C₁).</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Kriter 2</b>Küme bütünlüğü<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Aynı kategorideki iki nesne aynı kümede olmalıdır. C₁ aynı kategoriyi iki kümeye bölüyor, C₂ tek kümede topluyorsa Q(C₂) &gt; Q(C₁).</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Kriter 3</b>Yamalı çanta (rag bag)<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Başka nesnelerle birleşemeyen nesneler “karışık” ya da “diğer” gibi bir kümeye konabilir. Saf bir kümeye yabancı nesne koymak, onu yamalı çantaya koymaktan daha kötüdür.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Kriter 4</b>Küçük kümelerin korunması<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Küçük bir kategoriyi bölmek, geniş bir kategoriyi bölmekten daha tehlikelidir; küçük parçalar gürültüye dönüp fark edilmez hâle gelebilir.</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Yamalı çanta (ders notundaki örnek)</b>Bir kümede bir nesne hariç hepsi aynı kategoridendir. Ayrı duran nesneyi onlarla aynı kümede tutmaktansa başka bir kümeye ayırmak (yamalı çanta) kaliteyi artırır.</div>
+    <div class="callout idea"><b>BCubed</b>Her nesne için hassasiyet ve tekrar hesaplanır. Hassasiyet: nesnenin kümesindeki diğer nesnelerin kaçı onunla aynı kategoride? Tekrar: aynı kategorideki nesnelerin kaçı aynı kümeye atanmış? Bu ölçüler yukarıdaki dört kriteri sağlar.</div>
+    <h3>Siluet katsayısı</h3>
+    <p>D, k kümeye bölünmüş n nesnelik veri kümesi olsun. Her nesne o için <b>a(o)</b>: o’nun kendi kümesindeki diğer nesnelere ortalama uzaklığı (küme ne kadar yoğunsa o kadar küçük). <b>b(o)</b>: o’nun kendi kümesi dışındaki kümelere olan minimum ortalama uzaklığı (diğer kümelerden ne kadar ayrık olduğu; büyük olması iyi). Siluet katsayısı bunlardan hesaplanır ve −1 ile 1 arasındadır (formül notta şekil olarak verilir: s = (b − a) / max{a, b}).</p>
+    <ul>
+      <li>1’e yakın: o’nun kümesi yoğun ve o diğer kümelerden uzak. İstenen durum.</li>
+      <li>Negatif: o, kendi kümesindekilerden başka bir kümeye daha yakın. Çoğu durumda istenmez.</li>
+      <li>Kümelemenin kalitesi için tüm nesnelerin ortalama siluet katsayısı kullanılır; siluet ve başka yapı içi ölçütler dirsek yönteminde de kullanılabilir.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 11</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Yoğunluk tabanlı</td><td>Seyrek bölgelerle ayrılmış yoğun bölgeler; düzensiz şekil; DBSCAN (ε, MinPts: merkez, sınır, gürültü), DENCLUE (yoğunluk fonksiyonu)</td></tr>
+        <tr><td>Erişilebilirlik</td><td>Yoğunluk-erişilebilir simetrik değil; yoğunluk-bağlantılı simetrik</td></tr>
+        <tr><td>OPTICS</td><td>Küme sıralaması; merkez mesafesi ve ulaşılabilirlik mesafesi; tek ε seçmek gerekmez</td></tr>
+        <tr><td>Izgara tabanlı</td><td>STING (istatistiksel, çok çözünürlüklü, O(n)); CLIQUE (alt uzay, yoğun hücre, Apriori benzeri)</td></tr>
+        <tr><td>Değerlendirme</td><td>Eğilim, küme sayısı (dirsek, çapraz doğrulama, √(n/2)), kalite (yapı dışı: BCubed; yapı içi: siluet)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_ML_11"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/ml-bolum-11-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/ml11.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>
