@@ -1,0 +1,221 @@
+<!--
+course: makine-ogrenmesi
+course_title: Makine Öğrenmesi
+no: 13
+title: Model Toplulukları
+quiz: QUIZ_ML_13
+quiz_file: ml-bolum-13-quiz.js
+scripts: ml13.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 13</div>
+    <h1>Model Toplulukları</h1>
+    <p class="big-quote">Ciddi bir teşhis için tek bir doktora mı danışırsın, birkaçına mı? Birkaç uzmanın oyuna bakmak çoğu zaman daha güvenilirdir. Makine öğrenmesinde de aynı fikir var: <b>birden çok modeli birlikte oy kullandır.</b></p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Topluluğun neden tek modelden iyi olma eğiliminde olduğunu ve bunun koşullarını söyleyebilirsin.</li>
+      <li>Bagging ve rastgele ormanın çalışma adımlarını anlatabilirsin.</li>
+      <li>AdaBoost’ta ağırlıkların nasıl güncellendiğini açıklayabilirsin.</li>
+      <li>Bagging ile boosting’i verev (bias) ve varyans açısından karşılaştırabilirsin.</li>
+      <li>Meta-model ve meta-öğrenme fikrini tanımlayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Çok model, tek karar</h2>
+    <svg class="diagram" viewBox="0 0 760 200" role="img" aria-label="Eğitim verisinin farklı sürümlerinden çok model üretilir ve tahminler birleştirilir: bagging, rastgele orman, boosting, meta-model"><rect class="d-box" x="10" y="55" width="150" height="80" rx="8"/><text class="d-txt d-c" x="85" y="88">Eğitim verisi</text><text class="d-sm d-c" x="85" y="108">farklı sürümler</text><rect class="d-brand" x="190" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="275" y="88">Çeşitli modeller</text><text class="d-sm d-c" x="275" y="108">M₁, M₂, … Mₖ</text><rect class="d-ok" x="390" y="55" width="170" height="80" rx="8"/><text class="d-txt d-c" x="475" y="88">Birleştirme</text><text class="d-sm d-c" x="475" y="108">oylama, ortalama</text><rect class="d-warn" x="590" y="55" width="160" height="80" rx="8"/><text class="d-txt d-c" x="670" y="88">Daha iyi karar</text><text class="d-sm d-c" x="670" y="108">varyans/verev azalır</text><path class="d-line-brand" d="M160 95 L190 95"/><path class="d-line-brand" d="M360 95 L390 95"/><path class="d-line-brand" d="M560 95 L590 95"/></svg>
+    <p>Topluluk yöntemleri iki ortak özelliğe sahiptir: eğitim verisinin farklı sürümlerinden çeşitli tahmin modelleri üretirler ve bu modellerin tahminlerini ortalama ya da oylamayla birleştirirler.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Topluluk nedir?">
+  <div class="panel">
+    <div class="kicker">13.1 Giriş</div>
+    <h2>Birleşik model: sınıflandırıcılar oy kullanır</h2>
+    <p>Sınıflandırma için <b>topluluk</b>, sınıflandırıcıların birleşiminden oluşan bileşik bir modeldir. Bireysel sınıflandırıcılar oy kullanır; topluluk, oyların toplanmasına dayanarak bir sınıf etiketi döndürür. Topluluklar bileşen sınıflandırıcılarından daha doğru olma eğilimindedir ve çoğu zaman en güçlü makine öğrenmesi tekniklerinden biridir; ama algoritmik olarak daha karmaşıktır.</p>
+    <div class="callout real"><b>Gerçek hayat: Ölçümlerin ortalaması (ders notundaki anlatım)</b>İstatistiksel olarak ölçümlerin ortalamasını almak, tek ölçümden çok daha güvenilir bir tahmin verir. Aynı mantıkla, farklı modellerden oluşan topluluk tek bir modelin rastgele dalgalanmalarının etkisini azaltır. Zor olan soru: modeller arasında çeşitliliği nasıl sağlarız? Çoğunlukla eğitim verisinin rastgele altkümeleri üzerinde eğitilmiş modellerle.</div>
+    <h3>Çoğunluk oylaması ne zaman işe yarar?</h3>
+    <ul>
+      <li>Temel sınıflandırıcılar hata yapabilir; ama topluluk bir kaydı yalnızca temel sınıflandırıcıların <b>yarısından fazlası</b> hatalıysa yanlış sınıflandırır.</li>
+      <li>Modeller arasında önemli <b>çeşitlilik</b> olmalıdır: ideal olarak sınıflandırıcılar arasında çok az korelasyon vardır.</li>
+      <li>Sınıflandırıcılar <b>rastgele tahminden daha iyi</b> olmalıdır.</li>
+      <li>Topluluk daha fazla zaman tüketebilir; ama her temel sınıflandırıcı farklı bir CPU’ya atanarak <b>paralelleştirilebilir</b>.</li>
+    </ul>
+    <p>Aşağıda oy sayısını, sınıflandırıcı doğruluğunu ve birbirini kopyalama olasılığını değiştir:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Üç kaydırıcıyı değiştir: her sınıflandırıcının doğruluğu, sınıflandırıcı sayısı ve birbirini kopyalama olasılığı.</li>
+        <li><b>Ne göreceksin:</b> Grafikte sınıflandırıcı sayısı arttıkça topluluğun doğruluğu çizilir; kırmızı nokta seçili sayıyı, turuncu kesik çizgi tek sınıflandırıcıyı gösterir.</li>
+        <li><b>Ne anlamalısın:</b> Topluluk, doğruluk %50’nin üstündeyse ve sınıflandırıcılar birbirinden bağımsızsa sayı arttıkça iyileşir. Doğruluk %50’nin altındaysa kötüleşir; sınıflandırıcılar birbirini kopyalıyorsa kazanç kaybolur.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Çoğunluk oyu</dt><dd>En çok oyu alan sınıfın seçilmesi.</dd><dt>Kopyalama olasılığı</dt><dd>Sınıflandırıcıların aynı cevabı vermesi: çeşitlilik eksikliği.</dd><dt>Bağımsız</dt><dd>Bir sınıflandırıcının hatasının diğerlerini etkilememesi.</dd></dl></details>
+      <p class="lab-src">Sayılar sanal. Hesap: sınıflandırıcıların bağımsız ve aynı doğrulukta olduğu varsayımıyla oy sayılarının binom olasılığı; kopyalama için ρ·p + (1 − ρ)·(oy hesabı) basitleştirmesi bu siteye aittir. “Yarısından fazlası yanılırsa yanlış”, “çeşitlilik gerekir”, “rastgeleden iyi olmalı” fikirleri notundaki Bölüm 13.1’dendir.</p>
+    </div>
+    <div class="lab" id="oylab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bagging">
+  <div class="panel">
+    <div class="kicker">13.2 Bagging</div>
+    <h2>Önyükleme örnekleriyle çeşitlilik</h2>
+    <div class="callout real"><b>Gerçek hayat: Birkaç doktora danışmak (ders notundaki örnek)</b>Bir hastaya semptomlarına bakarak teşhis konulacak. Tek doktora sormak yerine birkaç doktora sorulur; bir teşhis diğerlerinden daha sık konulduysa nihai teşhis o olur, her doktor eşit oy kullanır. Her doktoru bir sınıflandırıcıyla değiştirirsen bagging’in fikrine ulaşırsın. Büyük bir doktor grubunun çoğunluk oyu, küçük bir grubunkinden daha güvenilir olabilir.</div>
+    <p><b>Bagging</b> (bootstrap aggregating), eğitim verisinin rastgele örnekleri üzerinde çeşitli modeller kurar. Yerine koyarak düzgün örneklenen bu örneklere <b>önyükleme (bootstrap) örnekleri</b> denir. Bazı kayıtlar birden fazla seçilir, bazıları hiç seçilmez; bagging’de amaç zaten çeşitliliktir.</p>
+    <ol>
+      <li>Girdi: veri kümesi D, topluluk büyüklüğü T, öğrenme algoritması A.</li>
+      <li>t = 1’den T’ye: D’den |D| büyüklüğünde bir önyükleme örneği D<sub>t</sub> çek.</li>
+      <li>A’yı D<sub>t</sub> üzerinde çalıştırıp M<sub>t</sub> modelini elde et.</li>
+      <li>Yeni bir kaydı sınıflandırmak için her M<sub>t</sub> oy verir; en çok oyu alan sınıf seçilir (sayısal tahminde tahminlerin ortalaması alınır).</li>
+    </ol>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> T kaydırıcısıyla topluluk büyüklüğünü seç ve “Örnekleri yeniden çek”e birkaç kez bas.</li>
+        <li><b>Ne göreceksin:</b> Her satır bir önyükleme eğitim kümesidir; tablodaki sayılar 10 kaydın o kümede kaç kez bulunduğunu gösterir. Hiç seçilmeyenler kırmızı 0 olur.</li>
+        <li><b>Ne anlamalısın:</b> Yerine koyarak çekilen kümelerde bazı kayıtlar tekrarlanır, bazıları dışarıda kalır. Her model farklı bir küme gördüğü için modeller birbirinden farklı çıkar.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Önyükleme örneği</dt><dd>Yerine koyarak çekilen, özgün veriyle aynı büyüklükte eğitim kümesi.</dd><dt>T</dt><dd>Topluluktaki model sayısı.</dd><dt>D</dt><dd>Özgün veri kümesi (burada 10 kayıt).</dd></dl></details>
+      <p class="lab-src">Veri yok; tamamen rastgele simülasyon. Yöntem notundaki Bölüm 13.2 ve Algoritma 13.1’e dayanır.</p>
+    </div>
+    <div class="lab" id="baglab"></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Birleştirme</th><th>Ne üretir?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Oylama</b></td><td>Çoğunluğun tahmin ettiği sınıf kazanır; genellikle parçalı doğrusal bir sınıflandırıcı üretir.</td></tr>
+        <tr><td><b>Ortalama</b></td><td>Temel sınıflandırıcılar skor ya da olasılık döndürüyorsa; farklı skor alan bölümlere ayırır.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Bagging’in kazancı</b>Bagging sınıflandırıcı, genellikle özgün D’den türetilen tek bir sınıflandırıcıdan önemli ölçüde daha doğrudur; gürültülü verilere ve aşırı uyuma karşı çok daha dayanıklıdır. Doğruluk artışı, bileşik modelin bireysel sınıflandırıcıların <b>varyansını azaltmasından</b> gelir. Tek bir doğrusal sınıflandırıcı parçalı doğrusal sınır çıkaramaz; bagging ile daha karmaşık bir sınıflandırıcı elde edilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Rastgele orman">
+  <div class="panel">
+    <div class="kicker">13.2 Rastgele ormanlar</div>
+    <h2>Ağaçlar + önyükleme + rastgele öznitelikler</h2>
+    <p>Bagging <b>ağaç modelleriyle</b> (örneğin karar ağacı) daha iyi çalışır. Ağaçlarla kullanıldığında bir fikir daha eklenir: <b>alt-uzay örneklemesi</b>. Verideki özniteliklerin rastgele alt kümeleri alınır ve ağaçlar bunun üzerinde eğitilir. Bu, çeşitliliği daha da artırır ve eğitim süresini kısaltır. Ortaya çıkan topluluğa <b>rastgele orman</b> denir.</p>
+    <ol>
+      <li>Girdi: veri kümesi D, topluluk büyüklüğü T, alt-uzay boyutu d.</li>
+      <li>t = 1’den T’ye: D’den |D| büyüklüğünde bir önyükleme örneği D<sub>t</sub> oluştur.</li>
+      <li>Rastgele d öznitelik seç ve D<sub>t</sub>’nin boyutunu buna göre azalt.</li>
+      <li>D<sub>t</sub> üzerinde M<sub>t</sub> ağaç modelini eğit; ağaçların kümesini döndür (oylama ya da ortalama ile birleştirilir).</li>
+    </ol>
+    <div class="callout idea"><b>Not edilen bir ayrıntı</b>Sonuçtaki model aslında tek bir ağaçla da gösterilebilir; yani rastgele orman, bazı avantajları olan alternatif bir eğitme algoritmasıdır.</div>
+    <div class="callout real"><b>Gerçek hayat: Ağaçlar neden uygun? (ders notundaki anlatım)</b>Karar ağaçlarının varyansı yüksektir: eğitim verisi yeterince değişir ve kök düğümü olarak seçilen öznitelik başka olursa ağacın geri kalanı da büyük olasılıkla değişir. Bagging varyansı azalttığı için ağaç modelleriyle sıkça kullanılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Boosting ve AdaBoost">
+  <div class="panel">
+    <div class="kicker">13.3 Destekleme · dene</div>
+    <h2>Hatalı kayıtlara daha fazla dikkat et</h2>
+    <div class="callout real"><b>Gerçek hayat: Ağırlıklı doktor görüşleri (ders notundaki örnek)</b>Bir hasta birkaç doktora danışıyor; ama bu kez her doktorun teşhisine, daha önce koyduğu teşhislerin doğruluğuna göre bir ağırlık veriliyor. Nihai teşhis ağırlıklı teşhislerin birleşimidir. Destekleme yaklaşımının özü budur.</div>
+    <p><b>Destekleme (boosting)</b>: Her eğitim kaydına ağırlık atanır. k sınıflandırıcı yinelemeli öğrenilir. M<sub>i</sub> öğrenildikten sonra ağırlıklar güncellenir; böylece M<sub>i+1</sub>, M<sub>i</sub>’nin yanlış sınıflandırdığı kayıtlara “daha fazla dikkat eder”. Son sınıflandırıcı herkesin oyunu birleştirir; her oyun ağırlığı, o sınıflandırıcının doğruluğunun bir fonksiyonudur.</p>
+    <p><b>AdaBoost</b> (Adaptive Boosting) popüler bir destekleme algoritmasıdır. d kayıtlı D verilir:</p>
+    <ol>
+      <li>Başlangıçta her kayda eşit ağırlık verilir.</li>
+      <li>i. turda D’den ağırlıklara bağlı seçilme şansıyla (yerine koyarak) d büyüklüğünde D<sub>i</sub> örneklenir ve M<sub>i</sub> öğrenilir.</li>
+      <li>Hatalı sınıflandırılan kaydın ağırlığı artar, doğru sınıflandırılanınki azalır. Ağırlık ne kadar yüksekse kayıt o kadar sık yanlış sınıflandırılmıştır.</li>
+      <li>Bu ağırlıklar bir sonraki turun eğitim örneklerini oluşturmakta kullanılır.</li>
+    </ol>
+    <div class="callout idea"><b>Ağırlık ne kadar değişmeli?</b>Net bir kural yoktur; yaygın bir yöntem toplam ağırlığın yarısını hatalı sınıflandırılan örneklere, diğer yarısını geri kalanlara dağıtmaktır. Aşağıdaki laboratuvar bunu kullanır.</div>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> “Sonraki tur”a birkaç kez bas; sonra “Baştan”la yeniden başla.</li>
+        <li><b>Ne göreceksin:</b> On nokta çizilir (yeşil +, mor −); daire büyüklüğü ağırlığı gösterir. Her turda bir eşik sınıflandırıcı eklenir, yanlış bilinen noktalar büyür ve topluluğun tahmini noktaların altında görünür.</li>
+        <li><b>Ne anlamalısın:</b> Hiçbir tek eşik bu on noktayı doğru ayıramaz; ama ağırlıklandırarak art arda eklenen eşiklerin oyu ayırabilir. Her tur bir öncekinin hatalı kayıtlarına daha fazla dikkat eder.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Eşik sınıflandırıcı</dt><dd>“x değeri a’dan büyükse +, değilse −” (ya da tersi) diyen basit sınıflandırıcı.</dd><dt>Ağırlıklı hata</dt><dd>Yanlış bilinen kayıtların ağırlıklarının toplamı.</dd><dt>Oy ağırlığı</dt><dd>Sınıflandırıcı ne kadar doğruysa oyu o kadar ağırdır.</dd></dl></details>
+      <p class="lab-src">Noktalar ve etiketler bu site için seçildi. Ağırlıkların yarısının hatalılara verilmesi notundaki Bölüm 13.3’tendir; oy ağırlığı ln((1 − hata) / hata) AdaBoost’un standart biçimidir ve notta formül olarak yazılı değildir.</p>
+    </div>
+    <div class="lab" id="boostlab"></div>
+    <div class="callout idea"><b>Varyasyonlar</b>Destekleme algoritmasının çok çeşidi vardır; örneğin bazı modeller kısmi sınıflandırıcıdır ve bazen tahmin yapmamayı tercih eder. Bagging’den farklı olarak, ağırlıklandırılmış olarak tek bir sınıflandırıcı döndürülür.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bagging mi boosting mi?">
+  <div class="panel">
+    <div class="kicker">Karşılaştırma</div>
+    <h2>Bagging ile boosting nasıl ayrılır?</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Bagging</th><th>Boosting</th></tr></thead>
+      <tbody>
+        <tr><td><b>Çeşitlilik nasıl?</b></td><td>Rastgele önyükleme örnekleriyle</td><td>Daha karmaşık: hatalı kayıtların ağırlığı artırılır, her model öncekini tamamlar</td></tr>
+        <tr><td><b>Oylar</b></td><td>Eşit</td><td>Doğruluğa göre ağırlıklı</td></tr>
+        <tr><td><b>Aşırı uyum</b></td><td>Daha az duyarlı</td><td>Yanlış sınıflandırılan kayıtlara odaklandığı için riski var; bazen güçlendirilmiş model, aynı verilerden türetilen tek bir modelden daha az doğru olabilir</td></tr>
+        <tr><td><b>Doğruluk</b></td><td>Tek modele göre önemli artış</td><td>Tek modele göre önemli artış; daha yüksek doğruluk elde etme eğilimi</td></tr>
+        <tr><td><b>En çok azalttığı</b></td><td>Varyans</td><td>Verev (bias)</td></tr>
+        <tr><td><b>Genellikle birlikte kullanıldığı</b></td><td>Yüksek varyanslı modeller (ağaçlar, rastgele orman)</td><td>Yüksek verevli modeller (doğrusal sınıflandırıcılar)</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Verev ve varyans">
+  <div class="panel">
+    <div class="kicker">13.4 Topluluk modellerinin uzayı</div>
+    <h2>Bir model neden yanlış sınıflandırır?</h2>
+    <p>Genel olarak üç sebep vardır. Kutulara tıklayıp aç:</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sebep 1</b>Sınıflar çakışıyor<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Verilen öznitelik uzayında farklı sınıflardaki örnekler aynı özelliklere sahiptir. Yanlış sınıflandırma kaçınılmazdır; umabileceğimiz en iyi şey hedef kavrama yakınsamaktır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sebep 2</b>Verev (bias)<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Modelin hedef kavramı tasvir etmeye yetecek ifade gücü yoktur. Örneğin veri doğrusal ayrılabilir değilse en iyi doğrusal sınıflandırıcı bile hata yapar. Verev, ifade gücüyle ters orantılıdır.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Sebep 3</b>Varyans<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Modelin karar sınırı eğitim verisine çok bağlıdır. Veri yeterince değişirse kök düğüm özniteliği değişir ve ağacın geri kalanı da muhtemelen değişir; bu yüzden ağaç modelleri yüksek varyanslıdır.</span></button>
+    </div>
+    <div class="callout idea"><b>Pratik kural</b>Düşük verevli modeller yüksek varyanslı olmaya meyillidir (ve tersi). Ağaç modelleri en düşük verevli modeller arasındadır (her yaprak tek örneği kapsayana kadar küçültülebilir) ama varyansları yüksektir. Doğrusal sınıflandırıcılar ise düşük varyanslıdır, çünkü tüm örnekleri ortalayarak model kurarlar.</div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Teknik</th><th>Etkisi</th></tr></thead>
+      <tbody>
+        <tr><td><b>Bagging</b></td><td>Çoğunlukla varyans azaltıcı. Doğrusal sınıflandırıcıları bagging ile birleştirmek kısmen doğrusal bir karar sınırı üretir ve doğrusal sınıflandırıcının ifade gücünü aşar; yani yüksek verevli sınıflandırıcının verevini de azaltır.</td></tr>
+        <tr><td><b>Boosting</b></td><td>Çoğunlukla verev azaltıcı; bagging’deki verev azalmasından çok daha fazla.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Meta-model ve meta-öğrenme">
+  <div class="panel">
+    <div class="kicker">13.5–13.6 Diğer yöntemler</div>
+    <h2>Tahminleri nasıl birleştireceğini öğrenmek</h2>
+    <p>Bagging ve boosting dışında birçok yöntem vardır; temel fark tahminlerin <b>nasıl birleştirildiğinde</b> yatar. Birleştirme de bir öğrenme problemidir: bazı sınıflandırıcıların tahminlerini öznitelik olarak alıp bunları en iyi birleştiren bir <b>meta-model</b> öğrenmek.</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Öğrenilebilir ağırlıklar</b>Boosting’de oy ağırlıkları hataya göre hesaplanmak yerine öğrenilebilir. Doğrusal meta-modeller (stacking) ya da karar ağaçlarıyla meta-model öğrenilmiştir.</div>
+      <div class="peas-c e"><b>Heterojen topluluk</b>Çeşitlilik, eğitim verisinin farklı altkümelerinden değil, aynı veri üzerinde eğitilmiş farklı modellerden gelir.</div>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Farklı parametreli SVM’ler (ders notundaki örnek)</b>Farklı parametrelerle eğitilmiş birçok destek vektör makinesi bir model topluluğunda birlikte kullanılabilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Ağırlığı sıfır ya da negatif sınıflandırıcı (ders notundaki anlatım)</b>Meta-model doğrusal ise sıfıra yakın ağırlık, o sınıflandırıcının topluluğa fazla katkı yapmadığını gösterir. Ağırlık negatif bile olabilir: bu, sınıflandırıcının tahminlerini ters çevirmenin topluluk için en iyisi olduğu anlamına gelir.</div>
+    <h3>Meta-öğrenme</h3>
+    <p>Bir adım ileri gidip bir sınıflandırıcının nasıl performans göstereceğini onu eğitmeden önce tahmin etmek mümkündür. Bu problemi meta düzeyde formalize etmek <b>meta-öğrenme</b>dir. Amaç, şu tür soruları cevaplayan bir model kurmaktır:</p>
+    <ul>
+      <li>Hangi durumlarda bir karar ağacı destek vektör makinesinden daha iyi performans gösterir?</li>
+      <li>Bir doğrusal sınıflandırıcı ne zaman kötü performans gösterir?</li>
+      <li>Veriden hareketle bazı parametrelerin değerleri için iyi öneriler verilebilir mi?</li>
+    </ul>
+    <div class="callout idea"><b>Temel soru: meta-model özellikleri</b>Bu özellikler veri kümesinin karakteristiklerini ve eğitilen modellerin ilgili yönlerini birleştirmelidir. Öznitelik sayısı, türü, örnek sayısı gibi yüzeysel özellikler yetmez; veri üzerinde basit bir model eğitip performansına bakmak, örneğin, yararlı bilgi verebilir.</div>
+    <div class="callout idea"><b>Sınıf dengesizliği</b>Notun girişinde, ana ilgi sınıfının yalnızca birkaç örnekle temsil edildiği sınıf dengesizliği probleminden de söz edilir; Bölüm 7’de bu konudaki yaklaşımları görmüştün.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 13</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Topluluk</td><td>Sınıflandırıcıların oyu; yarıdan fazlası yanılırsa yanlış; çeşitlilik ve rastgeleden iyi olma şart; paralelleştirilebilir</td></tr>
+        <tr><td>Bagging</td><td>Önyükleme örnekleri, eşit oy; varyansı azaltır; gürültü ve aşırı uyuma dayanıklı</td></tr>
+        <tr><td>Rastgele orman</td><td>Bagging + rastgele öznitelik alt kümesi, ağaç modelleri</td></tr>
+        <tr><td>AdaBoost</td><td>Eşit ağırlıkla başla; hatalı kayıtların ağırlığı artar; oylar doğruluğa göre ağırlıklı; verevi azaltır</td></tr>
+        <tr><td>Verev–varyans</td><td>Düşük verev ↔ yüksek varyans; bagging varyansa, boosting verevye etki eder</td></tr>
+        <tr><td>Meta-model / meta-öğrenme</td><td>Tahminleri birleştirmeyi öğrenmek (stacking); modelin başarısını eğitmeden önce tahmin etmek</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

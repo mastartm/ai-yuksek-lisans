@@ -110,6 +110,26 @@ add('mistlab', 'makine-ogrenmesi/bolum-12.html',
     [('Hata', 'Öğrenicinin tahmini ile gerçek değerin farklı çıkması.'), ('Hipotez', 'Öğrenicinin şimdiki tahmin kuralı: değişkenlerin birleşimi.'), ('¬', '“Değil” (olumsuz).')],
     'Hedef kavram ve örnekler bu site için üretildi (4 ikili değişken, hedef x₁ ∧ ¬x₃). Öğrenici notundaki FIND-S fikrinin (yalnızca pozitiflerden genelleme) çevrimiçi hâlidir; hata sınırı değeri bu araçla iddia edilmez.')
 
+# ---------------- Makine Öğrenmesi 13 ----------------
+add('oylab', 'makine-ogrenmesi/bolum-13.html',
+    'Üç kaydırıcıyı değiştir: her sınıflandırıcının doğruluğu, sınıflandırıcı sayısı ve birbirini kopyalama olasılığı.',
+    'Grafikte sınıflandırıcı sayısı arttıkça topluluğun doğruluğu çizilir; kırmızı nokta seçili sayıyı, turuncu kesik çizgi tek sınıflandırıcıyı gösterir.',
+    'Topluluk, doğruluk %50’nin üstündeyse ve sınıflandırıcılar birbirinden bağımsızsa sayı arttıkça iyileşir. Doğruluk %50’nin altındaysa kötüleşir; sınıflandırıcılar birbirini kopyalıyorsa kazanç kaybolur.',
+    [('Çoğunluk oyu', 'En çok oyu alan sınıfın seçilmesi.'), ('Kopyalama olasılığı', 'Sınıflandırıcıların aynı cevabı vermesi: çeşitlilik eksikliği.'), ('Bağımsız', 'Bir sınıflandırıcının hatasının diğerlerini etkilememesi.')],
+    'Sayılar sanal. Hesap: sınıflandırıcıların bağımsız ve aynı doğrulukta olduğu varsayımıyla oy sayılarının binom olasılığı; kopyalama için ρ·p + (1 − ρ)·(oy hesabı) basitleştirmesi bu siteye aittir. “Yarısından fazlası yanılırsa yanlış”, “çeşitlilik gerekir”, “rastgeleden iyi olmalı” fikirleri notundaki Bölüm 13.1’dendir.')
+add('baglab', 'makine-ogrenmesi/bolum-13.html',
+    'T kaydırıcısıyla topluluk büyüklüğünü seç ve “Örnekleri yeniden çek”e birkaç kez bas.',
+    'Her satır bir önyükleme eğitim kümesidir; tablodaki sayılar 10 kaydın o kümede kaç kez bulunduğunu gösterir. Hiç seçilmeyenler kırmızı 0 olur.',
+    'Yerine koyarak çekilen kümelerde bazı kayıtlar tekrarlanır, bazıları dışarıda kalır. Her model farklı bir küme gördüğü için modeller birbirinden farklı çıkar.',
+    [('Önyükleme örneği', 'Yerine koyarak çekilen, özgün veriyle aynı büyüklükte eğitim kümesi.'), ('T', 'Topluluktaki model sayısı.'), ('D', 'Özgün veri kümesi (burada 10 kayıt).')],
+    'Veri yok; tamamen rastgele simülasyon. Yöntem notundaki Bölüm 13.2 ve Algoritma 13.1’e dayanır.')
+add('boostlab', 'makine-ogrenmesi/bolum-13.html',
+    '“Sonraki tur”a birkaç kez bas; sonra “Baştan”la yeniden başla.',
+    'On nokta çizilir (yeşil +, mor −); daire büyüklüğü ağırlığı gösterir. Her turda bir eşik sınıflandırıcı eklenir, yanlış bilinen noktalar büyür ve topluluğun tahmini noktaların altında görünür.',
+    'Hiçbir tek eşik bu on noktayı doğru ayıramaz; ama ağırlıklandırarak art arda eklenen eşiklerin oyu ayırabilir. Her tur bir öncekinin hatalı kayıtlarına daha fazla dikkat eder.',
+    [('Eşik sınıflandırıcı', '“x değeri a’dan büyükse +, değilse −” (ya da tersi) diyen basit sınıflandırıcı.'), ('Ağırlıklı hata', 'Yanlış bilinen kayıtların ağırlıklarının toplamı.'), ('Oy ağırlığı', 'Sınıflandırıcı ne kadar doğruysa oyu o kadar ağırdır.')],
+    'Noktalar ve etiketler bu site için seçildi. Ağırlıkların yarısının hatalılara verilmesi notundaki Bölüm 13.3’tendir; oy ağırlığı ln((1 − hata) / hata) AdaBoost’un standart biçimidir ve notta formül olarak yazılı değildir.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
