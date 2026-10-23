@@ -13,7 +13,7 @@ Saf HTML, CSS ve JavaScript. Siteyi çalıştırmak için derleme ya da sunucu g
 | Ders | Hazır bölümler |
 |---|---|
 | Yapay Zekâ Temelleri | 1 Yapay Zekâ Tanımı ve Tarihsel Gelişimi · 2 Problem Çözme · 3 Arama Algoritmaları · 4 Bilgi Gösterimi · 5 Mantık · 6 Akıl Yürütme |
-| Makine Öğrenmesi | 1 Giriş · 2 Kavram Öğrenme · 3 Karar Ağacı Öğrenme · 4 Doğrusal Modeller ve Regresyon · 5 Destek Vektör Makineleri ve Sinir Ağları · 6 Bayes Öğrenmesi |
+| Makine Öğrenmesi | 1 Giriş · 2 Kavram Öğrenme · 3 Karar Ağacı Öğrenme · 4 Doğrusal Modeller ve Regresyon · 5 Destek Vektör Makineleri ve Sinir Ağları · 6 Bayes Öğrenmesi · 7 Naive Bayes, Bayes Ağları ve Model Değerlendirme · 8 Kümeleme · 9 Bölümlemeli Kümeleme · 10 Hiyerarşik Kümeleme · 11 Yoğunluk ve Izgara Tabanlı Kümeleme, Değerlendirme · 12 Hesaplamalı Öğrenme Teorisi · 13 Model Toplulukları · 14 Takviyeli Öğrenme |
 | Görüntü İşleme | 1 Görüntü İşlemeye Giriş · 2 Histogramlar · 3 Noktasal İşlemler · 4 Piksel İlişkileri · 5 Görüntü İyileştirme · 6 Frekans Alanına Giriş |
 | Veri Bilimi | 1 Veri Biliminin Bilimsel Temelleri · 2 Felsefi ve Epistemolojik Temeller · 3 Veri Toplama Süreçleri ve Etik Boyut · 4 Keşifçi Veri Analizi ve Görselleştirme · 5 İstatistiksel Analiz ve Çıkarım Temelleri · 6 Veri Mimarisi ve Yönetimi |
 | Araştırma Yöntemleri | 1 Giriş · 2 Araştırma Problemini Tanımlama · 3 Nicel Araştırmalar · 4 Nitel Araştırmalar · 5 Örnekleme Yöntemleri · 6 Verilerin Toplanması |

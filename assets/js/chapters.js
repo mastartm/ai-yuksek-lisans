@@ -12,7 +12,7 @@
       [1, 'Giriş', 1], [2, 'Kavram Öğrenme', 1], [3, 'Karar Ağacı Öğrenme', 1], [4, 'Doğrusal Modeller ve Regresyon', 1],
       [5, 'Destek Vektör Makineleri ve Sinir Ağları', 1], [6, 'Bayes Öğrenmesi', 1], [7, 'Naive Bayes, Bayes Ağları ve Model Değerlendirme', 1],
       [8, 'Kümeleme', 1], [9, 'Bölümlemeli Kümeleme (k-means)', 1], [10, 'Hiyerarşik Kümeleme', 1],
-      [11, 'Yoğunluk ve Izgara Tabanlı Kümeleme', 1], [12, 'Hesaplamalı Öğrenme Teorisi', 1], [13, 'Model Toplulukları', 1], [14, 'Takviyeli Öğrenme', 0]
+      [11, 'Yoğunluk ve Izgara Tabanlı Kümeleme', 1], [12, 'Hesaplamalı Öğrenme Teorisi', 1], [13, 'Model Toplulukları', 1], [14, 'Takviyeli Öğrenme', 1]
     ] },
     { slug: 'goruntu-isleme', title: 'Görüntü İşleme', blurb: 'Piksel, histogram, filtre, frekans, morfoloji, bölütleme, nesne tanıma.', chapters: [
       [1, 'Görüntü İşlemeye Giriş', 1], [2, 'Histogramlar', 1], [3, 'Noktasal İşlemler', 1], [4, 'Piksel İlişkileri', 1], [5, 'Görüntü İyileştirme', 1],

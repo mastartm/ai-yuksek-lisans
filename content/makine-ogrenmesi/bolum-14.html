@@ -1,0 +1,210 @@
+<!--
+course: makine-ogrenmesi
+course_title: Makine Öğrenmesi
+no: 14
+title: Takviyeli Öğrenme
+quiz: QUIZ_ML_14
+quiz_file: ml-bolum-14-quiz.js
+scripts: ml14.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Makine Öğrenmesi · Bölüm 14</div>
+    <h1>Takviyeli Öğrenme</h1>
+    <p class="big-quote">Bir robota “şarj istasyonuna git” demek kolay. Ama ona her adımın doğrusunu kimse göstermiyor; yalnızca istasyona ulaşınca bir ödül geliyor. Robot, hangi hareketlerin o ödüle götürdüğünü <b>kendi denemeleriyle</b> öğrenmek zorunda. Takviyeli öğrenme bunu çözer.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Etmen, durum, eylem, ödül ve politika (hareket tarzı) kavramlarını açıklayabilirsin.</li>
+      <li>Takviyeli öğrenmenin klasik öğrenmeden dört farkını sayabilirsin.</li>
+      <li>Markov karar sürecini ve indirimli toplam ödülü anlatabilirsin.</li>
+      <li>Q fonksiyonunu ve güncelleme kuralını elle uygulayabilirsin.</li>
+      <li>Q-öğrenmenin yakınsama koşullarını söyleyebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Algıla, eylemi seç, ödülü gör, tekrarla</h2>
+    <svg class="diagram" viewBox="0 0 760 220" role="img" aria-label="Etmen çevreyi algılar, eylem seçer, çevre yeni durum ve ödül verir"><rect class="d-brand" x="40" y="70" width="200" height="80" rx="8"/><text class="d-txt d-c" x="140" y="103">Etmen</text><text class="d-sm d-c" x="140" y="125">politika π: durum → eylem</text><rect class="d-ok" x="520" y="70" width="200" height="80" rx="8"/><text class="d-txt d-c" x="620" y="103">Çevre</text><text class="d-sm d-c" x="620" y="125">yeni durum, ödül</text><path class="d-line-brand" d="M240 90 L520 90"/><text class="d-sm d-c" x="380" y="82">eylem a</text><path class="d-line-brand" d="M520 130 L240 130"/><text class="d-sm d-c" x="380" y="152">durum s′ ve ödül r</text></svg>
+    <p>Etmenin görevi, zaman içinde toplayacağı <b>toplam ödülü</b> en büyük yapan eylem dizilerini seçmektir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Takviyeli öğrenme nedir?">
+  <div class="panel">
+    <div class="kicker">14.1 Giriş</div>
+    <h2>Otonom etmen, ödül ve ceza</h2>
+    <p><b>Takviyeli (pekiştirmeli) öğrenme</b>, çevresini algılayıp hareket eden otonom bir etmenin hedeflerine ulaşmak için en uygun eylemleri nasıl seçebileceğini inceler. Etmen her eylemden sonra, ortaya çıkan durumun ne kadar istenir olduğunu belirtmek için bir ödül ya da ceza alabilir. Etmenin görevi, bu <b>dolaylı ve gecikmeli</b> ödülden ders alarak en yüksek kümülatif ödülü sağlayan eylem dizilerini seçmektir.</p>
+    <div class="callout real"><b>Gerçek hayat: Oyun öğrenen etmen (ders notundaki örnek)</b>Bir etmene oyun oynamayı öğretirken oyun kazanılınca pozitif ödül, kaybedilince negatif ödül, diğer tüm durumlarda sıfır ödül verilebilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Şarj istasyonuna dönen robot (ders notundaki örnek)</b>Robot kamera ve sonar gibi sensörlerle durumu algılar; “ileriye hareket et” ve “dön” gibi eylemleri vardır. İşi, pili bitince şarj istasyonuna dönmektir. Bu amaç, istasyona bağlanmaya yol açan her durum–eylem geçişine pozitif ödül (örneğin +100) vererek tanımlanabilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Uygulama alanları (ders notundaki anlatım)</b>Mobil robot kontrolü, fabrikalardaki operasyonları optimize etme ve masa oyunları oynamayı öğrenme bu genel problem sınıfındandır.</div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Terim</th><th>Anlamı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Etmen (agent)</b></td><td>Çevresini algılayan ve eylem yapan öğrenici (robot).</td></tr>
+        <tr><td><b>Durum (state)</b></td><td>Çevrenin sensörlerle algılanan hâli.</td></tr>
+        <tr><td><b>Eylem / aksiyon (action)</b></td><td>Durumu değiştirmek için yapılan hareket.</td></tr>
+        <tr><td><b>Politika / hareket tarzı (policy)</b></td><td>Kontrol stratejisi: her durumda hangi eylemin seçileceği (π: S → A).</td></tr>
+        <tr><td><b>Ödül fonksiyonu</b></td><td>Herhangi bir durumda herhangi bir eylemden sonra nümerik bir değer atar; robotun içinde tanımlı olabilir ya da dışsal bir öğretici tarafından bilinebilir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Dinamik programlamayla ilişkisi</b>Takviyeli öğrenme algoritmaları, optimizasyon problemlerinde sıkça kullanılan dinamik programlama algoritmalarıyla ilişkilidir. Bu bölüm, etmen eylemlerinin çevre üzerindeki etkilerini önceden bilmese bile gecikmeli ödüllerden optimal kontrol stratejileri bulabilen <b>Q öğrenmesine</b> odaklanır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Dört fark">
+  <div class="panel">
+    <div class="kicker">Diğer öğrenme işlerinden farkı</div>
+    <h2>Neden daha zor?</h2>
+    <p>Öğrenilecek hedef fonksiyon π: S → A’dır; yani her durum s için bir eylem a. Ama takviyeli öğrenme, fonksiyon yakınsama problemlerinden birkaç açıdan ayrılır. Kutulara tıkla:</p>
+    <div class="flips">
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Fark 1</b>Gecikmeli ödül<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Her durum için doğru eylemi veren (s, a) eğitim çiftleri yoktur. Eğitici bir dizi eylemden sonra “hemen gelen ödül” verir. Etmen, hangi eylemin ödülü getirdiğini bulmak zorundadır: zamansal kredi ataması.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Fark 2</b>Keşif<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Etmen, seçtiği eylem dizisiyle eğitim verisini kendisi etkiler. Daha çok yeni durum mu keşfetmeli, yoksa öğrendiklerini mi pekiştirmeli?</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Fark 3</b>Kısmi gözlenebilir durum<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Etmen çevresini çoğu zaman yalnızca kısmen algılar. Öne bakan bir kamera robotun arkasında ne olduğunu göremez; bu yüzden etmen önceki durumları da dikkate alarak eylem seçmelidir.</span></button>
+      <button class="flip" type="button" aria-pressed="false"><span class="front"><b class="k">Fark 4</b>Yaşam boyu öğrenme<span class="tip">tıkla</span></span><span class="back"><b class="k">Açıklama</b>Robot öğrenmesi, aynı çevrede birbirleriyle ilişkili birkaç farklı işi birlikte öğrenmeyi içerir. Bazen yeni işleri öğrenirken önceki deneyimler kullanılabilir.</span></button>
+    </div>
+    <div class="callout real"><b>Gerçek hayat: Arkada ne var? (ders notundaki örnek)</b>Öne doğru bakan bir kamera, o an robotun arkasında olanı algılayamaz.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Markov karar süreci">
+  <div class="panel">
+    <div class="kicker">14.2 Öğrenme görevi</div>
+    <h2>Markov karar süreci (MDP)</h2>
+    <p>Problem, <b>Markov karar süreçleri</b> kullanılarak genel biçimde formüle edilir. Etmen çevresinden S kümesindeki farklı durumları algılar ve bir A eylem kümesine sahiptir. Her t anında:</p>
+    <ol>
+      <li>Etmen şimdiki durumu s<sub>t</sub> algılar,</li>
+      <li>a<sub>t</sub> eylemini seçip uygular,</li>
+      <li>çevreden r<sub>t</sub> = r(s<sub>t</sub>, a<sub>t</sub>) ödülünü alır,</li>
+      <li>çevre yeni duruma geçer: s<sub>t+1</sub> = δ(s<sub>t</sub>, a<sub>t</sub>).</li>
+    </ol>
+    <div class="callout idea"><b>Markov özelliği</b>δ ve r fonksiyonları yalnızca <b>şimdiki durum ve eyleme</b> bağlıdır; daha önceki durum ve eylemlerden bağımsızdır. δ ve r fonksiyonları etmen tarafından bilinmiyor olabilir. Bu bölümde S ve A kümelerinin sonlu olduğu varsayılır.</div>
+    <p>Etmenin işi π: S → A şeklinde bir politika öğrenmektir: π(s<sub>t</sub>) = a<sub>t</sub>. En iyi politika, zaman içinde toplanan toplam ödülü en büyük yapandır.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="İndirimli ödül">
+  <div class="panel">
+    <div class="kicker">İndirimli toplam ödül · dene</div>
+    <h2>Gelecekteki ödül biraz değer kaybeder</h2>
+    <p>Bir politikanın s<sub>t</sub> durumundan başlayarak topladığı toplam ödül şöyle tanımlanır (notta bu ifade bir şekil olarak verilir):</p>
+    <p class="big-quote" style="font-size:1.05rem">V<sup>π</sup>(s<sub>t</sub>) = r<sub>t</sub> + γ·r<sub>t+1</sub> + γ²·r<sub>t+2</sub> + …</p>
+    <p>γ (gama), 0 ile 1 arasında bir sayıdır ve <b>gecikmeli ödüllerle hemen gelen ödüller arasındaki göreli önemi</b> belirler: i adım sonra alınan ödülün toplamdaki etkisi γ<sup>i</sup> kadar azaltılır. Buna <b>indirimli toplam ödül</b> denir. Gelecekteki ödülü azaltmanın sebebi, pratikte hemen gelen ödüllerin genellikle daha değerli olmasıdır. Toplam ödül başka biçimlerde de tanımlanabilir; bu bölümde indirimli toplam kullanılır.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> İndirim faktörü γ kaydırıcısını değiştir.</li>
+        <li><b>Ne göreceksin:</b> Tabloda 100 ödülün 0’dan 6’ya kadar farklı gecikmelerdeki bugünkü değeri ve üç özet sayı görünür.</li>
+        <li><b>Ne anlamalısın:</b> γ küçükse gecikmeli ödül çok değer kaybeder; γ 1’e yaklaşırsa neredeyse hiç kaybetmez. γ = 0,9 iken 100, 90, 81 … dizisi çıkar: notun ızgara-dünyasındaki değerleri.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>γ (gama)</dt><dd>Gelecekteki ödülün ne kadar önemli sayılacağını belirleyen 0–1 arası sayı.</dd><dt>İndirimli ödül</dt><dd>i adım sonra gelen ödülün γ^i ile çarpılarak toplanması.</dd><dt>Gecikme</dt><dd>Ödülün kaç adım sonra geldiği.</dd></dl></details>
+      <p class="lab-src">Sayılar sanal (100 ödül, 0–6 adım); γ^i ilişkisi notundaki Bölüm 14.2’den, γ = 0,9 değeri ise o bölümün ızgara-dünyası örneğindendir.</p>
+    </div>
+    <div class="lab" id="gamlab"></div>
+    <div class="callout idea"><b>Optimal politika</b>Etmen, tüm durumlar için V<sup>π</sup>(s)’yi en büyük yapan π*’ı bulmak ister. Optimal politikanın değer fonksiyonu V*(s) ile gösterilir: etmenin s durumundan başlayıp sonra optimal politikayı izleyince alabileceği en büyük ödül.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Izgara-dünyası">
+  <div class="panel">
+    <div class="kicker">Basit bir ortam</div>
+    <h2>Izgara-dünyasında optimal değerler</h2>
+    <p>Notta altı kareli bir ızgara-dünyası kullanılır: her kare bir durum, her ok bir olası hareket. <b>G</b> hedef durumdur; G’ye geçişin ödülü 100, diğer tüm hemen gelen ödüller 0’dır. G’de kalmak tek eylemdir; bu yüzden G <b>yutan durum</b>dur (absorbing state). γ = 0,9 alınırsa optimal politika, etmeni G’ye giden en kısa yola yönlendirir (başka optimal politikalar da vardır).</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th colspan="3">Optimal değer fonksiyonu V* (γ = 0,9)</th></tr></thead>
+      <tbody>
+        <tr><td>90</td><td>100</td><td><b>G</b></td></tr>
+        <tr><td>81</td><td>90</td><td>100</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Alt-sağdaki durum (ders notundaki örnek)</b>Alt-sağdaki durumun değeri 100’dür, çünkü optimal politika burada “yukarı” eylemini seçer ve hemen gelen ödül 100 olur; sonra etmen yutan durumda kalır ve başka ödül almaz.</div>
+    <div class="callout real"><b>Gerçek hayat: Alt-ortadaki durum (ders notundaki örnek)</b>Alt-ortadaki durumun değeri 90’dır: optimal politika önce sağa, sonra yukarı gider ve etmen sırayla 0 sonra 100 ödül alır; 0 + 0,9 × 100 = 90.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Q fonksiyonu">
+  <div class="panel">
+    <div class="kicker">14.3 Q-öğrenme · dene</div>
+    <h2>Q(s, a): önce a’yı yap, sonra en iyisini sürdür</h2>
+    <p><b>Q(s, a)</b>, s durumunda ilk olarak a eylemini seçtikten sonra elde edilecek indirimli kümülatif ödüldür. Optimal politika, her durumda Q değerini en büyük yapan eylemi seçmektir. Q ile V* arasındaki yakın ilişki sayesinde (V*(s) = Q’nun eylem üzerinden en büyüğü) şu <b>özyinelemeli</b> yazım elde edilir (notta formül şekilleridir):</p>
+    <p class="big-quote" style="font-size:1.05rem">Q(s, a) = r(s, a) + γ · max<sub>a′</sub> Q(δ(s, a), a′)</p>
+    <p>Bu yazım, etmenin r ve δ’yı bilmeden optimal eylemi seçmesine olanak tanır; çünkü Q’yu yinelemeli olarak yakınsatan algoritmaların temelidir.</p>
+    <p>Tek bir güncellemeyi elle dene. Notun Şekil 14.3 örneğinde etmen sağa gider; hemen gelen ödül 0, yeni durumdaki en büyük Q değeri 100, eski değer 72’dir ve yeni değer 0 + 0,9 × 100 = 90 olur:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Ödül r, γ ve yeni durumdaki üç Q değerini kaydır; ya da “Notun örneği” düğmesine bas.</li>
+        <li><b>Ne göreceksin:</b> Yeni durumdaki en büyük Q, γ ile çarpımı ve güncellenmiş Q(s, a) değeri yazılır; altta hesap açık açık gösterilir.</li>
+        <li><b>Ne anlamalısın:</b> Güncelleme yeni durumdaki en iyi eylemin değerini kullanır. Etmen r ve δ fonksiyonlarını bilmek zorunda değildir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>r</dt><dd>Eylemden sonra hemen gelen ödül.</dd><dt>s′</dt><dd>Eylemden sonra ulaşılan yeni durum.</dd><dt>max Q(s′, ·)</dt><dd>Yeni durumda seçilebilecek eylemlerin en büyük Q değeri.</dd></dl></details>
+      <p class="lab-src">Notun Şekil 14.3 örneğindeki değerler (r = 0, γ = 0,9, en büyük Q = 100) hazır düğmeyle yüklenir; diğer iki Q değeri (63, 81) bu sitede seçildi.</p>
+    </div>
+    <div class="lab" id="qupdlab"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Q-öğrenme algoritması">
+  <div class="panel">
+    <div class="kicker">Q-öğrenme · dene</div>
+    <h2>Tabloyu deneyerek doldur</h2>
+    <p>Öğrenici, Q için bir tahmin tablosu Q̂’yı tutar: her (s, a) çiftinin kendi hücresi vardır. Tablo ilk başta 0 (ya da rastgele) değerlerle doldurulur. Etmen her adımda:</p>
+    <ol>
+      <li>şimdiki durumu s’yi algılar,</li>
+      <li>herhangi bir a eylemini seçer ve uygular,</li>
+      <li>ödülü r ve yeni durumu s′ algılar,</li>
+      <li>tablodaki hücreyi günceller: Q̂(s, a) ← r + γ · max<sub>a′</sub> Q̂(s′, a′).</li>
+    </ol>
+    <div class="callout idea"><b>r ve δ’yı bilmeye gerek yok</b>Güncelleme, yeni durumdaki mevcut Q̂ değerleriyle bir önceki durumu günceller. Etmen aksiyonu uygulayıp sonucu ve ödülü ortamdan algılar.</div>
+    <div class="callout real"><b>Gerçek hayat: Bilgi geriye yayılır (ders notundaki anlatım)</b>Hedefe ulaşılana kadar Q̂ değerlerinde değişiklik olmaz. İlk bölümde yalnızca hedeften bir önceki durum güncellenir. Bir sonraki bölümde etmen o duruma gelirse, bu durumun değeri artık sıfırdan farklı olduğu için hedeften iki önceki durum da güncellenir. Eğitim yeterince uzun sürerse bilgi diğer durumlara yayılır ve Q̂ değerleri Q’ya yakınsar. Hedefe ulaşınca etmen rastgele bir duruma konur ve yeni bir <b>bölüm</b> (episode) başlar.</div>
+    <p>Aşağıdaki laboratuvarda aynı altı karelik dünyayı sen eğit:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> “Bir adım” ya da “Bir bölüm” düğmesine bas; sonra “100 bölüm”e bas. İstersen eylem seçimini “öğrenileni uygula”ya çevir ve “Sıfırla” ile baştan dene.</li>
+        <li><b>Ne göreceksin:</b> Altı karenin her birinde eylemlerin Q değerleri ve durumun değeri görünür; hedef G’dir. En altta son güncellemenin hesabı yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Önce hedefin hemen yanındaki Q değerleri 100 olur, sonra bir önceki durumlar 90, sonra 81 olur: bilgi hedeften geriye yayılır. Yeterince bölümden sonra Q̂ değerleri V* değerlerine (100, 90, 81) varır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Bölüm (episode)</dt><dd>Rastgele bir durumdan hedefe varana kadar süren deneme.</dd><dt>Q değeri</dt><dd>Bir durumda bir eylemin tahmini uzun vadeli değeri.</dd><dt>V</dt><dd>Durumdaki en büyük Q değeri.</dd><dt>Yutan durum</dt><dd>Girilince çıkılmayan hedef durumu (G).</dd></dl></details>
+      <p class="lab-src">Izgara-dünyası notundaki Şekil 14.2’nin altı karelik düzenidir (G’ye geçişte ödül 100, γ = 0,9). Eylem seçimi (rastgele ya da %90 öğrenileni uygula) ve bölüm başlangıçları bu sitenin eklemesidir.</p>
+    </div>
+    <div class="lab" id="qgrid"></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Yakınsama">
+  <div class="panel">
+    <div class="kicker">14.3.4 Yakınsama</div>
+    <h2>Q̂ ne zaman gerçek Q’ya varır?</h2>
+    <p>Bazı koşullar altında Q-öğrenme algoritmasının gerçek Q değerlerine yakınsadığı gösterilebilir (ispat notta yapılmaz):</p>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>1. Deterministik MDP</b>Sistem deterministik bir Markov karar süreci olarak modellenebilmelidir.</div>
+      <div class="peas-c e"><b>2. Sınırlı ödül</b>Hemen gelen ödüller sınırlıdır: sabit bir c için |r(s, a)| ≤ c.</div>
+      <div class="peas-c a"><b>3. Her çifti ziyaret</b>Etmen eylemleri, tüm durum–eylem çiftleri sonsuz kere ziyaret edilecek biçimde seçer.</div>
+    </div>
+    <div class="callout idea"><b>Koşulların iki yüzü</b>Koşullar, örnektekilerden daha genel ortamları kapsar (ödüller negatif olabilir, hedefin dışındaki durumlarda da ödül olabilir). Ama pratikte kısıtlayıcıdır: her çifti sonsuz kere ziyaret etmek, özellikle büyük ortamlarda zordur. Q tablosunu tablo yerine <b>fonksiyon olarak göstermek</b> gibi yöntemlerle algoritma bu alanlara da uygulanabilmiştir.</div>
+    <div class="callout idea"><b>Özette anılanlar</b>Q-öğrenme, <b>zamansal fark algoritmaları</b> adı verilen daha genel bir sınıfın üyesidir: etmen tarafından farklı zamanlarda üretilen tahminler arasındaki tutarsızlıkları yinelemeli azaltarak öğrenir. Yakınsama hem deterministik hem deterministik olmayan MDP’lerde gösterilebilir; pratikte orta ölçekli problemlerde bile binlerce eğitim yinelemesi gerekebilir. Dinamik programlama yaklaşımları tarihsel olarak δ ve r’yi bildiğini varsayarken Q-öğrenme gibi yöntemler bu bilgiyi varsaymaz.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 14</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Takviyeli öğrenme</td><td>Etmen; durum–eylem–ödül; amaç toplam ödülü en büyüklemek; gecikmeli ödül, keşif, kısmi gözlem, yaşam boyu öğrenme</td></tr>
+        <tr><td>MDP</td><td>s′ = δ(s, a), r = r(s, a); yalnızca şimdiki durum ve eyleme bağlı</td></tr>
+        <tr><td>İndirimli ödül</td><td>r<sub>t</sub> + γ·r<sub>t+1</sub> + γ²·r<sub>t+2</sub> + …; 0 ≤ γ &lt; 1</td></tr>
+        <tr><td>Q fonksiyonu</td><td>Q(s, a) = r + γ·max Q(s′, a′); optimal politika Q’yu en büyük yapan eylemi seçer</td></tr>
+        <tr><td>Q-öğrenme</td><td>Tablo; Q̂(s, a) ← r + γ·max Q̂(s′, a′); r ve δ’yı bilmek gerekmez</td></tr>
+        <tr><td>Yakınsama</td><td>Deterministik MDP, sınırlı ödül, her çift sonsuz kere ziyaret</td></tr>
+        <tr><td>Daha geniş çerçeve</td><td>Zamansal fark algoritmaları; dinamik programlamayla yakın ilişki</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>

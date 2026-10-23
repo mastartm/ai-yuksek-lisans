@@ -130,6 +130,26 @@ add('boostlab', 'makine-ogrenmesi/bolum-13.html',
     [('Eşik sınıflandırıcı', '“x değeri a’dan büyükse +, değilse −” (ya da tersi) diyen basit sınıflandırıcı.'), ('Ağırlıklı hata', 'Yanlış bilinen kayıtların ağırlıklarının toplamı.'), ('Oy ağırlığı', 'Sınıflandırıcı ne kadar doğruysa oyu o kadar ağırdır.')],
     'Noktalar ve etiketler bu site için seçildi. Ağırlıkların yarısının hatalılara verilmesi notundaki Bölüm 13.3’tendir; oy ağırlığı ln((1 − hata) / hata) AdaBoost’un standart biçimidir ve notta formül olarak yazılı değildir.')
 
+# ---------------- Makine Öğrenmesi 14 ----------------
+add('gamlab', 'makine-ogrenmesi/bolum-14.html',
+    'İndirim faktörü γ kaydırıcısını değiştir.',
+    'Tabloda 100 ödülün 0’dan 6’ya kadar farklı gecikmelerdeki bugünkü değeri ve üç özet sayı görünür.',
+    'γ küçükse gecikmeli ödül çok değer kaybeder; γ 1’e yaklaşırsa neredeyse hiç kaybetmez. γ = 0,9 iken 100, 90, 81 … dizisi çıkar: notun ızgara-dünyasındaki değerleri.',
+    [('γ (gama)', 'Gelecekteki ödülün ne kadar önemli sayılacağını belirleyen 0–1 arası sayı.'), ('İndirimli ödül', 'i adım sonra gelen ödülün γ^i ile çarpılarak toplanması.'), ('Gecikme', 'Ödülün kaç adım sonra geldiği.')],
+    'Sayılar sanal (100 ödül, 0–6 adım); γ^i ilişkisi notundaki Bölüm 14.2’den, γ = 0,9 değeri ise o bölümün ızgara-dünyası örneğindendir.')
+add('qupdlab', 'makine-ogrenmesi/bolum-14.html',
+    'Ödül r, γ ve yeni durumdaki üç Q değerini kaydır; ya da “Notun örneği” düğmesine bas.',
+    'Yeni durumdaki en büyük Q, γ ile çarpımı ve güncellenmiş Q(s, a) değeri yazılır; altta hesap açık açık gösterilir.',
+    'Güncelleme yeni durumdaki en iyi eylemin değerini kullanır. Etmen r ve δ fonksiyonlarını bilmek zorunda değildir.',
+    [('r', 'Eylemden sonra hemen gelen ödül.'), ('s′', 'Eylemden sonra ulaşılan yeni durum.'), ('max Q(s′, ·)', 'Yeni durumda seçilebilecek eylemlerin en büyük Q değeri.')],
+    'Notun Şekil 14.3 örneğindeki değerler (r = 0, γ = 0,9, en büyük Q = 100) hazır düğmeyle yüklenir; diğer iki Q değeri (63, 81) bu sitede seçildi.')
+add('qgrid', 'makine-ogrenmesi/bolum-14.html',
+    '“Bir adım” ya da “Bir bölüm” düğmesine bas; sonra “100 bölüm”e bas. İstersen eylem seçimini “öğrenileni uygula”ya çevir ve “Sıfırla” ile baştan dene.',
+    'Altı karenin her birinde eylemlerin Q değerleri ve durumun değeri görünür; hedef G’dir. En altta son güncellemenin hesabı yazılır.',
+    'Önce hedefin hemen yanındaki Q değerleri 100 olur, sonra bir önceki durumlar 90, sonra 81 olur: bilgi hedeften geriye yayılır. Yeterince bölümden sonra Q̂ değerleri V* değerlerine (100, 90, 81) varır.',
+    [('Bölüm (episode)', 'Rastgele bir durumdan hedefe varana kadar süren deneme.'), ('Q değeri', 'Bir durumda bir eylemin tahmini uzun vadeli değeri.'), ('V', 'Durumdaki en büyük Q değeri.'), ('Yutan durum', 'Girilince çıkılmayan hedef durumu (G).')],
+    'Izgara-dünyası notundaki Şekil 14.2’nin altı karelik düzenidir (G’ye geçişte ödül 100, γ = 0,9). Eylem seçimi (rastgele ya da %90 öğrenileni uygula) ve bölüm başlangıçları bu sitenin eklemesidir.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
