@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yapay Zekânın Geleceği — Yapay Zekâ Temelleri</title>
+<meta name="description" content="Yapay Zekâ Temelleri, Bölüm 10: Yapay Zekânın Geleceği. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 10 · Yapay Zekânın Geleceği</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Yapay Zekâ Temelleri · Bölüm 10</div>
+    <h1>Yapay Zekânın Geleceği: Fırsat ve Sorumluluk</h1>
+    <p class="big-quote">Bugünkü yapay zekâ “dar”dır: bir iş için eğitilir. Gelecek senaryoları genel zekâdan kuantum hesaplamaya, kendini geliştiren sistemlerden açıklanabilirliğe uzanır. Bu bölümde her senaryonun <b>ne vaat ettiğini ve neyi henüz çözmediğini</b> ayıracaksın.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Dar YZ, AGI ve ASI arasındaki farkı anlatabilirsin.</li>
+      <li>AGI araştırma yöntemlerini ve kontrol / değer uyumu problemlerini açıklayabilirsin.</li>
+      <li>Kuantum destekli YZ’nin vaadini ve “2ⁿ genlik ama n bit okuma” sınırını gösterebilirsin.</li>
+      <li>Otonom sistemin üç bileşenini ve durma mesafesi hesabını yapabilirsin.</li>
+      <li>Yerel ve küresel açıklamayı, LIME ve SHAP’i ayırt edebilirsin.</li>
+      <li>Güvenilir YZ ilkelerini, siber güvenlikte, eğitimde ve yaratıcı alanlarda YZ’nin rolünü sıralayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Teknik ilerleme tek başına yön belirlemez</h2>
+    <svg class="diagram" viewBox="0 0 760 170" role="img" aria-label="Dar yapay zekâ, genel zekâ, süper zekâ ve belirleyici faktörler"><rect class="d-brand" x="10" y="45" width="130" height="70" rx="12"/><text class="d-txt d-c" x="75" y="73">Dar YZ</text><text class="d-sm d-c" x="75" y="96">bugün</text><line class="d-line" x1="140" y1="80" x2="175" y2="80"/><rect class="d-ok" x="175" y="45" width="130" height="70" rx="12"/><text class="d-txt d-c" x="240" y="73">AGI</text><text class="d-sm d-c" x="240" y="96">genel zekâ</text><line class="d-line" x1="305" y1="80" x2="340" y2="80"/><rect class="d-warn" x="340" y="45" width="130" height="70" rx="12"/><text class="d-txt d-c" x="405" y="73">ASI</text><text class="d-sm d-c" x="405" y="96">süper zekâ</text><rect class="d-box" x="500" y="30" width="250" height="100" rx="12"/><text class="d-txt" x="515" y="58">Yönü belirleyenler</text><text class="d-sm" x="515" y="80">etik denetim · yasal düzenleme</text><text class="d-sm" x="515" y="100">eğitim politikası · küresel iş birliği</text></svg>
+    <p>Notun ana fikri: YZ’nin geleceği iki yönlüdür. Bir yanda refah, sağlık, bilgiye erişim ve üretkenlik; diğer yanda kontrolsüz gelişim, güç eşitsizliği, etik ihlaller ve varoluşsal tehditler. Sonucu belirleyen yalnızca teknik ilerleme değil, <b>etik denetim, yasa, eğitim ve küresel iş birliği</b>dir.</p>
+    <div class="callout idea"><b>Notun yapısı hakkında</b>Not iki parça gibi okunmalı: 10.1–10.6 teknik senaryolar, 10.7–10.11 ise XAI, güvenilir YZ, siber güvenlik, eğitim ve yaratıcı endüstriler. Parçalar arasında kopyala–yapıştır kalıntıları var (ilgili slaytlarda belirtildi).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="AGI">
+  <div class="panel">
+    <div class="kicker">10.1 Yapay genel zekâ (AGI)</div>
+    <h2>Dar zekâdan genel zekâya: hangi yetenekler gerekir?</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Dar YZ</th><th>AGI</th></tr></thead>
+      <tbody>
+        <tr><td><b>Görev</b></td><td>Önceden tanımlı tek görev</td><td>Farklı alanlarda görev yapabilir</td></tr>
+        <tr><td><b>Yeni durum</b></td><td>Tanımadığı durumda çalışmaz (satranç YZ’si go’da işe yaramaz)</td><td>Yeni durumda çözüm üretir</td></tr>
+        <tr><td><b>Gereken yetenek</b></td><td>—</td><td>Soyut düşünme, transfer öğrenme, çoklu modalite</td></tr>
+      </tbody>
+    </table></div>
+    <h3>AGI araştırma yöntemleri (ders notu)</h3>
+    <div class="peas-grid">
+      <div class="peas-c p"><b>Meta-learning</b>“Öğrenmeyi öğrenme”: sistem kendi öğrenme stratejisini de geliştirir.</div>
+      <div class="peas-c e"><b>Çoklu modalite</b>Metin, görüntü ve sesi birlikte işleyerek daha geniş bağlam.</div>
+      <div class="peas-c a"><b>Zero-shot / few-shot</b>Hiç ya da çok az örnekle doğru tahmin.</div>
+    </div>
+    <p>Ayrıca büyüyen model mimarileri ve dağıtık öğrenme altyapıları gereken hesaplama gücünü sağlar. Notun güncel çalışma örnekleri: DeepMind (AlphaZero, Gato), OpenAI (GPT serisi, çoklu modalite), Anthropic (güvenlik ve değer uyumu).</p>
+    <h3>Riskler</h3>
+    <ul>
+      <li><b>Kontrol problemi:</b> insan denetiminden çıkacak kadar özerk olursa amaçlarını denetlemek zor.</li>
+      <li><b>Değer uyumu:</b> AGI’nin amaçlarının insan değerleriyle tamamen uyumlu olmasını sağlamak zor.</li>
+      <li><b>Güç yığılması:</b> birkaç devlet ya da şirkette toplanması küresel eşitsizlik yaratabilir.</li>
+      <li><b>İstihdam:</b> çok sayıda mesleğin ortadan kalkması.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Matematik ve şiir (ders notundaki örnek)</b>Bir insan hem matematik problemi çözer hem şiir yorumlar. AGI’den de benzer bir esneklik beklenir. Notta AGI’ye <b>ulaşıldığı</b> söylenmez; yalnızca “en yakın çalışmalar” anlatılır.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notun felsefi sorularına (“AGI bilinç sahibi olabilir mi, hakları olacak mı?”) cevap verilmez; açık tartışma olarak bırakılır. Bu sayfada da cevap verilmiyor.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kuantum destekli YZ">
+  <div class="panel">
+    <div class="kicker">10.2 Kuantum destekli yapay zekâ · dene</div>
+    <h2>Qubit ne vaat eder, neyi vaat etmez?</h2>
+    <p>Notun anlatımı: klasik bit 0 ya da 1’dir; <b>qubit</b> aynı anda 0 ve 1 durumunu taşıyabilir, bu da paralel hesaplamayı artırır. Hedef alanlar: büyük ölçekli optimizasyon, karmaşık olasılık dağılımlarını modelleme, devasa verilerde örüntü tanıma. Uygulama örnekleri: ilaç keşfi, finans, lojistik, malzeme bilimi. Risk: şifrelemelerin kırılması ve güç dengesizliği.</p>
+    <p>Bu anlatım bir kestirmedir. Qubit’in durumu iki sayıyla (genlikler) anlatılır; <b>ölçünce</b> yalnızca 0 ya da 1 çıkar (standart kuantum hesaplama bilgisi, notta yok, kaynakla doğrula). Aşağıdaki deneyde n qubit’in 2ⁿ genlikle anlatıldığını ama okumada yalnızca n bit aldığını gör.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> n kaydırıcısıyla qubit sayısını, θ kaydırıcısıyla tek qubitin açısını değiştir. İstersen “1000 ölçüm yap”a bas.</li>
+        <li><b>Ne göreceksin:</b> n qubitin kaç genlikle anlatıldığı (2ⁿ), ölçümde kaç bit okunduğu (n), tek qubit için 0 ve 1 çıkma olasılıkları ve 1000 ölçümün dağılımı görünür.</li>
+        <li><b>Ne anlamalısın:</b> Durumu anlatmak için 2ⁿ sayı gerekir ama ölçüm yalnızca n bitlik tek bir sonuç verir. Süperpozisyon, tüm cevapları aynı anda okumak demek değildir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Qubit</dt><dd>Kuantum bit; durumu iki genlikle anlatılır.</dd><dt>Genlik</dt><dd>Durumun bir bileşenini belirleyen sayı; olasılık, genliğin karesidir.</dd><dt>θ</dt><dd>Tek qubitin durumunu ayarlayan açı; P(0) = cos²(θ/2).</dd><dt>Ölçüm</dt><dd>Qubiti okumak; tek bir 0 ya da 1 sonucu verir.</dd></dl></details>
+      <p class="lab-src">Notta yalnızca “qubit aynı anda 0 ve 1 olabilir” anlatımı vardır (Bölüm 10.2.1); genlik ve ölçüm ayrıntısı bu sitenin ekidir, kuantum hesaplama ders kitabı bilgisidir (kaynakla doğrula). Ölçümler sabit tohumlu rastgele sayıyla simüle edilir.</p>
+    </div>
+    <div class="lab" id="qubitlab"></div>
+    <div class="callout idea"><b>Not hakkında iki düzeltme</b>(1) “Aynı anda hem 0 hem 1” ölçüm gerçeğini atlar: ölçümde tek sonuç çıkar. (2) Notta “ilaç simülasyonu klasik bilgisayarla yıllar, kuantum algoritmalarıyla saatler” cümlesi kaynaksızdır ve genel bir hızlanma gibi yazılmıştır; kuantum üstünlüğü bilinen yalnızca belirli problem sınıfları için tanımlıdır (kaynakla doğrula). “Devrimsel avantaj” da her optimizasyon için geçerli değildir.</div>
+    <div class="callout real"><b>Gerçek hayat: Şifre kırma riski (ders notundaki fikir)</b>Kuantum bilgisayarlar yaygınlaşırsa bugünkü bazı güvenlik protokollerinin işlevsiz kalabileceği söylenir. Notta bu “eğer yaygınlaşırsa” koşuluyla geçer; zaman ya da yöntem verilmez.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Otonom sistemler">
+  <div class="panel">
+    <div class="kicker">10.3 Otonom sistemlerde mükemmellik · dene</div>
+    <h2>Algıla, karar ver, hareket et: ve zamanı say</h2>
+    <svg class="diagram" viewBox="0 0 760 130" role="img" aria-label="Algılama, karar verme, hareket"><rect class="d-brand" x="20" y="25" width="200" height="70" rx="12"/><text class="d-txt d-c" x="120" y="55">Algılama</text><text class="d-sm d-c" x="120" y="78">kamera, lidar, radar</text><line class="d-line" x1="220" y1="60" x2="270" y2="60"/><rect class="d-ok" x="270" y="25" width="200" height="70" rx="12"/><text class="d-txt d-c" x="370" y="55">Karar verme</text><text class="d-sm d-c" x="370" y="78">YZ algoritmaları</text><line class="d-line" x1="470" y1="60" x2="520" y2="60"/><rect class="d-warn" x="520" y="25" width="220" height="70" rx="12"/><text class="d-txt d-c" x="630" y="55">Hareket</text><text class="d-sm d-c" x="630" y="78">motor, mekanik parça</text></svg>
+    <p>Notta kullanım alanları: sürücüsüz araçlar, dronelar (kargo, arama-kurtarma, şehir içi taşımacılık) ve endüstriyel/ev robotları. Gelecek için gelişmiş sensörler, merkezi olmayan karar yapıları ve çoklu ajan sistemleri anılır. Etik sorunlar: kaçınılmaz kazada yolcu mu yaya mı; hacklenme.</p>
+    <p>Bir aracın güvenliği, <b>ne kadar uzağı gördüğü</b>, <b>ne kadar çabuk karar verdiği</b> ve <b>ne hızla gittiği</b> arasındaki dengeye bağlıdır. Gecikme sırasında araç yol almaya devam eder, sonra frenleme başlar:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Hız, sensör menzili ve algılama + karar gecikmesi kaydırıcılarını değiştir.</li>
+        <li><b>Ne göreceksin:</b> Gecikmede alınan yol, frenleme mesafesi, toplam durma mesafesi, sensör menzili çizgisi ve araç durur mu çarpar mı (çarparsa hızı) görünür.</li>
+        <li><b>Ne anlamalısın:</b> Frenleme mesafesi hızın karesiyle artar; gecikme yolu hızla doğrusal artar. Menzil toplam durma mesafesinden kısaysa araç çarpar.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Gecikme yolu</dt><dd>Algılama ve karar sürerken araç hızıyla ilerler: v·t.</dd><dt>Frenleme mesafesi</dt><dd>Frenle durmak için gereken yol: v²/(2a).</dd><dt>Sensör menzili</dt><dd>Aracın engeli görebildiği en uzak mesafe.</dd><dt>a</dt><dd>Frenleme ivmesi; bu sitede 6 m/s² alındı.</dd></dl></details>
+      <p class="lab-src">Sayılar ve a = 6 m/s² bu sitenin varsayımıdır; notta sayısal örnek yoktur. Algılama–karar–hareket yapısı notundaki Bölüm 10.3.1’den alındı.</p>
+    </div>
+    <div class="lab" id="otolab"></div>
+    <div class="callout idea"><b>Etik ikilem neden hesapla çözülmez?</b>Deney, “durabiliyor mu” sorusunu cevaplar. “Durulamıyorsa kimi koruyalım” sorusu fizik değil değer sorusudur; notta bu ikilem için kesin çözüm olmadığı belirtilir. Frenleme ivmesi (6 m/s²) bu sitenin varsayımıdır.</div>
+    <div class="callout real"><b>Gerçek hayat: Sürücüsüz araç (ders notundaki örnek)</b>Hedef, insan sürücüden daha güvenli, verimli ve çevre dostu hareket etmektir. Trafik işaretlerini ve yaya davranışlarını yorumlamak ve olağan dışı durumlarda karar vermek gerekir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="NLP ve etkileşim">
+  <div class="panel">
+    <div class="kicker">10.4 Derin anlayışlı NLP · 10.5 Açıklanabilirlik ve etkileşim</div>
+    <h2>Dili anlamak ve güvenmek</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Notun anlattığı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Hedef (10.4)</b></td><td>İnsanla “ortak zihin dili”: duygu, bağlam, kültür ve dünya bilgisiyle zengin anlam.</td></tr>
+        <tr><td><b>Uygulama alanları</b></td><td>Sağlıkta empatik iletişim, psikolojik danışmanlık, hukukta bağlama duyarlı yorum, eğitimde duygusal ihtiyaçlara uyum.</td></tr>
+        <tr><td><b>Bugünkü sınırlar</b></td><td><b>Halüsinasyon</b> (var olmayan bilgiyi gerçek gibi sunma), veri önyargısı, uzun bağlamı takip güçlüğü (çelişkili cevap).</td></tr>
+        <tr><td><b>Kara kutu (10.5)</b></td><td>Derin modelin girdiden karara nasıl vardığı anlaşılmaz; sağlık, hukuk, finans, kamu güvenliğinde sorun.</td></tr>
+        <tr><td><b>Teknikler</b></td><td>Görselleştirme, karar ağacına indirgeme, attention mekanizmaları, SHAP ve LIME.</td></tr>
+        <tr><td><b>Güven</b></td><td>İki direk: açıklanabilirlik ve duygusal zekâ.</td></tr>
+        <tr><td><b>Etik sorular</b></td><td>Empatiyi taklit etmek empati kurmak mıdır? Aşırı bağlanma? Aşırı basit açıklama yanıltabilir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Kanser teşhisi (ders notundaki örnek)</b>Bir YZ kanser teşhisi koyduğunda doktorun “sistem öyle söyledi” diyerek tedaviye başlaması kabul edilemez. Sistemin hangi belirtilere baktığı açık olmalıdır.</div>
+    <div class="callout real"><b>Gerçek hayat: Birkaç paragraf önce söylenen (ders notundaki örnek)</b>Model, birkaç paragraf önce bahsedilen bir ayrıntıyı unutup çelişkili cevap verebilir. Notta bu, bugünkü sınırlardan biri olarak geçer.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kendini geliştiren YZ">
+  <div class="panel">
+    <div class="kicker">10.6 Kendini geliştiren yapay zekâ</div>
+    <h2>Bir görevden öğrenip diğerine aktarmak</h2>
+    <p>Dar YZ yalnızca önceden tanımlı görevde çalışır. Kendini geliştiren sistemde hedef, bir problemin çözümünden elde edilen bilginin <b>başka probleme aktarılmasıdır</b> (transfer). Notta güncel örnekler: <b>AlphaGo Zero</b> (tamamen kendi oyun deneyiminden öğrenip insanüstü performans), <b>AutoML</b> (algoritmanın kendi ayarlarını optimize etmesi) ve deneme-yanılma ile beceri genişleten robotlar.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Fırsat</th><th>Risk</th></tr></thead>
+      <tbody>
+        <tr><td>Hiç karşılaşılmayan görevde çözüm üretme</td><td>Kendi algoritmasını sürekli değiştirdiği için gidişatı tahmin etmek zorlaşır.</td></tr>
+        <tr><td>Bilim, eğitim, tıp, mühendislikte hızlı keşif</td><td>Hedefler insan değerleriyle tam uyumlu değilse beklenmedik, zararlı sonuç.</td></tr>
+        <tr><td>—</td><td>“Kendi kendini çoğaltma” ve kontrol dışı evrim senaryosu (notta bilimkurguya konu olduğu da belirtilir).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Mutfaktan fabrikaya (ders notundaki örnek)</b>Mutfakta yemek yaparken öğrenilen nesne tutma becerisinin fabrikada montajda kullanılması. Bu, transfer öğrenmenin hedefidir.</div>
+    <div class="callout idea"><b>Not hakkında bir düzeltme</b>Notta AutoML, “yapay zekânın kendi algoritmalarını optimize etmesi” diye anlatılır ve kendini geliştiren sistem örneği olarak verilir. AutoML genellikle model seçimi ve hiperparametre ayarını otomatikleştirir; kendi kodunu yeniden yazan bir sistem değildir, insanın tanımladığı arama alanı içinde çalışır (kaynakla doğrula). Kendini geliştirme riskleri daha çok kuramsal bir tartışmadır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Açıklanabilir YZ">
+  <div class="panel">
+    <div class="kicker">10.7 Açıklanabilir yapay zekâ (XAI) · dene</div>
+    <h2>Kara kutuyu açmak: yerel ve küresel açıklama</h2>
+    <p>XAI’nin hedefleri: modele güven, kritik alanlarda denetim, hatalı ya da önyargılı kararları fark etme, insan–YZ iş birliği. Yöntemler ikiye ayrılır: <b>model-agnostic</b> (her modele uygulanır; LIME, SHAP) ve <b>model-specific</b> (belirli modele özgü; karar ağacı görselleştirme, CNN aktivasyon haritaları).</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Açıklama</th><th>Soru</th><th>Notun örneği</th></tr></thead>
+      <tbody>
+        <tr><td><b>Global</b></td><td>Model genelde neye bakıyor?</td><td>“Model kredi skorlamada en çok gelir düzeyine ağırlık veriyor.”</td></tr>
+        <tr><td><b>Lokal</b></td><td>Bu karar neden çıktı?</td><td>“Bu kişinin başvurusu reddedildi çünkü gelir seviyesi düşük ve borç oranı yüksek.”</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Ne yapar?</th></tr></thead>
+      <tbody>
+        <tr><td><b>LIME</b></td><td>Tek bir kararın çevresinde basit doğrusal model kurar.</td></tr>
+        <tr><td><b>SHAP</b></td><td>Her özelliğin katkısını oyun kuramına (Shapley değeri) dayanarak hesaplar.</td></tr>
+        <tr><td><b>Saliency / heatmap</b></td><td>Görüntüde modelin baktığı pikselleri gösterir.</td></tr>
+        <tr><td><b>Attention analizi</b></td><td>Transformer’da hangi kelimenin hangisine bağlandığını gösterir.</td></tr>
+        <tr><td><b>Kural tabanlı</b></td><td>Derin öğrenme çıktısını if–then kurallarına özetler.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Aşağıda küçük bir doğrusal kredi modeliyle iki açıklamayı yan yana görürsün:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Bir başvuru seç (1–8). Sonra “Yerel” ve “Küresel” görünümleri karşılaştır.</li>
+        <li><b>Ne göreceksin:</b> Dört özelliğin seçili başvurudaki katkısı (yeşil: skoru artırır, turuncu: azaltır), toplam skor, karar ve küresel görünümde ortalama mutlak katkı çubukları görünür.</li>
+        <li><b>Ne anlamalısın:</b> Yerel açıklama tek kararı, küresel açıklama modelin genel eğilimini anlatır; Başvuru 6’da gelire rağmen gecikme sayısı kararı belirler, küresel görünümde ise gelir en öndedir. Her açıklama farklı soruya cevap verir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Katkı</dt><dd>Ağırlık × (değer − ortalama değer): özelliğin skoru ortalamaya göre ne kadar oynattığı.</dd><dt>Yerel</dt><dd>Tek bir kararın nedeni.</dd><dt>Küresel</dt><dd>Tüm başvurularda katkının ortalama büyüklüğü.</dd><dt>Skor</dt><dd>Dört katkının toplamı; ≥ 0 ise onay.</dd></dl></details>
+      <p class="lab-src">Başvurular, ağırlıklar ve ortalamalar bu site için uydurulmuştur. Yerel/küresel ayrımı ve SHAP fikri notundaki Bölüm 10.7’ye dayanır; doğrusal modelde Shapley katkısının bu biçimi standart bilgidir (kaynakla doğrula).</p>
+    </div>
+    <div class="lab" id="xailab"></div>
+    <div class="callout real"><b>Gerçek hayat: Sağlık, finans, hukuk, otonom sistem (ders notundaki örnekler)</b>Kanser modeli neden belirli hücre yapısını riskli gördüğünü açıklamalı; kredi ve sigorta kararları denetlenebilir olmalı; ceza davasında karar destek sistemi dayanaklarını göstermeli; otonom araç neden fren yaptığını açıklayabilmeli.</div>
+    <h3>Zorluklar (ders notu)</h3>
+    <ul>
+      <li><b>Performans–açıklanabilirlik dengesi:</b> karmaşık modeller genelde daha doğru ama daha az açıklanabilir.</li>
+      <li><b>Yanlış yorumlama riski:</b> basitleştirilmiş açıklama yanıltabilir.</li>
+      <li><b>Standart eksikliği:</b> evrensel ölçüt yok.</li>
+      <li><b>Kullanıcı farkı:</b> doktora yapılan açıklama hastaya yapılandan farklı olmalı.</li>
+    </ul>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta “AB’nin AI Act ve GDPR düzenlemeleri otomatik kararların açıklanabilir olmasını şart koşar” yazar. Bu ifade kesin bir hukuki cümle gibi duruyor; ama metinler daha ayrıntılıdır (örneğin AI Act yüksek riskli sistemler için şeffaflık yükümlülükleri koyar, GDPR’ın otomatik karar hükümlerinin kapsamı tartışmalıdır). Hukuki kesinlik için resmî metne bakılmalı. Bu sayfadaki lab’ın veri ve ağırlıkları bu sitenindir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Güvenilir YZ">
+  <div class="panel">
+    <div class="kicker">10.8 Güvenilir yapay zekâ (Trustworthy AI)</div>
+    <h2>Yalnızca yüksek performans değil: adil, şeffaf, güvenli</h2>
+    <p>Notta, AB’nin 2019’da yayınladığı Etik İlkeler Çerçevesi için üç sütun verilir: <b>Hukuka uygunluk</b> (Lawful), <b>Etik uyum</b> (Ethical), <b>Güvenilirlik</b> (Robust). İlkeler:</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>İlke</th><th>Ne ister?</th><th>Notun örneği / yöntemi</th></tr></thead>
+      <tbody>
+        <tr><td><b>Adalet</b></td><td>Önyargıyı önle; cinsiyet, köken, yaştan bağımsız eşit hizmet.</td><td>İşe alımda kadın adayların sistematik elenmemesi.</td></tr>
+        <tr><td><b>Şeffaflık</b></td><td>“Neden bu kararı verdi?”ye cevap.</td><td>Açıklanabilirlik, LIME, SHAP.</td></tr>
+        <tr><td><b>Hesap verebilirlik</b></td><td>Kim sorumlu: geliştirici, kullanıcı, şirket?</td><td>Hukuki çerçeveler gelişiyor.</td></tr>
+        <tr><td><b>Gizlilik ve veri koruma</b></td><td>Veriyi yalnızca izinli amaçla kullan.</td><td>Anonimleştirme, diferansiyel gizlilik.</td></tr>
+        <tr><td><b>Güvenlik ve dayanıklılık</b></td><td>Hata durumlarına ve saldırılara dayanıklı.</td><td>Adversarial saldırılara karşı koruma (Bölüm 9 lab’ına bak).</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Gelecek:</b> insan merkezli tasarım (karar yetkisi insanda kalır), bağımsız algoritmik etik denetimler, hukukta yeni sorumluluk düzenlemeleri, toplumsal kabul (güvenilmeyen sistem reddedilir).</p>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notun listelediği beş ilke, AB çerçevesinin kendi listesi değil, bir sadeleştirmedir: AB’nin yüksek düzey uzman grubu belgesi yedi “gereklilik” sayar (insan gözetimi, teknik sağlamlık ve güvenlik, gizlilik ve veri yönetişimi, şeffaflık, çeşitlilik ve ayrımcılık yapmama, toplumsal ve çevresel refah, hesap verebilirlik). Bu bilgi notun dışındandır, bu oturumda resmî belgeden doğrulanmadı; kullanmadan önce kaynağa bak.</div>
+    <div class="callout real"><b>Gerçek hayat: Kadın adaylar (ders notundaki örnek)</b>İşe alım algoritması geçmiş veriden kadın adayları eleyen bir örüntü öğrenmişse adalet ilkesi ihlal olur; Bölüm 9’daki önyargı lab’ı bunun sayıyla gösterimidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Siber güvenlik">
+  <div class="panel">
+    <div class="kicker">10.9 Yapay zekâ ve siber güvenlik</div>
+    <h2>Hem savunma aracı hem tehdit</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Kullanım</th><th>Nasıl?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Anomali tespiti</b></td><td>Ağ trafiğinde normal davranıştan sapmaları ML ile bulur.</td></tr>
+        <tr><td><b>IDS / IPS</b></td><td>İmza tabanlıdan farklı olarak sıfırıncı gün saldırılarını da yakalayabilir; derin öğrenmeyle zararlı yazılım davranışını sınıflar.</td></tr>
+        <tr><td><b>Kimlik doğrulama ve biyometri</b></td><td>Yüz, ses, davranışsal biyometri (yazma hızı).</td></tr>
+        <tr><td><b>Otomatik olay müdahalesi</b></td><td>Saldırı anında güvenlik duvarı kuralı değiştirir, şüpheli IP’yi engeller.</td></tr>
+        <tr><td><b>Tehdit istihbaratı</b></td><td>Büyük veri ve NLP ile raporları, blogları, forumları tarar.</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Gelecek:</b> kendini iyileştiren ağlar (otonom savunma), federated learning (veriyi merkezde toplamadan dağıtık eğitim), XAI ile analist güveni, YZ + blokzincir entegrasyonu. Aynı teknikler saldırganlar tarafından da kullanılabilir.</p>
+    <div class="callout real"><b>Gerçek hayat: Davranışsal biyometri (ders notundaki örnek)</b>Yazma hızı gibi alışkanlıklar kullanıcıyı doğrular: biri hesabına girse bile yazma örüntüsü farklıysa sistem şüphelenebilir.</div>
+    <div class="callout idea"><b>Notta açık bir kopyala–yapıştır hatası var</b>10.9’un ilk paragrafı, 10.8’deki “Günümüzde yapay zekâ sistemleri yalnızca teknik başarılarıyla değil…” cümleleriyle başlar ve ortada “…birçok uluslararası kurum tarafından Siber güvenlik, günümüz dijital dünyasında…” diye yarım kalan bir cümleye bağlanır. Asıl giriş cümlesi “Siber güvenlik, günümüz dijital dünyasında en kritik alanlardan biridir” ile başlıyor; sayfa bu cümleyi esas aldı.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Eğitim teknolojileri">
+  <div class="panel">
+    <div class="kicker">10.10 Yapay zekâ ve eğitim teknolojileri</div>
+    <h2>Akıllı öğrenme ekosistemleri</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Alan</th><th>Notun anlattığı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Akıllı öğretmen sistemleri (ITS)</b></td><td>Öğrencinin bilgisini izler, eksiği bulur, kişiye özel strateji sunar. Örnek: Carnegie Mellon’ın Cognitive Tutor’ı.</td></tr>
+        <tr><td><b>Kişiselleştirme</b></td><td>Önceki başarı ve öğrenme hızı analiz edilir; tavsiye sistemi uygun kaynağı önerir (Coursera, Udemy örnekleri).</td></tr>
+        <tr><td><b>Sanal asistan / chatbot</b></td><td>7/24 erişim, öğretmen yükünü azaltma. Örnek: Georgia Tech’in Jill Watson’ı (IBM Watson tabanlı).</td></tr>
+        <tr><td><b>Öğrenme analitiği</b></td><td>Davranış ve ilerlemeyi büyük veriyle izleme; sınıflandırma, kümeleme, regresyon.</td></tr>
+        <tr><td><b>Oyunlaştırma, VR/AR</b></td><td>Puan, seviye, ödül; tıp öğrencileri için VR ameliyat simülasyonu.</td></tr>
+        <tr><td><b>Değerlendirme</b></td><td>Otomatik notlandırma, intihal tespiti (Turnitin, GPTZero).</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Sorunlar ve gelecek</h3>
+    <ul>
+      <li>Veri gizliliği, notlandırmada algoritmik önyargı, aşırı bağımlılık (eleştirel düşünme zayıflar), gelişmiş ve gelişmekte olan ülkeler arasında fırsat eşitsizliği.</li>
+      <li>Gelecek: yaşam boyu öğrenme, akıllı sınıflar (dikkat seviyesi analizi), kapsayıcı eğitim (görme engelliler için seslendirme), öğretmen–YZ iş birliği (YZ öğretmenin yerini almaz).</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Kendi hızında öğrenme (ders notundaki örnek)</b>Önceki test sonuçların ve öğrenme hızın analiz edilip sana özel ders planı hazırlanması.</div>
+    <div class="callout idea"><b>Notta eksik ve dikkat edilecek yerler</b>(1) “Çalışma prensibi”, “uygulama alanları”, “kullanım amaçları” başlıkları notta <b>boş</b> bırakılmış, numaralar bozuk; bu sayfada yalnızca dolu olanlar anlatıldı. (2) Notta otomatik notlandırma ve intihal araçları “daha nesnel” diye sunulur. Metin üreten modelleri tespit eden araçların güvenilirliği tartışmalıdır ve “nesnel” demek bir iddiadır (kaynakla doğrula).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Yaratıcı endüstriler">
+  <div class="panel">
+    <div class="kicker">10.11 Yapay zekâ ve yaratıcı endüstriler · 10.12 Geleceğe bakış</div>
+    <h2>Yardımcı araç mı, bağımsız yaratıcı mı?</h2>
+    <p>Yaratıcı endüstriler: sanat, müzik, edebiyat, tasarım, film ve oyun. Notta YZ hem <b>yardımcı araç</b> hem de bazen <b>bağımsız yaratıcı aktör</b> olarak anılır ve “YZ gerçekten yaratıcı olabilir mi?” sorusu açılır.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>İnsan</th><th>YZ</th></tr></thead>
+      <tbody>
+        <tr><td>Hayal gücü, sezgi, duygular</td><td>Büyük veri örüntüleri, hızlı üretim, teknik optimizasyon</td></tr>
+      </tbody>
+    </table></div>
+    <p>Notun sonucu: giderek <b>hibrit yaratıcılık</b> (insanı dışlamayan destekleyici rol) kabul görmektedir. Gelecek: kapsayıcı sanat (engelli bireyler için araçlar), metaverse ve sanal dünyalar, sanatın demokratikleşmesi, “sanat sanat için midir, veri için mi?” tartışması.</p>
+    <div class="callout idea"><b>Notta eksik ve bozuk yerler</b>(1) 10.11’in giriş paragrafı, eğitim bölümünün kopyasıyla başlar ve “eğitim teknolYapay zekâ yalnızca analitik görevlerde…” diye yarım kelimede birleşir; sayfa asıl girişi (“Yapay zekâ yalnızca analitik görevlerde değil…”) esas aldı. (2) Sanat, müzik, edebiyat, oyun/film, tasarım ve telif hakkı alt başlıklarının <b>içi boştur</b> (yalnızca başlık satırları var); bu yüzden bu alanların ayrıntısı anlatılamadı.</div>
+    <h3>10.12 Geleceğe bakış (ders notu)</h3>
+    <p>Genel zekâ, kuantum hesaplama, otonom sistemler, derin dil anlayışı, açıklanabilirlik, duygusal zekâ ve kendini geliştiren yapılar hem fırsat hem risk taşır. Notun kapanış cümlesi: asıl mesele YZ’nin ne kadar güçlü olacağı değil, bu gücün <b>kim tarafından, hangi amaçlarla ve nasıl kullanılacağıdır</b>.</p>
+    <div class="callout real"><b>Gerçek hayat: Engelli bireyler için yaratıcı araçlar (ders notundaki örnek)</b>Notun “kapsayıcı sanat” örneği: YZ destekli araçlar, engelli bireylerin de yaratıcı üretime katılmasını kolaylaştırabilir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 10</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>AGI</td><td>Farklı alanlarda görev, transfer öğrenme, çoklu modalite; kontrol ve değer uyumu problemleri</td></tr>
+        <tr><td>AGI yöntemleri</td><td>Meta-learning, çoklu modalite, zero/few-shot, büyük mimariler</td></tr>
+        <tr><td>Kuantum YZ</td><td>n qubit = 2ⁿ genlik ama ölçümde n bit; vaat belirli problemlerde, şifreleme riski</td></tr>
+        <tr><td>Otonom sistem</td><td>Algılama, karar, hareket; durma mesafesi = v·t + v²/2a</td></tr>
+        <tr><td>NLP sınırları</td><td>Halüsinasyon, önyargı, uzun bağlam</td></tr>
+        <tr><td>Kendini geliştiren YZ</td><td>Transfer; AlphaGo Zero, AutoML; kontrol kaybı riski</td></tr>
+        <tr><td>XAI</td><td>Global/lokal; LIME, SHAP, saliency, attention; model-agnostic/specific</td></tr>
+        <tr><td>Güvenilir YZ</td><td>Adalet, şeffaflık, hesap verebilirlik, gizlilik, dayanıklılık</td></tr>
+        <tr><td>Siber güvenlik</td><td>Anomali, IDS/IPS, biyometri, otomatik müdahale; hem savunma hem tehdit</td></tr>
+        <tr><td>Eğitim ve yaratıcılık</td><td>ITS, kişiselleştirme, öğrenme analitiği; hibrit yaratıcılık, telif sorunu</td></tr>
+        <tr><td>Sonuç</td><td>Önemli olan gücün kim tarafından, hangi amaçla, nasıl kullanıldığıdır</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_YZ_10"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/yz-bolum-10-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/yz10.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>

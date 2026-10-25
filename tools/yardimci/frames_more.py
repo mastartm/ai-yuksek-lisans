@@ -373,6 +373,26 @@ add('balonlab', 'yapay-zeka-temelleri/bolum-9.html',
     [('k', 'Önerinin tüketim payının kaçıncı kuvvetiyle orantılı olduğu.'), ('Pay', 'Kullanıcının tüketiminde bir konunun oranı.'), ('Etkin konu sayısı', 'Paylar eşit olsaydı kaç konu varmış gibi davranırdı (exp(entropi)).')],
     'Model ve sayılar bu site için sadeleştirilmiştir; notta yalnızca bilgi balonu fikri anlatılır (Bölüm 9.1.2 ve 9.2.2).')
 
+# ---------------- Yapay Zekâ Temelleri 10 ----------------
+add('qubitlab', 'yapay-zeka-temelleri/bolum-10.html',
+    'n kaydırıcısıyla qubit sayısını, θ kaydırıcısıyla tek qubitin açısını değiştir. İstersen “1000 ölçüm yap”a bas.',
+    'n qubitin kaç genlikle anlatıldığı (2ⁿ), ölçümde kaç bit okunduğu (n), tek qubit için 0 ve 1 çıkma olasılıkları ve 1000 ölçümün dağılımı görünür.',
+    'Durumu anlatmak için 2ⁿ sayı gerekir ama ölçüm yalnızca n bitlik tek bir sonuç verir. Süperpozisyon, tüm cevapları aynı anda okumak demek değildir.',
+    [('Qubit', 'Kuantum bit; durumu iki genlikle anlatılır.'), ('Genlik', 'Durumun bir bileşenini belirleyen sayı; olasılık, genliğin karesidir.'), ('θ', 'Tek qubitin durumunu ayarlayan açı; P(0) = cos²(θ/2).'), ('Ölçüm', 'Qubiti okumak; tek bir 0 ya da 1 sonucu verir.')],
+    'Notta yalnızca “qubit aynı anda 0 ve 1 olabilir” anlatımı vardır (Bölüm 10.2.1); genlik ve ölçüm ayrıntısı bu sitenin ekidir, kuantum hesaplama ders kitabı bilgisidir (kaynakla doğrula). Ölçümler sabit tohumlu rastgele sayıyla simüle edilir.')
+add('otolab', 'yapay-zeka-temelleri/bolum-10.html',
+    'Hız, sensör menzili ve algılama + karar gecikmesi kaydırıcılarını değiştir.',
+    'Gecikmede alınan yol, frenleme mesafesi, toplam durma mesafesi, sensör menzili çizgisi ve araç durur mu çarpar mı (çarparsa hızı) görünür.',
+    'Frenleme mesafesi hızın karesiyle artar; gecikme yolu hızla doğrusal artar. Menzil toplam durma mesafesinden kısaysa araç çarpar.',
+    [('Gecikme yolu', 'Algılama ve karar sürerken araç hızıyla ilerler: v·t.'), ('Frenleme mesafesi', 'Frenle durmak için gereken yol: v²/(2a).'), ('Sensör menzili', 'Aracın engeli görebildiği en uzak mesafe.'), ('a', 'Frenleme ivmesi; bu sitede 6 m/s² alındı.')],
+    'Sayılar ve a = 6 m/s² bu sitenin varsayımıdır; notta sayısal örnek yoktur. Algılama–karar–hareket yapısı notundaki Bölüm 10.3.1’den alındı.')
+add('xailab', 'yapay-zeka-temelleri/bolum-10.html',
+    'Bir başvuru seç (1–8). Sonra “Yerel” ve “Küresel” görünümleri karşılaştır.',
+    'Dört özelliğin seçili başvurudaki katkısı (yeşil: skoru artırır, turuncu: azaltır), toplam skor, karar ve küresel görünümde ortalama mutlak katkı çubukları görünür.',
+    'Yerel açıklama tek kararı, küresel açıklama modelin genel eğilimini anlatır; Başvuru 6’da gelire rağmen gecikme sayısı kararı belirler, küresel görünümde ise gelir en öndedir. Her açıklama farklı soruya cevap verir.',
+    [('Katkı', 'Ağırlık × (değer − ortalama değer): özelliğin skoru ortalamaya göre ne kadar oynattığı.'), ('Yerel', 'Tek bir kararın nedeni.'), ('Küresel', 'Tüm başvurularda katkının ortalama büyüklüğü.'), ('Skor', 'Dört katkının toplamı; ≥ 0 ise onay.')],
+    'Başvurular, ağırlıklar ve ortalamalar bu site için uydurulmuştur. Yerel/küresel ayrımı ve SHAP fikri notundaki Bölüm 10.7’ye dayanır; doğrusal modelde Shapley katkısının bu biçimi standart bilgidir (kaynakla doğrula).')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
