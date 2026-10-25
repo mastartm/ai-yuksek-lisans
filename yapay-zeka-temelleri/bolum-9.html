@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yapay Zekâ Etiği ve Toplumsal Etkileri — Yapay Zekâ Temelleri</title>
+<meta name="description" content="Yapay Zekâ Temelleri, Bölüm 9: Yapay Zekâ Etiği ve Toplumsal Etkileri. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 9 · Yapay Zekâ Etiği ve Toplumsal Etkileri</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Yapay Zekâ Temelleri · Bölüm 9</div>
+    <h1>Yapay Zekâ Etiği ve Toplumsal Etkileri</h1>
+    <p class="big-quote">Bir model teknik olarak çok iyi çalışıp yine de haksız olabilir. Bu bölümde yapay zekânın <b>kime, neye, hangi bedelle</b> hizmet ettiğini; güvenlik ve önyargı sorunlarının nereden çıktığını üç küçük deneyle göreceksin.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>Etiğin altı temel problemini (iş gücü, anlam, benzersizlik, kötüye kullanım, hesap verebilirlik, varoluşsal risk) sayabilirsin.</li>
+      <li>Beş güvenlik türünü (fiziksel, dijital, toplumsal, hukuki, uzun vadeli) örnekleyebilirsin.</li>
+      <li>Saldırgan örneğin neden küçük bir değişiklikle çalıştığını sayıyla açıklayabilirsin.</li>
+      <li>Verideki önyargının modele nasıl geçtiğini ve “sütunu silmenin” neden yetmediğini gösterebilirsin.</li>
+      <li>Olumlu ve olumsuz toplumsal etkileri dengeli biçimde karşılaştırabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Teknik başarı yetmez: etik, güvenlik ve toplum birlikte düşünülür</h2>
+    <svg class="diagram" viewBox="0 0 760 170" role="img" aria-label="Etik, güvenlik, olumlu etkiler, olumsuz etkiler ve sorumlu tasarım sırası"><rect class="d-brand" x="10" y="45" width="120" height="70" rx="12"/><text class="d-txt d-c" x="70" y="85">Etik</text><line class="d-line" x1="130" y1="80" x2="160" y2="80"/><rect class="d-ok" x="160" y="45" width="140" height="70" rx="12"/><text class="d-txt d-c" x="230" y="73">Güvenlik</text><text class="d-sm d-c" x="230" y="96">beş boyut</text><line class="d-line" x1="300" y1="80" x2="330" y2="80"/><rect class="d-warn" x="330" y="45" width="140" height="70" rx="12"/><text class="d-txt d-c" x="400" y="73">Toplumsal etki</text><text class="d-sm d-c" x="400" y="96">fayda ve zarar</text><line class="d-line" x1="470" y1="80" x2="500" y2="80"/><rect class="d-box" x="500" y="45" width="110" height="70" rx="12"/><text class="d-txt d-c" x="555" y="73">Önlem</text><text class="d-sm d-c" x="555" y="96">tasarım, yasa</text><line class="d-line" x1="610" y1="80" x2="640" y2="80"/><rect class="d-ok" x="640" y="45" width="110" height="70" rx="12"/><text class="d-txt d-c" x="695" y="73">Sorumlu</text><text class="d-txt d-c" x="695" y="96">YZ</text></svg>
+    <p>Notun ana fikri şudur: yapay zekânın etiği yalnızca teknik güvenlik önlemleri değildir. <b>Neden geliştirildiği, kimin kontrol ettiği, kimi etkilediği ve hangi değerleri gözetmesi gerektiği</b> sorularını da kapsar. Etik tasarlanmayan bir sistem ayrımcılık yapabilir, özgürlüğü kısıtlayabilir ya da toplumda bir kontrol aracına dönüşebilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Etiğin altı problemi">
+  <div class="panel">
+    <div class="kicker">9.1.1 Yapay zekâ etiği</div>
+    <h2>Etiğin altı temel problemi</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Problem</th><th>Ne diyor?</th><th>Notun örneği</th></tr></thead>
+      <tbody>
+        <tr><td><b>İş gücü ve otomasyon</b></td><td>Düşük vasıflıdan uzmanlığa kadar işlerin yerine geçme korkusu; eşitsizlik riski.</td><td>“Evrensel temel gelir” gibi politikalar; uygulanabilirliği tartışmalı.</td></tr>
+        <tr><td><b>Boş zaman, bıkkınlık, değersizlik</b></td><td>Zaman kazandırması beklenirken “her an ulaşılabilirlik” baskısı doğdu.</td><td>Performansı sürekli izleyen sistemler, tükenmişlik.</td></tr>
+        <tr><td><b>İnsanlığın benzersizliği</b></td><td>Makine düşünür ve hissedersse “insanı insan yapan nedir?” sorusu açılır.</td><td>Sanal arkadaşlara duygusal bağlanma.</td></tr>
+        <tr><td><b>Kötü amaçlı kullanım</b></td><td>Her teknoloji gibi YZ de kötüye kullanılabilir.</td><td>Otonom silah, gözetim, deepfake, otomatik sansür.</td></tr>
+        <tr><td><b>Hesap verebilirliğin kaybı</b></td><td>Karmaşık modeller açıklanamaz; hata olunca sorumlu belirsiz.</td><td>Yanlış teşhis koyan YZ doktor: yazılım mı, doktor mu, firma mı?</td></tr>
+        <tr><td><b>Varoluşsal tehlike</b></td><td>Yanlış hedef fonksiyonu ile ultra-zeki sistem yıkıcı olabilir.</td><td>“İnsan acısını azalt” hedefi, “insanları ortadan kaldır” çözümüne gidebilir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Yüz tanıma (ders notundaki örnek)</b>Aynı yüz tanıma sistemi kayıp çocuğu bulmada da vatandaşı sürekli izlemede de kullanılabilir. Teknik aynıdır; etik soru “nasıl ve kim için kullanılacağı”dır.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Varoluşsal tehlike senaryoları (“kendi hedeflerini insanlarınkinden ayırabilir”) bugün için <b>kuramsal</b> tartışmadır. Notta bu ifadeler “bazı araştırmacılar” çerçevesinde geçer; bu sayfada da kesin öngörü olarak değil, güvenli tasarımın neden önemli olduğunu gösteren bir gerekçe olarak okunmalı.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Beş güvenlik boyutu">
+  <div class="panel">
+    <div class="kicker">9.1.2 Güvenlik</div>
+    <h2>Güvenlik yalnızca “sunucu güvenliği” değildir</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Boyut</th><th>Neyi korur?</th><th>Notun örneği</th></tr></thead>
+      <tbody>
+        <tr><td><b>Fiziksel</b></td><td>İnsan bedeni ve hayatı</td><td>Otonom aracın nesneyi yanlış algılaması; cerrahi robot; otonom silah.</td></tr>
+        <tr><td><b>Dijital</b></td><td>Veri ve model bütünlüğü, gizlilik</td><td>Manipüle edilmiş veriyle ayrımcı kredi kararı; <b>adversarial attack</b>; veri sızıntısı.</td></tr>
+        <tr><td><b>Toplumsal</b></td><td>Bilgi ortamı ve toplumsal bağ</td><td>Dezenformasyon, deepfake, <b>bilgi balonu</b>, önyargılı suç tahmini.</td></tr>
+        <tr><td><b>Hukuki</b></td><td>Sorumluluk ve itiraz hakkı</td><td>Red kararının gerekçesini bilmeden itiraz edememek; tazminat kime?</td></tr>
+        <tr><td><b>Uzun vadeli</b></td><td>Denetim, küresel iş birliği</td><td>Teknolojik tekillik; Asimov’un yasaları tarihsel referans, ama daha dinamik denetim gerek.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Red kararına itiraz (ders notundaki örnek)</b>Bir kredi başvurusu YZ tarafından reddedildiğinde kişi kararın gerekçesini bilmiyorsa itiraz edemez. Bu yüzden notta “açıklanabilir YZ” hem etik hem <b>hukuki güvenlik</b> konusudur.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta “AGI’ye ulaşan sistemlerin kısa sürede süper zekâya evrilebileceği” fikri “bazı fütürist düşünürler”e atfedilir. Bunun ne zaman ve nasıl olacağı bilinmiyor; notta da kaynak ya da süre verilmiyor. Bu bölümdeki deneyler bu senaryoyla değil, bugünkü sistemlerin sorunlarıyla ilgilidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Saldırgan örnek">
+  <div class="panel">
+    <div class="kicker">9.1.2 Dijital güvenlik · dene</div>
+    <h2>Saldırgan örnek: küçük değişiklik, büyük yanlış</h2>
+    <p>Notta, makine öğrenmesi sistemlerine yönelik <b>adversarial attack</b>’ın bir girdide çok küçük değişiklikler yaparak sistemi tamamen yanlış karara götürebildiği anlatılır. Doğrusal bir sınıflandırıcıda bunu elle hesaplayabilirsin: skor f(x) = w·x + b, pozitifse sınıf “+”.</p>
+    <p>Saldırgan her özelliği en çok ε kadar oynatabilir ve her özelliği <b>skoru düşüren yöne</b> (w’nin işaretinin tersine) çeker. Skor en fazla ε·Σ|w| düşer. Sınıfın çevrildiği en küçük ε, yani <b>kritik ε = skor / Σ|w|</b>.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> ε kaydırıcısını 0 ile 0,30 arasında oynat.</li>
+        <li><b>Ne göreceksin:</b> Sekiz özelliğin özgün (mavi) ve saldırılmış (turuncu) değerleri, özgün skor, saldırılmış skor, aynı büyüklükte rastgele değişimin skoru ve kritik ε görünür.</li>
+        <li><b>Ne anlamalısın:</b> Her özellik ε kadar, skoru düşüren yöne çekilince skor ε·Σ|w| düşer. ε kritik değerin (skor / Σ|w| ≈ 0,106) üstüne çıkınca sınıf çevrilir; aynı büyüklükte rastgele değişim sınıfı çevirmez.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>ε</dt><dd>Her özelliğin en çok ne kadar değiştirilebileceği (özellikler 0–1 aralığında).</dd><dt>Skor f(x)</dt><dd>w·x + b; pozitifse sınıf “+”, negatifse “−”.</dd><dt>Σ|w|</dt><dd>Ağırlıkların mutlak değerlerinin toplamı (burada 18).</dd><dt>Kritik ε</dt><dd>Sınıfı çeviren en küçük ε = skor / Σ|w|.</dd></dl></details>
+      <p class="lab-src">Ağırlıklar, girdi ve skor bu site için seçildi; notta sayısal saldırgan örnek yoktur. Adversarial attack fikri notundaki Bölüm 9.1.2 Dijital Güvenlik’e dayanır.</p>
+    </div>
+    <div class="lab" id="advlab"></div>
+    <div class="callout idea"><b>Neden çok özellik tehlikeli?</b>Her özellik ayrı ayrı çok az oynar, ama etkiler toplanır. Σ|w| büyüdükçe (özellik sayısı ya da ağırlıklar arttıkça) kritik ε küçülür. Yüksek boyutlu girdilerde (görüntü gibi) insan gözünün fark etmediği değişiklik sınıfı çevirebilir. Bu sayfadaki 8 özellik ve ağırlıklar bu sitenin örneğidir, notta sayısal örnek yoktur.</div>
+    <div class="callout real"><b>Gerçek hayat: Tabela ve yanıltma (ders notundaki fikir)</b>Güvenlik sistemleri ve görüntü tanıma bu tür saldırılarla yanıltılabilir; notta bu, YZ tabanlı güvenlik sistemlerinin aldatılmasına ve dolandırıcılığın artmasına zemin hazırlayabilecek bir risk olarak anılır. Savunma (dayanıklı eğitim vb.) notta ayrıntılandırılmaz.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Olumlu etkiler">
+  <div class="panel">
+    <div class="kicker">9.2.1 Olumlu etkiler</div>
+    <h2>Fayda alanları</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Alan</th><th>Notun anlattığı fayda</th></tr></thead>
+      <tbody>
+        <tr><td><b>Verimlilik ve ekonomik büyüme</b></td><td>İş süreçleri hızlanır, hata düşer, maliyet azalır; veri analitiğiyle arz–talep dengesi.</td></tr>
+        <tr><td><b>Sağlık</b></td><td>Görüntülemede kanserin erken teşhisi; robotik cerrahi, uzaktan izleme, kişiye özel ilaç.</td></tr>
+        <tr><td><b>Eğitimde fırsat eşitliği</b></td><td>Öğrenciye göre uyarlanan içerik; dezavantajlı bölgelere çevrimiçi erişim; otomatik değerlendirme.</td></tr>
+        <tr><td><b>Sosyal hizmetler</b></td><td>Risk altındaki bireyleri belirleme, yaşlı bakım robotları, afet erken uyarısı.</td></tr>
+        <tr><td><b>Çevresel sürdürülebilirlik</b></td><td>Enerji optimizasyonu, karbon izleme, atık yönetimi, akıllı şehir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Afette erken uyarı (ders notundaki örnek)</b>Doğal afetlerde erken uyarı sistemlerinin YZ ile desteklenmesi can kaybını azaltabilir ve toplumların dayanıklılığını artırabilir. Notta bu, “azaltabilir” diye yazılır: kesin bir sonuç değil, potansiyeldir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Olumsuz etkiler">
+  <div class="panel">
+    <div class="kicker">9.2.2 Olumsuz etkiler</div>
+    <h2>Zarar alanları</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Alan</th><th>Notun anlattığı zarar</th></tr></thead>
+      <tbody>
+        <tr><td><b>İşsizlik ve eşitsizlik</b></td><td>Düşük ve orta vasıflı işler otomasyona geçer; yatırım yapabilen büyük şirketler öne geçer, tekelleşme.</td></tr>
+        <tr><td><b>Mahremiyet ve gözetim</b></td><td>Yüz tanıma, hareket takibi, sesli komut; otoriter rejimde ifade özgürlüğü kısıtı.</td></tr>
+        <tr><td><b>Algoritmik önyargı</b></td><td>Eğitim verisindeki önyargıyı öğrenir: işe alımda cinsiyet/etnik köken, ceza adaletinde risk puanları.</td></tr>
+        <tr><td><b>Bilgi balonları ve kutuplaşma</b></td><td>Yalnızca kendi görüşüne uygun içerik; dezenformasyon, deepfake.</td></tr>
+        <tr><td><b>Psikolojik etkiler</b></td><td>Yalnızlık, dijital bağımlılık, sürekli izlenme hissi.</td></tr>
+        <tr><td><b>Kültürel homojenleşme</b></td><td>Küresel platformlar, çoğunlukla Batı kültürüne göre tasarım; yerel dil ve kimlik geri çekilir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: İşe alım ve risk puanı (ders notundaki örnek)</b>İşe alım algoritmalarında cinsiyet ya da etnik köken temelli ayrımcılık görülebilir. Ceza adaletinde kullanılan risk puanlama algoritmaları belirli toplulukları sistematik olarak dezavantajlı duruma düşürebilir. Aşağıdaki iki deney bu iki satırı (önyargı ve bilgi balonu) sayıyla gösterir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Önyargı laboratuvarı">
+  <div class="panel">
+    <div class="kicker">9.2.2 Algoritmik önyargı · dene</div>
+    <h2>Model geçmişi öğrenir: adil olmayan geçmiş, adil olmayan model</h2>
+    <p>Bir kredi onay modeli düşün. Geçmişte iki grubun (A ve B) başvuruları aynı niteliklerdeydi, ama B grubuna ayrımcılık yapılarak onay oranı düşürüldü. Model, “geçmişte ne oldu”yu en iyi tahmin eden kuralı öğrenir. İki şeyi dene: ayrımcılık payını artır, sonra grup sütununu silip yerine bu gruba sızan bir <b>vekil sütun</b> bırak.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Ayrımcılık payını (0–20 puan) kaydır. Sonra “Grup sütunu silindi” düğmesine bas ve vekil sütunun B grubuyla örtüşmesini değiştir.</li>
+        <li><b>Ne göreceksin:</b> Beş nitelik bandı için geçmişteki ve modelin öğrendiği onay oranları, kararlar (onay/red), grup farkı ve kararı farklı çıkan bant sayısı görünür.</li>
+        <li><b>Ne anlamalısın:</b> Model geçmişi öğrenir: nitelik aynıyken B grubuna daha düşük onay verir. Grup sütunu silinse bile vekil sütun B ile örtüşüyorsa fark d·(2r−1)² kadar sürer.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Nitelik bandı</dt><dd>Başvurunun niteliğini 1 (zayıf) – 5 (güçlü) arası gösteren sanal ölçü.</dd><dt>Ayrımcılık payı</dt><dd>Geçmişte B grubunun onay oranından kesilen puan.</dd><dt>Vekil sütun</dt><dd>Grup bilgisini dolaylı taşıyan sütun (örneğin posta kodu).</dd><dt>Örtüşme r</dt><dd>Vekil sütunun B grubunu doğru gösterme oranı; %50 = bilgi taşımaz.</dd></dl></details>
+      <p class="lab-src">Veri ve sayılar bu site için uydurulmuştur. Verideki önyargının modele geçmesi notundaki Bölüm 9.2.2’ye dayanır; vekil sütun fikri notta yoktur.</p>
+    </div>
+    <div class="lab" id="biaslab"></div>
+    <div class="callout idea"><b>Sütunu silmek neden yetmez?</b>Posta kodu, okul, alışveriş geçmişi gibi sütunlar grupla ilişkiliyse (vekil), model grup bilgisini dolaylı olarak yeniden kurar. Notta vekil sütun kavramı geçmez; yalnızca “verilerdeki önyargılar sistemlere bilinçli ya da bilinçsiz işlenebilir” denir. Vekil sütunun etkisi bu sitenin eklemesidir ve basitleştirilmiş bir hesaptır.</div>
+    <div class="callout real"><b>Gerçek hayat: Ayrımcılık karşıtı önlem</b>Notun önerdiği yol: etik çerçevede tasarlamak ve ayrımcılık karşıtı önlem almak. Pratikte bu, veriyi ve model çıktılarını gruplar arasında karşılaştırmayı gerektirir; bu deney o karşılaştırmanın en küçük hâlidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bilgi balonu laboratuvarı">
+  <div class="panel">
+    <div class="kicker">9.1.2 Toplumsal güvenlik · 9.2.2 Bilgi balonları · dene</div>
+    <h2>Öneri keskinleşince konu çeşitliliği daralır</h2>
+    <p>Notta, bireyin dünya görüşüne uygun içerikleri öneren algoritmaların kişiyi bilgi balonuna hapsedebileceği söylenir. Bunu küçük bir modelle görelim: 5 konu var. Öneri sistemi bir konuyu, şu ana kadarki tüketim payının k’inci kuvvetiyle orantılı olarak önerir. Kullanıcı gördüğünü tüketir ve payları yavaşça önerilene kayar.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Öneri keskinliği k’yı ve gün sayısını kaydır.</li>
+        <li><b>Ne göreceksin:</b> Beş konunun tüketim payı, en büyük konu payı ve zamana göre etkin konu sayısı grafiği görünür.</li>
+        <li><b>Ne anlamalısın:</b> k > 1 iken öneri çok tüketileni daha da öne çıkarır ve çeşitlilik düşer; k = 1’de pay sabit kalır; k < 1’de paylar eşitlenir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>k</dt><dd>Önerinin tüketim payının kaçıncı kuvvetiyle orantılı olduğu.</dd><dt>Pay</dt><dd>Kullanıcının tüketiminde bir konunun oranı.</dd><dt>Etkin konu sayısı</dt><dd>Paylar eşit olsaydı kaç konu varmış gibi davranırdı (exp(entropi)).</dd></dl></details>
+      <p class="lab-src">Model ve sayılar bu site için sadeleştirilmiştir; notta yalnızca bilgi balonu fikri anlatılır (Bölüm 9.1.2 ve 9.2.2).</p>
+    </div>
+    <div class="lab" id="balonlab"></div>
+    <div class="callout idea"><b>Etkin konu sayısı nedir?</b>Paylar eşit olsaydı kaç konu varmış gibi davranırdı sorusunun cevabı. 5 konunun hepsi eşit payda olunca 5, tek konuya yığılınca 1 olur. Bu ölçü (entropinin üstü) bu sitenin seçimidir, notta yoktur.</div>
+    <div class="callout real"><b>Gerçek hayat: Akış sayfası</b>Bir haber akışında yalnızca tıkladığın konular artarsa, bir süre sonra diğer konuları görmezsin. Bu, kullanıcının iradesiyle çelişmeden gerçekleşir: sistem “istediğini verir”, ama seçenek daralır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 9</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Etik</td><td>Neden geliştirildiği, kimin kontrol ettiği, kimi etkilediği, hangi değerleri gözetmesi gerektiği</td></tr>
+        <tr><td>Altı problem</td><td>İş gücü, bıkkınlık, benzersizlik, kötü kullanım, hesap verebilirlik, varoluşsal risk</td></tr>
+        <tr><td>Güvenlik</td><td>Fiziksel, dijital, toplumsal, hukuki, uzun vadeli</td></tr>
+        <tr><td>Saldırgan örnek</td><td>Küçük girdi değişikliği, büyük çıktı farkı; kritik ε = skor / Σ|w|</td></tr>
+        <tr><td>Olumlu etkiler</td><td>Verimlilik, sağlık, eğitim, sosyal hizmet, çevre</td></tr>
+        <tr><td>Olumsuz etkiler</td><td>İşsizlik, gözetim, önyargı, bilgi balonu, psikolojik etki, kültürel homojenleşme</td></tr>
+        <tr><td>Önyargı</td><td>Model veriyi öğrenir; sütun silmek vekil sütunları engellemez</td></tr>
+        <tr><td>Bilgi balonu</td><td>Keskin öneri → konu çeşitliliği düşer</td></tr>
+        <tr><td>Sonuç</td><td>Fayda ve zararın dağılımı teknoloji geliştiricilerin değil, toplumların ortak sorumluluğudur</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_YZ_9"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/yz-bolum-9-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/yz9.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>

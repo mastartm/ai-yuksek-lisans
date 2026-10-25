@@ -353,6 +353,26 @@ add('thrlab', 'yapay-zeka-temelleri/bolum-8.html',
     [('Eşik', 'Sayısal özelliği ikiye ayıran değer (yaş < eşik).'), ('Aday eşik', 'Komşu iki farklı değerin ortası.'), ('Gini bölünmesi', 'İki tarafın ağırlıklı Gini ortalaması.')],
     'Müşteri yaşları ve alma kararları bu site için uydurulmuştur. Eşikle bölme ve en uygun bölünme noktasını bulma fikri notundaki Bölüm 8.5 ve 8.2.2’den; Gini hesabı notundaki formüldür.')
 
+# ---------------- Yapay Zekâ Temelleri 9 ----------------
+add('advlab', 'yapay-zeka-temelleri/bolum-9.html',
+    'ε kaydırıcısını 0 ile 0,30 arasında oynat.',
+    'Sekiz özelliğin özgün (mavi) ve saldırılmış (turuncu) değerleri, özgün skor, saldırılmış skor, aynı büyüklükte rastgele değişimin skoru ve kritik ε görünür.',
+    'Her özellik ε kadar, skoru düşüren yöne çekilince skor ε·Σ|w| düşer. ε kritik değerin (skor / Σ|w| ≈ 0,106) üstüne çıkınca sınıf çevrilir; aynı büyüklükte rastgele değişim sınıfı çevirmez.',
+    [('ε', 'Her özelliğin en çok ne kadar değiştirilebileceği (özellikler 0–1 aralığında).'), ('Skor f(x)', 'w·x + b; pozitifse sınıf “+”, negatifse “−”.'), ('Σ|w|', 'Ağırlıkların mutlak değerlerinin toplamı (burada 18).'), ('Kritik ε', 'Sınıfı çeviren en küçük ε = skor / Σ|w|.')],
+    'Ağırlıklar, girdi ve skor bu site için seçildi; notta sayısal saldırgan örnek yoktur. Adversarial attack fikri notundaki Bölüm 9.1.2 Dijital Güvenlik’e dayanır.')
+add('biaslab', 'yapay-zeka-temelleri/bolum-9.html',
+    'Ayrımcılık payını (0–20 puan) kaydır. Sonra “Grup sütunu silindi” düğmesine bas ve vekil sütunun B grubuyla örtüşmesini değiştir.',
+    'Beş nitelik bandı için geçmişteki ve modelin öğrendiği onay oranları, kararlar (onay/red), grup farkı ve kararı farklı çıkan bant sayısı görünür.',
+    'Model geçmişi öğrenir: nitelik aynıyken B grubuna daha düşük onay verir. Grup sütunu silinse bile vekil sütun B ile örtüşüyorsa fark d·(2r−1)² kadar sürer.',
+    [('Nitelik bandı', 'Başvurunun niteliğini 1 (zayıf) – 5 (güçlü) arası gösteren sanal ölçü.'), ('Ayrımcılık payı', 'Geçmişte B grubunun onay oranından kesilen puan.'), ('Vekil sütun', 'Grup bilgisini dolaylı taşıyan sütun (örneğin posta kodu).'), ('Örtüşme r', 'Vekil sütunun B grubunu doğru gösterme oranı; %50 = bilgi taşımaz.')],
+    'Veri ve sayılar bu site için uydurulmuştur. Verideki önyargının modele geçmesi notundaki Bölüm 9.2.2’ye dayanır; vekil sütun fikri notta yoktur.')
+add('balonlab', 'yapay-zeka-temelleri/bolum-9.html',
+    'Öneri keskinliği k’yı ve gün sayısını kaydır.',
+    'Beş konunun tüketim payı, en büyük konu payı ve zamana göre etkin konu sayısı grafiği görünür.',
+    'k > 1 iken öneri çok tüketileni daha da öne çıkarır ve çeşitlilik düşer; k = 1’de pay sabit kalır; k < 1’de paylar eşitlenir.',
+    [('k', 'Önerinin tüketim payının kaçıncı kuvvetiyle orantılı olduğu.'), ('Pay', 'Kullanıcının tüketiminde bir konunun oranı.'), ('Etkin konu sayısı', 'Paylar eşit olsaydı kaç konu varmış gibi davranırdı (exp(entropi)).')],
+    'Model ve sayılar bu site için sadeleştirilmiştir; notta yalnızca bilgi balonu fikri anlatılır (Bölüm 9.1.2 ve 9.2.2).')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
