@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veri Bilimi Metodolojileri ve Teknik Uygulamalar — Veri Bilimi</title>
+<meta name="description" content="Veri Bilimi, Bölüm 10: Veri Bilimi Metodolojileri ve Teknik Uygulamalar. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 10 · Veri Bilimi Metodolojileri ve Teknik Uygulamalar</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Veri Bilimi · Bölüm 10</div>
+    <h1>Veri Bilimi Metodolojileri ve Teknik Uygulamalar</h1>
+    <p class="big-quote">Bir veri bilimi projesi yalnızca bir algoritma değildir: bir süreç, bir dizi ön işleme kararı, bir değerlendirme ve bir sorumluluk zinciridir. Bu bölüm tüm dersin teknik araç kutusunu tek yerde toplar; sayfa, her aracın <b>ne yaptığını ve nerede yanıltabileceğini</b> gösterir.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>CRISP-DM, KDD, SEMMA, TDSP ve Agile’ı karşılaştırabilirsin.</li>
+      <li>Eksik veri, aykırı değer, ölçekleme, boyut indirgeme ve özellik seçimini açıklayabilirsin.</li>
+      <li>Ridge, Lasso ve ElasticNet’in katsayıları nasıl etkilediğini gösterebilirsin.</li>
+      <li>Değerlendirme metriklerini, çapraz doğrulamayı ve hipotez testlerini doğru yorumlayabilirsin.</li>
+      <li>Adalet ölçütlerinin (demografik parite, eşitlenmiş olasılık) neden çatışabildiğini sayıyla anlatabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>24 başlığı sekiz kümeye topla</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Küme</th><th>Notta başlıklar</th></tr></thead>
+      <tbody>
+        <tr><td><b>Süreç</b></td><td>10.2 yaşam döngüsü ve metodolojiler</td></tr>
+        <tr><td><b>Veri hazırlama</b></td><td>10.3 ön işleme ve özellik mühendisliği</td></tr>
+        <tr><td><b>Klasik öğrenme</b></td><td>10.4 regresyon ve kümeleme; 10.9 topluluk yöntemleri; 10.13 anomali</td></tr>
+        <tr><td><b>Derin öğrenme ve diller</b></td><td>10.5 derin öğrenme; 10.6 NLP; 10.7 zaman serisi; 10.11 bilgisayarlı görü; 10.12 öneri sistemleri</td></tr>
+        <tr><td><b>Değerlendirme ve istatistik</b></td><td>10.8 model değerlendirme; 10.10 hipotez testleri</td></tr>
+        <tr><td><b>Açıklama ve karar</b></td><td>10.14 XAI; 10.15 pekiştirmeli öğrenme</td></tr>
+        <tr><td><b>Altyapı, etik, gelecek</b></td><td>10.16 büyük veri; 10.17 etik, gizlilik, trendler</td></tr>
+        <tr><td><b>İleri konular ve sonuç</b></td><td>10.19–10.23 ileri teknikler; 10.18, 10.21, 10.24 sonuçlar</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Notun yapısı hakkında: tekrarlar var</b>Bu bölüm tek bir elden çıkmış gibi durmuyor. (1) 10.19, 10.11–10.17’nin kısa bir özetidir (görü, öneri, anomali, XAI, RL, büyük veri, etik, trendler). (2) Adam ve LSTM denklemleri 10.20.1, 10.20.2 ve 10.22’de, dikkat (attention) formülü 10.6, 10.20.1 ve 10.22’de tekrar eder. (3) “Genel sonuç” üç kez yazılmıştır (10.18, 10.21, 10.24). Bu sayfa tekrarları birleştirip her konuyu bir kez anlatıyor.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Yaşam döngüsü">
+  <div class="panel">
+    <div class="kicker">10.2 Veri bilimi yaşam döngüsü ve metodolojiler</div>
+    <h2>Beş süreç modeli, tek ortak fikir: iteratif ve iş hedefli</h2>
+    <p>Genel döngü: veri toplama → ön işleme → keşif → modelleme → değerlendirme → dağıtım. Her aşama iteratiftir; modelleme sonuçları ön işlemeye ya da toplamaya geri döndürebilir.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Metodoloji</th><th>Aşamalar</th><th>Notun vurgusu</th></tr></thead>
+      <tbody>
+        <tr><td><b>CRISP-DM</b></td><td>İş anlayışı · Veri anlayışı · Veri hazırlama · Modelleme · Değerlendirme · Dağıtım</td><td>Esnek, geri dönüşlü; iş ve teknik ekip için ortak dil.</td></tr>
+        <tr><td><b>KDD</b></td><td>Seçim · Temizleme · Dönüşüm · Veri madenciliği · Yorumlama/değerlendirme</td><td>Bilgi keşfi; döngüsel.</td></tr>
+        <tr><td><b>SEMMA</b></td><td>Sample · Explore · Modify · Model · Assess (SAS)</td><td>Veri madenciliğine odaklı; iş anlayışı ve dağıtım kapsam dışı.</td></tr>
+        <tr><td><b>TDSP</b></td><td>Planlama · Veri toplama ve anlama · Modelleme · Dağıtım (Microsoft)</td><td>Ekip, yeniden kullanım, ölçek; Azure ile entegre.</td></tr>
+        <tr><td><b>Agile</b></td><td>Kısa döngüler (sprint), sürekli geri bildirim</td><td>Hızlı prototip; değişen gereksinime uyum.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Yöntem seçimi (ders notundaki örnek)</b>CRISP-DM genel projelerde rehberlik eder, KDD veri madenciliğine, SEMMA teknik ve algoritmik aşamalara, TDSP büyük ekip projelerine, Agile değişken projelere uygundur. Notta metodolojilerin tamamlayıcı olduğu ve hibrit kullanılabileceği vurgulanır.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Metodolojilerin tanımları kaynak gösterilmeden anlatılıyor; “CRISP-DM en yaygın metodolojilerden biridir” ve “TDSP Azure ile entegre” gibi iddiaların kaynağı yok (kaynakla doğrula). Aynı paragrafta ayrıca doğrusal regresyon ve MSE formülü verilir; bu, süreç anlatımına ait olmayan bir sıçramadır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Veri ön işleme">
+  <div class="panel">
+    <div class="kicker">10.3 Veri ön işleme ve özellik mühendisliği · dene</div>
+    <h2>Ham veriyi doğrudan modele verme</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Yöntem</th><th>Dikkat</th></tr></thead>
+      <tbody>
+        <tr><td><b>Eksik veri</b></td><td>Ortalama / medyan ile doldurma; KNN imputasyonu</td><td>Ortalama varyansı küçültür, dağılımı bozar; KNN daha maliyetli ama yapıyı korur.</td></tr>
+        <tr><td><b>Aykırı değer</b></td><td>z-skor (|z| &gt; 3); IQR (Q1 − 1,5·IQR, Q3 + 1,5·IQR)</td><td>z-skor normal varsayar; IQR simetrik olmayan dağılımda daha dayanıklı.</td></tr>
+        <tr><td><b>Ölçekleme</b></td><td>Min-Max (0–1); standardizasyon (ortalama 0, std 1)</td><td>Notta standardizasyon uç değere daha dayanıklı diye geçer.</td></tr>
+        <tr><td><b>Boyut indirgeme</b></td><td>PCA (doğrusal); t-SNE, UMAP (doğrusal olmayan, görselleştirme)</td><td>PCA toplam varyansın %90–95’ini açıklayan k bileşeni seçer.</td></tr>
+        <tr><td><b>Özellik seçimi</b></td><td>Filtre, sarmalayıcı, gömülü (Lasso, ağaç)</td><td>Filtre hızlı ama etkileşimi kaçırır; sarmalayıcı doğru ama pahalı.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Notun |z| &gt; 3 kuralını küçük örnekte dene. Aykırı değeri büyüt, örnek sayısını değiştir:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Örnek sayısı n’yi ve aykırı değeri kaydır.</li>
+        <li><b>Ne göreceksin:</b> Değerler bir doğru üzerinde noktalar olarak, IQR sınırları açık mavi bant olarak görünür; altta aykırının z-skoru, n için en büyük olası |z| ve iki kuralın sonucu (yakalar / kaçırır) yazılır.</li>
+        <li><b>Ne anlamalısın:</b> n küçükken (n = 10 için üst sınır ≈ 2,85) aykırı ne kadar uç olursa olsun |z| > 3 kuralı onu yakalayamaz; IQR kuralı yakalar. Aykırı değer ortalamayı ve std’yi şişirdiği için z-skoru kendini gizler.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>z-skor</dt><dd>(x − ortalama) / örnek std; notta |z| > 3 aykırı sayılır.</dd><dt>IQR</dt><dd>Üçüncü çeyrek − birinci çeyrek; sınırlar Q1 − 1,5·IQR ve Q3 + 1,5·IQR.</dd><dt>En büyük |z|</dt><dd>n örnekte, örnek std ile bir değerin alabileceği en büyük z: (n − 1)/√n.</dd></dl></details>
+      <p class="lab-src">Değerler bu site için üretildi (ortalaması 50, std’si 2 civarı sanal veri, sabit tohum). z-skor ve IQR kuralları notundaki Bölüm 10.3’ten; (n−1)/√n sınırı standart istatistik bilgisidir, notta yoktur.</p>
+    </div>
+    <div class="lab" id="outlierlab"></div>
+    <div class="callout real"><b>Gerçek hayat: Veri giriş hatası (ders notundaki örnek)</b>Aykırı değer bir ölçüm hatası, veri giriş hatası ya da gerçekten sıra dışı bir olay olabilir; model doğrudan silmeden önce hangisi olduğuna bakılır.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta “standardizasyon, normalizasyona göre uç değerlere karşı daha dayanıklıdır” denir. Standardizasyon ortalama ve std’yi kullandığı için uç değerden etkilenir; dayanıklı seçenek medyan ve IQR ile ölçeklemedir (kaynakla doğrula). Lab’daki “küçük örneklemde z-skorunun üst sınırı (n−1)/√n” standart istatistik bilgisidir, notta yoktur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Regresyon ve düzenlileştirme">
+  <div class="panel">
+    <div class="kicker">10.4.1 Regresyon analizi · dene</div>
+    <h2>Düzenlileştirme: katsayıları cezalandır</h2>
+    <p>Doğrusal regresyon y = β₀ + β₁x₁ + … + ε; en küçük kareler MSE’yi azaltır. Çok değişkende aşırı uyum ve çoklu doğrusal bağıntı sorun olur; çare düzenlileştirmedir. Notta amaç fonksiyonları:</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Ceza</th><th>Etki (notta)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ridge (L2)</b></td><td>λ Σ βⱼ²</td><td>Katsayıları küçültür; korelasyonlu değişkenleri dengeler.</td></tr>
+        <tr><td><b>Lasso (L1)</b></td><td>λ Σ |βⱼ|</td><td>Bazı katsayıları tam sıfıra indirir (değişken seçimi).</td></tr>
+        <tr><td><b>ElasticNet</b></td><td>λ (α Σ|βⱼ| + (1 − α) Σβⱼ²)</td><td>α = 1 Lasso, α = 0 Ridge; seçim ve grup etkisi.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Ceza şiddeti λ’yı ve ElasticNet’in α’sını kaydır.</li>
+        <li><b>Ne göreceksin:</b> Beş katsayı için cezasız (OLS), Ridge, Lasso ve ElasticNet değerleri sütunlarla ve sayılarla görünür; kaç katsayının sıfırlandığı yazılır.</li>
+        <li><b>Ne anlamalısın:</b> Ridge tüm katsayıları aynı oranda küçültür ama sıfırlamaz; Lasso küçük katsayıları tam sıfıra indirir; ElasticNet α ile ikisi arasında gidip gelir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>λ</dt><dd>Cezanın şiddeti; büyüdükçe katsayılar küçülür.</dd><dt>α</dt><dd>ElasticNet’te L1 (Lasso) ağırlığı; 1 = Lasso, 0 = Ridge.</dd><dt>Ortonormal tasarım</dt><dd>Değişkenlerin birbirine dik olduğu özel durum; formüller bu durumda kapalı biçimde yazılır.</dd></dl></details>
+      <p class="lab-src">Katsayılar (3; 1,5; 0,6; 0,2; −0,1) bu site için seçildi. Ridge, Lasso ve ElasticNet amaç fonksiyonları notundaki Bölüm 10.4.1’den; ortonormal durumdaki kapalı çözümler (β/(1+λ), yumuşak eşikleme) standart bilgidir, notta yoktur.</p>
+    </div>
+    <div class="lab" id="reglab"></div>
+    <p>Polinomsal regresyon doğrusal olmayan ilişkiyi modele katar ama derece arttıkça aşırı uyum riski büyür. λ ve α çapraz doğrulama ile seçilir. R² = 1 − SS_res/SS_tot, modelin varyansın ne kadarını açıkladığını gösterir.</p>
+    <div class="callout real"><b>Gerçek hayat: Konut fiyatı (ders notundaki örnek)</b>Regresyon konut fiyatı tahmininde, hastalık risk faktörlerinin belirlenmesinde ve üretim süreçlerinin iyileştirilmesinde kullanılır.</div>
+    <div class="callout idea"><b>Not hakkında iki düzeltme</b>(1) Notta R²’nin “0 ile 1 arasında değiştiği” yazılır. Eğitim verisinde kesişimli OLS için doğru, ama yeni (test) verisinde R² negatif olabilir (model ortalamadan kötü tahmin ederse). (2) 10.4 başlığı “Denetimli Öğrenme Sınıflandırma Algoritmaları” diye geçer ama içeriği regresyon ve kümelemedir (kümeleme denetimsizdir); lojistik regresyon, SVM ya da k-en yakın komşu gibi sınıflandırma algoritmaları yoktur (SVM yalnızca 10.20.2’de kısaca anılır). Lab’daki formüller (β/(1+λ) ve eşik λ/2) değişkenler birbirine dik olduğunda geçerli, bu sitenin basitleştirmesidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kümeleme">
+  <div class="panel">
+    <div class="kicker">10.4.2 Denetimsiz öğrenme: kümeleme algoritmaları</div>
+    <h2>Beş yöntem, beş farklı “küme” tanımı</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Nasıl çalışır?</th><th>Sınır</th></tr></thead>
+      <tbody>
+        <tr><td><b>K-Means</b></td><td>K merkez; atama ve ortalamayla güncelleme; inertia = Σ‖xᵢ − μₖ‖²</td><td>K önceden bilinmeli; küresel, eşit boyutlu küme varsayar.</td></tr>
+        <tr><td><b>K seçimi</b></td><td>Elbow (dirsek); Silhouette s(i) = (b − a) / max(a, b), −1..1</td><td>Dirsek belirsiz olabilir; en yüksek ortalama Silhouette seçilir.</td></tr>
+        <tr><td><b>Hiyerarşik</b></td><td>Dendrogram; single, complete, average linkage</td><td>Single zincirleme eğilimli; complete kompakt.</td></tr>
+        <tr><td><b>DBSCAN</b></td><td>ε ve MinPts; çekirdek, sınır, gürültü noktası</td><td>Parametreler deneysel seçilir; küme sayısı gerekmez.</td></tr>
+        <tr><td><b>GMM</b></td><td>Gauss karışımı; EM algoritması (E: sorumluluk, M: π, μ, Σ güncelle)</td><td>Yumuşak atama; eliptik ve örtüşen kümelerde iyi.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Müşteri segmentasyonu (ders notundaki örnek)</b>Kümeleme verideki doğal grupları bulur: segmentasyon, anomali tespiti ve veri ön işleme gibi birçok uygulamada kullanılır.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Kümeleme bu derste daha önce de anlatıldı (Bölüm 8.2.2 ve Makine Öğrenmesi dersi Bölüm 8–11); burada yeniden bir lab eklenmedi. Notta Elbow yöntemi “dirseğin kümelerin en anlamlı olduğu K’yı işaret ettiği” diye geçer; bu bir sezgisel kuraldır, kümelerin “anlamlı” olduğunu garanti etmez.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Derin öğrenme, NLP, zaman serisi">
+  <div class="panel">
+    <div class="kicker">10.5 Derin öğrenme · 10.6 Doğal dil işleme · 10.7 Zaman serisi</div>
+    <h2>Sıralı, yapısal ve metin verisinin araçları</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Alan</th><th>Anahtar kavramlar (notta)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Sinir ağı temeli</b></td><td>Perceptron y = f(Σwᵢxᵢ + b); ReLU, sigmoid, tanh, Leaky ReLU; geri yayılım ve gradyan inişi; çapraz entropi ve MSE kaybı; dropout, batch normalization.</td></tr>
+        <tr><td><b>Mimariler</b></td><td>CNN (konvolüsyon, havuzlama), RNN → LSTM (üç kapı), GRU; Transformer: Attention(Q,K,V) = softmax(QKᵀ/√d_k)V.</td></tr>
+        <tr><td><b>Optimizasyon</b></td><td>SGD, mini-batch, momentum, RMSProp, Adam (moment + adaptif öğrenme hızı); öğrenme hızı çizelgeleme.</td></tr>
+        <tr><td><b>NLP</b></td><td>Tokenization, stemming/lemmatization; TF-IDF; Word2Vec (CBOW, Skip-gram), kosinüs benzerliği; BERT (çift yönlü, maskelenmiş dil modelleme) ve GPT (otoregresif); NER, duygu analizi.</td></tr>
+        <tr><td><b>Zaman serisi</b></td><td>Durağanlık (ADF, KPSS); AR, MA, ARIMA(p,d,q), SARIMA; ACF/PACF; üssel düzeltme (Holt-Winters); LSTM/GRU; Prophet (trend + mevsim + tatil).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Metin ön işleme (ders notundaki örnek)</b>“koşuyor”, “koşmak”, “koştu” stemming ile “koş” köküne indirgenebilir; lemmatization ise dilbilgisel yapıyı gözeterek sözlük biçimini bulur.</div>
+    <div class="callout real"><b>Gerçek hayat: Duygu analizi (ders notundaki örnek)</b>Sosyal medya paylaşımları ve müşteri yorumlarından duygu çıkarımı pazarlama ve kamuoyu analizinde kullanılır; sözlük tabanlı ve makine öğrenmesi tabanlı iki yaklaşım vardır.</div>
+    <div class="callout real"><b>Gerçek hayat: Satış tahmini (ders notundaki örnek)</b>Prophet pazarlama, satış tahmini ve web trafiği analizinde, tatil gibi etkileri otomatik modelleyerek hızlı tahmin üretir.</div>
+    <div class="callout idea"><b>Notta dikkat edilecek yerler</b>(1) Batch normalization’ın “içsel covariate shift’i azalttığı” iddiası tartışmalıdır; sonraki çalışmalar etkisini başka mekanizmalarla açıklar (kaynakla doğrula). (2) LSTM için “kapasitör benzeri yapılar” ifadesi yanıltıcı bir benzetmedir. (3) Prophet “parametrik olmayan esnek yaklaşım” diye anılır; aslında ayrıştırılabilir toplamsal bir regresyon modelidir (kaynakla doğrula); “Facebook tarafından” ifadesi de bugün Meta olarak geçer. (4) Aynı bölümde Adam ve LSTM denklemleri üç kez yazılır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Model değerlendirme">
+  <div class="panel">
+    <div class="kicker">10.8 Model değerlendirme ve validasyon</div>
+    <h2>Doğru metrik, doğru doğrulama</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Notta</th></tr></thead>
+      <tbody>
+        <tr><td><b>Sınıflandırma</b></td><td>Karışıklık matrisi (TP, TN, FP, FN); doğruluk, kesinlik, duyarlılık, F1; ROC, TPR = TP/(TP+FN), FPR = FP/(FP+TN); AUC.</td></tr>
+        <tr><td><b>Regresyon</b></td><td>MAE, MSE, RMSE (büyük hataya duyarlı), R².</td></tr>
+        <tr><td><b>Doğrulama</b></td><td>k-fold; stratified k-fold (sınıf dengesizliğinde); leave-one-out (küçük veri, pahalı).</td></tr>
+        <tr><td><b>Hiperparametre</b></td><td>Grid search (pahalı), random search, Bayesian optimizasyon (önceki denemelerden öğrenir).</td></tr>
+        <tr><td><b>Denge</b></td><td>Overfitting (eğitimde iyi, yeni veride kötü) / underfitting (ikisinde kötü); bias-variance.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Dengesiz sınıf (ders notundaki örnek)</b>Doğruluk dengesiz veri kümelerinde yanıltıcı olabilir, çünkü nadir sınıf göz ardı edilebilir; bu yüzden kesinlik, duyarlılık ve F1 de bakılır. (Bölüm 9’daki metrik lab’ı bunu sayıyla gösterir.)</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta AUC’nin “0,5’ten 1’e kadar değiştiği” yazılır; teoride AUC 0 ile 1 arasında olabilir, 0,5’in altı “şanstan kötü” demektir (skor ters çevrilebilir). Bu bölümde ayrıca bias-variance dengesi yine tanımlanır; ayrıntı için Bölüm 8.1.2’ye bak.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Ensemble ve istatistik">
+  <div class="panel">
+    <div class="kicker">10.9 Ensemble öğrenme · 10.10 İstatistiksel yöntemler</div>
+    <h2>Modelleri birleştir, bulguyu sına</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Fikir</th></tr></thead>
+      <tbody>
+        <tr><td><b>Bagging / Random Forest</b></td><td>Bootstrap örnekleriyle bağımsız modeller; oy çokluğu ya da ortalama; varyansı düşürür. RF her bölünmede rastgele özellik alt kümesi seçer.</td></tr>
+        <tr><td><b>AdaBoost</b></td><td>Ardışık; hatalı örneklerin ağırlığı artar. Model ağırlığı αₜ = ½ ln((1 − εₜ)/εₜ).</td></tr>
+        <tr><td><b>Gradient Boosting, XGBoost</b></td><td>Artıkları (residual) ağaçlarla azaltır; XGBoost ikinci türevi (Hessian) ve ceza terimi Ω(f) = γT + ½λΣwⱼ² kullanır.</td></tr>
+        <tr><td><b>LightGBM, CatBoost</b></td><td>Histogram tabanlı hız, GOSS, EFB / kategorik veride ordered boosting ve hedefle kodlama.</td></tr>
+        <tr><td><b>Stacking, Blending</b></td><td>Temel model çıktılarını meta model birleştirir; blending doğrulama kümesi kullanır.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Test / ölçü</th><th>Ne için?</th></tr></thead>
+      <tbody>
+        <tr><td><b>t-testi</b></td><td>Ortalamayı bilinen değerle karşılaştırma: t = (x̄ − μ)/(s/√n).</td></tr>
+        <tr><td><b>ANOVA</b></td><td>Çok grubun ortalaması: F = MS_between / MS_within.</td></tr>
+        <tr><td><b>Ki-kare</b></td><td>Kategorik bağımsızlık ve uygunluk: χ² = Σ(O − E)²/E.</td></tr>
+        <tr><td><b>Pearson r</b></td><td>İki sürekli değişkenin doğrusal ilişkisi, −1..+1.</td></tr>
+        <tr><td><b>Bayes teoremi</b></td><td>P(A|B) = P(B|A)P(A)/P(B): bilgi geldikçe olasılığı güncelleme.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Merkezi limit teoremi (ders notundaki örnek)</b>Büyük örneklemde örneklem ortalamalarının dağılımı normale yaklaşır; bu yüzden normal dağılım pek çok testin temeli olur.</div>
+    <div class="callout idea"><b>Notta üç yanlış ya da eksik ifade</b>(1) “p ≥ α ise H₀ kabul edilir” yanlıştır: H₀ <b>reddedilemez</b> (kanıt yetersiz), kabul edilmiş olmaz. (2) p-değeri ilk paragrafta “gözlenen verinin H₀ doğruyken elde edilme olasılığı” diye tanımlanır; doğrusu “bu ya da daha uç bir sonucun” olasılığıdır (sonraki paragraf bunu doğru yazar). (3) XGBoost için “yaprak bazlı büyüme stratejisi” denir; varsayılan davranış derinlik bazlıdır, yaprak bazlı büyüme LightGBM’in tipik özelliğidir (XGBoost’ta seçenek olarak vardır; kaynakla doğrula).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Görü, öneri, anomali">
+  <div class="panel">
+    <div class="kicker">10.11 Bilgisayarlı görü · 10.12 Öneri sistemleri · 10.13 Anomali tespiti</div>
+    <h2>Üç uygulama alanı, üç ana fikir</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Alan</th><th>Notta öne çıkan</th></tr></thead>
+      <tbody>
+        <tr><td><b>Görü mimarileri</b></td><td>LeNet (1990’lar) → AlexNet (2012, ImageNet) → VGG (3×3 filtre) → ResNet (atlama) → Inception (çok ölçekli filtre).</td></tr>
+        <tr><td><b>Nesne tespiti</b></td><td>R-CNN → Fast → Faster (RPN); YOLO ve SSD tek aşamalı; IoU = kesişim/birleşim, eşik genelde 0,5.</td></tr>
+        <tr><td><b>Segmentasyon, üretim</b></td><td>U-Net (encoder-decoder, atlama bağlantısı); Mask R-CNN; GAN (üretici ve ayırt edici); transfer öğrenme.</td></tr>
+        <tr><td><b>Öneri</b></td><td>İş birliğine dayalı (kullanıcı/öğe tabanlı; kosinüs, Pearson); matris çarpanlarına ayırma R ≈ PQᵀ (ALS), SVD; içerik tabanlı (TF-IDF); hibrit; soğuk başlangıç; NCF; Precision@K, NDCG, MAP.</td></tr>
+        <tr><td><b>Anomali</b></td><td>z-skor, IQR, Isolation Forest (kısa yol = yüksek skor), LOF (≈1 normal), One-Class SVM, DBSCAN, Autoencoder (yüksek yeniden yapılandırma hatası), Mahalanobis, Grubbs, Dixon Q.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Yeni kullanıcı (ders notundaki örnek)</b>Soğuk başlangıç: yeni kullanıcının puan geçmişi yoktur, iş birliğine dayalı filtre öneri üretemez; içerik tabanlı ya da hibrit yaklaşım bunu aşar.</div>
+    <div class="callout real"><b>Gerçek hayat: Medikal segmentasyon (ders notundaki örnek)</b>U-Net özellikle tıbbi görüntü segmentasyonu için geliştirilmiştir; atlama bağlantıları ince ayrıntıyı korur.</div>
+    <div class="callout real"><b>Gerçek hayat: Sahtekârlık (ders notundaki örnek)</b>Anomali tespiti finansal dolandırıcılık, siber güvenlik, arıza ve nadir olayları yakalamada kullanılır.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta “Isolation Forest büyük veri setlerinde yüksek performans gösterir” ve “One-Class SVM denetimsizdir” denir; ikincisi sınıflandırmaya bağlıdır (yalnızca normal örnekle eğitildiği için bazı kaynaklar “yarı denetimli/novelty detection” der; kaynakla doğrula). Anomali bölümünde z-skor ve IQR 10.3’tekinin tekrarıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="XAI ve pekiştirmeli öğrenme">
+  <div class="panel">
+    <div class="kicker">10.14 XAI ve yorumlanabilirlik · 10.15 Takviye öğrenmesi</div>
+    <h2>Neden bu karar? Hangi eylem en iyi?</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yöntem</th><th>Ne verir?</th></tr></thead>
+      <tbody>
+        <tr><td><b>LIME</b></td><td>Örnek çevresinde yapay örnekler; basit doğrusal modelle yerel açıklama.</td></tr>
+        <tr><td><b>SHAP</b></td><td>Shapley değerleri: f(x) = φ₀ + Σφᵢ; yerel ve global; Kernel/Tree SHAP hızlandırır.</td></tr>
+        <tr><td><b>Özellik önemi, PDP, ICE</b></td><td>Global önem; ortalama etki; tek örnek için etki eğrisi.</td></tr>
+        <tr><td><b>Permütasyon önemi</b></td><td>Özelliği karıştır, hata artışı = önem.</td></tr>
+        <tr><td><b>Grad-CAM, saliency, LRP</b></td><td>Görüntüde karar bölgesi (ısı haritası, gradyan, katman bazlı önem).</td></tr>
+        <tr><td><b>Karşıfaktöri</b></td><td>Kararı değiştirecek en küçük girdi değişikliği.</td></tr>
+        <tr><td><b>RL temeli</b></td><td>MDP (S, A, R, P); V(s), Q(s,a); Bellman denklemi; γ indirgeme.</td></tr>
+        <tr><td><b>RL algoritmaları</b></td><td>Q-öğrenme (off-policy), SARSA (on-policy), DQN (deneyim tekrarı + hedef ağ), politika gradyanı, aktör-eleştirmen, PPO (kırpma), A3C.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Reddedilen kredi (ders notundaki örnek)</b>Karşıfaktöri açıklama, reddedilen başvurunun kabul edilmesi için hangi özelliklerin nasıl değişmesi gerektiğini söyler: kullanıcıya eyleme geçirilebilir geri bildirim.</div>
+    <div class="callout real"><b>Gerçek hayat: Model hata ayıklama (ders notundaki örnek)</b>Farklı demografik gruplardaki performans farkı incelenerek önyargı ve düşük performanslı alt gruplar bulunur.</div>
+    <div class="callout idea"><b>Notta çelişki var: Grad-CAM</b>10.14’te Grad-CAM, sınıf skorunun <b>son konvolüsyon katmanındaki</b> aktivasyonlara göre gradyanını kullanır (doğrusu bu). 10.19’da aynı yöntem sınıf skorunun <b>giriş katmanındaki</b> aktivasyonlara göre türevi diye anlatılır; bu yanlıştır ve 10.14 ile çelişir. Ayrıca γ aralığı 10.15’te [0,1], 10.19’da 0 ≤ γ &lt; 1, 10.20.2’de [0,1) yazılır. SHAP için “model-agnostik” denir; Kernel SHAP öyledir, Tree SHAP ağaçlara özgüdür (kaynakla doğrula).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük veri ve etik">
+  <div class="panel">
+    <div class="kicker">10.16 Büyük veri ve dağıtık işleme · 10.17 Etik, gizlilik, gelecek trendler</div>
+    <h2>Ölçek büyür, sorumluluk büyür</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Notta</th></tr></thead>
+      <tbody>
+        <tr><td><b>Dağıtık işleme</b></td><td>HDFS (bloklar, hata toleransı), MapReduce, Spark (RDD, DataFrame, MLlib), master–worker, partitioning/sharding, MongoDB, Cassandra, HBase, Kafka, Flink.</td></tr>
+        <tr><td><b>Depolama</b></td><td>Veri gölü (ham, her türlü veri) ve ambarı (temiz, yapılandırılmış); ETL; yatay ve dikey ölçekleme; CAP.</td></tr>
+        <tr><td><b>Gizlilik teknikleri</b></td><td>ε-diferansiyel gizlilik (küçük ε = daha çok gizlilik), federated learning, homomorfik şifreleme.</td></tr>
+        <tr><td><b>Hukuk</b></td><td>GDPR (AB) ve KVKK (Türkiye): bilgilendirilmiş onam, veri sahibi hakları.</td></tr>
+        <tr><td><b>Adil ve sorumlu</b></td><td>Algoritmik önyargı; adalet, açıklanabilirlik, hesap verebilirlik.</td></tr>
+        <tr><td><b>Trendler</b></td><td>AutoML, NAS, kuantum ML, few/zero-shot, self-supervised, Green AI, Edge AI ve IoT.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Telefonda öğrenme (ders notundaki örnek)</b>Federated learning’de kullanıcı verisi cihazda kalır, yalnızca model güncellemeleri paylaşılır; sağlık ve finansta yaygınlaşıyor diye anılır.</div>
+    <div class="callout real"><b>Gerçek hayat: Diferansiyel gizlilik (ders notundaki örnek)</b>Notta Google ve Apple’ın kullanıcı verisinin gizliliği için diferansiyel gizlilik kullandığı söylenir.</div>
+    <div class="callout idea"><b>Notta fazla kesin iki cümle</b>(1) GDPR ve KVKK’nın “mahremiyetin korunmasını garanti altına aldığı” yazılır; yasalar yükümlülük koyar, garanti vermez. (2) “Etik ve gizlilik yaklaşımları toplumsal kabulü ve yasal uyumu garanti eder” (10.19) ve “diferansiyel gizlilik doğruluğu korurken gizliliği garanti eder” de abartıdır: diferansiyel gizlilikte ε arttıkça gizlilik azalır, ε azaldıkça gürültü artıp doğruluk düşer (bir takas vardır). Google/Apple kullanımı notta kaynaksızdır (kaynakla doğrula). Homomorfik şifrelemenin “giderek daha fazla tercih edildiği” de kaynaksız bir ifadedir; yöntem hesap açısından pahalıdır.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="İleri konular ve adalet">
+  <div class="panel">
+    <div class="kicker">10.19–10.23 İleri düzey teknikler · dene</div>
+    <h2>Transfer, üretim, neden-sonuç ve adalet</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Fikir (notta)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Transfer, meta-öğrenme</b></td><td>Önceden eğitilmiş modeli uyarla (fine-tuning, domain adaptation); az örnekle yeni görev (MAML tipi iç ve dış döngü).</td></tr>
+        <tr><td><b>Üretici modeller</b></td><td>VAE, GAN (min-max oyunu), difüzyon (gürültü ekle, tersine kaldır); GNN (GCN, GraphSAGE).</td></tr>
+        <tr><td><b>Olasılıksal grafik modeller</b></td><td>Bayes ağı (DAG, P = ΠP(Xᵢ|ebeveyn)); Markov rastgele alanı (klik potansiyelleri).</td></tr>
+        <tr><td><b>Nedensel çıkarım</b></td><td>do-operatörü P(Y|do(X=x)); karşıfaktüel analiz; nedensel keşif (PC, FCI).</td></tr>
+        <tr><td><b>Etiket tasarrufu</b></td><td>Etkin öğrenme (belirsizlik örneklemesi: 1 − maxP(y|x)); yarı denetimli (etiket yayılımı, pseudo-labeling).</td></tr>
+        <tr><td><b>Çok görev, sürekli</b></td><td>Çoklu görev (ağırlıklı kayıp toplamı); sürekli öğrenme (felaket unutma, EWC).</td></tr>
+        <tr><td><b>Küçültme</b></td><td>NAS (DARTS, ENAS); bilgi damıtma (sıcaklık T, yumuşak etiket).</td></tr>
+        <tr><td><b>Güvenli ve sorumlu</b></td><td>Adversarial dayanıklılık (adversarial eğitim); adalet (demografik parite, eşitlenmiş olasılık, bireysel adalet); gizlilik (ε-δ DP, güvenli toplama); yorumlanabilir ML (kural çıkarımı, prototip).</td></tr>
+        <tr><td><b>Dağıtım</b></td><td>MLOps: model sunumu, izleme, otomasyon.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Notun adalet tanımları: <b>demografik parite</b> P(ŷ=1|A=a) = P(ŷ=1|A=b); <b>eşitlenmiş olasılık</b> P(ŷ=1|Y=y,A=a) = P(ŷ=1|Y=y,A=b). Bu ikisinin birlikte sağlanıp sağlanamadığını dene:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> B grubunun gerçek pozitif oranını, karar eşiğini ve B’nin puanlarındaki kaymayı (δ) değiştir.</li>
+        <li><b>Ne göreceksin:</b> İki grup için gerçek pozitif oranı, olumlu karar oranı, TPR ve FPR bir tabloda; demografik parite farkı ve eşitlenmiş olasılık farkı iki kutuda görünür.</li>
+        <li><b>Ne anlamalısın:</b> Puanlar iki grupta aynı dağılıyorsa TPR ve FPR eşittir (eşitlenmiş olasılık sağlanır), ama gerçek pozitif oranları farklıysa olumlu karar oranları farklı kalır (demografik parite bozulur). δ > 0 olunca eşitlenmiş olasılık da bozulur.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Demografik parite</dt><dd>Olumlu karar oranı gruplar arasında eşit.</dd><dt>Eşitlenmiş olasılık</dt><dd>Gerçek sınıf verildiğinde olumlu karar oranı (TPR ve FPR) gruplar arasında eşit.</dd><dt>TPR / FPR</dt><dd>Gerçek pozitifi yakalama / gerçek negatife yanlış olumlu verme oranı.</dd><dt>δ</dt><dd>B grubunun tüm puanlarının aşağı kayma miktarı.</dd></dl></details>
+      <p class="lab-src">Gruplar, oranlar ve puan dağılımları (pozitif N(+1,1), negatif N(−1,1)) bu sitenin varsayımıdır. İki ölçütün tanımı notundaki Bölüm 10.23’ten; “ikisi birlikte sağlanamayabilir” sonucu notta yazmaz, bu lab’ın gösterdiğidir.</p>
+    </div>
+    <div class="lab" id="fairlab"></div>
+    <div class="callout real"><b>Gerçek hayat: Otonom araç ve biyometri (ders notundaki örnek)</b>Adversarial robustness özellikle güvenlik kritik uygulamalarda (otonom araçlar, biyometrik tanıma) önemlidir; savunma olarak adversarial eğitim en yaygındır.</div>
+    <div class="callout real"><b>Gerçek hayat: Bilgi damıtma (ders notundaki örnek)</b>Büyük öğretmen modelin yumuşatılmış çıktıları küçük öğrenci modeli eğitmek için kullanılır; kaynak kısıtlı uygulamalarda performans ve verimlilik dengesi sağlar.</div>
+    <div class="callout idea"><b>Notta açık bir kalite sorunu</b>10.23’teki hemen her paragrafın sonu “… bu yöntemler ∂ ve ∇ operatörleri ile … sağlar” ya da “∑, ∫ ve ∂ operatörleri ile optimize edilir” gibi içerik taşımayan kalıp cümlelerle biter (etkin öğrenme, yarı denetimli, çoklu görev, sürekli, NAS, damıtma, dayanıklılık, adalet, gizlilik, yorumlanabilirlik). Bu cümleler yöntemlerin matematiğini açıklamaz; sayfaya alınmadı. Ayrıca lab’daki puan dağılımları (N(+1,1), N(−1,1)) ve iki grubun gerçek oranları bu sitenin varsayımıdır; “iki ölçüt çatışır” sonucu notta söylenmez.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 10 (ve tüm Veri Bilimi dersi)</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>Süreç</td><td>CRISP-DM, KDD, SEMMA, TDSP, Agile: iteratif, iş hedefli; birbirini tamamlar</td></tr>
+        <tr><td>Ön işleme</td><td>Eksik veri, aykırı değer (z-skor küçük n’de yetmez), ölçekleme, PCA/t-SNE/UMAP, özellik seçimi</td></tr>
+        <tr><td>Regresyon</td><td>Ridge küçültür, Lasso sıfırlar, ElasticNet ikisi; λ ve α çapraz doğrulamayla</td></tr>
+        <tr><td>Kümeleme</td><td>K-Means, hiyerarşik, DBSCAN, GMM; Elbow ve Silhouette</td></tr>
+        <tr><td>Değerlendirme</td><td>Dengesizde doğruluk yanıltır; k-fold; AUC; grid/random/Bayesian arama</td></tr>
+        <tr><td>Ensemble</td><td>Bagging (varyans↓), boosting (ardışık), stacking (meta model)</td></tr>
+        <tr><td>İstatistik</td><td>p-değeri “bu ya da daha uç”; H₀ reddedilir ya da reddedilemez</td></tr>
+        <tr><td>XAI ve RL</td><td>LIME/SHAP, Grad-CAM, karşıfaktöri; MDP, Q-öğrenme, PPO</td></tr>
+        <tr><td>Etik ve gizlilik</td><td>GDPR/KVKK, ε-DP, federated learning; adalet ölçütleri çatışabilir</td></tr>
+        <tr><td>Genel ilke</td><td>Yöntemi veri, bağlam ve sorumlulukla birlikte seç; teknik başarı tek ölçüt değildir</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout idea"><b>Dersin geneli için</b>Bölüm 10’un bu özeti, Veri Bilimi dersinin önceki dokuz bölümüyle (bilimsel temeller, etik, EDA, istatistik, mimari, büyük veri, ML/AI, gelecek) çakışır; tekrar eden konular için ilgili bölümlere bak.</div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_VB_10"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/vb-bolum-10-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/vb10.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>

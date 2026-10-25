@@ -8,14 +8,14 @@ Saf HTML, CSS ve JavaScript. Siteyi çalıştırmak için derleme ya da sunucu g
 
 ## Dersler
 
-Makine Öğrenmesi ve Görüntü İşleme (14 bölüm) ile Yapay Zekâ Temelleri (10 bölüm) dersleri baştan sona hazır. Veri Bilimi ve Araştırma Yöntemleri derslerinin ilk 6 bölümü hazır; Veri Bilimi 7–10 "Yakında" olarak listelenir.
+Beş dersin tamamı baştan sona hazır: Makine Öğrenmesi ve Görüntü İşleme (14 bölüm), Yapay Zekâ Temelleri ve Veri Bilimi (10 bölüm), Araştırma Yöntemleri (6 bölüm).
 
 | Ders | Hazır bölümler |
 |---|---|
 | Yapay Zekâ Temelleri | 1 Yapay Zekâ Tanımı ve Tarihsel Gelişimi · 2 Problem Çözme · 3 Arama Algoritmaları · 4 Bilgi Gösterimi · 5 Mantık · 6 Akıl Yürütme · 7 Karar Verme · 8 Karar Ağaçları · 9 Yapay Zekâ Etiği ve Toplumsal Etkileri · 10 Yapay Zekânın Geleceği |
 | Makine Öğrenmesi | 1 Giriş · 2 Kavram Öğrenme · 3 Karar Ağacı Öğrenme · 4 Doğrusal Modeller ve Regresyon · 5 Destek Vektör Makineleri ve Sinir Ağları · 6 Bayes Öğrenmesi · 7 Naive Bayes, Bayes Ağları ve Model Değerlendirme · 8 Kümeleme · 9 Bölümlemeli Kümeleme · 10 Hiyerarşik Kümeleme · 11 Yoğunluk ve Izgara Tabanlı Kümeleme, Değerlendirme · 12 Hesaplamalı Öğrenme Teorisi · 13 Model Toplulukları · 14 Takviyeli Öğrenme |
 | Görüntü İşleme | 1 Görüntü İşlemeye Giriş · 2 Histogramlar · 3 Noktasal İşlemler · 4 Piksel İlişkileri · 5 Görüntü İyileştirme · 6 Frekans Alanına Giriş · 7 Filtreleme · 8 Frekans Uzayında Filtreleme · 9 Görüntü Onarımı ve Geri Çatma · 10 Morfolojik Görüntü İşleme · 11 Renkli Görüntü İşleme · 12 Görüntü Bölütleme · 13 Nesne Tanıma · 14 Geleceğin Görüntü İşleme Paradigmaları |
-| Veri Bilimi | 1 Veri Biliminin Bilimsel Temelleri · 2 Felsefi ve Epistemolojik Temeller · 3 Veri Toplama Süreçleri ve Etik Boyut · 4 Keşifçi Veri Analizi ve Görselleştirme · 5 İstatistiksel Analiz ve Çıkarım Temelleri · 6 Veri Mimarisi ve Yönetimi |
+| Veri Bilimi | 1 Veri Biliminin Bilimsel Temelleri · 2 Felsefi ve Epistemolojik Temeller · 3 Veri Toplama Süreçleri ve Etik Boyut · 4 Keşifçi Veri Analizi ve Görselleştirme · 5 İstatistiksel Analiz ve Çıkarım Temelleri · 6 Veri Mimarisi ve Yönetimi · 7 Büyük Veri Ortamları ve Ölçeklenebilirlik · 8 Makine Öğrenmesi ve Yapay Zekâ · 9 Veri Biliminin Geleceği ve Paradigmalar · 10 Veri Bilimi Metodolojileri ve Teknik Uygulamalar |
 | Araştırma Yöntemleri | 1 Giriş · 2 Araştırma Problemini Tanımlama · 3 Nicel Araştırmalar · 4 Nitel Araştırmalar · 5 Örnekleme Yöntemleri · 6 Verilerin Toplanması |
 
 ## Özellikler

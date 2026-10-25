@@ -453,6 +453,26 @@ add('multilab', 'veri-bilimi/bolum-9.html',
     [('α', 'Bir testte “anlamlı” sonuç çıkmasına izin verilen yanlış alarm olasılığı.'), ('Sahte keşif', 'Gerçekte etkisi olmadığı hâlde “anlamlı” çıkan gen.'), ('Bonferroni', 'Eşiği α/m’e çekerek m testteki toplam yanlış alarmı sınırlayan düzeltme.'), ('Etkili gen', 'İki grup arasında gerçekten 1σ ortalama farkı olan gen.')],
     'Veri bu site için üretildi: her gen için 20’şer kişilik iki grup, sabit tohum, normal yaklaşımlı p-değeri. Teorisiz çok sayıda korelasyon aramanın riski notundaki Bölüm 9.3.2’den; çoklu test düzeltmesi notta yoktur, bu sitenin eklemesidir.')
 
+# ---------------- Veri Bilimi 10 ----------------
+add('outlierlab', 'veri-bilimi/bolum-10.html',
+    'Örnek sayısı n’yi ve aykırı değeri kaydır.',
+    'Değerler bir doğru üzerinde noktalar olarak, IQR sınırları açık mavi bant olarak görünür; altta aykırının z-skoru, n için en büyük olası |z| ve iki kuralın sonucu (yakalar / kaçırır) yazılır.',
+    'n küçükken (n = 10 için üst sınır ≈ 2,85) aykırı ne kadar uç olursa olsun |z| > 3 kuralı onu yakalayamaz; IQR kuralı yakalar. Aykırı değer ortalamayı ve std’yi şişirdiği için z-skoru kendini gizler.',
+    [('z-skor', '(x − ortalama) / örnek std; notta |z| > 3 aykırı sayılır.'), ('IQR', 'Üçüncü çeyrek − birinci çeyrek; sınırlar Q1 − 1,5·IQR ve Q3 + 1,5·IQR.'), ('En büyük |z|', 'n örnekte, örnek std ile bir değerin alabileceği en büyük z: (n − 1)/√n.')],
+    'Değerler bu site için üretildi (ortalaması 50, std’si 2 civarı sanal veri, sabit tohum). z-skor ve IQR kuralları notundaki Bölüm 10.3’ten; (n−1)/√n sınırı standart istatistik bilgisidir, notta yoktur.')
+add('reglab', 'veri-bilimi/bolum-10.html',
+    'Ceza şiddeti λ’yı ve ElasticNet’in α’sını kaydır.',
+    'Beş katsayı için cezasız (OLS), Ridge, Lasso ve ElasticNet değerleri sütunlarla ve sayılarla görünür; kaç katsayının sıfırlandığı yazılır.',
+    'Ridge tüm katsayıları aynı oranda küçültür ama sıfırlamaz; Lasso küçük katsayıları tam sıfıra indirir; ElasticNet α ile ikisi arasında gidip gelir.',
+    [('λ', 'Cezanın şiddeti; büyüdükçe katsayılar küçülür.'), ('α', 'ElasticNet’te L1 (Lasso) ağırlığı; 1 = Lasso, 0 = Ridge.'), ('Ortonormal tasarım', 'Değişkenlerin birbirine dik olduğu özel durum; formüller bu durumda kapalı biçimde yazılır.')],
+    'Katsayılar (3; 1,5; 0,6; 0,2; −0,1) bu site için seçildi. Ridge, Lasso ve ElasticNet amaç fonksiyonları notundaki Bölüm 10.4.1’den; ortonormal durumdaki kapalı çözümler (β/(1+λ), yumuşak eşikleme) standart bilgidir, notta yoktur.')
+add('fairlab', 'veri-bilimi/bolum-10.html',
+    'B grubunun gerçek pozitif oranını, karar eşiğini ve B’nin puanlarındaki kaymayı (δ) değiştir.',
+    'İki grup için gerçek pozitif oranı, olumlu karar oranı, TPR ve FPR bir tabloda; demografik parite farkı ve eşitlenmiş olasılık farkı iki kutuda görünür.',
+    'Puanlar iki grupta aynı dağılıyorsa TPR ve FPR eşittir (eşitlenmiş olasılık sağlanır), ama gerçek pozitif oranları farklıysa olumlu karar oranları farklı kalır (demografik parite bozulur). δ > 0 olunca eşitlenmiş olasılık da bozulur.',
+    [('Demografik parite', 'Olumlu karar oranı gruplar arasında eşit.'), ('Eşitlenmiş olasılık', 'Gerçek sınıf verildiğinde olumlu karar oranı (TPR ve FPR) gruplar arasında eşit.'), ('TPR / FPR', 'Gerçek pozitifi yakalama / gerçek negatife yanlış olumlu verme oranı.'), ('δ', 'B grubunun tüm puanlarının aşağı kayma miktarı.')],
+    'Gruplar, oranlar ve puan dağılımları (pozitif N(+1,1), negatif N(−1,1)) bu sitenin varsayımıdır. İki ölçütün tanımı notundaki Bölüm 10.23’ten; “ikisi birlikte sağlanamayabilir” sonucu notta yazmaz, bu lab’ın gösterdiğidir.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
