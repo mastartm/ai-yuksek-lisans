@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Makine Öğrenmesi ve Yapay Zekâ — Veri Bilimi</title>
+<meta name="description" content="Veri Bilimi, Bölüm 8: Makine Öğrenmesi ve Yapay Zekâ. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 8 · Makine Öğrenmesi ve Yapay Zekâ</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Veri Bilimi · Bölüm 8</div>
+    <h1>Makine Öğrenmesi ve Yapay Zekâ: Veri Bilimcinin Bakışı</h1>
+    <p class="big-quote">Bir model öğrenir, ama ne öğrendiği ve bunun ne kadar “bilgi” sayılacağı hep sorudur. Bu bölümde makine öğrenmesini insan öğrenmesiyle, hata dengesiyle, kümelemeyle, sinir ağlarıyla ve pekiştirmeli öğrenmeyle birlikte veri biliminin sorularıyla okuyacaksın.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>İnsan ve makine öğrenmesini temsil, bağlam ve motivasyon açısından karşılaştırabilirsin.</li>
+      <li>Bias–variance dengesini sayıyla ve çapraz doğrulamayla açıklayabilirsin.</li>
+      <li>Gözetimli ve gözetimsiz öğrenmenin önkabullerini sayabilirsin.</li>
+      <li>Kümelemede uzaklık, bağlantı, boyutluluk lanetini ve doğrulama ölçütlerini anlatabilirsin.</li>
+      <li>CNN, RNN ve temsil öğrenmesinin işini, pekiştirmeli öğrenmede ödül yapısını ve γ’nın rolünü açıklayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Her algoritma, “neyi bilgi sayacağı” konusunda bir varsayım taşır</h2>
+    <svg class="diagram" viewBox="0 0 760 170" role="img" aria-label="Felsefi temeller, gözetimli ve gözetimsiz öğrenme, sinir ağları, pekiştirmeli öğrenme"><rect class="d-brand" x="10" y="45" width="130" height="70" rx="12"/><text class="d-txt d-c" x="75" y="73">Temeller</text><text class="d-sm d-c" x="75" y="96">insan/makine, bias</text><line class="d-line" x1="140" y1="80" x2="165" y2="80"/><rect class="d-ok" x="165" y="45" width="140" height="70" rx="12"/><text class="d-txt d-c" x="235" y="73">Gözetimli /</text><text class="d-txt d-c" x="235" y="96">gözetimsiz</text><line class="d-line" x1="305" y1="80" x2="330" y2="80"/><rect class="d-warn" x="330" y="45" width="140" height="70" rx="12"/><text class="d-txt d-c" x="400" y="73">Sinir ağları</text><text class="d-sm d-c" x="400" y="96">temsil, CNN, RNN</text><line class="d-line" x1="470" y1="80" x2="495" y2="80"/><rect class="d-box" x="495" y="45" width="130" height="70" rx="12"/><text class="d-txt d-c" x="560" y="73">Pekiştirmeli</text><text class="d-sm d-c" x="560" y="96">ödül, politika</text><line class="d-line" x1="625" y1="80" x2="650" y2="80"/><rect class="d-ok" x="650" y="45" width="100" height="70" rx="12"/><text class="d-txt d-c" x="700" y="85">Eleştirel</text></svg>
+    <p>Notun ortak sorusu: bir model hangi önkabullerle eğitiliyor, hangi hipotez uzayını kapsıyor, çıktıları kimler için hangi koşullarda geçerli? Yüksek performans metrikleri bu soruların cevabı değildir.</p>
+    <div class="callout idea"><b>Bu bölümü okurken</b>Not, her başlıkta “epistemolojik” ve “ontolojik” yorumlar yapar. Bu sayfa o yorumları sade dille anlatıyor: “bilgi” ve “varlık” soruları, “model neyi doğru sayıyor ve neden” sorularına karşılık gelir. Notun makine öğrenmesi ders notları (Makine Öğrenmesi dersi) ile kesişen kısımları burada yeniden anlatılmadı.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="İnsan ve makine öğrenmesi">
+  <div class="panel">
+    <div class="kicker">8.1.1 İnsan öğrenmesi ile karşılaştırma</div>
+    <h2>Aynı sözcük, farklı süreç</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>İnsan</th><th>Makine</th></tr></thead>
+      <tbody>
+        <tr><td><b>Temel</b></td><td>Sinaptik bağlantılar, plastisite, Hebb kuralı</td><td>Sayısal vektörler/tensörler; optimizasyonla ayarlanan girdi-çıktı ilişkisi</td></tr>
+        <tr><td><b>Örnek sayısı</b></td><td>Az örnekten soyutlama, analoji (one/few-shot)</td><td>Çoğu zaman büyük veri; istatistiksel benzerlikle genelleme</td></tr>
+        <tr><td><b>Önkabul</b></td><td>Kültürel ve bireysel deneyim</td><td>Mimari, özellik mühendisliği, temsil seçimi (tasarımcı tercihi)</td></tr>
+        <tr><td><b>Geri besleme</b></td><td>Üstten alta etkiler algıyı değiştirir</td><td>Genellikle hata sinyaliyle ağırlık güncelleme</td></tr>
+        <tr><td><b>Hedef</b></td><td>Merak, ödül beklentisi, sosyal tanınma</td><td>Açıkça tanımlı metrik (hata, doğruluk)</td></tr>
+        <tr><td><b>Önyargı</b></td><td>Bilişsel önyargı (temsil edicilik, onaylama)</td><td>Eğitim verisindeki dengesizlik, örtük korelasyon</td></tr>
+        <tr><td><b>Enerji</b></td><td>Onlarca watt</td><td>Büyük ağ eğitimi megawatt-saat</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Tamamlama (ders notundaki örnek)</b>İnsan, eksik veride bağlamsal ipuçlarıyla eksik parçayı tamamlar. Dil modeli sözdizimsel olasılıkla kelime tahmin eder; bağlam değişince performansı hızla düşebilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Çıktıyı kim yorumlar? (ders notundaki örnek)</b>Hibrit yaklaşımlar (AutoAI, Interactive ML) insan sezgisiyle algoritmik optimizasyonu harmanlar; alan uzmanı doğru özellikleri seçer ve çıktıya anlam verir.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>“İnsan few-shot öğrenmesine algoritmalar henüz erişemedi” cümlesi karşılaştırma için bir genelleme; notta kaynak yok. Few/zero-shot yöntemleri (Yapay Zekâ Temelleri Bölüm 10) bu boşluğu daraltıyor, “erişemedi” kesin bir ölçüt değil.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bias–variance">
+  <div class="panel">
+    <div class="kicker">8.1.2 Bias–variance dengesi · dene</div>
+    <h2>Hata iki yerden gelir: yanlış varsayım ve oynak model</h2>
+    <p><b>Bias</b>: modelin tahminlerinin gerçek değerden sistematik sapması (fonksiyon sınıfının hedefe uzaklığı). <b>Varyans</b>: model farklı eğitim kümeleriyle yeniden eğitilince tahminin ne kadar oynadığı. Beklenen hata: bias² + varyans + σ² (σ² kaçınılmaz gürültü). Karmaşıklık arttıkça bias düşer, varyans yükselir.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Polinom derecesini (1–9) ve L2 ceza λ’yı kaydır.</li>
+        <li><b>Ne göreceksin:</b> Dereceye göre bias², varyans ve toplam hata çizgileri; seçili derece için bias², varyans, σ², beklenen test hatası ve eğitim hatası görünür.</li>
+        <li><b>Ne anlamalısın:</b> Derece arttıkça bias düşer, varyans yükselir; toplam hata bir dereceye kadar düşüp sonra artar. Eğitim hatası hep düşer, bu yüzden aşırı uyumu gizler. λ’yı artırmak yüksek derecelerde varyansı azaltır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Bias²</dt><dd>Ortalama tahminin gerçek fonksiyondan sapmasının karesi (100 eğitim kümesi üzerinden).</dd><dt>Varyans</dt><dd>Farklı eğitim kümelerinde tahminlerin ortalama etrafındaki oynaması.</dd><dt>σ²</dt><dd>Veriye eklenen gürültünün varyansı (0,3² = 0,09); hiçbir model bunu ortadan kaldıramaz.</dd><dt>λ</dt><dd>L2 (Ridge) ceza: büyük katsayıları cezalandırır.</dd></dl></details>
+      <p class="lab-src">Veri bu site için üretildi: gerçek fonksiyon sin(2πx), gürültü σ = 0,3, her kümede 30 nokta, 100 küme, sabit tohum. Kavramlar notundaki Bölüm 8.1.2’ye dayanır.</p>
+    </div>
+    <div class="lab" id="biasvarlab"></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Belirti (çapraz doğrulama)</th><th>Yorum (notta)</th></tr></thead>
+      <tbody>
+        <tr><td>Eğitim hatası yüksek, test hatası da yüksek</td><td>Yüksek bias</td></tr>
+        <tr><td>Eğitim hatası düşük, test hatası yüksek</td><td>Yüksek varyans</td></tr>
+      </tbody>
+    </table></div>
+    <p>Dengeyi kurmak için: L1/L2 düzenlileştirme (varyansı düşürür, bias’ı artırır), daha çok ve kaliteli veri, özellik seçimi, dropout. Notta ayrıca “çifte düşüş”: aşırı parametreli modelde hata eşikten sonra yeniden azalabilir.</p>
+    <div class="callout real"><b>Gerçek hayat: Tıbbi tanı (ders notundaki örnek)</b>Tanı sisteminde yanlış negatifleri en aza indirmek öncelikse daha düşük bias hırsıyla varyansı artırmak göze alınabilir. Karar yalnızca istatistiksel metriğe göre verilmez.</div>
+    <div class="callout real"><b>Gerçek hayat: Sosyal politika modeli (ders notundaki örnek)</b>Öznitelik seçimi yapısal önyargı yaratabilir; bias seviyesi etik sınırlar içinde tutulmalıdır. Burada “bias” hem istatistiksel hem toplumsal anlam taşır.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta ayrıştırma formülü bir <b>görsel</b> olarak verilmiş (okunamadı); bu sayfadaki standart ifade: beklenen hata = bias² + varyans + σ². Notta ayrıca “veri hacmini artırmak tipik olarak varyansı azaltır, kalite kötüyse bias’ı da büyütebilir” denir; “bias’ı büyütebilir” kısmı için gerekçe verilmez.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Algoritmaların epistemolojisi">
+  <div class="panel">
+    <div class="kicker">8.2.1 Algoritmaların epistemolojisi</div>
+    <h2>Doğruluk metriği, bilginin doğruluğunu garanti etmez</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yaklaşım</th><th>Ne öğrenir?</th><th>Notun uyarısı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Gözetimli</b></td><td>Etiketli örneklerden hedef fonksiyonun biçimi</td><td>Accuracy/F1 teknik başarıyı ölçer; olguyla örtüşmeyi garanti etmez.</td></tr>
+        <tr><td><b>Gözetimsiz</b></td><td>İstatistiksel benzerliğe dayalı kümeler, gizli yapı</td><td>Kümenin alan bilgisinde anlamı olup olmadığı ayrıca değerlendirilir.</td></tr>
+        <tr><td><b>Derin ağ</b></td><td>Katmanlı soyut temsiller</td><td>Temsil yorumlanamaz: “kara kutu”; nedensellik kurmak güç.</td></tr>
+        <tr><td><b>Pekiştirmeli</b></td><td>Ödül tanımına bağlı politika</td><td>Ödülün kapsamadığı değerler dışlanır.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Önkabuller: k-means küresel kümeleri varsayar; SVM’de çekirdek seçimi hipotez uzayını sınırlar; MAR/MNAR eksikliği modellenmezse tahmin yanlı olur. Notun sonucu: kod ve veri paylaşımı yalnızca yeniden üretilebilirlik değil, epistemik güven için de gereklidir.</p>
+    <div class="callout real"><b>Gerçek hayat: Yüz tanıma (ders notundaki örnek)</b>“Tanınabilir yüz” kavramı eğitim setinden gelir. Az temsil edilen gruplarda başarım düşüktür; yani model önyargıyı yalnızca yeniden üretmez, onu pekiştiren bir “kategori” kurar.</div>
+    <div class="callout real"><b>Gerçek hayat: Aykırı değer (ders notundaki örnek)</b>Aykırı olarak işaretlenen nokta gerçekten nadir bir olay mı, yoksa veri toplamadan doğan bir anomali mi? Bunu istatistiksel norm değil, alan uzmanı ayırt eder.</div>
+    <div class="callout real"><b>Gerçek hayat: Dikkat ağları (ders notundaki örnek)</b>Dikkat mekanizması belirli girdi bölgelerine ağırlık verir; ama bu odak eğitimde optimize edilmiş matematiksel ağırlıklardır, insan dikkatinin esnekliği değildir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Kümelendirme">
+  <div class="panel">
+    <div class="kicker">8.2.2 Kümelendirme · dene</div>
+    <h2>Benzerlik tanımın, kümenin ne olduğunu belirler</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Notun anlattığı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Uzaklık</b></td><td>Öklid, Manhattan, Mahalanobis (sayısal); Gower (karma, kategorik/eksik).</td></tr>
+        <tr><td><b>Bölüştürücü</b></td><td>k-means: k merkez, atama ve güncelleme; ölçeklenir, ama küresel ve eşit boyutlu küme varsayar.</td></tr>
+        <tr><td><b>Yoğunluk</b></td><td>DBSCAN: keyfi şekilli küme, düşük yoğunluk = gürültü; küme sayısını önceden istemez.</td></tr>
+        <tr><td><b>Hiyerarşik</b></td><td>Dendrogram; birleştirici / ayırıcı; tek, tam, ortalama bağlantı şekli değiştirir.</td></tr>
+        <tr><td><b>Spektral</b></td><td>Benzerlik grafı, Laplasyen özvektörleri, sonra k-means; maliyetli.</td></tr>
+        <tr><td><b>İç ölçüt</b></td><td>Silhouette, Calinski–Harabasz (sıkılık ve ayrışma).</td></tr>
+        <tr><td><b>Dış ölçüt</b></td><td>Rand indeksi, normalized mutual information (etiketle karşılaştırma).</td></tr>
+      </tbody>
+    </table></div>
+    <p>Boyutluluk laneti: boyut arttıkça uzaklıklar birbirine yaklaşır, “benzerlik” bulanıklaşır. Notun çaresi PCA gibi boyut indirgeme. Aşağıda bunu sayıyla gör:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Boyut sayısını (1’den 1000’e) kaydır.</li>
+        <li><b>Ne göreceksin:</b> Boyuta göre göreli uzaklık farkı (log ölçekli çizgi), en yakın ve en uzak komşunun ortalama uzaklığı ve en yakın/en uzak oranı görünür.</li>
+        <li><b>Ne anlamalısın:</b> Boyut arttıkça en yakın ve en uzak komşu neredeyse aynı uzaklığa gelir; oran 1’e yaklaşır. Bu durumda “yakın = benzer” varsayımına dayanan kümeleme zayıflar.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Göreli fark</dt><dd>(en uzak − en yakın) / en yakın uzaklık.</dd><dt>Oran</dt><dd>En yakın uzaklığın en uzağa bölümü; 1’e yaklaşırsa fark kalmamıştır.</dd><dt>Boyut d</dt><dd>Her noktanın özellik sayısı.</dd></dl></details>
+      <p class="lab-src">Veri bu site için üretildi: [0,1]ᵈ içinde 300 rastgele nokta, 20 rastgele sorgunun ortalaması, sabit tohum. Boyutluluk laneti fikri notundaki Bölüm 8.2.2’den.</p>
+    </div>
+    <div class="lab" id="curselab"></div>
+    <div class="callout real"><b>Gerçek hayat: Tek hücreli RNA dizileme (ders notundaki örnek)</b>Hücre tipleri gen ifade profillerine göre gruplanır ve biyolojik süreçlerin keşfine yol açar.</div>
+    <div class="callout real"><b>Gerçek hayat: Topluluk tespiti (ders notundaki örnek)</b>Sosyal ağda topluluk tespiti, politik kampanya hedeflemede ya da dezenformasyon ağlarını haritalamada kritik olabilir. Etik uyarı: demografik gruplama damgalama ya da ayrımcılığa yol açabilir.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta “spektral yöntemler özellikle çok bileşenli karmaşık topolojilerde başarılıdır” ve “yakın zamanda paralel varyantlar geliştirildi” denir; ikincisi için kaynak ya da adı yok. Lab’daki sayılar bu sitenin sanal verisindendir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Temsil öğrenmesi">
+  <div class="panel">
+    <div class="kicker">8.3.1 Derin öğrenmede temsil öğrenmesi</div>
+    <h2>Ham veriyi yeniden kullanılabilir soyut temsillere çevirmek</h2>
+    <p>Temsil öğrenmesinde model, ham veriyi doğrudan modellemek yerine görevlerde yeniden kullanılabilen soyut temsillere dönüştürür. Başarı yalnızca bir görevin doğruluğu değil, farklı görevlerde <b>genelleme yeteneğinin korunmasıdır</b>. İlk katmanlar düşük seviyeli örüntüleri (kenar, renk), üst katmanlar karmaşık ilişkileri yakalar.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Notta</th></tr></thead>
+      <tbody>
+        <tr><td><b>Finans</b></td><td>Zaman ve faktör korelasyonları; grafik gömme ile şirket/hisse bağımlılıkları; çapraz-piyasa modelleri; RNN ve grafik sinir ağları.</td></tr>
+        <tr><td><b>Veri kalitesi</b></td><td>Düşük kaliteli ya da eksik etiketli veri yanıltıcı temsil üretir; veri artırma yardım eder.</td></tr>
+        <tr><td><b>Açıklanabilirlik</b></td><td>Kredi onayı, yatırım yönetimi gibi yüksek riskli alanda karar izlenebilir olmalı.</td></tr>
+        <tr><td><b>AutoAI</b></td><td>İnsan müdahalesi azalınca “hangi öznitelik önemli” kararını makine verir; sezgisel değerli bilgiler yok sayılabilir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Borsa temsili (ders notundaki örnek)</b>Borsa fiyat değişimleri için öğrenilen temsil risk profili analizi ya da portföy optimizasyonu gibi başka görevlerde de işe yarayabilir. Bu, temsilin yeniden kullanılabilirliğinin örneğidir.</div>
+    <div class="callout real"><b>Gerçek hayat: Heterojen finans verisi (ders notundaki örnek)</b>Finansal rapor metinleri, işlem kayıtları ve sosyal medya içerikleri grafik sinir ağlarıyla ortak bir temsilde birleştirilebilir.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta “doğru temsilin bulunması haftalar alabilir” ve “AutoAI öğretmen/iş arkadaşı rollerinde yer alabiliyor” denir; ikisi de sayı ya da kaynak olmadan genel ifadelerdir. Finans örneklerinin başarı oranı notta verilmez, yani bu örnekler uygulama alanını gösterir, kanıt değildir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="CNN ve RNN">
+  <div class="panel">
+    <div class="kicker">8.3.2 Konvolüsyonel ağlar · 8.3.3 Tekrarlayan ağlar</div>
+    <h2>Uzamsal örüntü için CNN, sıralı veri için RNN</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>CNN</th><th>RNN</th></tr></thead>
+      <tbody>
+        <tr><td><b>Yapı</b></td><td>Konvolüsyon (filtre), havuzlama, tam bağlı katman</td><td>Geri besleme: önceki durum şimdiki hesaba girer (dinamik bellek)</td></tr>
+        <tr><td><b>Güçlü yanı</b></td><td>Yerel örüntüler; maksimum havuzlama baskın aktivasyonu seçer, küçük kaymalara dayanıklı</td><td>Zaman serisi, sıralı veri, otokorelasyon ve mevsimsellik</td></tr>
+        <tr><td><b>Zorluk</b></td><td>Kara kutu; gürültülü etiket; derin ağda enerji ve aşırı öğrenme</td><td>Vanishing gradient → uzun bağımlılık zor</td></tr>
+        <tr><td><b>Çare / çeşit</b></td><td>ResNet (atlamalı bağlantı), DenseNet (yoğun bağlantı), Mask-RCNN</td><td>LSTM, GRU (kapılı); RL + RNN; hibrit ve topluluk modeller</td></tr>
+        <tr><td><b>Kullanım</b></td><td>Görüntü; metin sınıflandırma ve zaman serisi pencereleri de</td><td>Finansal tahmin, eğitimde öğrenme süreci tahmini</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Mask-RCNN (ders notundaki örnek)</b>Nesnenin yalnızca sınır kutusunu değil, piksel düzeyinde maskesini de üretir (nesne tespiti ve örnek segmentasyonu).</div>
+    <div class="callout real"><b>Gerçek hayat: Öğrencinin bilgi edinimi (ders notundaki örnek)</b>RNN, geçmiş öğretim anlarını “hatırlayarak” yeni adımın başarısını tahmin edebilir; kişiselleştirilmiş müdahaleler planlanır.</div>
+    <div class="callout real"><b>Gerçek hayat: Zamanla değişen veri (ders notundaki örnek)</b>Fiyat eğilimleri, endeks hareketleri ve makroekonomik göstergeler yüksek otokorelasyon ve mevsimsel dalgalanma taşır; RNN’in belleği bu örüntülere uygun görülür.</div>
+    <div class="callout idea"><b>Notta dikkat edilecek yerler</b>(1) Mask-RCNN bölümünde “Makalenin sunduğu çözümde…” cümlesi geçer ama hangi makale olduğu belirtilmez (başıboş atıf). (2) “Havuzlama parametre sayısını azaltır” demek ağın sonraki katmanlarındaki parametreleri kastediyor; havuzlama katmanının kendi ağırlığı yoktur. (3) “Finansal tahmin RNN’in en yaygın uygulama alanıdır” genellemesi için kaynak yok.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Ödül yapıları">
+  <div class="panel">
+    <div class="kicker">8.4.1 Ödül yapıları · dene</div>
+    <h2>Ödülü kim, ne zaman, ne kadar verir?</h2>
+    <p>Pekiştirmeli öğrenmede ajan, ortamla etkileşip ödülü en çoğa çıkaracak politikayı öğrenir. Amaç fonksiyonu (notta görsel): ödüllerin <b>indirgenmiş toplamı</b> Σ γᵗ·rₜ. γ 1’e yakınsa uzun vadeli kazanç önemsenir; düşükse kısa vadeli getiri öne çıkar.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> γ (indirgeme katsayısı) ve büyük ödülün geldiği adım T kaydırıcılarını değiştir.</li>
+        <li><b>Ne göreceksin:</b> Her adım için γᵗ ağırlığı sütunlarla, A (hemen 10) ve B (T. adımda 30) seçeneklerinin indirgenmiş değeri, ajanın seçeceği seçenek ve eşit olduğu γ görünür.</li>
+        <li><b>Ne anlamalısın:</b> γ yüksekse ajan beklemeyi göze alır, düşükse hemen küçük ödülü seçer. Büyük ödül ne kadar geç gelirse beklemek için gereken γ eşiği 1’e yaklaşır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>γ</dt><dd>İndirgeme katsayısı: gelecekteki ödülün bugünkü değeri her adımda γ ile çarpılır.</dd><dt>T</dt><dd>Büyük ödülün geldiği adım.</dd><dt>Eşit γ</dt><dd>İki seçeneğin indirgenmiş değerinin eşit olduğu γ: (1/3)^(1/(T−1)).</dd></dl></details>
+      <p class="lab-src">Ödül değerleri (10 ve 30) bu site için seçildi. İndirgeme fikri notundaki Bölüm 8.4.1’den; formül görseldir, burada standart biçimi kullanıldı.</p>
+    </div>
+    <div class="lab" id="gammalab"></div>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Ödül türü</th><th>Etkisi (notta)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Seyrek</b></td><td>Uzun süre geri bildirim yok; keşif zor, eylem–sonuç bağı kurmak güç.</td></tr>
+        <tr><td><b>Yoğun / anlık</b></td><td>Ajan yanlış kısa vadeli stratejilere saplanabilir.</td></tr>
+        <tr><td><b>Gecikmeli</b></td><td>Nedensel bağı doğru modellemek gerekir; yoksa yanlış strateji pekişir.</td></tr>
+        <tr><td><b>Ara ödül (ödül mühendisliği)</b></td><td>Öğrenmeyi hızlandırır; yanlış tasarım amaç dışı kestirmeyi ödüllendirir.</td></tr>
+        <tr><td><b>Ortak / bireysel</b></td><td>Çok ajanlı ortamda ortak ödül işbirliğini, bireysel ödül rekabeti teşvik eder.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Robot ve tek ödül (ders notundaki örnek)</b>Robot hedefe ulaşınca tek seferlik pozitif ödül alıyorsa uzun süre hiçbir geri bildirim almadan keşif yapmak zorunda kalabilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Portföy ve günlük kararlar (ders notundaki örnek)</b>Küçük günlük kararların toplam getirisi aylar sonra netleşebilir; bu gecikme ödül atamasını zorlaştırır.</div>
+    <div class="callout real"><b>Gerçek hayat: Saldırı tespiti (ders notundaki örnek)</b>Yalnızca tüm saldırılar engellenince değil, şüpheli hareketi doğru sınıflayınca da ödül verilirse model ince farkları ayırt edebilir.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta anlık yoğun ödülün “aşırı uyum riskini artırdığı” söylenir; kesin terim “reward hacking / kısa vadeli saplanma” olurdu, “aşırı uyum” gevşek kullanılmış. Ayrıca “yapılandırılmış ara ödüller estetik açıdan makul davranış paternleri oluşturur” cümlesi gerekçesiz. Lab’daki 10 ve 30 ödül bu sitenin örneğidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Politika optimizasyonu">
+  <div class="panel">
+    <div class="kicker">8.4.2 Politika optimizasyonu</div>
+    <h2>Uzun vadeli beklenen ödülü en çoğa çıkaran politika</h2>
+    <p>Politika, her duruma hangi eylemin seçileceğini belirleyen fonksiyondur. İki yol: politikayı <b>doğrudan</b> parametrelendirip iyileştirmek, ya da <b>değer fonksiyonunu</b> iyileştirerek dolaylı yoldan. Aktör-kritik yöntemlerde aktör politikayı, kritik değer fonksiyonunu öğrenir. Çevrim dışı (offline) RL, geçmiş etkileşim kayıtlarıyla politikayı günceller; canlı denemenin riskli olduğu yerde kullanılır.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Boyut</th><th>Notun vurgusu</th></tr></thead>
+      <tbody>
+        <tr><td><b>Çok boyutlu hedef</b></td><td>Getiri + risk yönetimi + etik kriter; tek metrik yetmez.</td></tr>
+        <tr><td><b>Veri</b></td><td>Çeşitli ve temiz veri; yanlış etiketli veri hatalı politika öğretir.</td></tr>
+        <tr><td><b>Aşırı uyum</b></td><td>Yüksek boyutlu uzayda belirgin; düzenlileştirme ve strateji havuzu.</td></tr>
+        <tr><td><b>Adalet</b></td><td>Kredi/sigortada ayrımcı önyargıyı azaltan kısıtlar parametrelere eklenebilir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Finansal işlem sistemi (ders notundaki örnek)</b>Akıllı işlem sistemi yüksek frekanslı işlemleri verimli yürütürken regülasyon ve güvenlik standartlarına da uymalıdır.</div>
+    <div class="callout real"><b>Gerçek hayat: Fiziksel prototip (ders notundaki örnek)</b>Canlı deneme imkânı olmayan fiziksel prototiplerde ve riskli işlem ortamlarında çevrim dışı RL geçmiş kayıtlarla politika güncelleyebilir.</div>
+    <div class="callout idea"><b>Notta eksik ve belirsiz yerler</b>(1) “DSAI tabanlı çözümler” kısaltması açılmadan geçer (veri bilimi + yapay zekâ entegrasyonu diye parantezle bir kez açıklanıyor). (2) Bölümde politika gradyanı, Q-öğrenme ya da değer iterasyonunun formülü yoktur; “derin Q-ağı” 8.4.1’de adıyla anılır, işleyişi anlatılmaz. Bu yüzden bu slayt algoritma anlatmaz, kavramsal çerçeveyi verir. (3) Örneklerin neredeyse tamamı finansaldır; başarı oranı ya da veri verilmez.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 8</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>İnsan / makine</td><td>Temsil, bağlam, motivasyon, önkabul farkı; hibrit yaklaşım</td></tr>
+        <tr><td>Bias–variance</td><td>Hata = bias² + varyans + σ²; karmaşıklık bias’ı düşürür, varyansı artırır; çifte düşüş</td></tr>
+        <tr><td>Epistemoloji</td><td>Metrik ≠ olgusal doğruluk; önkabuller hipotez uzayını sınırlar</td></tr>
+        <tr><td>Kümeleme</td><td>Uzaklık ve bağlantı seçimi; DBSCAN, hiyerarşik, spektral; iç/dış ölçüt; boyutluluk laneti</td></tr>
+        <tr><td>Temsil öğrenmesi</td><td>Soyut, yeniden kullanılabilir temsil; veri kalitesi ve açıklanabilirlik</td></tr>
+        <tr><td>CNN / RNN</td><td>Konvolüsyon, havuzlama / geri besleme, LSTM–GRU, vanishing gradient</td></tr>
+        <tr><td>Ödül yapıları</td><td>Seyrek, yoğun, gecikmeli, ara ödül; γ indirgeme; ödül mühendisliği riski</td></tr>
+        <tr><td>Politika optimizasyonu</td><td>Doğrudan / değer tabanlı; aktör-kritik; çevrim dışı RL; çok boyutlu hedef ve adalet</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_VB_8"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/vb-bolum-8-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/vb8.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>

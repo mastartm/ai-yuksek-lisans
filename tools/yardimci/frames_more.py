@@ -413,6 +413,26 @@ add('quorumlab', 'veri-bilimi/bolum-7.html',
     [('N', 'Verinin tutulduğu toplam kopya sayısı.'), ('W', 'Bir yazmanın başarılı sayılması için onay vermesi gereken kopya sayısı.'), ('R', 'Bir okumada cevabı beklenen kopya sayısı.'), ('Kesişim', 'Okunan ve yazılan kopyaların ortak olanları: en az W + R − N.')],
     'Sayılar bu site için seçildi. W + R > N kuralı notundaki Bölüm 7.4.1’den alındı; “en kötü durum” gösterimi bu sitenin çizimidir.')
 
+# ---------------- Veri Bilimi 8 ----------------
+add('biasvarlab', 'veri-bilimi/bolum-8.html',
+    'Polinom derecesini (1–9) ve L2 ceza λ’yı kaydır.',
+    'Dereceye göre bias², varyans ve toplam hata çizgileri; seçili derece için bias², varyans, σ², beklenen test hatası ve eğitim hatası görünür.',
+    'Derece arttıkça bias düşer, varyans yükselir; toplam hata bir dereceye kadar düşüp sonra artar. Eğitim hatası hep düşer, bu yüzden aşırı uyumu gizler. λ’yı artırmak yüksek derecelerde varyansı azaltır.',
+    [('Bias²', 'Ortalama tahminin gerçek fonksiyondan sapmasının karesi (100 eğitim kümesi üzerinden).'), ('Varyans', 'Farklı eğitim kümelerinde tahminlerin ortalama etrafındaki oynaması.'), ('σ²', 'Veriye eklenen gürültünün varyansı (0,3² = 0,09); hiçbir model bunu ortadan kaldıramaz.'), ('λ', 'L2 (Ridge) ceza: büyük katsayıları cezalandırır.')],
+    'Veri bu site için üretildi: gerçek fonksiyon sin(2πx), gürültü σ = 0,3, her kümede 30 nokta, 100 küme, sabit tohum. Kavramlar notundaki Bölüm 8.1.2’ye dayanır.')
+add('curselab', 'veri-bilimi/bolum-8.html',
+    'Boyut sayısını (1’den 1000’e) kaydır.',
+    'Boyuta göre göreli uzaklık farkı (log ölçekli çizgi), en yakın ve en uzak komşunun ortalama uzaklığı ve en yakın/en uzak oranı görünür.',
+    'Boyut arttıkça en yakın ve en uzak komşu neredeyse aynı uzaklığa gelir; oran 1’e yaklaşır. Bu durumda “yakın = benzer” varsayımına dayanan kümeleme zayıflar.',
+    [('Göreli fark', '(en uzak − en yakın) / en yakın uzaklık.'), ('Oran', 'En yakın uzaklığın en uzağa bölümü; 1’e yaklaşırsa fark kalmamıştır.'), ('Boyut d', 'Her noktanın özellik sayısı.')],
+    'Veri bu site için üretildi: [0,1]ᵈ içinde 300 rastgele nokta, 20 rastgele sorgunun ortalaması, sabit tohum. Boyutluluk laneti fikri notundaki Bölüm 8.2.2’den.')
+add('gammalab', 'veri-bilimi/bolum-8.html',
+    'γ (indirgeme katsayısı) ve büyük ödülün geldiği adım T kaydırıcılarını değiştir.',
+    'Her adım için γᵗ ağırlığı sütunlarla, A (hemen 10) ve B (T. adımda 30) seçeneklerinin indirgenmiş değeri, ajanın seçeceği seçenek ve eşit olduğu γ görünür.',
+    'γ yüksekse ajan beklemeyi göze alır, düşükse hemen küçük ödülü seçer. Büyük ödül ne kadar geç gelirse beklemek için gereken γ eşiği 1’e yaklaşır.',
+    [('γ', 'İndirgeme katsayısı: gelecekteki ödülün bugünkü değeri her adımda γ ile çarpılır.'), ('T', 'Büyük ödülün geldiği adım.'), ('Eşit γ', 'İki seçeneğin indirgenmiş değerinin eşit olduğu γ: (1/3)^(1/(T−1)).')],
+    'Ödül değerleri (10 ve 30) bu site için seçildi. İndirgeme fikri notundaki Bölüm 8.4.1’den; formül görseldir, burada standart biçimi kullanıldı.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
