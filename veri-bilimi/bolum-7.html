@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Büyük Veri Ortamları ve Ölçeklenebilirlik — Veri Bilimi</title>
+<meta name="description" content="Veri Bilimi, Bölüm 7: Büyük Veri Ortamları ve Ölçeklenebilirlik. Görsel anlatım, etkileşimli çizimler ve bölüm sonu quizi.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back home" href="../index.html" aria-label="Ana sayfa" title="Ana sayfa"><svg class="hico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h4.5v-5.5h4V20h4.5v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ht">Ana sayfa</span></a>
+  <a class="back" href="index.html">← Bölümler</a>
+  <span class="title">Bölüm 7 · Büyük Veri Ortamları ve Ölçeklenebilirlik</span>
+  <button class="btn" id="toc-open" type="button">İçindekiler</button>
+  <button class="btn" id="theme" type="button" aria-label="Açık/koyu tema">◐</button>
+</header>
+<div class="progress"><i></i></div>
+
+<aside class="toc" id="toc" aria-label="İçindekiler">
+  <button class="btn" id="toc-close" type="button" style="float:right">Kapat</button>
+  <h3>İçindekiler</h3>
+  <ol id="toc-list"></ol>
+</aside>
+
+<main class="deck">
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Veri Bilimi · Bölüm 7</div>
+    <h1>Büyük Veri Ortamları ve Ölçeklenebilirlik</h1>
+    <p class="big-quote">Veri tek makineye sığmayınca iş kopyalamaya, bölmeye ve dağıtmaya döner. Bu bölümde büyük verinin boyutlarını, işlemenin maliyetini, dağıtık sistemlerin takaslarını ve veritabanı seçimini küçük deneylerle göreceksin.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>5V’nin yanında hangi ek boyutların önerildiğini sayabilirsin.</li>
+      <li>CPU-yoğun ve I/O-yoğun işlemi, Amdahl yasasının sınırını anlatabilirsin.</li>
+      <li>Edge computing’in ham veriyi neden uçta işlediğini hesapla gösterebilirsin.</li>
+      <li>CAP teoremini, CP/AP ayrımını ve W + R > N kuralını açıklayabilirsin.</li>
+      <li>MapReduce ile Spark’ı ve ACID ile BASE’i karşılaştırabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Ölçek büyüdükçe her seçim bir takastır</h2>
+    <svg class="diagram" viewBox="0 0 760 170" role="img" aria-label="Büyük veri tanımı, hesaplama, edge, dağıtık işleme ve veritabanı sırası"><rect class="d-brand" x="10" y="45" width="125" height="70" rx="12"/><text class="d-txt d-c" x="72" y="73">Tanım</text><text class="d-sm d-c" x="72" y="96">5V ve ötesi</text><line class="d-line" x1="135" y1="80" x2="160" y2="80"/><rect class="d-ok" x="160" y="45" width="135" height="70" rx="12"/><text class="d-txt d-c" x="227" y="73">Hesaplama</text><text class="d-sm d-c" x="227" y="96">karmaşıklık, edge</text><line class="d-line" x1="295" y1="80" x2="320" y2="80"/><rect class="d-warn" x="320" y="45" width="135" height="70" rx="12"/><text class="d-txt d-c" x="387" y="73">Dağıtık</text><text class="d-sm d-c" x="387" y="96">CAP, Map/Reduce</text><line class="d-line" x1="455" y1="80" x2="480" y2="80"/><rect class="d-box" x="480" y="45" width="135" height="70" rx="12"/><text class="d-txt d-c" x="547" y="73">Veritabanı</text><text class="d-sm d-c" x="547" y="96">NoSQL, ACID/BASE</text><line class="d-line" x1="615" y1="80" x2="640" y2="80"/><rect class="d-ok" x="640" y="45" width="110" height="70" rx="12"/><text class="d-txt d-c" x="695" y="73">Karar</text><text class="d-sm d-c" x="695" y="96">bağlama göre</text></svg>
+    <p>Notun ortak vurgusu: doğru seçim yalnızca teknik ölçüte (hız, hacim) değil, <b>uygulamanın doğruluk ve süreklilik beklentisine</b> göre yapılır. Notta bu bağlam “epistemik güven düzeyi” diye adlandırılır; bu sayfada sade dille “bilginin ne kadar güncel/doğru olması gerektiği” diye anlatılıyor.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="5V ve ötesi">
+  <div class="panel">
+    <div class="kicker">7.1 Büyük verinin kavramsal analizi</div>
+    <h2>5V başlangıçtır, hikâyenin tamamı değil</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Boyut</th><th>Klasik anlam</th><th>Notun genişletmesi</th></tr></thead>
+      <tbody>
+        <tr><td><b>Hacim</b></td><td>Veri miktarı</td><td>Zettabayt ölçeği; yalnızca depolama değil, gerçek zamanlı analitik mimarisi.</td></tr>
+        <tr><td><b>Hız</b></td><td>Verinin akış hızı</td><td>“Her an bağlı” sistemler; milisaniye-mikrosaniye tepki (finans, otonom sistemler).</td></tr>
+        <tr><td><b>Çeşitlilik</b></td><td>Yapılandırılmış / yapılandırılmamış</td><td>Çoklu modalite (ses, görüntü, metin); anlamsal hizalama gerekir.</td></tr>
+        <tr><td><b>Doğruluk</b></td><td>Ölçüm hatası, eksiklik</td><td>Sistematik önyargı; teknik, bağlamsal ve zamansal doğruluk.</td></tr>
+        <tr><td><b>Değer</b></td><td>Ekonomik katkı</td><td>Toplumsal fayda ve etik kabul edilebilirlik de değerin parçası.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Ek boyutlar (notta): <b>değişkenlik</b> (istatistiksel özelliklerin zamanla değişmesi), <b>görselleştirilebilirlik</b>, <b>erişilebilirlik</b>, <b>güvenlik</b>, <b>sürdürülebilirlik</b> (enerji ve karbon izi) ve <b>etik uyum</b>.</p>
+    <div class="callout real"><b>Gerçek hayat: Su kaynakları takibi (ders notundaki örnek)</b>Bir kamu kurumunun su kaynakları modeli teknik olarak mükemmel tahmin üretse bile çıktı karar vericilerin kullanabileceği biçimde sunulmuyorsa pratik değeri düşer. “Yararlı” ile “kullanışlı” her zaman çakışmaz.</div>
+    <div class="callout real"><b>Gerçek hayat: Sosyal medya verisi (ders notundaki örnek)</b>Sosyal medya API’lerinin verdiği veri, platformun moderasyon politikasından bağımsız değildir. Bu veri üzerinde yapılan analiz, o politikanın izlerini taşır.</div>
+    <div class="callout real"><b>Gerçek hayat: Dil çeşitliliği (ders notundaki örnek)</b>Doğal dil işleme modülleri İngilizce dışı dillerde daha düşük performans verebilir; bu fark, eğitim verisinin dilsel çeşitlilikten yoksun olmasından gelir.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta 5V’ye eklenen boyutlar (değişkenlik, görselleştirilebilirlik, sürdürülebilirlik…) “literatürde yer alır” diye geçer ama o bölümde kaynak gösterilmez; yalnızca bölümün sonunda genel bir kaynak listesi var. Bu boyutlar standart bir tanım değil, önerilen eklemelerdir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Hesaplama karmaşıklığı">
+  <div class="panel">
+    <div class="kicker">7.2.1 Hesaplama karmaşıklığı</div>
+    <h2>Yalnızca O(n) yetmez: iletişim, bellek, enerji</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Kavram</th><th>Notta</th></tr></thead>
+      <tbody>
+        <tr><td><b>Zaman / bellek karmaşıklığı</b></td><td>Girdi boyutu n’e göre; O, Ω, Θ asimptotik notasyonu.</td></tr>
+        <tr><td><b>CPU-yoğun (compute-bound)</b></td><td>Süreyi hesaplama adımı sayısı belirler.</td></tr>
+        <tr><td><b>I/O-yoğun (I/O-bound)</b></td><td>Süreyi disk okuma-yazma ve veri taşıma belirler.</td></tr>
+        <tr><td><b>Eğitim ve tahmin</b></td><td>Doğrusal regresyon normal denklem: O(nd² + d³); mini-batch SGD: iterasyon başına O(kd).</td></tr>
+        <tr><td><b>Bellek sınırı</b></td><td>Veri belleğe sığmıyorsa streaming ve tek geçişli özetleme, böl-parçala-yönet.</td></tr>
+        <tr><td><b>Amdahl yasası</b></td><td>Paralelleştirilemeyen seri kısım toplam kazancı sınırlar.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Amdahl yasasının formülü notta yazılmaz; standart ifadesi (kaynakla doğrula): kazanç = 1 / ((1 − p) + p / s). Burada p işin paralelleştirilebilen oranı, s kullanılan işlemci sayısıdır. Bu sitenin örneği: p = 0,9 ve s = 10 için kazanç 1 / (0,1 + 0,09) ≈ 5,26. s ne kadar büyürse büyüsün üst sınır 1 / (1 − p) = 10’dur.</p>
+    <div class="callout real"><b>Gerçek hayat: Karar destek modeli (ders notundaki örnek)</b>İdeal doğrulukta bir model çıktıyı saatler sürede hesaplıyorsa operasyonel değerini kaybedebilir; bu durumda biraz daha az doğru ama hızlı yöntem seçilir.</div>
+    <div class="callout real"><b>Gerçek hayat: Veritabanı indeksi (ders notundaki örnek)</b>B-tree araması ortalama O(log n) sürer; nadiren yapılan yeniden dengeleme masraflıdır. Amortisman analizi bu “nadir pahalı adım, ortalamada ucuz” durumunu ölçer.</div>
+    <div class="callout idea"><b>Notta dikkat edilecek üç cümle</b>(1) “Replikasyon arttıkça yazma doğrusal değil süperdoğrusal yavaşlayabilir” bir olasılık olarak yazılmış, sayı ya da kaynak yok. (2) Evrişim katmanının maliyeti “filtre boyutu ve kanal sayısının karesi” diye geçer; ayrıntıda maliyet çekirdek boyutunun karesi ile girdi ve çıktı kanal sayılarının çarpımıyla orantılıdır (kaynakla doğrula). (3) Konsensüs protokollerinin iletişim yükü için “O(p) veya daha kötüsü” denir; protokole göre değişir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Edge computing">
+  <div class="panel">
+    <div class="kicker">7.2.2 Edge computing · dene</div>
+    <h2>Veriyi bulutta değil, doğduğu yerde işle</h2>
+    <p>Edge computing, ön işleme ve karar almayı verinin doğduğu yere yakın yapar; böylece gecikme ve ağ yükü düşer. Üç katman: <b>sensör/cihaz</b> (algılama), <b>edge düğümü</b> (işleme), isteğe bağlı <b>merkezi birleştirme</b>. Pil ömrü, güncelleme yönetimi ve heterojen donanım zorluklarıdır. Notun “federated learning”: veri yerinde kalır, yalnızca model ağırlıkları güncellenir.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Sensör sayısını, sensör başına ham veriyi, edge’den çıkan veri oranını ve bulut hattı kapasitesini kaydır.</li>
+        <li><b>Ne göreceksin:</b> Her şeyi buluta göndermenin ve edge’de özetlemenin hat yükü iki çubukla, kapasite çizgisiyle ve “yeter / yetmez” kutularıyla görünür.</li>
+        <li><b>Ne anlamalısın:</b> Ham veri hattı kolayca aşar; edge’de özetlenmiş veri çok daha küçüktür. Oran yükseldikçe edge’in kazancı azalır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Ham veri yükü</dt><dd>Sensör sayısı × sensör başına kB/sn × 8 ÷ 1000 (Mbit/sn).</dd><dt>Edge’den çıkan oran</dt><dd>Edge düğümünün buluta gönderdiği özetin ham veriye oranı.</dd><dt>Hat kapasitesi</dt><dd>Buluta giden bağlantının taşıyabildiği en çok Mbit/sn.</dd></dl></details>
+      <p class="lab-src">Sayılar bu site için seçildi; notta sayısal örnek yoktur. Fikir notundaki Bölüm 7.2.2’ye dayanır. Edge düğümünün işlem gücü ve pil ömrü hesaba girmez.</p>
+    </div>
+    <div class="lab" id="edgelab"></div>
+    <div class="callout real"><b>Gerçek hayat: Otonom araç (ders notundaki örnek)</b>Çarpışma algılayıcı verisi yerel GPU’da derin öğrenmeyle işlenir; yalnızca özet bilgi filo yönetimine gider. Tepki süresi kısalır, merkezde kayıt da tutulur.</div>
+    <div class="callout real"><b>Gerçek hayat: IoT pil ömrü (ders notundaki örnek)</b>Pille çalışan cihazda yoğun hesaplama pil ömrünü ciddi kısaltır; bu yüzden adaptif örnekleme ve olay tetiklemeli hesaplama önerilir.</div>
+    <div class="callout idea"><b>Sayılar bu sitenindir</b>Lab’daki sensör sayısı, hız, oran ve hat kapasitesi örnek değerlerdir; notta sayısal örnek yoktur. Gecikme sayısı verilmedi, çünkü notta da yok.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="CAP teoremi">
+  <div class="panel">
+    <div class="kicker">7.3.1 CAP teoremi</div>
+    <h2>Tutarlılık, erişilebilirlik, bölünme toleransı: üçü birden olmaz</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Özellik</th><th>Anlamı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Tutarlılık (C)</b></td><td>Her okuma en güncel yazmanın sonucunu döndürür.</td></tr>
+        <tr><td><b>Erişilebilirlik (A)</b></td><td>Her isteğe geçerli bir yanıt verilir (en güncel olması şart değil).</td></tr>
+        <tr><td><b>Bölünme toleransı (P)</b></td><td>Ağ kesilse ya da gecikse bile sistem çalışır.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Brewer (2000) hipotez olarak ortaya attı, Gilbert ve Lynch formel ispat verdi. Geniş coğrafyada ağ bölünmesi kaçınılmaz olduğundan P çoğunlukla zorunludur; asıl seçim <b>CP</b> (bölünmede bazı istekleri reddet, tutarlılığı koru) ile <b>AP</b> (herkese cevap ver, geçici tutarsızlığı kabul et) arasındadır. AP’de kopyalar sonradan eşitlenir: <b>eventual consistency</b>. Notta ayrıca PACELC genişletmesi anılır: bölünme yokken de gecikme ile tutarlılık arasında takas vardır.</p>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Sınıf</th><th>Bölünmede</th><th>Notun örneği</th></tr></thead>
+      <tbody>
+        <tr><td><b>CP</b></td><td>Bazı istekler reddedilir.</td><td>Finansal işlem yönetimi; HBase, MongoDB’nin bazı ayarları.</td></tr>
+        <tr><td><b>AP</b></td><td>Her istek yanıtlanır, kopyalar geçici ayrışır.</td><td>Sosyal medya, içerik dağıtım ağı; Cassandra, DynamoDB.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: Banka mı, sosyal medya mı (ders notundaki örnek)</b>Finansal işlemde yanlış ya da eksik bilgi sunmaktansa hizmeti geçici durdurmak tercih edilir (CP). Sosyal medya akışında kısa süreli eski bilgi tolere edilir (AP).</div>
+    <div class="callout idea"><b>“İkisini seç” kısaltması yanıltabilir</b>Notun kendisi de teoremi “mekanik bir iki-tanesini-seç formülü” olarak görmemeyi söyler. Bir de not “C” için tek tanım verir; veritabanlarındaki ACID’in “C”si başka bir kavramdır (bkz. 7.4.2 uyarısı).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="MapReduce ve Spark">
+  <div class="panel">
+    <div class="kicker">7.3.2 MapReduce ve Apache Spark · dene</div>
+    <h2>Böl, dağıt, birleştir: shuffle’ın maliyeti</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>MapReduce</th><th>Apache Spark</th></tr></thead>
+      <tbody>
+        <tr><td><b>Çalışma</b></td><td>Map → shuffle ve sort → Reduce</td><td>DAG yürütme motoru, bellekte işleme</td></tr>
+        <tr><td><b>Ara sonuç</b></td><td>Diske yazılır, tekrar okunur (HDFS)</td><td>Mümkün olduğunca bellekte (RDD)</td></tr>
+        <tr><td><b>İteratif iş</b></td><td>Her turda disk; darboğaz (k-means, lojistik regresyon)</td><td>Büyük hız avantajı</td></tr>
+        <tr><td><b>Hata toleransı</b></td><td>Görevi yeniden çalıştırma</td><td>Lineage ile kayıp bölümü yeniden hesaplama</td></tr>
+        <tr><td><b>Akış</b></td><td>Esasen batch; Storm/Samza gerekir</td><td>Micro-batch (Spark Streaming), Structured Streaming</td></tr>
+        <tr><td><b>Kütüphaneler</b></td><td>—</td><td>MLlib, GraphX, Spark SQL</td></tr>
+      </tbody>
+    </table></div>
+    <p>Aşağıda sözcük sayımı örneğiyle Map → shuffle → Reduce akışını görürsün. Birleştiriciyi aç/kapat, reducer sayısını değiştir:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Reducer sayısını kaydır. İstersen “Map tarafında birleştir”i aç ya da kapat.</li>
+        <li><b>Ne göreceksin:</b> Dört satırlık sözcük sayımında her map’in ürettiği (sözcük, sayı) çiftleri, reducer’ların topladığı sayımlar ve shuffle’a giden çift sayısı görünür.</li>
+        <li><b>Ne anlamalısın:</b> Aynı sözcük her zaman aynı reducer’a gider, bu yüzden toplamlar doğru çıkar. Birleştirici shuffle’a giden çift sayısını 16’dan 8’e indirir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Map</dt><dd>Her satırı (sözcük, 1) çiftlerine çevirir.</dd><dt>Shuffle</dt><dd>Aynı anahtarlı çiftleri aynı reducer’a taşır; ağ maliyeti buradadır.</dd><dt>Reduce</dt><dd>Aynı sözcüğün sayılarını toplar.</dd><dt>Combiner</dt><dd>Map’in kendi çıktısını ağa göndermeden önce yerelde toplaması.</dd></dl></details>
+      <p class="lab-src">Satırlar bu site için uydurulmuştur. Map/shuffle/reduce akışı notundaki Bölüm 7.3.2’ye dayanır. Reducer atamasında basit bir karakter toplamı kullanıldı; gerçek sistemler başka bir karma işlevi kullanır.</p>
+    </div>
+    <div class="lab" id="mrlab"></div>
+    <div class="callout real"><b>Gerçek hayat: Basit toplu ETL (ders notundaki örnek)</b>Çok basit toplu ETL işleri ve disk tabanlı yüksek dayanıklılık gereken durumlarda MapReduce hâlâ tercih edilebilir: bakım maliyeti düşüktür.</div>
+    <div class="callout real"><b>Gerçek hayat: IoT akışı (ders notundaki örnek)</b>Sensör verileri ve günlük kayıtları gibi akan veriler Spark ile anlık analiz edilebilir.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta Structured Streaming için “düşük gecikmeli sürekli sorgular çalıştırmak mümkün” denir. Bu ifade kaynak ve ayrıntı olmadan genel bir kolaylık gibi duruyor; Structured Streaming’in varsayılan işleyişi de micro-batch’tir (kaynakla doğrula). Spark’ın MapReduce’tan hızlı olduğu iddiası da yalnızca iteratif iş yükleri için sunulmuş; sayı verilmemiş.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="NoSQL temelleri">
+  <div class="panel">
+    <div class="kicker">7.4.1 NoSQL teorik temelleri · dene</div>
+    <h2>Esnek şema, dört model, quorum</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Model</th><th>Güçlü yanı (notta)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Anahtar-değer</b></td><td>Anahtarla ortalama O(1) arama (dağıtık hash tablosu).</td></tr>
+        <tr><td><b>Belge</b></td><td>JSON/BSON; iç alanlara indeks.</td></tr>
+        <tr><td><b>Geniş sütunlu</b></td><td>Zaman serisi ve seyrek matris (Cassandra SSTable).</td></tr>
+        <tr><td><b>Grafik</b></td><td>Düğüm-kenar; ilişki ağlarında düşük gecikmeli gezinti.</td></tr>
+      </tbody>
+    </table></div>
+    <p>NoSQL’de tutarlılık anlayışı <b>ACID’den BASE’e</b> kayar. Kopyalı sistemde <b>W + R > N</b> kuralı sağlanınca belirli düzeyde güçlü tutarlılık elde edilir (N: kopya, W: yazma onayı, R: okunan kopya). Ölçeklenme için <b>sharding</b> (yatay bölme) kullanılır; iyi seçilmiş shard anahtarı hotspot’u önler.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> N, W ve R kaydırıcılarını değiştir ya da hazır düğmelerle üç düzeni dene.</li>
+        <li><b>Ne göreceksin:</b> Kopyalar kutular olarak çizilir (yeşil: yeni yazılan, gri: eski; çerçeve: en kötü durumda okunan kopyalar). Altta W + R, güncel kopya sayısı ve dayanılan çöken kopya sayıları yazar.</li>
+        <li><b>Ne anlamalısın:</b> W + R > N olunca okuma kümesi ile yazma kümesi kesişir ve okuma en az bir güncel kopya görür. Bunun bedeli, yazma ve okumada daha çok kopyanın cevabını beklemektir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>N</dt><dd>Verinin tutulduğu toplam kopya sayısı.</dd><dt>W</dt><dd>Bir yazmanın başarılı sayılması için onay vermesi gereken kopya sayısı.</dd><dt>R</dt><dd>Bir okumada cevabı beklenen kopya sayısı.</dd><dt>Kesişim</dt><dd>Okunan ve yazılan kopyaların ortak olanları: en az W + R − N.</dd></dl></details>
+      <p class="lab-src">Sayılar bu site için seçildi. W + R > N kuralı notundaki Bölüm 7.4.1’den alındı; “en kötü durum” gösterimi bu sitenin çizimidir.</p>
+    </div>
+    <div class="lab" id="quorumlab"></div>
+    <div class="callout real"><b>Gerçek hayat: Shard anahtarı (ders notundaki fikir)</b>İyi seçilmiş shard anahtarı veri erişim örüntüsüyle orantılı parçalanma sağlar; kötü seçilirse tek bir bölüm aşırı yüklenir (hotspot).</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta W + R > N “belirli düzeyde güçlü tutarlılık” diye geçer. Bu kural yalnızca okuma ve yazma kümelerinin kesişmesini garanti eder; eşzamanlı yazmaların sıralanması ve çöken düğümler ayrı mekanizmalar ister, yani kural tek başına ACID düzeyinde tutarlılık değildir (kaynakla doğrula). Lab’daki “en kötü durum” gösterimi bu sitenin çizimidir.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="ACID ve BASE">
+  <div class="panel">
+    <div class="kicker">7.4.2 ACID ve BASE karşılaştırması</div>
+    <h2>Katı garanti mi, sürekli hizmet mi?</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>ACID</th><th>BASE</th></tr></thead>
+      <tbody>
+        <tr><td><b>Açılımı</b></td><td>Atomicity, Consistency, Isolation, Durability</td><td>Basically Available, Soft state, Eventual consistency</td></tr>
+        <tr><td><b>Fikir</b></td><td>İşlem ya tamam ya hiç; kurallara uyum; paralel işlemler birbirini etkilemez; sonuç kalıcıdır.</td><td>Çoğunlukla yanıt verir; durum geçici tutarsız olabilir; kopyalar zamanla uyuşur.</td></tr>
+        <tr><td><b>CAP eğilimi</b></td><td>Notta CP çizgisi</td><td>Notta AP eğilimi</td></tr>
+        <tr><td><b>Dağıtık maliyet</b></td><td>İki aşamalı commit gibi ağır senkronizasyon; gecikme ve ölçek sınırı</td><td>Quorum okuma/yazma; uyuşmazlık çözüm politikası (“last write wins”)</td></tr>
+        <tr><td><b>Tekrarlanabilirlik</b></td><td>Deterministik sonuç</td><td>Eşzamanlı yazmada politikaya bağlı, yalnızca eventual</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout real"><b>Gerçek hayat: E-ticaret (ders notundaki örnek)</b>Ödeme süreci tam tutarlılık ister (ACID), ürün tavsiye motoru eventual consistency ile yönetilebilir. Karma mimaride ikisi aynı platformda çalışır.</div>
+    <div class="callout real"><b>Gerçek hayat: Tıbbi cihaz ve bildirim (ders notundaki örnek)</b>Tıbbi cihaz kontrol yazılımında ACID zorunlu, sosyal medya bildirim servisinde BASE yeterlidir.</div>
+    <div class="callout idea"><b>Notta kavram karışıklığı var</b>Notta “ACID yönelimli tasarımlar CP çizgisinde yer alır” diye yazılır ve ACID’in “consistency”si ile CAP’in “consistency”si aynı kavrammış gibi sunulur. Oysa ACID’de tutarlılık, işlemin veritabanı kurallarını (kısıtları) bozmamasıdır; CAP’te ise kopyalar arasında okumanın en güncel yazmayı görmesidir. İkisi farklı şeylerdir (kaynakla doğrula). Bu sayfa notun karşılaştırmasını anlatıyor ama bu ayrımı hatırlatıyor.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 7</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>5V ve ötesi</td><td>Hacim, hız, çeşitlilik, doğruluk, değer + değişkenlik, erişilebilirlik, güvenlik, sürdürülebilirlik, etik</td></tr>
+        <tr><td>Hesaplama</td><td>CPU-yoğun / I/O-yoğun; bellek ve enerji; Amdahl: seri kısım sınırlar</td></tr>
+        <tr><td>Edge</td><td>Uçta ön işleme, hat yükü ve gecikmeyi düşürür; federated learning</td></tr>
+        <tr><td>CAP</td><td>P çoğunlukla zorunlu; CP ile AP arasında seçim; PACELC</td></tr>
+        <tr><td>MapReduce / Spark</td><td>Disk tabanlı ve shuffle maliyeti / bellek içi ve DAG, iteratif işte hızlı</td></tr>
+        <tr><td>NoSQL</td><td>Anahtar-değer, belge, geniş sütun, grafik; BASE; W + R > N; sharding</td></tr>
+        <tr><td>ACID / BASE</td><td>Katı garanti (finans, tıp) / sürekli hizmet (sosyal medya); karma mimari</td></tr>
+        <tr><td>Genel ilke</td><td>Seçim, uygulamanın doğruluk ve süreklilik beklentisine göre</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
+
+<section class="slide" data-title="Quiz">
+  <div class="panel">
+    <div class="kicker">Bölüm sonu</div>
+    <div id="quiz" data-quiz="QUIZ_VB_7"></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="deck-nav" aria-label="Slayt gezintisi">
+  <button class="btn" id="prev" type="button">← Önceki</button>
+  <span class="count" id="count" aria-live="polite"></span>
+  <button class="btn primary" id="next" type="button">Sonraki →</button>
+</nav>
+
+<script src="../assets/data/vb-bolum-7-quiz.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/vb7.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/responsive.js"></script>
+</body>
+</html>

@@ -21,7 +21,7 @@
     ] },
     { slug: 'veri-bilimi', title: 'Veri Bilimi', blurb: 'Temeller, veri toplama ve etik, EDA, istatistik, büyük veri, metodolojiler.', chapters: [
       [1, 'Veri Biliminin Bilimsel Temelleri', 1], [2, 'Felsefi ve Epistemolojik Temeller', 1], [3, 'Veri Toplama ve Etik', 1], [4, 'Keşifçi Veri Analizi ve Görselleştirme', 1],
-      [5, 'İstatistiksel Analiz ve Çıkarım', 1], [6, 'Veri Mimarisi ve Yönetimi', 1], [7, 'Büyük Veri ve Ölçeklenebilirlik', 0],
+      [5, 'İstatistiksel Analiz ve Çıkarım', 1], [6, 'Veri Mimarisi ve Yönetimi', 1], [7, 'Büyük Veri ve Ölçeklenebilirlik', 1],
       [8, 'Makine Öğrenmesi ve Yapay Zekâ', 0], [9, 'Veri Biliminin Geleceği', 0], [10, 'Metodolojiler ve Teknik Uygulamalar', 0]
     ] },
     { slug: 'arastirma-yontemleri', title: 'Araştırma Yöntemleri', blurb: 'Bilimsel yöntem, problem, nicel ve nitel araştırma, örnekleme, veri toplama.', chapters: [

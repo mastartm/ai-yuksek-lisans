@@ -393,6 +393,26 @@ add('xailab', 'yapay-zeka-temelleri/bolum-10.html',
     [('Katkı', 'Ağırlık × (değer − ortalama değer): özelliğin skoru ortalamaya göre ne kadar oynattığı.'), ('Yerel', 'Tek bir kararın nedeni.'), ('Küresel', 'Tüm başvurularda katkının ortalama büyüklüğü.'), ('Skor', 'Dört katkının toplamı; ≥ 0 ise onay.')],
     'Başvurular, ağırlıklar ve ortalamalar bu site için uydurulmuştur. Yerel/küresel ayrımı ve SHAP fikri notundaki Bölüm 10.7’ye dayanır; doğrusal modelde Shapley katkısının bu biçimi standart bilgidir (kaynakla doğrula).')
 
+# ---------------- Veri Bilimi 7 ----------------
+add('edgelab', 'veri-bilimi/bolum-7.html',
+    'Sensör sayısını, sensör başına ham veriyi, edge’den çıkan veri oranını ve bulut hattı kapasitesini kaydır.',
+    'Her şeyi buluta göndermenin ve edge’de özetlemenin hat yükü iki çubukla, kapasite çizgisiyle ve “yeter / yetmez” kutularıyla görünür.',
+    'Ham veri hattı kolayca aşar; edge’de özetlenmiş veri çok daha küçüktür. Oran yükseldikçe edge’in kazancı azalır.',
+    [('Ham veri yükü', 'Sensör sayısı × sensör başına kB/sn × 8 ÷ 1000 (Mbit/sn).'), ('Edge’den çıkan oran', 'Edge düğümünün buluta gönderdiği özetin ham veriye oranı.'), ('Hat kapasitesi', 'Buluta giden bağlantının taşıyabildiği en çok Mbit/sn.')],
+    'Sayılar bu site için seçildi; notta sayısal örnek yoktur. Fikir notundaki Bölüm 7.2.2’ye dayanır. Edge düğümünün işlem gücü ve pil ömrü hesaba girmez.')
+add('mrlab', 'veri-bilimi/bolum-7.html',
+    'Reducer sayısını kaydır. İstersen “Map tarafında birleştir”i aç ya da kapat.',
+    'Dört satırlık sözcük sayımında her map’in ürettiği (sözcük, sayı) çiftleri, reducer’ların topladığı sayımlar ve shuffle’a giden çift sayısı görünür.',
+    'Aynı sözcük her zaman aynı reducer’a gider, bu yüzden toplamlar doğru çıkar. Birleştirici shuffle’a giden çift sayısını 16’dan 8’e indirir.',
+    [('Map', 'Her satırı (sözcük, 1) çiftlerine çevirir.'), ('Shuffle', 'Aynı anahtarlı çiftleri aynı reducer’a taşır; ağ maliyeti buradadır.'), ('Reduce', 'Aynı sözcüğün sayılarını toplar.'), ('Combiner', 'Map’in kendi çıktısını ağa göndermeden önce yerelde toplaması.')],
+    'Satırlar bu site için uydurulmuştur. Map/shuffle/reduce akışı notundaki Bölüm 7.3.2’ye dayanır. Reducer atamasında basit bir karakter toplamı kullanıldı; gerçek sistemler başka bir karma işlevi kullanır.')
+add('quorumlab', 'veri-bilimi/bolum-7.html',
+    'N, W ve R kaydırıcılarını değiştir ya da hazır düğmelerle üç düzeni dene.',
+    'Kopyalar kutular olarak çizilir (yeşil: yeni yazılan, gri: eski; çerçeve: en kötü durumda okunan kopyalar). Altta W + R, güncel kopya sayısı ve dayanılan çöken kopya sayıları yazar.',
+    'W + R > N olunca okuma kümesi ile yazma kümesi kesişir ve okuma en az bir güncel kopya görür. Bunun bedeli, yazma ve okumada daha çok kopyanın cevabını beklemektir.',
+    [('N', 'Verinin tutulduğu toplam kopya sayısı.'), ('W', 'Bir yazmanın başarılı sayılması için onay vermesi gereken kopya sayısı.'), ('R', 'Bir okumada cevabı beklenen kopya sayısı.'), ('Kesişim', 'Okunan ve yazılan kopyaların ortak olanları: en az W + R − N.')],
+    'Sayılar bu site için seçildi. W + R > N kuralı notundaki Bölüm 7.4.1’den alındı; “en kötü durum” gösterimi bu sitenin çizimidir.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():
