@@ -21,7 +21,7 @@ Beş dersin tamamı baştan sona hazır: Makine Öğrenmesi ve Görüntü İşle
 ## Özellikler
 
 - **Slaytlar:** ok tuşları, alttaki Önceki / Sonraki düğmeleri ve içindekiler menüsüyle gezilir. Her bölümün başında "Büyük resim" şeması bulunur.
-- **Etkileşimli araçlar:** kurcalanabilen laboratuvarlar, simülasyonlar ve çizimler (arama algoritmaları haritası, 8-bulmaca, FIND-S ve ADAY-ELEME, karar ağacı büyütme, bayır inişi ve polinom uyumu, histogram ve nokta işlemleri, bağlı bileşen bulma, eksik veri simülatörü, eksen kırpma ve PCA, kalıtım ve istisna, SVM aralığı ve XOR, filtre laboratuvarı, Bayes güncellemesi ve p-değeri, ileri/geri zincirleme, çözümleme ve naive Bayes, tanı testi ve MAP, frekans filtreleri, ambar–göl ve yeniden tanımlama riski, Cronbach alfa, örnekleme ve örneklem büyüklüğü, seçkisizlik simülasyonu ve daha fazlası).
+- **Etkileşimli araçlar:** kurcalanabilen laboratuvarlar, simülasyonlar ve çizimler (arama algoritmaları haritası, 8-bulmaca, FIND-S ve ADAY-ELEME, karar ağacı büyütme, bayır inişi ve polinom uyumu, histogram ve nokta işlemleri, bağlı bileşen bulma, eksik veri simülatörü, eksen kırpma ve PCA, kalıtım ve istisna, SVM aralığı ve XOR, filtre laboratuvarı, Bayes güncellemesi ve p-değeri, ileri/geri zincirleme, çözümleme ve naive Bayes, tanı testi ve MAP, frekans filtreleri, ambar–göl ve yeniden tanımlama riski, Cronbach alfa, örnekleme ve örneklem büyüklüğü, seçkisizlik simülasyonu, entropi ve Gini bölünmesi, ağaç derinliği ve aşırı uyum, saldırgan örnek ve veri önyargısı, bilgi balonu, qubit ve 2ⁿ genlik, otonom aracın durma mesafesi, quorum (W + R > N), MapReduce sözcük sayımı, bias–variance ve boyutluluk laneti, Ridge/Lasso/ElasticNet, adalet ölçütleri ve daha fazlası).
 - **Laboratuvar çerçevesi:** 4. bölümden itibaren her etkileşimli aracın başında “ne yapacaksın / ne göreceksin / ne anlamalısın”, açılır bir terimler listesi ve verinin kaynağı (ders notundaki hangi örneğe dayandığı ya da sanal olduğu) yazılıdır.
 - **Gerçek hayat örnekleri:** her kavramın yanında günlük hayattan bir örnek.
 - **Bölüm sonu quizi:** sorular ders notlarındaki konulara göre hazırlanmıştır. Her sorunun `ref` alanı, ilgili not başlığını öğrenciye gösterir. Yanlış cevapta doğru seçenek ve açıklama çıkar, yanlış yapılan sorular yeniden çözülebilir.
@@ -47,11 +47,12 @@ Sonra `http://localhost:8137` adresine git.
 | `content/<ders>/bolum-N.html` | Bölümün düzenlenebilir kaynağı (yalnızca slaytlar) |
 | `tools/build.py` | `content/` kaynaklarından `<ders>/bolum-N.html` sayfalarını üretir |
 | `tools/add_overview.py` | Her bölümün başındaki "Büyük resim" şemalarını üretir |
+| `tools/yardimci/` | Yardımcı betikler: `frames_more.py` (her laboratuvarın önüne “ne yapacaksın / ne göreceksin / ne anlamalısın” çerçevesi ekler), `enable.py` (`chapters.js` içinde bölümü “hazır” yapar) |
 | `assets/js/chapters.js` | Ders ve bölüm kayıt defteri (kartlar ve listeler buradan çizilir) |
 | `assets/js/deck.js` | Slayt motoru (ok tuşları, içindekiler, tema) |
 | `assets/js/quiz.js` | Quiz motoru |
 | `assets/js/responsive.js` | Dar ekranda çizim ve tabloları kaydırılabilir yapar |
-| `assets/js/*.js` (diğerleri) | Konuya özel etkileşimli araçlar (`yz1`, `yz4`, `yz5`, `yz6`, `puzzle8`, `ml1`–`ml6`, `gi1`, `gi4`–`gi6`, `imglab`, `vb`, `vb4`–`vb6`, `ar`, `ar5`, `ar6`, arama araçları) |
+| `assets/js/*.js` (diğerleri) | Konuya özel etkileşimli araçlar (`yz1`, `yz4`–`yz10`, `puzzle8`, `ml1`–`ml14`, `gi1`, `gi4`–`gi14`, `imglab`, `vb`, `vb4`–`vb10`, `ar`, `ar5`, `ar6`, arama araçları) |
 | `assets/css/style.css` | Tüm stiller |
 | `assets/data/` | Quiz soruları |
 
