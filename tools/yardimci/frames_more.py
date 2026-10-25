@@ -433,6 +433,26 @@ add('gammalab', 'veri-bilimi/bolum-8.html',
     [('γ', 'İndirgeme katsayısı: gelecekteki ödülün bugünkü değeri her adımda γ ile çarpılır.'), ('T', 'Büyük ödülün geldiği adım.'), ('Eşit γ', 'İki seçeneğin indirgenmiş değerinin eşit olduğu γ: (1/3)^(1/(T−1)).')],
     'Ödül değerleri (10 ve 30) bu site için seçildi. İndirgeme fikri notundaki Bölüm 8.4.1’den; formül görseldir, burada standart biçimi kullanıldı.')
 
+# ---------------- Veri Bilimi 9 ----------------
+add('metriclab', 'veri-bilimi/bolum-9.html',
+    'Doğruluk, kesinlik, duyarlılık ya da F1 düğmesine bas.',
+    'Dört modelin karışıklık sayıları (TP, FP, FN, TN) ve dört metriği, seçilen metriğe göre sıralanmış tabloda görünür; altta her metriğin birincisi yazar.',
+    'Aynı dört model, metrik değişince farklı sıralanır: doğrulukta A, duyarlılıkta B, F1’de C birinci. Hiç pozitif yakalamayan D bile doğrulukta üçüncü gelir.',
+    [('TP / FP / FN / TN', 'Gerçek pozitif, yanlış pozitif, yanlış negatif, gerçek negatif sayısı.'), ('Doğruluk', 'Doğru tahminlerin tüm örneklere oranı.'), ('Kesinlik', '“Pozitif” dediklerinin gerçekten pozitif olma oranı.'), ('Duyarlılık', 'Gerçek pozitiflerin ne kadarının yakalandığı.'), ('F1', 'Kesinlik ile duyarlılığın harmonik ortalaması.')],
+    'Dört model ve sayılar bu site için uydurulmuştur (1000 örnek, 50 pozitif). Metriğin sıralamayı değiştirebileceği fikri notundaki Bölüm 9.1.1’den; ROC-AUC burada hesaplanmadı.')
+add('opendatalab', 'veri-bilimi/bolum-9.html',
+    'Veriye erişim açıklığını ve kapasite geliştirme yatırımını kaydır.',
+    'Üç grubun (büyük şirket, üniversite, yerel topluluk/STK) yararlanması çubuklarla, toplulukların payı ve şirketin topluluğa oranı metriklerle görünür.',
+    'Erişim tam açık olsa bile yararlanma eşit değildir: topluluğun payı yaklaşık %11,8’de kalır. Kapasite geliştirme yatırımı arttıkça fark kapanır.',
+    [('Erişim açıklığı', 'Verinin ne ölçüde herkese açık olduğu.'), ('Analiz kapasitesi', 'Bir grubun veriden çıkarım yapabilme gücü (0–1).'), ('Yararlanma', 'Erişim × kapasite.'), ('Kapasite yatırımı', 'Düşük kapasiteli grupları en yüksek kapasite düzeyine yaklaştıran eğitim ve destek.')],
+    'Gruplar, kapasite değerleri (0,9 · 0,6 · 0,2) ve modelin kendisi bu sitenin varsayımıdır. Erişimin eşit yararlanma sağlamadığı ve kapasite geliştirmenin gerektiği fikri notundaki Bölüm 9.2.1’dendir.')
+add('multilab', 'veri-bilimi/bolum-9.html',
+    'Gen sayısını ve gerçekten etkili gen sayısını kaydır; α düzeyini seç.',
+    'Düzeltmesiz ve Bonferroni düzeltmeli “anlamlı” gen sayıları, bunların kaçının sahte olduğu, beklenen sahte keşif sayısı ve gerçek etkilerden kaçının yakalandığı görünür.',
+    'Etkisiz gen sayısı büyüdükçe α oranında sahte keşif kaçınılmazdır. Bonferroni sahte keşfi neredeyse sıfırlar ama gerçek etkilerden de daha azını yakalar.',
+    [('α', 'Bir testte “anlamlı” sonuç çıkmasına izin verilen yanlış alarm olasılığı.'), ('Sahte keşif', 'Gerçekte etkisi olmadığı hâlde “anlamlı” çıkan gen.'), ('Bonferroni', 'Eşiği α/m’e çekerek m testteki toplam yanlış alarmı sınırlayan düzeltme.'), ('Etkili gen', 'İki grup arasında gerçekten 1σ ortalama farkı olan gen.')],
+    'Veri bu site için üretildi: her gen için 20’şer kişilik iki grup, sabit tohum, normal yaklaşımlı p-değeri. Teorisiz çok sayıda korelasyon aramanın riski notundaki Bölüm 9.3.2’den; çoklu test düzeltmesi notta yoktur, bu sitenin eklemesidir.')
+
 if __name__ == '__main__':
     done = 0
     for i, v in NEW.items():

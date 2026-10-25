@@ -1,0 +1,209 @@
+<!--
+course: veri-bilimi
+course_title: Veri Bilimi
+no: 9
+title: Veri Biliminin Geleceği ve Paradigmalar
+quiz: QUIZ_VB_9
+quiz_file: vb-bolum-9-quiz.js
+scripts: vb9.js
+-->
+<section class="slide" data-title="Başlangıç">
+  <div class="panel">
+    <div class="kicker">Veri Bilimi · Bölüm 9</div>
+    <h1>Veri Biliminin Geleceği: Yöntem, Politika ve Disiplinler</h1>
+    <p class="big-quote">Veri bilimi hızlanıyor: modeller otomatik kuruluyor, kararların gerekçesi isteniyor, yasalar şekilleniyor ve alan bilimleriyle kaynaşıyor. Bu bölümde her eğilimin ne vaat ettiğini ve nerede insan emeğine, bağlama ve denetime muhtaç kaldığını göreceksin.</p>
+    <h3>Bu bölümün sonunda</h3>
+    <ul>
+      <li>AutoML’nin neyi otomatikleştirdiğini, neyi insana bıraktığını ve metrik seçiminin sıralamayı nasıl değiştirdiğini gösterebilirsin.</li>
+      <li>Açıklanabilir yapay zekâda model-agnostik ve içsel (intrinsik) yaklaşımı ayırt edebilirsin.</li>
+      <li>Veri demokrasisinde erişim ile eşit yararlanma farkını anlatabilirsin.</li>
+      <li>Yapay zekâ düzenlemelerinde “build-and-freeze” ve adaptif düzenleme farkını açıklayabilirsin.</li>
+      <li>Sosyal bilimler ve biyoinformatikle entegrasyonun fırsat ve risklerini (sahte keşif dahil) sayabilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" data-title="Büyük resim">
+  <div class="panel">
+    <div class="kicker">Büyük resim</div>
+    <h2>Aynı yönde üç hareket: otomasyon, şeffaflık, disiplinlerarasılık</h2>
+    <svg class="diagram" viewBox="0 0 760 170" role="img" aria-label="AutoML, açıklanabilir YZ, veri demokrasisi, düzenleme ve disiplinlerarası entegrasyon"><rect class="d-brand" x="10" y="45" width="130" height="70" rx="12"/><text class="d-txt d-c" x="75" y="73">AutoML</text><text class="d-sm d-c" x="75" y="96">otomasyon</text><line class="d-line" x1="140" y1="80" x2="165" y2="80"/><rect class="d-ok" x="165" y="45" width="140" height="70" rx="12"/><text class="d-txt d-c" x="235" y="73">Açıklanabilir YZ</text><text class="d-sm d-c" x="235" y="96">şeffaflık</text><line class="d-line" x1="305" y1="80" x2="330" y2="80"/><rect class="d-warn" x="330" y="45" width="140" height="70" rx="12"/><text class="d-txt d-c" x="400" y="73">Toplum ve</text><text class="d-txt d-c" x="400" y="96">politika</text><line class="d-line" x1="470" y1="80" x2="495" y2="80"/><rect class="d-box" x="495" y="45" width="130" height="70" rx="12"/><text class="d-txt d-c" x="560" y="73">Disiplinler</text><text class="d-sm d-c" x="560" y="96">sosyal, biyo</text><line class="d-line" x1="625" y1="80" x2="650" y2="80"/><rect class="d-ok" x="650" y="45" width="100" height="70" rx="12"/><text class="d-txt d-c" x="700" y="85">Eleştiri</text></svg>
+    <p>Notun ortak sonucu: her eğilimin başarısı yalnızca teknik yeniliğe değil, <b>insan emeğine, bağlam bilgisine, etik çerçeveye ve toplumsal uzlaşıya</b> bağlıdır.</p>
+    <div class="callout idea"><b>Not hakkında</b>Bu bölüm sayı ya da formül içermeyen, kavramsal bir anlatımdır. Bu yüzden sayfadaki üç laboratuvar notun sayılarını değil, notun fikirlerini küçük sanal verilerle gösterir; hepsi “bu sitenin” etiketiyle işaretlenmiştir. Notun metin içi atıf numaraları kaybolmuş (“,,” kalıntıları); hangi cümlenin hangi kaynağa dayandığı bu yüzden izlenemiyor.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="AutoML">
+  <div class="panel">
+    <div class="kicker">9.1.1 Otomatik makine öğrenmesi · dene</div>
+    <h2>AutoML aramayı otomatikleştirir, hedefi ve metriği insan koyar</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Notun anlattığı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ne otomatikleşir?</b></td><td>Hiperparametre arama (Bayesian optimizasyon) ve mimari tasarımı (pekiştirmeli öğrenme, evrimsel algoritmalar).</td></tr>
+        <tr><td><b>Uçtan uca platform</b></td><td>Veri hazırlama, model seçimi, eğitim, doğrulama, üretime alma, izleme (H2O, DataRobot örnekleri).</td></tr>
+        <tr><td><b>İnsan emeği</b></td><td>Veri önceden sınıflandırılmış/etiketlenmiş olmalı; hedef tanımı olmadan otomasyon verimsiz.</td></tr>
+        <tr><td><b>Hibrit</b></td><td>Mekanistik (fizik/biyoloji) alt modeller + veri güdümlü öğreniciler; yorumlanabilirlik artar.</td></tr>
+        <tr><td><b>Maliyet</b></td><td>Geniş arama uzayı, çok deney: hesaplama ve çevresel etki.</td></tr>
+        <tr><td><b>Sınır</b></td><td>Çoğunlukla denetimli öğrenme; anomali ve keşif analizinde otomasyon düşük.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Notun metodolojik uyarısı: seçilen metrik, modellerin tercih sırasını köklü biçimde değiştirebilir (ROC-AUC yerine F1 seçince başka yapılar öne çıkar). Bunu dört sanal modelle dene:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Doğruluk, kesinlik, duyarlılık ya da F1 düğmesine bas.</li>
+        <li><b>Ne göreceksin:</b> Dört modelin karışıklık sayıları (TP, FP, FN, TN) ve dört metriği, seçilen metriğe göre sıralanmış tabloda görünür; altta her metriğin birincisi yazar.</li>
+        <li><b>Ne anlamalısın:</b> Aynı dört model, metrik değişince farklı sıralanır: doğrulukta A, duyarlılıkta B, F1’de C birinci. Hiç pozitif yakalamayan D bile doğrulukta üçüncü gelir.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>TP / FP / FN / TN</dt><dd>Gerçek pozitif, yanlış pozitif, yanlış negatif, gerçek negatif sayısı.</dd><dt>Doğruluk</dt><dd>Doğru tahminlerin tüm örneklere oranı.</dd><dt>Kesinlik</dt><dd>“Pozitif” dediklerinin gerçekten pozitif olma oranı.</dd><dt>Duyarlılık</dt><dd>Gerçek pozitiflerin ne kadarının yakalandığı.</dd><dt>F1</dt><dd>Kesinlik ile duyarlılığın harmonik ortalaması.</dd></dl></details>
+      <p class="lab-src">Dört model ve sayılar bu site için uydurulmuştur (1000 örnek, 50 pozitif). Metriğin sıralamayı değiştirebileceği fikri notundaki Bölüm 9.1.1’den; ROC-AUC burada hesaplanmadı.</p>
+    </div>
+    <div class="lab" id="metriclab"></div>
+    <div class="callout real"><b>Gerçek hayat: Siber güvenlik (ders notundaki örnek)</b>AutoML, tehdit ortamına uyum için model belirleme ve güncelleme süresini kısaltabilir. Yanlış pozitif ve yanlış negatif oranları doğrudan operasyonel sonuç doğurduğundan insan denetimi kaldırılmamalıdır.</div>
+    <div class="callout real"><b>Gerçek hayat: Tıp görüntüleme (ders notundaki örnek)</b>Hiperparametre optimizasyonu genelde iyi sonuç verse bile tıp görüntülemesi gibi alanlarda göreve özgü ön bilgi olmadan beklenen performansa ulaşılamayabilir.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta H2O ve DataRobot “ticari araçlar” diye anılır. DataRobot ticaridir; H2O’nun AutoML bileşeni ise açık kaynak olarak da sunulur (kaynakla doğrula), yani ikisi aynı kategoride sayılmamalı. Ayrıca notta bazı araştırmacıların “AutoML tamamen otonom olamaz” görüşü kaynaksız aktarılıyor.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Açıklanabilir YZ">
+  <div class="panel">
+    <div class="kicker">9.1.2 Açıklanabilir yapay zekâ</div>
+    <h2>Doğru çalışmak yetmez, gerekçe de gerekir</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Yaklaşım</th><th>Nasıl?</th><th>Artı / eksi (notta)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Model-agnostik (sonradan)</b></td><td>Kara kutuyu sonradan açıklar (LIME, SHAP).</td><td>Karmaşık, doğru model kullanılır; ama açıklama yaklaşıktır.</td></tr>
+        <tr><td><b>İntrinsik (içsel)</b></td><td>Başından anlaşılır model: ağaç tabanlı yöntemler, mantıksal kurallar.</td><td>Şeffaf; ama karmaşık kalıpları yakalamakta yetersiz kalabilir.</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li>Geleneksel istatistiksel modellerde hangi değişkenin nasıl etki ettiği açıktır; derin öğrenmede bu şeffaflık kaybolur.</li>
+      <li>Yalnızca doğruluk oranı yetmez: hangi girdinin çıktıya ne kadar etki ettiği, modelin farklı senaryolarda davranışı da analiz edilmeli.</li>
+      <li>Model yalnızca korelasyona dayanıyor, nedeni göstermiyorsa açıklama yüzeysel kalır.</li>
+      <li>Sağlık, hukuk, finans gibi sektörlerde kararların gerekçelendirilmesi zorunludur.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Alan uzmanı ile veri bilimci (ders notundaki örnek)</b>Alan uzmanları model çıktılarını doğrudan kabul eder ama alandaki anlamı ve güvenilirliği tartışmalı kalır; açıklama bu iletişim kopukluğunu azaltır.</div>
+    <div class="callout real"><b>Gerçek hayat: Ticari sır (ders notundaki örnek)</b>Mevcut veri mimarisi, işlem gücü sınırları ve ticari sır niteliğindeki bilgiler açıklamanın düzeyini kısıtlayabilir.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notta “AB’nin yapay zekâ mevzuat hazırlıkları” ifadesi geçer; bu, metnin yazıldığı zamana ait bir anlatım. Sonradan yasalaşmış olabilir, güncel durum için resmî kaynağa bak (kaynakla doğrula). LIME ve SHAP’in işleyişi bu bölümde anlatılmaz; ayrıntı için Yapay Zekâ Temelleri Bölüm 10’a bak.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Veri demokrasisi">
+  <div class="panel">
+    <div class="kicker">9.2.1 Veri demokrasi hareketleri · dene</div>
+    <h2>Erişim eşit olsa da yararlanma eşit olmayabilir</h2>
+    <p>Veri demokrasi hareketleri, bilgiye erişimin ve verinin üretim–tüketim süreçlerinin daha eşitlikçi, şeffaf ve katılımcı olmasını amaçlar; kurumsal veri tekellerinin yarattığı asimetriyi azaltmayı hedefler. Açık veri portalları girişimciye, STK’ya ve akademisyene yenilikçi çözüm imkânı verir. Notun uyarısı: <b>veriye erişim artsa bile analiz kapasitesindeki eşitsizlik sürer</b>, donanımlı aktörler daha çok yararlanır. Çözüm olarak eşzamanlı eğitim ve kapasite geliştirme önerilir.</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Veriye erişim açıklığını ve kapasite geliştirme yatırımını kaydır.</li>
+        <li><b>Ne göreceksin:</b> Üç grubun (büyük şirket, üniversite, yerel topluluk/STK) yararlanması çubuklarla, toplulukların payı ve şirketin topluluğa oranı metriklerle görünür.</li>
+        <li><b>Ne anlamalısın:</b> Erişim tam açık olsa bile yararlanma eşit değildir: topluluğun payı yaklaşık %11,8’de kalır. Kapasite geliştirme yatırımı arttıkça fark kapanır.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>Erişim açıklığı</dt><dd>Verinin ne ölçüde herkese açık olduğu.</dd><dt>Analiz kapasitesi</dt><dd>Bir grubun veriden çıkarım yapabilme gücü (0–1).</dd><dt>Yararlanma</dt><dd>Erişim × kapasite.</dd><dt>Kapasite yatırımı</dt><dd>Düşük kapasiteli grupları en yüksek kapasite düzeyine yaklaştıran eğitim ve destek.</dd></dl></details>
+      <p class="lab-src">Gruplar, kapasite değerleri (0,9 · 0,6 · 0,2) ve modelin kendisi bu sitenin varsayımıdır. Erişimin eşit yararlanma sağlamadığı ve kapasite geliştirmenin gerektiği fikri notundaki Bölüm 9.2.1’dendir.</p>
+    </div>
+    <div class="lab" id="opendatalab"></div>
+    <div class="callout real"><b>Gerçek hayat: Afet yönetimi (ders notundaki örnek)</b>Açık veri sistemleri kurtarma planlamasında isabeti artırabilir ve yardımın en çok ihtiyaç duyulan bölgeye hızlı ulaşmasını kolaylaştırabilir; ama kişisel mahremiyet korunmazsa güven zedelenir.</div>
+    <div class="callout real"><b>Gerçek hayat: Spor analitiği (ders notundaki örnek)</b>Sensör verileri antrenman planı ve sakatlık önlemede kullanılır. Yalnızca kulüp ve sponsorlara kapalı kalmaması, akademik çevreyle paylaşılması daha kapsayıcı araştırma doğurur.</div>
+    <div class="callout real"><b>Gerçek hayat: Sosyal yardım (ders notundaki örnek)</b>Program performans analiziyle hangi bölgelerde hangi yardımın yetersiz kaldığı belirlenir; kaynak tahsisi daha adil olur. Telekom ve perakende gibi özel sektör verileri de katkı sağlayabilir.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Notun “veri demokrasisinin başarısı toplumsal uzlaşıya bağlı” sonucu, sayıyla desteklenmemiş bir yargıdır. Lab’daki üç grup ve kapasite değerleri (0,9 · 0,6 · 0,2) bu sitenin varsayımıdır; notta sayı yoktur.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Düzenlemeler">
+  <div class="panel">
+    <div class="kicker">9.2.2 Yapay zekâ düzenlemeleri</div>
+    <h2>Sürekli öğrenen sistemi “dondurarak” test edemezsin</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Geleneksel</th><th>Notun önerdiği</th></tr></thead>
+      <tbody>
+        <tr><td><b>Yaklaşım</b></td><td>Build-and-freeze: yazılım geliştirilip dondurulur, kullanım boyunca değişmeden test edilir</td><td>Esnek, sürekli güncellenen, adaptif düzenleme</td></tr>
+        <tr><td><b>Düzenleyici</b></td><td>Statik kurallar</td><td>Kendi sürecini değerlendirip uyarlayan (öğrenen sağlık sistemi benzeri)</td></tr>
+        <tr><td><b>Odak</b></td><td>Teknik performans</td><td>Toplumsal etki, açıklanabilirlik, ayrımcılığı tespit ve azaltma, kullanıcı sorumluluğu</td></tr>
+        <tr><td><b>Yapı</b></td><td>Tekil</td><td>Modüler ve disiplinlerarası</td></tr>
+      </tbody>
+    </table></div>
+    <p>Mahremiyet ile kamu yararı arasındaki denge (tıbbi araştırma, salgın kontrolü) doğru kurulmalı. AutoAI gibi hızlandırıcı araçlar, kullanıcıların çıktıyı sorgulamadan kabul etme eğilimini güçlendirebilir; bu yüzden yalnızca teknoloji üretenlere değil, kullanan profesyonellere de sorumluluk standardı gerekir.</p>
+    <div class="callout real"><b>Gerçek hayat: FDA Pre-Cert (ders notundaki örnek)</b>ABD Gıda ve İlaç Dairesi’nin Dijital Sağlık Yazılımı Ön Sertifikasyon Programı, düzenleyici sürecin kendi kendini değerlendirip uyarlama kapasitesine sahip olması gerektiğini gösteren örnek olarak anılır.</div>
+    <div class="callout real"><b>Gerçek hayat: Omik veride tutarsız ağlar (ders notundaki örnek)</b>Omik verinin karmaşıklığı ve doğrusal olmayan yapısı yüzünden farklı yöntemler aynı veri kümesinde bile tamamen farklı ağ çözümleri üretebilir; bu, kara kutu güven sorununu büyütür.</div>
+    <div class="callout idea"><b>Notta güncelliği doğrulanmamış bir örnek var</b>Notta Pre-Cert’in “etkinliğine göre ana unsurlarını yeniden şekillendirmesi” anlatılır ama programın sonradan ne olduğu söylenmez. Benim bildiğim kadarıyla Pre-Cert bir pilot olarak yürütüldü ve sonlandırıldığı bildirildi; bu bilgi notun dışındandır, bu oturumda doğrulanmadı (kaynakla doğrula). Dolayısıyla örnek “adaptif düzenleme fikri” için okunmalı, güncel bir uygulama olarak değil.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Sosyal bilimler">
+  <div class="panel">
+    <div class="kicker">9.3.1 Sosyal bilimler ile entegrasyon</div>
+    <h2>Veri gerçeği yansıtmaz, inşa edilir</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th></th><th>Sosyal bilimler</th><th>Veri bilimi</th></tr></thead>
+      <tbody>
+        <tr><td><b>Yaklaşım</b></td><td>Kuramsal çerçeve, bağlamsal yorum, gözlem ve nitel analiz</td><td>Hesaplamalı işlem, büyük veri kümeleri, genelleme</td></tr>
+        <tr><td><b>Risk</b></td><td>Ölçeklenememe</td><td>“Veri gerçekliği yansıtır” indirgemesi</td></tr>
+        <tr><td><b>Entegrasyon</b></td><td colspan="2">Katılımcı epistemoloji; etnografi + metin madenciliği/dizi analizi; nicel desen + nitel bağlam</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li>Veri; toplanma biçimi, ölçüm aracı ve yorumlayan araştırmacının bakışıyla inşa edilir.</li>
+      <li>Ortak etik standartlar gerekir: dijital ayak izinden yapılan çıkarımların politik/ekonomik kullanımı tartışmalıdır.</li>
+      <li>Veri bilimci sosyolojik teoriye dayalı değişken seçimini, sosyal bilimci algoritmik şeffaflığı kavramalı: ortak dil şart.</li>
+    </ul>
+    <div class="callout real"><b>Gerçek hayat: Kariyer ağları (ders notundaki örnek)</b>Profesyonel ağ verisinde istatistiksel modelleme yapılırken ilişkilerin sektördeki anlamına dair nitel görüşmeler de yapılır.</div>
+    <div class="callout real"><b>Gerçek hayat: Teknoloji şirketi (ders notundaki örnek)</b>Kullanıcı davranış modelleri ile saha görüşmelerinden gelen motivasyon bilgileri yan yana değerlendirilip modelleme sürecine geri beslenir.</div>
+    <div class="callout idea"><b>Not hakkında bir uyarı</b>Bu alt başlıkta somut bir çalışma, veri kümesi ya da sayı verilmez; örnekler varsayımsaldır. Katılımcı epistemolojinin pratikte nasıl uygulanacağı da anlatılmaz.</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Biyoinformatik ve sağlık">
+  <div class="panel">
+    <div class="kicker">9.3.2 Biyoinformatik ve sağlık bilimleri · dene</div>
+    <h2>Çok veri, az teori: sahte keşif tuzağı</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Alan</th><th>Notun anlattığı</th></tr></thead>
+      <tbody>
+        <tr><td><b>Omik veri</b></td><td>Genom dizilemenin ucuzlaması; genomik + proteomik + metabolomik birleştirme; derin öğrenme ile biyobelirteç tespiti.</td></tr>
+        <tr><td><b>Kişiselleştirilmiş tıp</b></td><td>Bireysel risk tahmini ve tedavi planı; belirli mutasyonların kanser riskine etkisi.</td></tr>
+        <tr><td><b>Klinik veri</b></td><td>Elektronik sağlık kaydı, teşhis görüntüsü, laboratuvar sonucu; bulut, YZ, güçlü altyapı.</td></tr>
+        <tr><td><b>Proteomiks</b></td><td>İlaç hedefi belirleme; protein yapı tahmini ve etkileşim ağı modelleme.</td></tr>
+        <tr><td><b>Güvenlik</b></td><td>Sağlık veri tabanları siber tehdide açık; ML ile risk tahmini ve savunma.</td></tr>
+        <tr><td><b>Veri kalitesi</b></td><td>Eksik veri, yanlış etiket, heterojen standart: temizleme ve standardizasyon.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Notun metodolojik uyarısı: hangi değişkenlerin analize gireceği teoriden bağımsız değildir; <b>teorik çerçevesiz analiz</b> kısa vadede ilgi çekici keşifler verse de biyolojik anlamı olmayan korelasyonlara götürebilir. Çok sayıda geni tek tek test edince ne olduğunu gör:</p>
+    <div class="lab-frame">
+      <b>Bu laboratuvarda</b>
+      <ul>
+        <li><b>Ne yapacaksın:</b> Gen sayısını ve gerçekten etkili gen sayısını kaydır; α düzeyini seç.</li>
+        <li><b>Ne göreceksin:</b> Düzeltmesiz ve Bonferroni düzeltmeli “anlamlı” gen sayıları, bunların kaçının sahte olduğu, beklenen sahte keşif sayısı ve gerçek etkilerden kaçının yakalandığı görünür.</li>
+        <li><b>Ne anlamalısın:</b> Etkisiz gen sayısı büyüdükçe α oranında sahte keşif kaçınılmazdır. Bonferroni sahte keşfi neredeyse sıfırlar ama gerçek etkilerden de daha azını yakalar.</li>
+      </ul>
+      <details><summary>Terimler</summary><dl><dt>α</dt><dd>Bir testte “anlamlı” sonuç çıkmasına izin verilen yanlış alarm olasılığı.</dd><dt>Sahte keşif</dt><dd>Gerçekte etkisi olmadığı hâlde “anlamlı” çıkan gen.</dd><dt>Bonferroni</dt><dd>Eşiği α/m’e çekerek m testteki toplam yanlış alarmı sınırlayan düzeltme.</dd><dt>Etkili gen</dt><dd>İki grup arasında gerçekten 1σ ortalama farkı olan gen.</dd></dl></details>
+      <p class="lab-src">Veri bu site için üretildi: her gen için 20’şer kişilik iki grup, sabit tohum, normal yaklaşımlı p-değeri. Teorisiz çok sayıda korelasyon aramanın riski notundaki Bölüm 9.3.2’den; çoklu test düzeltmesi notta yoktur, bu sitenin eklemesidir.</p>
+    </div>
+    <div class="lab" id="multilab"></div>
+    <div class="callout real"><b>Gerçek hayat: Kanser riski (ders notundaki örnek)</b>Belirli mutasyonların kanser riski üzerindeki etkisini saptamak, hasta takip protokolünü doğrudan değiştirebilecek sonuçlar doğurabilir; bu yüzden yanlış keşfin bedeli yüksektir.</div>
+    <div class="callout real"><b>Gerçek hayat: Hekim görselleştirmesi (ders notundaki örnek)</b>Görselleştirme stratejileri yalnızca akademisyenin değil klinisyenin de rahatça yorumlayabileceği biçimde tasarlanmalıdır.</div>
+    <div class="callout idea"><b>Notta kaynaksız iddialar</b>(1) “Akıllı bulut sistemleriyle epidemiyolojik analizler küresel ölçekte mümkün hâle gelmiştir” ve (2) “protein yapı tahmininde YZ başarısı dikkat çekicidir” cümleleri için ad, sayı ya da kaynak verilmez. (3) Çoklu test düzeltmesi notta anılmaz; lab’daki Bonferroni bu sitenin eklemesidir (standart istatistik bilgisi, kaynakla doğrula).</div>
+  </div>
+</section>
+
+<section class="slide" data-title="Bölüm özeti">
+  <div class="panel">
+    <div class="kicker">Özet</div>
+    <h2>Tek bakışta Bölüm 9</h2>
+    <div class="scroll-x"><table class="cmp">
+      <thead><tr><th>Konu</th><th>Akılda kalacak</th></tr></thead>
+      <tbody>
+        <tr><td>AutoML</td><td>Hiperparametre ve mimari aramayı otomatikleştirir; hedef, etiket ve metrik insan emeği; çoğunlukla denetimli</td></tr>
+        <tr><td>Açıklanabilir YZ</td><td>Model-agnostik (LIME, SHAP) / intrinsik (ağaç, kural); doğruluk yetmez; nedensellik şart</td></tr>
+        <tr><td>Veri demokrasisi</td><td>Erişim ≠ eşit yararlanma; kapasite geliştirme; mahremiyet</td></tr>
+        <tr><td>Düzenleme</td><td>Build-and-freeze yetmez; adaptif, modüler, disiplinlerarası; kullanıcı sorumluluğu</td></tr>
+        <tr><td>Sosyal bilimler</td><td>Veri inşa edilir; katılımcı epistemoloji; nicel + nitel; ortak etik ve dil</td></tr>
+        <tr><td>Biyoinformatik</td><td>Çok katmanlı omik veri, kişiselleştirilmiş tıp; teori olmadan sahte korelasyon</td></tr>
+        <tr><td>Genel ilke</td><td>Teknik yenilik tek başına yetmez: bağlam, denetim, etik ve uzlaşı</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quiz sırada; yanlışlarda doğru cevap ve ders notundaki başlık gösterilir.</p>
+  </div>
+</section>
